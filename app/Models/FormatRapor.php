@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class FormatRapor extends Model
 {
     use HasFactory;
+    //protected $table = "format_rapor";
 }
