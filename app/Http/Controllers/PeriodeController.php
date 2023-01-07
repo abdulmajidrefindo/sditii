@@ -15,7 +15,8 @@ class PeriodeController extends Controller
      */
     public function index()
     {
-        //
+        $periode = Periode::all();
+        return view('periode.index', compact('periode'));
     }
 
     /**
@@ -25,7 +26,7 @@ class PeriodeController extends Controller
      */
     public function create()
     {
-        //
+        return view('periode.create');
     }
 
     /**
@@ -36,7 +37,15 @@ class PeriodeController extends Controller
      */
     public function store(StorePeriodeRequest $request)
     {
-        //
+        $periode = Periode::create([
+            'tahun_ajaran' => $request->get('tahun_ajaran'),
+            'semester' => $request->get('semester')
+        ]);
+        if ($periode) {
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return response()->json(['errors' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -47,7 +56,7 @@ class PeriodeController extends Controller
      */
     public function show(Periode $periode)
     {
-        //
+        return view('periode.show', compact('periode'));
     }
 
     /**

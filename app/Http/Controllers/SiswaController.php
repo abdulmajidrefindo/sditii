@@ -15,7 +15,8 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        //
+        $siswa = Siswa::all();
+        return view('siswa.index', compact('siswa'));
     }
 
     /**
@@ -25,7 +26,7 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        //
+        return view('siswa.create');
     }
 
     /**
@@ -36,7 +37,16 @@ class SiswaController extends Controller
      */
     public function store(StoreSiswaRequest $request)
     {
-        //
+        $siswa = Siswa::create([
+            'nisn' => $request->get('nisn'),
+            'nama_siswa' => $request->get('nama_siswa'),
+            'orangtuawali_siswa' => $request->get('orangtuawali_siswa')
+        ]);
+        if ($siswa) {
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return response()->json(['errors' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -47,7 +57,7 @@ class SiswaController extends Controller
      */
     public function show(Siswa $siswa)
     {
-        //
+        return view('siswa.show', compact('siswa'));
     }
 
     /**
@@ -58,7 +68,9 @@ class SiswaController extends Controller
      */
     public function edit(Siswa $siswa)
     {
-        //
+        $id = $siswa->id;
+        $siswa = Siswa::find($id);
+        return response()->json($siswa);
     }
 
     /**
@@ -70,7 +82,17 @@ class SiswaController extends Controller
      */
     public function update(UpdateSiswaRequest $request, Siswa $siswa)
     {
-        //
+        $siswa->update([
+            'nisn' => $request->get('nisn'),
+            'nama_siswa' => $request->get('nama_siswa'),
+            'orangtuawali_siswa' => $request->get('orangtuawali_siswa')
+        ]);
+
+        if ($siswa) {
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return response()->json(['errors' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -81,6 +103,7 @@ class SiswaController extends Controller
      */
     public function destroy(Siswa $siswa)
     {
-        //
+        $siswa->delete();
+        return response()->json(['success' => 'Data berhasil dihapus!']);
     }
 }

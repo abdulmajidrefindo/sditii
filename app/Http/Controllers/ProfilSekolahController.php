@@ -15,7 +15,8 @@ class ProfilSekolahController extends Controller
      */
     public function index()
     {
-        //
+        $profilSekolah = ProfilSekolah::all();
+        return view('profilSekolah.index', compact('profilSekolah'));
     }
 
     /**
@@ -25,7 +26,7 @@ class ProfilSekolahController extends Controller
      */
     public function create()
     {
-        //
+        return view('profilSekolah.create');
     }
 
     /**
@@ -36,7 +37,18 @@ class ProfilSekolahController extends Controller
      */
     public function store(StoreProfilSekolahRequest $request)
     {
-        //
+        $profilSekolah = ProfilSekolah::create([
+            'nama_sekolah' => $request->get('nama_sekolah'),
+            'alamat_sekolah' => $request->get('alamat_sekolah'),
+            'email_sekolah' => $request->get('email_sekolah'),
+            'kontak_sekolah' => $request->get('kontak_sekolah'),
+            'website_sekolah' => $request->get('website_sekolah')
+        ]);
+        if ($profilSekolah) {
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return response()->json(['errors' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -47,7 +59,7 @@ class ProfilSekolahController extends Controller
      */
     public function show(ProfilSekolah $profilSekolah)
     {
-        //
+        return view('profilSekolah.show', compact('profilSekolah'));
     }
 
     /**
@@ -58,7 +70,9 @@ class ProfilSekolahController extends Controller
      */
     public function edit(ProfilSekolah $profilSekolah)
     {
-        //
+        $id = $profilSekolah->id;
+        $profilSekolah = ProfilSekolah::find($id);
+        return response()->json($profilSekolah);
     }
 
     /**
@@ -70,7 +84,19 @@ class ProfilSekolahController extends Controller
      */
     public function update(UpdateProfilSekolahRequest $request, ProfilSekolah $profilSekolah)
     {
-        //
+        $profilSekolah->update([
+            'nama_sekolah' => $request->get('nama_sekolah'),
+            'alamat_sekolah' => $request->get('alamat_sekolah'),
+            'email_sekolah' => $request->get('email_sekolah'),
+            'kontak_sekolah' => $request->get('kontak_sekolah'),
+            'website_sekolah' => $request->get('website_sekolah')
+        ]);
+
+        if ($profilSekolah) {
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return response()->json(['errors' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -81,6 +107,7 @@ class ProfilSekolahController extends Controller
      */
     public function destroy(ProfilSekolah $profilSekolah)
     {
-        //
+        $profilSekolah->delete();
+        return response()->json(['success' => 'Data berhasil dihapus!']);
     }
 }

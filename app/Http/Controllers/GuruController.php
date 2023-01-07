@@ -15,7 +15,8 @@ class GuruController extends Controller
      */
     public function index()
     {
-        //
+        $guru = Guru::all();
+        return view('guru.index', compact('guru'));
     }
 
     /**
@@ -25,7 +26,7 @@ class GuruController extends Controller
      */
     public function create()
     {
-        //
+        return view('guru.create');
     }
 
     /**
@@ -36,7 +37,15 @@ class GuruController extends Controller
      */
     public function store(StoreGuruRequest $request)
     {
-        //
+        $guru = Guru::create([
+            'nama_guru' => $request->get('nama_guru'),
+            'nip' => $request->get('nip'),
+        ]);
+        if ($guru) {
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return response()->json(['errors' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -47,7 +56,7 @@ class GuruController extends Controller
      */
     public function show(Guru $guru)
     {
-        //
+        return view('guru.show', compact('guru'));
     }
 
     /**
@@ -58,7 +67,9 @@ class GuruController extends Controller
      */
     public function edit(Guru $guru)
     {
-        //
+        $id = $guru->id;
+        $guru = Guru::find($id);
+        return response()->json($guru);
     }
 
     /**
@@ -70,7 +81,16 @@ class GuruController extends Controller
      */
     public function update(UpdateGuruRequest $request, Guru $guru)
     {
-        //
+        $guru->update([
+            'nama_merek' => $request->get('nama_merek'),
+            'keterangan' => $request->get('keterangan')
+        ]);
+
+        if ($guru) {
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return response()->json(['errors' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -81,6 +101,7 @@ class GuruController extends Controller
      */
     public function destroy(Guru $guru)
     {
-        //
+        $guru->delete();
+        return response()->json(['success' => 'Data berhasil dihapus!']);
     }
 }
