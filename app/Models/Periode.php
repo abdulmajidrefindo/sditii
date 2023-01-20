@@ -11,6 +11,6 @@ class Periode extends Model
     use HasFactory;
     use SoftDeletes;
     protected $table = "periode";
-    protected $fillable = ['tahun_ajaran','semester'];
+    protected $fillable = ['id_periode','tahun_ajaran','semester'];
     public $timestamps = true;
 }

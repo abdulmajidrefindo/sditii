@@ -11,6 +11,6 @@ class Siswa extends Model
     use HasFactory;
     use SoftDeletes;
     protected $table = "siswa";
-    protected $fillable = ['nisn','nama_siswa','orangtuawali_siswa'];
+    protected $fillable = ['id_siswa','nisn','nama_siswa','orangtuawali_siswa','id_kelas'];
     public $timestamps = true;
 }

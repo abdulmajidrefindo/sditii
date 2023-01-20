@@ -11,7 +11,6 @@ class Guru extends Model
     use HasFactory;
     use SoftDeletes;
     protected $table = "guru";
-    protected $fillable = ['nama_guru','nip'];
+    protected $fillable = ['id_guru','nama_guru','nip','id_kelas'];
     public $timestamps = true;
-
 }

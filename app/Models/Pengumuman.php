@@ -11,6 +11,6 @@ class Pengumuman extends Model
     use HasFactory;
     use SoftDeletes;
     protected $table = "pengumuman";
-    protected $fillable = ['judul','isi','created_at','updated_at'];
+    protected $fillable = ['id_pengumuman','judul','isi','created_at','updated_at'];
     public $timestamps = true;
 }
