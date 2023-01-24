@@ -41,4 +41,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function roles()
+    {
+        return $this->belongsToMany(Roles::class,'user_roles')->withPivot('users_id','roles_id','created_at','updated_at');
+    }
 }

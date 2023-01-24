@@ -13,4 +13,9 @@ class Roles extends Model
     protected $table = "roles";
     protected $fillable = ['id','role_name','keterangan','created_at','updated_at'];
     public $timestamps = true;
+    
+    public function user()
+    {
+        return $this->belongsToMany(Users::class,'user_roles')->withPivot('users_id','roles_id','created_at','updated_at');
+    }
 }
