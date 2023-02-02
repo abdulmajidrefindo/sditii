@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('bidang_studis', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->string('nama_mapel');
             $table->timestamps();
         });
     }

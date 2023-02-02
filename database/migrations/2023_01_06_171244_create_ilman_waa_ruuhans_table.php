@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('ilman_waa_ruuhans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->string('pencapaian');
+            $table->integer('jilid');
+            $table->integer('halaman');
             $table->timestamps();
         });
     }

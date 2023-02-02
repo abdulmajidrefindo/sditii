@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('penilaian_deskripsis', function (Blueprint $table) {
             $table->id();
+            $table->string('deskripsi');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }

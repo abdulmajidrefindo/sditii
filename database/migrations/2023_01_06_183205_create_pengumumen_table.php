@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('pengumumen', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->string('judul');
+            $table->text('isi');
+            $table->timestamp('publishet_at')->nullable();
             $table->timestamps();
         });
     }

@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('tugas_mapels', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('bidang_studi_id');
+            $table->string('nama_tugas_mapel');
             $table->timestamps();
         });
     }

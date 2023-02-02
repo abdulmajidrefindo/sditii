@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('periodes', function (Blueprint $table) {
             $table->id();
+            $table->integer('semester');
+            $table->string('tahun_ajaran');
             $table->timestamps();
         });
     }

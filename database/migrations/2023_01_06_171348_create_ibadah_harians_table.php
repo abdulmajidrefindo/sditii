@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('ibadah_harians', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->string('nama_kriteria');
             $table->timestamps();
         });
     }

@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kelas_id');
+            $table->integer('nisn')->unique();
+            $table->string('nama_siswa');
+            $table->string('orangtua_wali');
             $table->timestamps();
         });
     }

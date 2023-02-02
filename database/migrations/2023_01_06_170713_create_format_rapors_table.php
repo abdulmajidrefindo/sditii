@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('format_rapors', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kelas_id');
+            $table->string('format');
             $table->timestamps();
         });
     }

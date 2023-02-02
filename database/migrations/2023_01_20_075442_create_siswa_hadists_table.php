@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('siswa_hadists', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('siswa_id');
+            $table->foreignId('hadist_id');
+            $table->float('nilai_angka');
             $table->timestamps();
         });
     }
