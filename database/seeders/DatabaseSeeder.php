@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use App\Models\Roles;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,5 +21,15 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $this->call([
+            PengumumanSeeder::class,
+            UserSeeder::class,
+            RolesSeeder::class,
+            UserRolesSeeder::class,
+            PeriodeSeeder::class,
+            ProfilSekolahSeeder::class,
+            PenilaianDeskripsiSeeder::class,
+            PenilaianHurufAngkaSeeder::class,
+        ]);
     }
 }
