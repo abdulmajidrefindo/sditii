@@ -404,32 +404,32 @@ return [
         [
             'text'       => 'Ilman Waa Ruuhan',
             'icon_color' => 'red',
-            'url'        => '#',
+            'url'        => '/iwr',
         ],
         [
             'text'       => 'Bidang Studi',
             'icon_color' => 'yellow',
-            'url'        => '#',
+            'url'        => '/bidangStudi',
         ],
         [
             'text'       => 'Ibadah Harian',
             'icon_color' => 'cyan',
-            'url'        => '#',
+            'url'        => '/ibadahHarian',
         ],
         [
             'text'       => 'Tahfidz',
             'icon_color' => 'orange',
-            'url'        => '#',
+            'url'        => '/tahfidz',
         ],
         [
             'text'       => 'Hadist',
             'icon_color' => 'blue',
-            'url'        => '#',
+            'url'        => '/hadist',
         ],
         [
             'text'       => 'Doa',
             'icon_color' => 'green',
-            'url'        => '#',
+            'url'        => '/doa',
         ],
         ['header' => 'HASIL RAPOR'],
         [

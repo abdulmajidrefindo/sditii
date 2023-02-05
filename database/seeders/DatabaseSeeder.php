@@ -5,7 +5,7 @@ use App\Models\Roles;
 use App\Models\Guru;
 use App\Models\User;
 use App\Models\Siswa;
-
+use App\Models\SiswaMapel;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -36,6 +36,19 @@ class DatabaseSeeder extends Seeder
             PenilaianDeskripsiSeeder::class,
             PenilaianHurufAngkaSeeder::class,
             KelasSeeder::class,
+            IbadahHarianSeeder::class,
+            SiswaIbadahHarianSeeder::class,
+            TahfidzSeeder::class,
+            SiswaTahfidzSeeder::class,
+            HadistSeeder::class,
+            SiswaHadistSeeder::class,
+            DoaSeeder::class,
+            SiswaDoaSeeder::class,
+            IWRSeeder::class,
+            SiswaIWRSeeder::class,
+            BidangStudiSeeder::class,
+            TugasMapelSeeder::class,
+            SiswaMapelSeeder::class,
         ]);
     }
 }

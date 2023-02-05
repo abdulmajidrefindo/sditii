@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('doas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('guru_id');
             $table->string('nama_doa');
             $table->timestamps();
         });

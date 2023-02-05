@@ -9,8 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BidangStudi extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table = "mapel";
-    protected $fillable = ['id_mapel','nama_guru','id_guru'];
+    protected $table = "bidang_studis";
+    protected $guarded = ['id'];
     public $timestamps = true;
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class);
+    }
+    public function tugas_mapel()
+    {
+        return $this->hasMany(TugasMapel::class);
+    }
 }

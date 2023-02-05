@@ -15,7 +15,11 @@ class SiswaMapelController extends Controller
      */
     public function index()
     {
-        //
+        $siswa_m = SiswaMapel::with('siswa','tugas_mapel','penilaian_huruf_angka')->get();
+        return view('/siswaMapel/indexSiswaMapel', 
+        [
+            'siswa_m'=>$siswa_m
+        ]);
     }
 
     /**

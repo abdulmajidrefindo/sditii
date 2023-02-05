@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('gurus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('kelas_id');
             $table->integer('nip')->unique();
             $table->string('nama_guru');
             $table->timestamps();

@@ -9,8 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PenilaianHurufAngka extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table = "penilaian_huruf_angka";
-    protected $fillable = ['nilai_angka','nilai_huruf','keterangan_angka'];
+    protected $table = "penilaian_huruf_angkas";
+    protected $guarded = ['id'];
     public $timestamps = true;
+
+    public function siswa_mapel()
+    {
+        return $this->hasMany(SiswaMapel::class);
+    }
 }

@@ -9,8 +9,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Doa extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table = "doa";
-    protected $fillable = ['id_doa','nama_doa','id_guru'];
+    protected $table = "doas";
+    protected $guarded = ['id'];
     public $timestamps = true;
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class);
+    }
+    public function siswa_doa()
+    {
+        return $this->hasMany(SiswaDoa::class);
+    }
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class);
+    }
 }

@@ -15,7 +15,11 @@ class SiswaTahfidzController extends Controller
      */
     public function index()
     {
-        //
+        $siswa_t = SiswaTahfidz::with('siswa','tahfidz','penilaian_deskripsi')->get();
+        return view('/siswaTahfidz/indexSiswaTahfidz', 
+        [
+            'siswa_t'=>$siswa_t
+        ]);
     }
 
     /**

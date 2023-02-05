@@ -9,8 +9,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SiswaDoa extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table = "siswa_doa";
-    protected $fillable = ['id_siswa_doa','id_siswa','id_doa','nilai_angka'];
+    protected $table = "siswa_doas";
+    protected $fillable = ['id'];
     public $timestamps = true;
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class);
+    }
+    public function doa()
+    {
+        return $this->belongsTo(Doa::class);
+    }
+    public function penilaian_deskripsi()
+    {
+        return $this->belongsTo(PenilaianDeskripsi::class);
+    }
 }

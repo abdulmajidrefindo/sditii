@@ -38,7 +38,7 @@
         <h3>{{ $g->id }}. Username: {{ $g->user->user_name }}</h3>
         <p>Nama: {{ $g->nama_guru }}</p>
         <p>NIP: {{ $g->nip }}</p>
-        <p>Kelas Perwalian: {{ $g->kelas->nama_kelas }}</p>
+        <p>Kelas Perwalian: Masih one to many, blom many to many :(</p>
         <p>Pelajaran: Belum dibikin dummynya :(</p>
     @endforeach
 </body>

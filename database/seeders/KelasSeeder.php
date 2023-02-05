@@ -18,27 +18,27 @@ class KelasSeeder extends Seeder
     public function run()
     {
         DB::table('kelas')->insert([
-            'user_id' => '4',
+            'guru_id' => '4',
             'nama_kelas' => 'Kelas 1',
         ]);
         DB::table('kelas')->insert([
-            'user_id' => '5',
+            'guru_id' => '5',
             'nama_kelas' => 'Kelas 2',
         ]);
         DB::table('kelas')->insert([
-            'user_id' => '6',
+            'guru_id' => '6',
             'nama_kelas' => 'Kelas 3',
         ]);
         DB::table('kelas')->insert([
-            'user_id' => '7',
+            'guru_id' => '7',
             'nama_kelas' => 'Kelas 4',
         ]);
         DB::table('kelas')->insert([
-            'user_id' => '8',
+            'guru_id' => '8',
             'nama_kelas' => 'Kelas 5',
         ]);
         DB::table('kelas')->insert([
-            'user_id' => '9',
+            'guru_id' => '9',
             'nama_kelas' => 'Kelas 6',
         ]);
     }

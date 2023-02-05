@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('siswa_id');
             $table->foreignId('doa_id');
             $table->float('nilai_angka');
+            $table->foreignId('penilaian_deskripsi_id');
             $table->timestamps();
         });
     }

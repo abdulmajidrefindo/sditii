@@ -15,7 +15,7 @@ class Kelas extends Model
 
     public function guru()
     {
-        return $this->has(Guru::class);
+        return $this->belongsTo(Guru::class);
     }
     public function siswa()
     {

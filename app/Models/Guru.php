@@ -15,10 +15,22 @@ class Guru extends Model
 
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->hasMany(Kelas::class);
     }
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function ibadah_harian()
+    {
+        return $this->hasMany(IbadahHarian::class);
+    }
+    public function ilman_waa_ruuhan()
+    {
+        return $this->hasMany(IlmanWaaRuuhan::class);
+    }
+    public function bidang_studi()
+    {
+        return $this->hasMany(BidangStudi::class);
     }
 }

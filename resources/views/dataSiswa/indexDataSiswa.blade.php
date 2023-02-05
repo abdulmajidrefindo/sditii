@@ -37,7 +37,7 @@
     @foreach ($siswa as $s)
         <h3>{{ $s->id }}. {{ $s->nama_siswa }}</h3>
         <p>NISN: {{ $s->nisn }}</p>
-        <p>Kelas: {{ $s->kelas->nama_kelas }}</p>
+        <p>Kelas: {{ $s->kelas->nama_kelas }} ({{ $s->kelas->guru->nama_guru }})</p>
         <p>Orangtua/Wali: {{ $s->orangtua_wali }}</p>
     @endforeach
 </body>

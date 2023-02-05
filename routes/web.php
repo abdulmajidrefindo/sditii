@@ -7,6 +7,12 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\SiswaIbadahHarianController;
+use App\Http\Controllers\SiswaTahfidzController;
+use App\Http\Controllers\SiswaHadistController;
+use App\Http\Controllers\SiswaDoaController;
+use App\Http\Controllers\SiswaIlmanWaaRuuhanController;
+use App\Http\Controllers\SiswaMapelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +30,12 @@ Route::get('/dataGuru', [GuruController::class, 'index']);
 Route::get('/dataSiswa', [SiswaController::class, 'index']);
 Route::get('/dataTahunPelajaran', [PeriodeController::class, 'index']);
 Route::get('/pengumuman', [PengumumanController::class, 'index']);
+Route::get('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
+Route::get('/tahfidz', [SiswaTahfidzController::class, 'index']);
+Route::get('/hadist', [SiswaHadistController::class, 'index']);
+Route::get('/doa', [SiswaDoaController::class, 'index']);
+Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
+Route::get('/bidangStudi', [SiswaMapelController::class, 'index']);
 
 Route::get('/tes', function () {
     return view('dashboard');

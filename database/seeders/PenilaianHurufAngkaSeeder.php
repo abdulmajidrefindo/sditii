@@ -17,27 +17,38 @@ class PenilaianHurufAngkaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('penilaian_huruf_angkas')->insert([
-            'nilai_huruf' => 'A+',
-        ]);
-        DB::table('penilaian_huruf_angkas')->insert([
-            'nilai_huruf' => 'A',
-            
-        ]);
-        DB::table('penilaian_huruf_angkas')->insert([
-            'nilai_huruf' => 'B+',
-            
-        ]);
-        DB::table('penilaian_huruf_angkas')->insert([
-            'nilai_huruf' => 'B',
-            
-        ]);
-        DB::table('penilaian_huruf_angkas')->insert([
-            'nilai_huruf' => 'B-',
-            
-        ]);
-        DB::table('penilaian_huruf_angkas')->insert([
-            'nilai_huruf' => 'C'
-        ]);
+        for ($i = 100; $i > 0; $i--)
+        {
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'A+',
+                'keterangan_angka' => 'Belum dibikin satu-satu :('
+            ]);
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'A',
+                'keterangan_angka' => 'Belum dibikin satu-satu :('
+            ]);
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'B+',
+                'keterangan_angka' => 'Belum dibikin satu-satu :('
+            ]);
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'B',
+                'keterangan_angka' => 'Belum dibikin satu-satu :('
+            ]);
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'B-',
+                'keterangan_angka' => 'Belum dibikin satu-satu :('                
+            ]);
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'C',
+                'keterangan_angka' => 'Belum dibikin satu-satu :('
+            ]);
+        }
     }
 }

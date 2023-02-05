@@ -15,7 +15,12 @@ class SiswaIbadahHarianController extends Controller
      */
     public function index()
     {
-        //
+        $siswa_ih = SiswaIbadahHarian::with('siswa','ibadah_harian','penilaian_deskripsi')->get();
+        return view('/siswaIbadahHarian/indexSiswaIbadahHarian', 
+        [
+            'siswa_ih'=>$siswa_ih
+        ]
+        );
     }
 
     /**

@@ -17,8 +17,7 @@ class GuruFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'=>mt_rand(4,13),
-            'kelas_id'=>mt_rand(1,6),
+            'user_id'=>mt_rand(1,10),
             'nip'=>$this->faker->unique()->randomNumber(8, true),
             'nama_guru'=>$this->faker->name(),
         ];

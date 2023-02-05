@@ -15,7 +15,11 @@ class SiswaIlmanWaaRuuhanController extends Controller
      */
     public function index()
     {
-        //
+        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->get();
+        return view('/siswaIWR/indexSiswaIWR', 
+        [
+            'siswa_i'=>$siswa_i
+        ]);
     }
 
     /**

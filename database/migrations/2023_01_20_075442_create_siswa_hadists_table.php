@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('siswa_id');
             $table->foreignId('hadist_id');
+            $table->foreignId('penilaian_deskripsi_id');
             $table->float('nilai_angka');
             $table->timestamps();
         });
