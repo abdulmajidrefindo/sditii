@@ -17,7 +17,10 @@ class SiswaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'kelas_id'=>mt_rand(1,6),
+            'nisn'=>$this->faker->unique()->randomNumber(5, true),
+            'nama_siswa'=>$this->faker->name(),
+            'orangtua_wali'=>$this->faker->name(),
         ];
     }
 }

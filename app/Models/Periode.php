@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Periode extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table = "periode";
-    protected $fillable = ['id_periode','tahun_ajaran','semester'];
+    protected $table = "periodes";
+    protected $guarded = ['id'];
     public $timestamps = true;
 }

@@ -17,11 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -41,8 +37,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function roles()
     {
-        return $this->belongsToMany(Roles::class,'user_roles')->withPivot('users_id','roles_id','created_at','updated_at');
+        return $this->belongsToMany(Roles::class, 'user_roles', 'id', 'role_id')->withTimestamps();
+    }
+    public function guru()
+    {
+        return $this->hasMany(Guru::class);
+    }
+    public function pengumuman()
+    {
+        return $this->hasMany(Pengumuman::class);
     }
 }

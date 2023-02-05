@@ -320,7 +320,7 @@ return [
         ],
         [
             'text'        => 'Pengumuman',
-            'url'         => 'admin/pengumuman',
+            'url'         => '/pengumuman',
             'icon'        => 'fa fa-fw fa-exclamation-circle',
             //'label'       => 4,
             'label_color' => 'success',
@@ -338,27 +338,27 @@ return [
         ],*/
         [
             'text' => 'Data User',
-            'url'  => 'admin/profilSekolah',
+            'url'  => '/dataUser',
             'icon' => 'fas fa-fw fa-key',
         ],
         [
             'text' => 'Profil Sekolah',
-            'url'  => 'admin/profilSekolah',
+            'url'  => '/profilSekolah',
             'icon' => 'fas fa-fw fa-briefcase',
         ],
         [
             'text' => 'Data Guru',
-            'url'  => 'admin/guru',
+            'url'  => '/dataGuru',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'Data Siswa',
-            'url'  => 'admin/profilSekolah',
+            'url'  => '/dataSiswa',
             'icon' => 'fas fa-fw fa-users',
         ],
         [
             'text' => 'Data Tahun Pelajaran',
-            'url'  => 'admin/profilSekolah',
+            'url'  => 'dataTahunPelajaran',
             'icon' => 'fas fa-fw fa-table',
         ],
 

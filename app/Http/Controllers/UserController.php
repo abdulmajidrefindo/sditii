@@ -15,9 +15,18 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = User::all();
-        $roles = Roles::all('id', 'role_name');
-        return view('dataUser/indexUser', compact('user','roles'));
+        $users = User::all();
+        $roles = User::with('roles')->get();
+        // $roles = User::all()->roles;
+        // foreach($users->roles as $role)
+        // {
+
+        // }
+        return view('dataUser/indexUser',
+        [
+                "user"=>$users,
+                "role"=>$roles
+        ]);
     }
     public function show(User $user)
     {

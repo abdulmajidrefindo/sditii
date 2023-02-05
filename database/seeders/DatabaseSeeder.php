@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 use App\Models\Roles;
+use App\Models\Guru;
+use App\Models\User;
+use App\Models\Siswa;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,7 +18,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Guru::factory(10)->create();
+        User::factory(10)->create();
+        Siswa::factory(60)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -30,6 +35,7 @@ class DatabaseSeeder extends Seeder
             ProfilSekolahSeeder::class,
             PenilaianDeskripsiSeeder::class,
             PenilaianHurufAngkaSeeder::class,
+            KelasSeeder::class,
         ]);
     }
 }

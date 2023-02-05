@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ProfilSekolah extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table = "profil_sekolah";
-    protected $fillable = ['nama_sekolah','alamat_sekolah','email_sekolah','kontak_sekolah','website_sekolah'];
+    protected $table = "profil_sekolahs";
+    protected $guarded = ['id'];
     public $timestamps = true;
 }

@@ -9,9 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserRoles extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $table = "user_roles";
-    protected $fillable = ['id_users','roles_id','created_at','updated_at'];
+    protected $guarded = ['id'];
     public $timestamps = true;
 
     public function user()

@@ -9,13 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Roles extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $table = "roles";
-    protected $fillable = ['id','role_name','keterangan','created_at','updated_at'];
+    protected $guarded = ['id'];
     public $timestamps = true;
-    
+
     public function user()
     {
-        return $this->belongsToMany(Users::class,'user_roles')->withPivot('users_id','roles_id','created_at','updated_at');
+        return $this->belongsToMany(User::class, 'user_roles', 'id', 'user_id')->withTimestamps();
     }
 }

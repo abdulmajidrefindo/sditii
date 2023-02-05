@@ -16,7 +16,7 @@ class PeriodeController extends Controller
     public function index()
     {
         $periode = Periode::all();
-        return view('periode.index', compact('periode'));
+        return view('/periode/indexPeriode', compact('periode'));
     }
 
     /**

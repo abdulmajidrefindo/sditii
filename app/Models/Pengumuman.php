@@ -9,8 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Pengumuman extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table = "pengumuman";
-    protected $fillable = ['id_pengumuman','judul','isi','created_at','updated_at'];
+    protected $table = "pengumumen";
+    protected $guarded = ['id'];
     public $timestamps = true;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

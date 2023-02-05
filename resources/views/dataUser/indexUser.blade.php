@@ -43,19 +43,17 @@
         <table id="example1" class="table table-bordered table-striped">
           <thead>
           <tr>
-            <th>ID</th>
             <th>Nama</th>
-            <th>Email</th>
+            <th>Username</th>
             <th>Peran</th>
           </tr>
           </thead>
-            @forelse ($user as $users)
+            @forelse ($user as $u)
               <tr>
-                <td>{{ $users->id }}</td>
-                <td>{{ $users->name }}</td>
-                <td>{{ $users->email }}</td>
-                @forelse ($roles as $role)
-                  <td>{{ $role->role_name }}</td>
+                <td>{{ $u->name }}</td>
+                <td>{{ $u->username }}</td>
+                @forelse ($role as $r)
+                  <td>{{ $r->role }}</td>
                 @empty
                   <td>-</td>
                 @endforelse
