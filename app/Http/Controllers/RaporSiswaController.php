@@ -15,7 +15,13 @@ class RaporSiswaController extends Controller
      */
     public function index()
     {
-        //
+        {
+            $rapor = RaporSiswa::with('siswa','profil_sekolah','periode')->get();
+            return view('/raporSiswa/indexRaporSiswa', 
+            [
+                'rapor'=>$rapor
+            ]);
+        }
     }
 
     /**

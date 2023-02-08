@@ -12,4 +12,9 @@ class ProfilSekolah extends Model
     protected $table = "profil_sekolahs";
     protected $guarded = ['id'];
     public $timestamps = true;
+
+    public function rapor_siswa()
+    {
+        return $this->hasMany(RaporSiswa::class);
+    }
 }

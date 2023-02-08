@@ -434,7 +434,7 @@ return [
         ['header' => 'HASIL RAPOR'],
         [
             'text' => 'Rapor Siswa',
-            'url'  => 'admin/settings',
+            'url'  => '/raporSiswa',
             'icon' => 'fas fa-fw fa-book',
         ],
     ],

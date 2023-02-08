@@ -13,6 +13,7 @@ use App\Http\Controllers\SiswaHadistController;
 use App\Http\Controllers\SiswaDoaController;
 use App\Http\Controllers\SiswaIlmanWaaRuuhanController;
 use App\Http\Controllers\SiswaMapelController;
+use App\Http\Controllers\RaporSiswaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,7 @@ Route::get('/hadist', [SiswaHadistController::class, 'index']);
 Route::get('/doa', [SiswaDoaController::class, 'index']);
 Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
 Route::get('/bidangStudi', [SiswaMapelController::class, 'index']);
+Route::get('/raporSiswa', [RaporSiswaController::class, 'index']);
 
 Route::get('/tes', function () {
     return view('dashboard');

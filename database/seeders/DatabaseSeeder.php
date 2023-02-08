@@ -49,6 +49,8 @@ class DatabaseSeeder extends Seeder
             BidangStudiSeeder::class,
             TugasMapelSeeder::class,
             SiswaMapelSeeder::class,
+            FormatRaporSeeder::class,
+            RaporSiswaSeeder::class,
         ]);
     }
 }

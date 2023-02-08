@@ -49,8 +49,12 @@ class Siswa extends Model
     {
         return $this->hasMany(IlmanWaaRuuhan::class);
     }
-    public function siswa_bidang_studi()
+    public function siswa_mapel()
     {
-        return $this->hasMany(IlmanWaaRuuhan::class);
+        return $this->hasMany(SiswaMapel::class);
+    }
+    public function rapor_siswa()
+    {
+        return $this->hasMany(RaporSiswa::class);
     }
 }

@@ -2,15 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RaporSiswa extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table = "rapor_siswa";
-    protected $fillable = ['id_rapor','tempat','tanggal','id_siswa','id_siswa_mapel','id_siswa_iwr','id_siswa_ih','id_siswa_hadist','id_siswa_doa','nama_sekolah','id_periode','id_format'];
+    protected $table = "rapor_siswas";
+    protected $guarded = ['id'];
     public $timestamps = true;
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class);
+    }
+    public function profil_sekolah()
+    {
+        return $this->belongsTo(ProfilSekolah::class);
+    }
+    public function periode()
+    {
+        return $this->belongsTo(ProfilSekolah::class);
+    }
 }
