@@ -55,6 +55,6 @@ class Siswa extends Model
     }
     public function rapor_siswa()
     {
-        return $this->hasMany(RaporSiswa::class);
+        return $this->belongsTo(RaporSiswa::class);
     }
 }

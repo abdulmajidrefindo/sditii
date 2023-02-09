@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\RaporSiswa;
 use App\Http\Requests\StoreRaporSiswaRequest;
 use App\Http\Requests\UpdateRaporSiswaRequest;
+use App\Models\IlmanWaaRuuhan;
+use App\Models\SiswaIbadahHarian;
+use App\Models\SiswaIlmanWaaRuuhan;
+use App\Models\SiswaMapel;
+use App\Models\Siswa;
 
 class RaporSiswaController extends Controller
 {
@@ -16,10 +21,17 @@ class RaporSiswaController extends Controller
     public function index()
     {
         {
-            $rapor = RaporSiswa::with('siswa','profil_sekolah','periode')->get();
+            // $rapor = RaporSiswa::with('siswa_iwr','siswa_ih','siswa_doa','siswa_hadist','siswa_tahfidz','siswa_mapel')->get();
+            $data_siswa = Siswa::all();
+            $data_iwr = SiswaIlmanWaaRuuhan::all();
+            $data_ih = SiswaIbadahHarian::all();
+            $data_mapel = SiswaMapel::all();
             return view('/raporSiswa/indexRaporSiswa', 
             [
-                'rapor'=>$rapor
+                'data_siswa'=>$data_siswa,
+                'data_iwr'=>$data_iwr,
+                'data_ih'=>$data_ih,
+                'data_mapel'=>$data_mapel
             ]);
         }
     }

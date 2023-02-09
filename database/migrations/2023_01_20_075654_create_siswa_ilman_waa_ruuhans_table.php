@@ -18,6 +18,9 @@ return new class extends Migration
             $table->foreignId('siswa_id');
             $table->foreignId('ilman_waa_ruuhan_id');
             $table->foreignId('penilaian_deskripsi_id');
+            $table->foreignId('profil_sekolah_id');
+            $table->foreignId('periode_id');
+            $table->foreignId('rapor_siswa_id');
             $table->timestamps();
         });
     }

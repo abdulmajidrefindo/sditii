@@ -25,4 +25,16 @@ class SiswaMapel extends Model
     {
         return $this->belongsTo(PenilaianHurufAngka::class);
     }
+    public function rapor_siswa()
+    {
+        return $this->belongsTo(RaporSiswa::class);
+    }
+    public function profil_sekolah()
+    {
+        return $this->belongsTo(ProfilSekolah::class);
+    }
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
+    }
 }

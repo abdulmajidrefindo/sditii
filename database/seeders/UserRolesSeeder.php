@@ -21,17 +21,17 @@ class UserRolesSeeder extends Seeder
             'user_id' => '1',
             'role_id' => '1'
         ]);
-        DB::table('user_roles')->insert([
-            'user_id' => '2',
-            'role_id' => '2',
-        ]);
-        DB::table('user_roles')->insert([
-            'user_id' => '2',
-            'role_id' => '3',
-        ]);
-        DB::table('user_roles')->insert([
-            'user_id' => '3',
-            'role_id' => '3'
-        ]);
+        for ($i = 4; $i < 10; $i++) { 
+            DB::table('user_roles')->insert([
+                'user_id' => $i,
+                'role_id' => '2',
+            ]);
+        } 
+        for ($j = 4; $j < 14; $j++) { 
+            DB::table('user_roles')->insert([
+                'user_id' => $j,
+                'role_id' => '3',
+            ]);
+        } 
     }
 }

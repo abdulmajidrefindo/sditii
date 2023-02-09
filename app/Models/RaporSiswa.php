@@ -15,14 +15,30 @@ class RaporSiswa extends Model
 
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class);
+        return $this->hasMany(Siswa::class);
     }
-    public function profil_sekolah()
+    public function siswa_iwr()
     {
-        return $this->belongsTo(ProfilSekolah::class);
+        return $this->hasMany(SiswaIlmanWaaRuuhan::class);
     }
-    public function periode()
+    public function siswa_ih()
     {
-        return $this->belongsTo(ProfilSekolah::class);
+        return $this->hasMany(SiswaIbadahHarian::class);
+    }
+    public function siswa_doa()
+    {
+        return $this->hasMany(SiswaDoa::class);
+    }
+    public function siswa_hadist()
+    {
+        return $this->hasMany(SiswaHadist::class);
+    }
+    public function siswa_tahfidz()
+    {
+        return $this->hasMany(SiswaTahfidz::class);
+    }
+    public function siswa_mapel()
+    {
+        return $this->hasMany(SiswaMapel::class);
     }
 }

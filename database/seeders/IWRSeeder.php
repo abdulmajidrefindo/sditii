@@ -22,7 +22,7 @@ class IWRSeeder extends Seeder
             for ($j = 1; $j < 11; $j++)
             {
                 DB::table('ilman_waa_ruuhans')->insert([
-                    'guru_id' => '2',
+                    'guru_id' => '10',
                     'pencapaian' => 'Ilman Waa Ruuhan',
                     'jilid' => $i,    
                     'halaman' => $j,

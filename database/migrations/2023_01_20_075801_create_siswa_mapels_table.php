@@ -18,6 +18,9 @@ return new class extends Migration
             $table->foreignId('siswa_id');
             $table->foreignId('tugas_mapel_id');
             $table->foreignId('penilaian_huruf_angka_id');
+            $table->foreignId('profil_sekolah_id');
+            $table->foreignId('periode_id');
+            $table->foreignId('rapor_siswa_id');
             $table->timestamps();
         });
     }

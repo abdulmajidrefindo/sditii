@@ -38,7 +38,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function roles()
+    public function role()
     {
         return $this->belongsToMany(Roles::class, 'user_roles', 'id', 'role_id')->withTimestamps();
     }

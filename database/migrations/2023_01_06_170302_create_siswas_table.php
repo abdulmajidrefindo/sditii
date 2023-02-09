@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('nisn')->unique();
             $table->string('nama_siswa');
             $table->string('orangtua_wali');
+            $table->foreignId('rapor_siswa_id');
             $table->timestamps();
         });
     }

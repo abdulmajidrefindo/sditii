@@ -34,36 +34,42 @@
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 </head>
 <body>  
-    @foreach ($rapor as $r)
+    @foreach ($data_siswa as $i)   
+        <h1>{{ $i->id }}. {{ $i->nama_siswa }}</h1>
         <h3>Data Siswa</h3>
-            <p>{{ $r->siswa->id }}. {{ $r->siswa->nama_siswa }}</p>
-            <p>Orangtua/Wali: {{ $r->siswa->orangtua_wali }}</p>
-            <p>NISN: {{ $r->siswa->nisn }}</p>
-            <p>Kelas: {{ $r->siswa->kelas->nama_kelas }}</p>
-            <p>Wali Kelas: {{ $r->siswa->kelas->guru->nama_guru }}</p>
-        <h3>Hasil</h3>
-        <h5>Ilman Waa Ruuhan</h5>
-            <p>Pencapaian:</p>
-            <p>{{ $r->siswa->siswa_iwr->ilman_waa_ruuhan->pencapaian }}</p>
-            <p>Jilid/Surah:</p>
-            <p>{{ $r->siswa->siswa_iwr->ilman_waa_ruuhan->jilid }}</p>
-            <p>Halaman/Ayat:</p>
-            <p>{{ $r->siswa->siswa_iwr->ilman_waa_ruuhan->halaman }}</p>
-            <p>Nilai:</p>
-            <p>{{ $r->siswa->siswa_iwr->penilaian_deskripsi->deskripsi }} ({{ $r->siswa->siswa_iwr->penilaian_deskripsi->keterangan }})</p>
-        <h5>Bidang Studi</h5>
-            <p>Mata Pelajaran:</p>
-            <p>{{ $r->siswa->siswa_mapel->bidang_studi->nama_mapel }}</p>
-            <p>Nilai:</p>
-            <p>{{ $r->siswa->siswa_mapel->penilaian_huruf_angka->nilai_angka }} ({{ $r->siswa->siswa_mapel->penilaian_huruf_angka->nilai_huruf }})</p>
-        <h5>Ibadah Harian</h5>
-            <p>Kriteria:</p>
-            <p>{{ $r->siswa->siswa_ibadah_harian->ibadah_harian->nama_kriteria }}</p>
-            <p>Nilai:</p>
-            <p>{{ $r->siswa->siswa_ibadah_harian->penilaian_huruf_angka->nilai_angka }} ({{ $r->siswa->siswa_ibadah_harian->penilaian_huruf_angka->nilai_huruf }})</p>
-        <h5>Tahfidz</h5>
-        <h5>Hadist</h5>
-        <h5>Doa</h5>
+            <p>Orangtua/Wali: {{ $i->orangtua_wali }}</p>
+            <p>NISN: {{ $i->nisn }}</p>
+            <p>Kelas: {{ $i->kelas->nama_kelas }}</p>
+            <p>Wali Kelas: {{ $i->kelas->guru->nama_guru }}</p>
     @endforeach
+    <h3>Hasil</h3>
+    <h5>Ilman Waa Ruuhan</h5>
+    @foreach ($data_iwr as $i)
+        <p>Pencapaian:</p>
+        <p>{{ $i->ilman_waa_ruuhan->Pencapaian }}</p>
+        <p>Jilid/Surah:</p>
+        <p>{{ $i->ilman_waa_ruuhan->jilid }}</p>
+        <p>Halaman/Ayat:</p>
+        <p>{{ $i->ilman_waa_ruuhan->halaman }}</p>
+        <p>Nilai:</p>
+        <p>{{ $i->penilaian_deskripsi->deskripsi }} ({{ $i->penilaian_deskripsi->keterangan }})</p>
+    @endforeach
+    <h5>Bidang Studi</h5>
+    @foreach ($data_mapel as $i)
+        <p>Mata Pelajaran:</p>
+        <p>{{ $i->tugas_mapel->bidang_studi->nama_mapel }}</p>
+        <p>Nilai:</p>
+        <p>{{ $i->penilaian_huruf_angka->nilai_angka }} ({{ $i->penilaian_huruf_angka->nilai_huruf }})</p>
+    @endforeach
+    <h5>Ibadah Harian</h5>
+    @foreach ($data_ih as $i)
+        <p>Kriteria:</p>
+        <p>{{ $i->ibadah_harian->nama_kriteria }}</p>
+        <p>Nilai:</p>
+        <p>{{ $i->penilaian_deskripsi->deskripsi }} ({{ $i->penilaian_deskripsi->keterangan }})</p>
+    @endforeach
+    <h5>Tahfidz</h5>
+    <h5>Hadist</h5>
+    <h5>Doa</h5>
 </body>
 @stop

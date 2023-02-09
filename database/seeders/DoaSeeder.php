@@ -18,15 +18,15 @@ class DoaSeeder extends Seeder
     public function run()
     {
         DB::table('doas')->insert([
-            'guru_id' => '1',
+            'guru_id' => '8',
             'nama_doa' => 'Doa Makan',
         ]);
         DB::table('Doas')->insert([
-            'guru_id' => '1',
+            'guru_id' => '8',
             'nama_doa' => 'Doa Berkendara',
         ]);
         DB::table('Doas')->insert([
-            'guru_id' => '1',
+            'guru_id' => '8',
             'nama_doa' => 'Doa Tidur',
         ]);
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Roles;
+use App\Models\UserRoles;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
@@ -15,8 +16,9 @@ class UserController extends Controller
 {
     public function index()
     {
+        $data = UserRoles::all();
         $users = User::all();
-        $roles = User::with('roles')->get();
+        $roles = Roles::all();
         // $roles = User::all()->roles;
         // foreach($users->roles as $role)
         // {
@@ -24,8 +26,9 @@ class UserController extends Controller
         // }
         return view('dataUser/indexUser',
         [
-                "user"=>$users,
-                "role"=>$roles
+                'data'=>$data->load('user','role'),
+                // "user"=>$users,
+                // "role"=>$roles
         ]);
     }
     public function show(User $user)

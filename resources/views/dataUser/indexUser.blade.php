@@ -48,15 +48,15 @@
             <th>Peran</th>
           </tr>
           </thead>
-            @forelse ($user as $u)
+            @forelse ($data as $u)
               <tr>
-                <td>{{ $u->name }}</td>
-                <td>{{ $u->username }}</td>
-                @forelse ($role as $r)
-                  <td>{{ $r->role }}</td>
-                @empty
-                  <td>-</td>
-                @endforelse
+                <td>{{ $u->user->name }}</td>
+                <td>{{ $u->user->user_name }}</td>
+                {{-- @forelse ($data as $r) --}}
+                  <td>{{ $u->role->role }}</td>
+                {{-- @empty --}}
+                  {{-- <td>-</td> --}}
+                {{-- @endforelse --}}
               </tr>
             @empty
               <td>-</td>

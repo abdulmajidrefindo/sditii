@@ -15,7 +15,16 @@ class UserRolesController extends Controller
      */
     public function index()
     {
-        
+        $userRoles = UserRoles::all();
+        // $roles = User::all()->roles;
+        // foreach($users->roles as $role)
+        // {
+
+        // }
+        return view('dataUser/indexUser',
+        [
+            'data'=>$userRoles
+        ]);
     }
 
     /**

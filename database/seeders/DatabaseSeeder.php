@@ -18,19 +18,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Guru::factory(10)->create();
+        $this->call([
+            UserRolesSeeder::class
+        ]);
         User::factory(10)->create();
+        Guru::factory(10)->create();
         Siswa::factory(60)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        
         $this->call([
             PengumumanSeeder::class,
             UserSeeder::class,
             RolesSeeder::class,
-            UserRolesSeeder::class,
             PeriodeSeeder::class,
             ProfilSekolahSeeder::class,
             PenilaianDeskripsiSeeder::class,

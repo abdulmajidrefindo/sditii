@@ -21,6 +21,7 @@ class SiswaFactory extends Factory
             'nisn'=>$this->faker->unique()->randomNumber(5, true),
             'nama_siswa'=>$this->faker->name(),
             'orangtua_wali'=>$this->faker->name(),
+            'rapor_siswa_id'=>1,
         ];
     }
 }

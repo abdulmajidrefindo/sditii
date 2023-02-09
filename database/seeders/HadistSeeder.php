@@ -18,15 +18,15 @@ class HadistSeeder extends Seeder
     public function run()
     {
         DB::table('hadists')->insert([
-            'guru_id' => '2',
+            'guru_id' => '5',
             'nama_hadist' => 'Hadist Senyum',
         ]);
         DB::table('hadists')->insert([
-            'guru_id' => '2',
+            'guru_id' => '5',
             'nama_hadist' => 'Hadist Puasa',
         ]);
         DB::table('hadists')->insert([
-            'guru_id' => '2',
+            'guru_id' => '5',
             'nama_hadist' => 'Hadist Berpakaian',
         ]);
     }

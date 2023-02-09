@@ -24,6 +24,9 @@ class SiswaIWRSeeder extends Seeder
                     'siswa_id' => $i,
                     'ilman_waa_ruuhan_id' => mt_rand(1,100),
                     'penilaian_deskripsi_id' => mt_rand(1, 4),
+                    'profil_sekolah_id' => 1,
+                    'periode_id' => 1,
+                    'rapor_siswa_id' => 1
                 ]);
             }
         }
