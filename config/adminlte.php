@@ -84,7 +84,7 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/sditii2.png',
             'alt' => 'Logo',
@@ -110,7 +110,7 @@ return [
         'enabled' => true,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/sditii2.png',
-            'alt' => 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam cupiditate commodi impedit recusandae, nihil perspiciatis quidem illum saepe, sapiente animi repudiandae vel pariatur, nulla quis sit dolorum amet tempore? Harum?Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam cupiditate commodi impedit recusandae, nihil perspiciatis quidem illum saepe, sapiente animi repudiandae vel pariatur, nulla quis sit dolorum amet tempore? Harum?Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam cupiditate commodi impedit recusandae, nihil perspiciatis quidem illum saepe, sapiente animi repudiandae vel pariatur, nulla quis sit dolorum amet tempore? Harum?',
+            'alt' => 'Loading...',
             'effect' => 'animation__shake',
             'width' => 360,
             'height' => 360,
@@ -291,21 +291,21 @@ return [
 
     'menu' => [
         // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
+        // [
+        //     'type'         => 'navbar-search',
+        //     'text'         => 'search',
+        //     'topnav_right' => true,
+        // ],
+        // [
+        //     'type'         => 'fullscreen-widget',
+        //     'topnav_right' => true,
+        // ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
+        // [
+        //     'type' => 'sidebar-menu-search',
+        //     'text' => 'search',
+        // ],
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
@@ -475,36 +475,128 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+                    'asset' => true,
+                    'location' => 'vendor/jquery/jquery.min.js',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap/js/bootstrap.bundle.min.js',
                 ],
                 [
-                    'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-responsive/js/responsive.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/jszip/jszip.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/pdfmake/pdfmake.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/pdfmake/vfs_fonts.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js',
+                ],
+                //////////////////////////////////////
+                // [
+                //     'type' => 'css',
+                //     'asset' => true,
+                //     'location' => 'https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css',
+                // ],
+                // [
+                //     'type' => 'js',
+                //     'asset' => true,
+                //     'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js',
+                // ],
+                // [
+                //     'type' => 'css',
+                //     'asset' => true,
+                //     'location' => 'https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css',
+                // ],
+                // [
+                //     'type' => 'js',
+                //     'asset' => true,
+                //     'location' => 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js',
+                // ],
+                /////////
+                // [
+                //     'type' => 'css',
+                //     'asset' => true,
+                //     'location' => 'https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css',
+                // ],
+                // [
+                //     'type' => 'css',
+                //     'asset' => true,
+                //     'location' => 'https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css',
+                // ],
+                // [
+                //     'type' => 'css',
+                //     'asset' => true,
+                //     'location' => 'https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css',
+                // ],
                 ],
             ],
-        ],
-        'Select2' => [
-            'active' => false,
-            'files' => [
+            'Select2' => [
+                'active' => false,
+                'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
                 ],
             ],
@@ -514,7 +606,7 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
                 ],
             ],
@@ -524,7 +616,7 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],
@@ -534,12 +626,12 @@ return [
             'files' => [
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-radar.min.css',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
                 ],
             ],

@@ -35,7 +35,7 @@
 </head>
 <body>
     @foreach ($siswa_ih as $s)
-        <h3>{{ $s->siswa->id }}. {{ $s->siswa->nama_siswa }} (Kelas: {{ $s->siswa->nisn }}) (NISN: {{ $s->siswa->kelas->nama_kelas }})</h3>
+    <h3>{{ $s->siswa->id }}. {{ $s->siswa->nama_siswa }} (NISN: {{ $s->siswa->nisn }}) (Kelas: {{ $s->siswa->kelas->nama_kelas }})</h3>
         <p>Nilai {{ $s->ibadah_harian->id }}: {{ $s->ibadah_harian->nama_kriteria }} = {{ $s->penilaian_deskripsi->deskripsi }} / {{ $s->penilaian_deskripsi->keterangan }}</p>
         <p>Pengajar: {{ $s->ibadah_harian->guru->nama_guru }}</p>
     @endforeach

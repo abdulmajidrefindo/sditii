@@ -17,38 +17,78 @@ class PenilaianHurufAngkaSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 100; $i > 0; $i--)
+        for ($i = 95; $i >= 91; $i--)
         {
             DB::table('penilaian_huruf_angkas')->insert([
                 'nilai_angka' => $i,
                 'nilai_huruf' => 'A+',
                 'keterangan_angka' => 'Belum dibikin satu-satu :('
             ]);
+        }
+        for ($i = 90; $i >= 86; $i--)
+        {
             DB::table('penilaian_huruf_angkas')->insert([
                 'nilai_angka' => $i,
                 'nilai_huruf' => 'A',
                 'keterangan_angka' => 'Belum dibikin satu-satu :('
             ]);
+        }
+        for ($i = 85; $i >= 81; $i--)
+        {
             DB::table('penilaian_huruf_angkas')->insert([
                 'nilai_angka' => $i,
                 'nilai_huruf' => 'B+',
                 'keterangan_angka' => 'Belum dibikin satu-satu :('
             ]);
+        }
+        for ($i = 80; $i >= 76; $i--)
+        {
             DB::table('penilaian_huruf_angkas')->insert([
                 'nilai_angka' => $i,
                 'nilai_huruf' => 'B',
                 'keterangan_angka' => 'Belum dibikin satu-satu :('
             ]);
+        }
+        for ($i = 75; $i >= 71; $i--)
+        {
             DB::table('penilaian_huruf_angkas')->insert([
                 'nilai_angka' => $i,
                 'nilai_huruf' => 'B-',
-                'keterangan_angka' => 'Belum dibikin satu-satu :('                
+                'keterangan_angka' => 'Belum dibikin satu-satu :('
             ]);
+        }
+        for ($i = 70; $i >= 66; $i--)
+        {
             DB::table('penilaian_huruf_angkas')->insert([
                 'nilai_angka' => $i,
                 'nilai_huruf' => 'C',
                 'keterangan_angka' => 'Belum dibikin satu-satu :('
             ]);
         }
+            // DB::table('penilaian_huruf_angkas')->insert([
+            //     'nilai_angka' => $i,
+            //     'nilai_huruf' => 'A',
+            //     'keterangan_angka' => 'Belum dibikin satu-satu :('
+            // ]);
+            // DB::table('penilaian_huruf_angkas')->insert([
+            //     'nilai_angka' => $i,
+            //     'nilai_huruf' => 'B+',
+            //     'keterangan_angka' => 'Belum dibikin satu-satu :('
+            // ]);
+            // DB::table('penilaian_huruf_angkas')->insert([
+            //     'nilai_angka' => $i,
+            //     'nilai_huruf' => 'B',
+            //     'keterangan_angka' => 'Belum dibikin satu-satu :('
+            // ]);
+            // DB::table('penilaian_huruf_angkas')->insert([
+            //     'nilai_angka' => $i,
+            //     'nilai_huruf' => 'B-',
+            //     'keterangan_angka' => 'Belum dibikin satu-satu :('                
+            // ]);
+            // DB::table('penilaian_huruf_angkas')->insert([
+            //     'nilai_angka' => $i,
+            //     'nilai_huruf' => 'C',
+            //     'keterangan_angka' => 'Belum dibikin satu-satu :('
+            // ]);
     }
 }

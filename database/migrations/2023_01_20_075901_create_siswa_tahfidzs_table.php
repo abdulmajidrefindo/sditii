@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('siswa_id');
             $table->foreignId('tahfidz_id');
-            $table->foreignId('penilaian_deskripsi_id');
-            $table->float('nilai_angka');
+            $table->foreignId('penilaian_huruf_angka_id');
+            // $table->float('nilai_angka');
             $table->foreignId('profil_sekolah_id');
             $table->foreignId('periode_id');
             $table->foreignId('rapor_siswa_id');

@@ -17,12 +17,8 @@ class PenilaianDeskripsi extends Model
     {
         return $this->hasMany(SiswaIbadahHarian::class);
     }
-    public function siswa_tahfidz()
+    public function siswa_iwr()
     {
-        return $this->hasMany(SiswaTahfidz::class);
-    }
-    public function siswa_doa()
-    {
-        return $this->hasMany(SiswaDoa::class);
+        return $this->hasMany(SiswaIlmanWaaRuuhan::class);
     }
 }

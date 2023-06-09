@@ -18,6 +18,18 @@ class PeriodeSeeder extends Seeder
     public function run()
     {
         DB::table('periodes')->insert([
+            'semester' => '1',
+            'tahun_ajaran' => '2021/2022'
+        ]);
+        DB::table('periodes')->insert([
+            'semester' => '2',
+            'tahun_ajaran' => '2021/2022'
+        ]);
+        DB::table('periodes')->insert([
+            'semester' => '1',
+            'tahun_ajaran' => '2022/2023'
+        ]);
+        DB::table('periodes')->insert([
             'semester' => '2',
             'tahun_ajaran' => '2022/2023'
         ]);

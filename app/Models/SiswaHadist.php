@@ -21,9 +21,9 @@ class SiswaHadist extends Model
     {
         return $this->belongsTo(Hadist::class);
     }
-    public function penilaian_deskripsi()
+    public function penilaian_huruf_angka()
     {
-        return $this->belongsTo(PenilaianDeskripsi::class);
+        return $this->belongsTo(PenilaianHurufAngka::class);
     }
     public function rapor_siswa()
     {

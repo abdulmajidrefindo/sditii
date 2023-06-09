@@ -24,8 +24,8 @@ class SiswaTahfidzSeeder extends Seeder
                 DB::table('siswa_tahfidzs')->insert([
                     'siswa_id' => $i,
                     'tahfidz_id' => $j,
-                    'penilaian_deskripsi_id' => mt_rand(1, 4),
-                    'nilai_angka' => mt_rand(0, 100),
+                    'penilaian_huruf_angka_id' => mt_rand(1, 30),
+                    // 'nilai_angka' => mt_rand(0, 100),
                     'profil_sekolah_id' => 1,
                     'periode_id' => 1,
                     'rapor_siswa_id' => 1

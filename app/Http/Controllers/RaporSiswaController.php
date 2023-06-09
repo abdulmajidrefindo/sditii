@@ -10,6 +10,9 @@ use App\Models\SiswaIbadahHarian;
 use App\Models\SiswaIlmanWaaRuuhan;
 use App\Models\SiswaMapel;
 use App\Models\Siswa;
+use App\Models\SiswaDoa;
+use App\Models\SiswaHadist;
+use App\Models\SiswaTahfidz;
 
 class RaporSiswaController extends Controller
 {
@@ -25,12 +28,18 @@ class RaporSiswaController extends Controller
             $data_siswa = Siswa::all();
             $data_iwr = SiswaIlmanWaaRuuhan::all();
             $data_ih = SiswaIbadahHarian::all();
+            $data_t = SiswaTahfidz::all();
+            $data_h = SiswaHadist::all();
+            $data_d = SiswaDoa::all();
             $data_mapel = SiswaMapel::all();
             return view('/raporSiswa/indexRaporSiswa', 
             [
                 'data_siswa'=>$data_siswa,
                 'data_iwr'=>$data_iwr,
                 'data_ih'=>$data_ih,
+                'data_t'=>$data_t,
+                'data_h'=>$data_h,
+                'data_d'=>$data_d,
                 'data_mapel'=>$data_mapel
             ]);
         }

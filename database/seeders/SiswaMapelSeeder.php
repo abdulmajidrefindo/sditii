@@ -24,7 +24,7 @@ class SiswaMapelSeeder extends Seeder
                 DB::table('siswa_mapels')->insert([
                     'siswa_id' => $i,
                     'tugas_mapel_id' => $j,
-                    'penilaian_huruf_angka_id' => mt_rand(1, 100),
+                    'penilaian_huruf_angka_id' => mt_rand(1, 30),
                     'profil_sekolah_id' => 1,
                     'periode_id' => 1,
                     'rapor_siswa_id' => 1

@@ -35,8 +35,8 @@
 </head>
 <body>
     @foreach ($siswa_t as $s)
-        <h3>{{ $s->siswa->id }}. {{ $s->siswa->nama_siswa }} (Kelas: {{ $s->siswa->nisn }}) (NISN: {{ $s->siswa->kelas->nama_kelas }})</h3>
-        <p>Nilai {{ $s->tahfidz->id }}: {{ $s->tahfidz->nama_surat }} = {{ $s->nilai_angka }}, {{ $s->penilaian_deskripsi->deskripsi }} / {{ $s->penilaian_deskripsi->keterangan }}</p>
+    <h3>{{ $s->siswa->id }}. {{ $s->siswa->nama_siswa }} (NISN: {{ $s->siswa->nisn }}) (Kelas: {{ $s->siswa->kelas->nama_kelas }})</h3>
+        <p>Nilai {{ $s->tahfidz->id }}: {{ $s->tahfidz->nama_surat }} = {{ $s->penilaian_huruf_angka->nilai_angka }}, {{ $s->penilaian_huruf_angka->nilai_huruf }}</p>
         <p>Pengajar: {{ $s->tahfidz->guru->nama_guru }}</p>
     @endforeach
 </body>

@@ -17,4 +17,16 @@ class PenilaianHurufAngka extends Model
     {
         return $this->hasMany(SiswaMapel::class);
     }
+    public function siswa_tahfidz()
+    {
+        return $this->hasMany(SiswaTahfidz::class);
+    }
+    public function siswa_doa()
+    {
+        return $this->hasMany(SiswaDoa::class);
+    }
+    public function siswa_hadist()
+    {
+        return $this->hasMany(SiswaHadist::class);
+    }
 }
