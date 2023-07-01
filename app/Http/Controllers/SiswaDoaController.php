@@ -15,7 +15,8 @@ class SiswaDoaController extends Controller
      */
     public function index()
     {
-        $siswa_d = SiswaDoa::with('siswa','doa','penilaian_huruf_angka')->get();
+        $siswa_d = SiswaDoa::with('siswa','doa_1','doa_2','doa_3','doa_4','doa_5',
+        'doa_6','doa_7','doa_8','doa_9','penilaian_huruf_angka')->get();
         return view('/siswaDoa/indexSiswaDoa', 
         [
             'siswa_d'=>$siswa_d

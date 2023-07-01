@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiswaTahfidz;
+use App\Models\Tahfidz1;
 use App\Http\Requests\StoreSiswaTahfidzRequest;
 use App\Http\Requests\UpdateSiswaTahfidzRequest;
+use App\Models\PenilaianHurufAngka;
 
 class SiswaTahfidzController extends Controller
 {
@@ -15,10 +17,10 @@ class SiswaTahfidzController extends Controller
      */
     public function index()
     {
-        $siswa_t = SiswaTahfidz::with('siswa','tahfidz','penilaian_huruf_angka')->get();
+        $siswa_t = SiswaTahfidz::with('siswa','tahfidz_1','tahfidz_2','tahfidz_3','tahfidz_4','tahfidz_5','tahfidz_6','tahfidz_7','tahfidz_8','tahfidz_9','tahfidz_10','tahfidz_11','tahfidz_12','tahfidz_13','tahfidz_14','tahfidz_15')->get();
         return view('/siswaTahfidz/indexSiswaTahfidz', 
         [
-            'siswa_t'=>$siswa_t
+            'siswa_t'=>$siswa_t,
         ]);
     }
 

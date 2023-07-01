@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('penilaian_huruf_angkas', function (Blueprint $table) {
             $table->id();
-            $table->float('nilai_angka')->nullable();
+            $table->integer('nilai_angka')->nullable();
             $table->string('nilai_huruf');
             $table->string('keterangan_angka')->nullable();
             $table->timestamps();

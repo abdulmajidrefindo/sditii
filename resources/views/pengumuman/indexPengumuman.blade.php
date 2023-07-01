@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Pengumuman')
+{{-- @section('title', 'Pengumuman') --}}
 
 @section('content_header')
 <div class="row mb-2">

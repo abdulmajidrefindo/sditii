@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Http\Requests\StoreSiswaRequest;
 use App\Http\Requests\UpdateSiswaRequest;
+use App\Models\SiswaTahfidz;
 
 class SiswaController extends Controller
 {

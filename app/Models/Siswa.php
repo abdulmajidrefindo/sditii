@@ -10,7 +10,7 @@ class Siswa extends Model
 {
     use HasFactory;
     protected $table = "siswas";
-    protected $guarded = ['id'];
+    // protected $guarded = ['id'];
     public $timestamps = true;
 
     public function kelas()
@@ -21,25 +21,13 @@ class Siswa extends Model
     {
         return $this->hasMany(SiswaIbadahHarian::class);
     }
-    public function ibadah_harian()
-    {
-        return $this->hasMany(IbadahHarian::class);
-    }
     public function siswa_tahfidz()
     {
         return $this->hasMany(SiswaTahfidz::class);
     }
-    public function tahfidz()
-    {
-        return $this->hasMany(Tahfidz::class);
-    }
     public function siswa_doa()
     {
         return $this->hasMany(SiswaDoa::class);
-    }
-    public function doa()
-    {
-        return $this->hasMany(Doa::class);
     }
     public function siswa_iwr()
     {
@@ -52,6 +40,10 @@ class Siswa extends Model
     public function siswa_mapel()
     {
         return $this->hasMany(SiswaMapel::class);
+    }
+    public function siswa_bidang_studi()
+    {
+        return $this->hasMany(SiswaBidangStudi::class);
     }
     public function rapor_siswa()
     {

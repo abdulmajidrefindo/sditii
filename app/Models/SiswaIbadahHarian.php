@@ -17,9 +17,41 @@ class SiswaIbadahHarian extends Model
     {
         return $this->belongsTo(Siswa::class);
     }
-    public function ibadah_harian()
+    public function ibadah_harian_1()
     {
-        return $this->belongsTo(IbadahHarian::class);
+        return $this->belongsTo(IbadahHarian1::class);
+    }
+    public function ibadah_harian_2()
+    {
+        return $this->belongsTo(IbadahHarian2::class);
+    }
+    public function ibadah_harian_3()
+    {
+        return $this->belongsTo(IbadahHarian3::class);
+    }
+    public function ibadah_harian_4()
+    {
+        return $this->belongsTo(IbadahHarian4::class);
+    }
+    public function ibadah_harian_5()
+    {
+        return $this->belongsTo(IbadahHarian5::class);
+    }
+    public function ibadah_harian_6()
+    {
+        return $this->belongsTo(IbadahHarian6::class);
+    }
+    public function ibadah_harian_7()
+    {
+        return $this->belongsTo(IbadahHarian7::class);
+    }
+    public function ibadah_harian_8()
+    {
+        return $this->belongsTo(IbadahHarian8::class);
+    }
+    public function ibadah_harian_9()
+    {
+        return $this->belongsTo(IbadahHarian9::class);
     }
     public function penilaian_deskripsi()
     {

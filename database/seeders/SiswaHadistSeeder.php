@@ -11,26 +11,30 @@ use Illuminate\Support\Str;
 class SiswaHadistSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+    * Run the database seeds.
+    *
+    * @return void
+    */
     public function run()
     {
-        for ($i = 1; $i < 26; $i++)
+        for ($i = 1; $i <= 60; $i++)
         {
-            for ($j = 1; $j < 4; $j++)
-            {
-                DB::table('siswa_hadists')->insert([
-                    'siswa_id' => $i,
-                    'hadist_id' => $j,
-                    'penilaian_huruf_angka_id' => mt_rand(1, 30),
-                    // 'nilai_angka' => mt_rand(0, 100),
-                    'profil_sekolah_id' => 1,
-                    'periode_id' => 1,
-                    'rapor_siswa_id' => 1
-                ]);
-            }
+            DB::table('siswa_hadists')->insert([
+                'siswa_id' => $i,
+                'hadist_1_id' => mt_rand(1, 101),
+                'hadist_2_id' => mt_rand(1, 101),
+                'hadist_3_id' => mt_rand(1, 101),
+                'hadist_4_id' => mt_rand(1, 101),
+                'hadist_5_id' => mt_rand(1, 101),
+                'hadist_6_id' => mt_rand(1, 101),
+                'hadist_7_id' => mt_rand(1, 101),
+                'hadist_8_id' => mt_rand(1, 101),
+                'hadist_9_id' => mt_rand(1, 101),
+                // 'nilai_angka' => mt_rand(0, 100),
+                'profil_sekolah_id' => 1,
+                'periode_id' => 1,
+                'rapor_siswa_id' => 1
+            ]);
         }
     }
 }

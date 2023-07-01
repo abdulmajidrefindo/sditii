@@ -13,6 +13,10 @@ class Kelas extends Model
     protected $guarded = ['id'];
     public $timestamps = true;
 
+    public function rapor_siswa()
+    {
+        return $this->belongsTo(RaporSiswa::class);
+    }
     public function guru()
     {
         return $this->belongsTo(Guru::class);

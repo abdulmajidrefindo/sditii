@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Data Siswa')
+{{-- @section('title', 'Data Siswa') --}}
 
 @section('content_header')
 
@@ -45,8 +45,6 @@
                     <th>Nama</th>
                     <th>Username</th>
                     <th>NIP</th>
-                    <th>Kelas Perwalian</th>
-                    <th>Pelajaran</th>
                 </tr>
             </thead>
             @forelse ($guru as $g)
@@ -55,8 +53,6 @@
                 <td>{{ $g->user->user_name }}</td>
                 <td>{{ $g->nama_guru }}</td>
                 <td>{{ $g->nip }}</td>
-                <td>Masih one to many, blom many to many :(</td>
-                <td>Belum dibikin dummynya :(</td>
             </tr>
             @empty
               <td>-</td>
@@ -100,8 +96,8 @@
 <script type="text/javascript">
   $(function () {
     $("#example1").DataTable({
-      "responsive": false,
-      "lengthChange": false,
+      "responsive": true,
+      "lengthChange": true,
       "autoWidth": false,
       "buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
       "paging": true,

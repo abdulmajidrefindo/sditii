@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\RaporSiswa;
 use App\Http\Requests\StoreRaporSiswaRequest;
 use App\Http\Requests\UpdateRaporSiswaRequest;
-use App\Models\IlmanWaaRuuhan;
+use App\Models\Kelas;
 use App\Models\SiswaIbadahHarian;
 use App\Models\SiswaIlmanWaaRuuhan;
-use App\Models\SiswaMapel;
 use App\Models\Siswa;
+use App\Models\SiswaBidangStudi;
 use App\Models\SiswaDoa;
 use App\Models\SiswaHadist;
 use App\Models\SiswaTahfidz;
@@ -21,28 +22,24 @@ class RaporSiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function pilihKelas()
+    // {
+    //         $data_kelas = Kelas::all();
+    //         return view('/raporSiswa/selectRaporSiswa', 
+    //         [
+    //             'data_kelas'=>$data_kelas,
+    //         ]);
+    // }
     public function index()
     {
-        {
-            // $rapor = RaporSiswa::with('siswa_iwr','siswa_ih','siswa_doa','siswa_hadist','siswa_tahfidz','siswa_mapel')->get();
-            $data_siswa = Siswa::all();
-            $data_iwr = SiswaIlmanWaaRuuhan::all();
-            $data_ih = SiswaIbadahHarian::all();
-            $data_t = SiswaTahfidz::all();
-            $data_h = SiswaHadist::all();
-            $data_d = SiswaDoa::all();
-            $data_mapel = SiswaMapel::all();
-            return view('/raporSiswa/indexRaporSiswa', 
-            [
-                'data_siswa'=>$data_siswa,
-                'data_iwr'=>$data_iwr,
-                'data_ih'=>$data_ih,
-                'data_t'=>$data_t,
-                'data_h'=>$data_h,
-                'data_d'=>$data_d,
-                'data_mapel'=>$data_mapel
-            ]);
-        }
+        // $data_kelas = Kelas::all();
+        // $kelas = $request->kelas_id;
+        $data_siswa = Siswa::all();
+        return view('/raporSiswa/indexRaporSiswa', 
+        [
+            // 'data_kelas'=>$data_kelas,
+            'data_siswa'=>$data_siswa,
+        ]);
     }
 
     /**
@@ -74,7 +71,21 @@ class RaporSiswaController extends Controller
      */
     public function show(RaporSiswa $raporSiswa)
     {
-        //
+        $data_iwr = SiswaIlmanWaaRuuhan::all();
+        $data_ih = SiswaIbadahHarian::all();
+        $data_t = SiswaTahfidz::all();
+        $data_h = SiswaHadist::all();
+        $data_d = SiswaDoa::all();
+        $data_mapel = SiswaBidangStudi::all();
+        return view('/raporSiswa/indexRaporSiswa', 
+        [
+            'data_iwr'=>$data_iwr,
+            'data_ih'=>$data_ih,
+            'data_t'=>$data_t,
+            'data_h'=>$data_h,
+            'data_d'=>$data_d,
+            'data_mapel'=>$data_mapel
+        ]);
     }
 
     /**

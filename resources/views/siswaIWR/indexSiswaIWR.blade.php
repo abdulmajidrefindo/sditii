@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Ilman Waa Ruuhan')
+{{-- @section('title', 'Ilman Waa Ruuhan') --}}
 
 @section('content_header')
 
@@ -34,7 +34,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Daftar Nilai</h3>
+            <h3 class="card-title">Tabel Ilman Waa Ruuhan</h3>
         </div>
         <div class="card-body">
           <table id="example1" class="table table-bordered table-striped">
@@ -50,7 +50,7 @@
                     <th>Pengajar</th>
                 </tr>
             </thead>
-            @forelse ($siswa_i as $s)
+            @foreach ($siswa_i as $s)
             <tr>
                 <td>{{ $s->siswa->nama_siswa }}</td>
                 <td>{{ $s->siswa->nisn }}</td>
@@ -61,9 +61,7 @@
                 <td>{{ $s->penilaian_deskripsi->deskripsi }} / {{ $s->penilaian_deskripsi->keterangan }}</td>
                 <td>{{ $s->ilman_waa_ruuhan->guru->nama_guru }}</td>
             </tr>
-            @empty
-              <td>-</td>
-            @endforelse
+            @endforeach
           </table>
         </div>
       </div>
@@ -103,8 +101,8 @@
 <script type="text/javascript">
   $(function () {
     $("#example1").DataTable({
-      "responsive": false,
-      "lengthChange": false,
+      "responsive": true,
+      "lengthChange": true,
       "autoWidth": false,
       "buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
       "paging": true,

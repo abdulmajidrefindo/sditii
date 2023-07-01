@@ -33,8 +33,8 @@ class Periode extends Model
     {
         return $this->hasMany(SiswaTahfidz::class);
     }
-    public function siswa_mapel()
+    public function siswa_bidang_studi()
     {
-        return $this->hasMany(SiswaMapel::class);
+        return $this->hasMany(SiswaBidangStudi::class);
     }
 }

@@ -15,7 +15,7 @@ class SiswaHadistController extends Controller
      */
     public function index()
     {
-        $siswa_h = SiswaHadist::with('siswa','hadist','penilaian_huruf_angka')->get();
+        $siswa_h = SiswaHadist::with('siswa','hadist_1','hadist_2','hadist_3','hadist_4','hadist_5','hadist_6','hadist_7','hadist_8','hadist_9')->get();
         return view('/siswaHadist/indexSiswaHadist', 
         [
             'siswa_h'=>$siswa_h

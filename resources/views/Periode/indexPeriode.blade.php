@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Data Siswa')
+{{-- @section('title', 'Tahun Pelajaran') --}}
 
 @section('content_header')
 
@@ -34,7 +34,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Tabel Guru</h3>
+            <h3 class="card-title">Tabel Tahun Pelajaran</h3>
         </div>
         <div class="card-body">
           <table id="example1" class="table table-bordered table-striped">
@@ -93,8 +93,8 @@
 <script type="text/javascript">
   $(function () {
     $("#example1").DataTable({
-      "responsive": false,
-      "lengthChange": false,
+      "responsive": true,
+      "lengthChange": true,
       "autoWidth": false,
       "buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
       "paging": true,

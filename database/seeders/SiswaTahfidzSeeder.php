@@ -17,20 +17,30 @@ class SiswaTahfidzSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i < 26; $i++)
+        for ($i = 1; $i <= 60; $i++)
         {
-            for ($j = 1; $j < 4; $j++)
-            {
                 DB::table('siswa_tahfidzs')->insert([
                     'siswa_id' => $i,
-                    'tahfidz_id' => $j,
-                    'penilaian_huruf_angka_id' => mt_rand(1, 30),
+                    'tahfidz_1_id' => mt_rand(1, 101),
+                    'tahfidz_2_id' => mt_rand(1, 101),
+                    'tahfidz_3_id' => mt_rand(1, 101),
+                    'tahfidz_4_id' => mt_rand(1, 101),
+                    'tahfidz_5_id' => mt_rand(1, 101),
+                    'tahfidz_6_id' => mt_rand(1, 101),
+                    'tahfidz_7_id' => mt_rand(1, 101),
+                    'tahfidz_8_id' => mt_rand(1, 101),
+                    'tahfidz_9_id' => mt_rand(1, 101),
+                    'tahfidz_10_id' => mt_rand(1, 101),
+                    'tahfidz_11_id' => mt_rand(1, 101),
+                    'tahfidz_12_id' => mt_rand(1, 101),
+                    'tahfidz_13_id' => mt_rand(1, 101),
+                    'tahfidz_14_id' => mt_rand(1, 101),
+                    'tahfidz_15_id' => mt_rand(1, 101),
                     // 'nilai_angka' => mt_rand(0, 100),
                     'profil_sekolah_id' => 1,
                     'periode_id' => 1,
                     'rapor_siswa_id' => 1
                 ]);
-            }
         }
     }
 }

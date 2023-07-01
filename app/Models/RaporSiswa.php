@@ -13,6 +13,10 @@ class RaporSiswa extends Model
     protected $guarded = ['id'];
     public $timestamps = true;
 
+    public function kelas()
+    {
+        return $this->hasMany(Kelas::class);
+    }
     public function siswa()
     {
         return $this->hasMany(Siswa::class);
@@ -40,5 +44,9 @@ class RaporSiswa extends Model
     public function siswa_mapel()
     {
         return $this->hasMany(SiswaMapel::class);
+    }
+    public function siswa_bidang_studi()
+    {
+        return $this->hasMany(SiswaBidangStudi::class);
     }
 }

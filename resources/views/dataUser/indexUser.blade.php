@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Data User')
+{{-- @section('title', 'Data User') --}}
 
 @section('content_header')
 
@@ -96,8 +96,8 @@
 <script type="text/javascript">
   $(function () {
     $("#example1").DataTable({
-      "responsive": false,
-      "lengthChange": false,
+      "responsive": true,
+      "lengthChange": true,
       "autoWidth": false,
       "buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
       "paging": true,

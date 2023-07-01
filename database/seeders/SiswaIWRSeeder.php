@@ -17,7 +17,7 @@ class SiswaIWRSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i < 26; $i++)
+        for ($i = 1; $i <= 60; $i++)
         {
             {
                 DB::table('siswa_ilman_waa_ruuhans')->insert([
