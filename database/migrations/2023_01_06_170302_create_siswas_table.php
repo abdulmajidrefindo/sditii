@@ -7,28 +7,26 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    * Run the migrations.
+    *
+    * @return void
+    */
     public function up()
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kelas_id');
             $table->integer('nisn')->unique();
             $table->string('nama_siswa');
             $table->string('orangtua_wali');
-            $table->foreignId('rapor_siswa_id');
             $table->timestamps();
         });
     }
-
+    
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    * Reverse the migrations.
+    *
+    * @return void
+    */
     public function down()
     {
         Schema::dropIfExists('siswas');

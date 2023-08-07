@@ -15,20 +15,7 @@ return new class extends Migration
     {
         Schema::create('siswa_hadists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('siswa_id');
-            $table->foreignId('hadist_1_id');
-            $table->foreignId('hadist_2_id');
-            $table->foreignId('hadist_3_id');
-            $table->foreignId('hadist_4_id');
-            $table->foreignId('hadist_5_id');
-            $table->foreignId('hadist_6_id');
-            $table->foreignId('hadist_7_id');
-            $table->foreignId('hadist_8_id');
-            $table->foreignId('hadist_9_id');
-            // $table->float('nilai_angka');
-            $table->foreignId('profil_sekolah_id');
-            $table->foreignId('periode_id');
-            $table->foreignId('rapor_siswa_id');
+            // $table->float('nilai_angka')->nullable()->references('id')->on('siswas');
             $table->timestamps();
         });
     }

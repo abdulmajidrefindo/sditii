@@ -15,20 +15,7 @@ return new class extends Migration
     {
         Schema::create('siswa_bidang_studis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('siswa_id');
-            $table->foreignId('mapel_id');
-            $table->foreignId('nilai_uh_1_id');
-            $table->foreignId('nilai_uh_2_id');
-            $table->foreignId('nilai_uh_3_id');
-            $table->foreignId('nilai_uh_4_id');
-            $table->foreignId('nilai_tugas_1_id');
-            $table->foreignId('nilai_tugas_2_id');
-            $table->foreignId('nilai_uts_id');
-            $table->foreignId('nilai_pas_id');
             $table->integer('nilai_akhir')->nullable();
-            $table->foreignId('profil_sekolah_id');
-            $table->foreignId('periode_id');
-            $table->foreignId('rapor_siswa_id');
             $table->timestamps();
         });
     }

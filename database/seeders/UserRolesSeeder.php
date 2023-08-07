@@ -17,17 +17,19 @@ class UserRolesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('user_roles')->insert([
-            'user_id' => '1',
-            'role_id' => '1'
-        ]);
-        for ($i = 4; $i < 10; $i++) { 
+        for ($h = 1; $h <= 3; $h++) { 
+            DB::table('user_roles')->insert([
+                'user_id' => $h,
+                'role_id' => '1'
+            ]);
+        }
+        for ($i = 4; $i <= 8; $i++) { 
             DB::table('user_roles')->insert([
                 'user_id' => $i,
                 'role_id' => '2',
             ]);
         } 
-        for ($j = 4; $j < 14; $j++) { 
+        for ($j = 9; $j <= 13; $j++) { 
             DB::table('user_roles')->insert([
                 'user_id' => $j,
                 'role_id' => '3',

@@ -21,7 +21,7 @@ class Tahfidz8Seeder extends Seeder
         {
             DB::table('tahfidzs_8')->insert([
                 'nama_nilai' => 'al-mulk',
-                'penilaian_huruf_angka_id' => $i,
+                'penilaian_huruf_angka_id' => ($i-101)*-1,
                 'nilai' => $i,
                 'guru_id' => mt_rand(1,10),
             ]);

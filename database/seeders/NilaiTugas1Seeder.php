@@ -21,7 +21,7 @@ class NilaiTugas1Seeder extends Seeder
         {
             DB::table('nilai_tugass_1')->insert([
                 'nilai' => $i,
-                'penilaian_huruf_angka_id' => $i+1,
+                'penilaian_huruf_angka_id' => ($i-101)*-1,
             ]);
         }
     }

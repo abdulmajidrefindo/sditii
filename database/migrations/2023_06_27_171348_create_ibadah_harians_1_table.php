@@ -15,9 +15,7 @@ return new class extends Migration
     {
         Schema::create('ibadah_harians_1', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('guru_id')->nullable();
             $table->string('nama_kriteria')->nullable();
-            $table->foreignId('penilaian_deskripsi_id')->nullable();
             $table->string('nilai')->nullable();
             $table->timestamps();
         });

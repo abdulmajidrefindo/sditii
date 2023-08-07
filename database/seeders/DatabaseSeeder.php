@@ -19,21 +19,24 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            UserRolesSeeder::class
+            UserSeeder::class,
         ]);
         User::factory(10)->create();
         Guru::factory(10)->create();
+        $this->call([
+            RaporSiswaSeeder::class,
+            KelasSeeder::class
+        ]);
         Siswa::factory(60)->create();
         
         $this->call([
-            UserSeeder::class,
             RolesSeeder::class,
+            UserRolesSeeder::class,
             PengumumanSeeder::class,
             PeriodeSeeder::class,
             ProfilSekolahSeeder::class,
             PenilaianDeskripsiSeeder::class,
             PenilaianHurufAngkaSeeder::class,
-            KelasSeeder::class,
             FormatRaporSeeder::class,
             
             IWRSeeder::class,
@@ -97,10 +100,9 @@ class DatabaseSeeder extends Seeder
             NilaiTugas2Seeder::class,
             NilaiUtsSeeder::class,
             NilaiPasSeeder::class,
+
             MapelSeeder::class,
             SiswaBidangStudiSeeder::class,
-            
-            RaporSiswaSeeder::class,
         ]);
     }
 }
