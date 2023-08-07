@@ -490,17 +490,17 @@ return [
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js',
+                    'location' => 'vendor/jquery/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js',
+                    'location' => 'vendor/datatables-bs4/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js',
+                    'location' => 'vendor/datatables-responsive/js/dataTables.responsive.min.js',
                 ],
                 [
                     'type' => 'js',
@@ -510,12 +510,12 @@ return [
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js',
+                    'location' => 'vendor/datatables-buttons/js/dataTables.buttons.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js',
+                    'location' => 'vendor/datatables-buttons/js/buttons.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'js',
@@ -535,17 +535,17 @@ return [
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js',
+                    'location' => 'vendor/button/buttons.html5.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js',
+                    'location' => 'vendor/button/buttons.print.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js',
+                    'location' => 'vendor/button/buttons.colVis.min.js',
                 ],
                 //////////////////////////////////////
                 // [
@@ -587,18 +587,33 @@ return [
                 ],
             ],
             'Select2' => [
-                'active' => false,
+                'active' => true,
                 'files' => [
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                    'location' => 'vendor/select2/js/select2.full.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => true,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                    'location' => 'vendor/select2/css/select2.min.css',
                 ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
+                ],
+            //     [
+            //         'type' => 'js',
+            //         'asset' => true,
+            //         'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+            //     ],
+            //     [
+            //         'type' => 'css',
+            //         'asset' => true,
+            //         'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+            //     ],
             ],
         ],
         'Chartjs' => [

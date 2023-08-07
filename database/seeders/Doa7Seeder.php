@@ -21,7 +21,7 @@ class Doa7Seeder extends Seeder
         {
             DB::table('doas_7')->insert([
                 'nama_nilai' => 'Berpakaian',
-                'penilaian_huruf_angka' => $i,
+                'penilaian_huruf_angka_id' => $i,
                 'nilai' => $i,
                 'guru_id' => mt_rand(1,10),
             ]);

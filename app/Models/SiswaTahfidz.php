@@ -10,7 +10,7 @@ class SiswaTahfidz extends Model
 {
     use HasFactory;    
     protected $table = "siswa_tahfidzs";
-    // protected $guarded = ['id'];
+    protected $guarded = ['id'];
     public $timestamps = true;
 
     public function siswa()

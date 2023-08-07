@@ -10,7 +10,7 @@ class FormatRapor extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    //protected $table = "format_rapor";
-    //protected $fillable = ['id_format','format','id_kelas'];
+    protected $table = "format_rapor";
+    protected $guarded = ['id'];
     public $timestamps = true;
 }

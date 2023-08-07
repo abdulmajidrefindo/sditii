@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('hadists_7', function (Blueprint $table) {
             $table->id();
             $table->string('nama_nilai')->nullable();
-            $table->foreignId('penilaian_huruf_angka')->nullable();
+            $table->foreignId('penilaian_huruf_angka_id')->nullable();
             $table->integer('nilai')->nullable();
             $table->foreignId('guru_id')->nullable();
             $table->timestamps();

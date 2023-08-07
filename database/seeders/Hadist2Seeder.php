@@ -21,7 +21,7 @@ class Hadist2Seeder extends Seeder
         {
             DB::table('hadists_2')->insert([
                 'nama_nilai' => 'Jangan Bohong',
-                'penilaian_huruf_angka' => $i,
+                'penilaian_huruf_angka_id' => $i,
                 'nilai' => $i,
                 'guru_id' => mt_rand(1,10),
             ]);

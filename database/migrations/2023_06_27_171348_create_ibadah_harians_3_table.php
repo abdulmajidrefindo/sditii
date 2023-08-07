@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('guru_id')->nullable();
             $table->string('nama_kriteria')->nullable();
-            $table->foreignId('penilaian_deskripsi')->nullable();
+            $table->foreignId('penilaian_deskripsi_id')->nullable();
             $table->string('nilai')->nullable();
             $table->timestamps();
         });

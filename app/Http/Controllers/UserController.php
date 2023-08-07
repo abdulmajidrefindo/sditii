@@ -28,7 +28,7 @@ class UserController extends Controller
         [
                 'data'=>$data->load('user','role'),
                 // "user"=>$users,
-                // "role"=>$roles
+                "role"=>$roles
         ]);
     }
     public function show(User $user)
