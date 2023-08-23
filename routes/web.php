@@ -25,7 +25,8 @@ use App\Http\Controllers\RaporSiswaController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/dataUser', [UserController::class, 'index']);
+Route::resource('/dataUser', UserController::class);
+
 Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
 Route::get('/dataGuru', [GuruController::class, 'index']);
 Route::get('/dataSiswa', [SiswaController::class, 'index']);

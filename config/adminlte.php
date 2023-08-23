@@ -651,8 +651,28 @@ return [
                 ],
             ],
         ],
+        'Vue' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://unpkg.com/vue@3/dist/vue.esm-browser.js',
+                ],
+            ],
+        ],
+        'Axios' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
+                ],
+            ],
+        ],
     ],
-
+    
     /*
     |--------------------------------------------------------------------------
     | IFrame
@@ -662,7 +682,7 @@ return [
     | only apply to the view that extends and enable the IFrame mode.
     |
     | For detailed instructions you can look the iframe mode section here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/IFrame-Mode-Configuration
+        | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/IFrame-Mode-Configuration
     |
     */
 

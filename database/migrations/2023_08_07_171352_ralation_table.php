@@ -20,7 +20,7 @@ return new class extends Migration
         });
         Schema::table('gurus', function (Blueprint $table) {
             //gurus
-            $table->foreignId('user_id')->nullable()->references('id')->on('users');
+            $table->foreignId('user_id')->nullable()->references('id')->on('user');
         });
         Schema::table('kelas', function (Blueprint $table) {
             //kelas
@@ -36,7 +36,7 @@ return new class extends Migration
         });
         Schema::table('pengumumen', function (Blueprint $table) {
             //pengumumen
-            $table->foreignId('user_id')->nullable()->references('id')->on('users');
+            $table->foreignId('user_id')->nullable()->references('id')->on('user');
         });
         Schema::table('siswa_doas', function (Blueprint $table) {
             //siswa_doas
@@ -119,7 +119,7 @@ return new class extends Migration
         });
         Schema::table('user_roles', function (Blueprint $table) {
             //user_roles
-            $table->foreignId('user_id')->nullable()->references('id')->on('users');
+            $table->foreignId('user_id')->nullable()->references('id')->on('user');
             $table->foreignId('role_id')->nullable()->references('id')->on('roles');
         });
         Schema::table('nilai_pass', function (Blueprint $table) {
