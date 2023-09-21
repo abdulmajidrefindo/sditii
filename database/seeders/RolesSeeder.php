@@ -24,7 +24,7 @@ class RolesSeeder extends Seeder
             'role' => 'Wali Kelas',
         ]);
         DB::table('roles')->insert([
-            'role' => 'Guru Pengajar'
+            'role' => 'Guru'
         ]);
     }
 }

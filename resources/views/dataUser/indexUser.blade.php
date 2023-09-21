@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @stop
 @section('content')
-<div class="card card-secondary card-tabs" id="app">
+<div class="card card-secondary card-tabs">
   <div class="card-header p-0 pt-0">
     {{-- tab control --}}
     <ul class="nav nav-tabs" id="kategori-tabs" role="tablist">
@@ -43,91 +43,136 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Nama</th>
                 <th>Username</th>
-                <th>Peran</th>
+                {{-- <th>Peran</th> --}}
+                <th>Aksi</th>
               </tr>
             </thead>
-            @forelse ($data as $u)
-            <tr>
-              <td>{{ $u->user->name }}</td>
-              <td>{{ $u->user->user_name }}</td>
-              <td>{{ $u->role->role }}</td>
-            </tr>
-            @empty
-            <td>-</td> 
-            @endforelse
-          </table>
-        </div>
-        {{-- /tab daftar --}}
-        {{-- tab tambah --}}
-        <div class="tab-pane fade" id="content-tab-user-add" role="tabpanel" aria-labelledby="controller-tab-user-add">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="bs-stepper-content">
-                  <form action="{{route('dataUser.store')}}" method="post" id="form_tambah_user">
-                    @csrf
-                    <div class="form-group">
-                      <label for="name" class="form-label">Nama</label>
-                      <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="-masukkan nama pengguna-">
-                      {{-- @error('name')
-                      <div class="invalid-feedback">
-                        {{ $message }}
+            {{-- @forelse ($user as $u)
+              <tr>
+                <td>{{ $u->name }}</td>
+                <td>{{ $u->user_name }}</td>
+                <td>{{ $u->role->role }}</td>
+                <td>Tombol</td>
+              </tr>
+              @empty
+              <td>-</td> 
+              @endforelse --}}
+            </table>
+          </div>
+          {{-- /tab daftar --}}
+          {{-- tab tambah --}}
+          <div class="tab-pane fade" id="content-tab-user-add" role="tabpanel" aria-labelledby="controller-tab-user-add">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="bs-stepper-content">
+                    <form id="form_tambah_user">
+                      @csrf
+                      <div class="form-group">
+                        <label for="name" class="form-label">Nama</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="-masukkan nama pengguna-">
+                        @error('name')
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                        </div>
+                        @enderror
                       </div>
-                      @enderror --}}
-                    </div>
-                    <div class="form-group">
-                      <label for="email" class="form-label">E-mail</label>
-                      <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="-masukkan nama pengguna-">
-                      {{-- @error('email')
-                      <div class="invalid-feedback">
-                        {{ $message }}
+                      <div class="form-group">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="-masukkan nama pengguna-">
+                        @error('email')
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                        </div>
+                        @enderror
                       </div>
-                      @enderror --}}
-                    </div>
-                    <div class="form-group">
-                      <label for="user_name" class="form-label">Username</label>
-                      <input type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" placeholder="-masukkan username pengguna-">
-                      {{-- @error('user_name')
-                      <div class="invalid-feedback">
-                        {{ $message }}
+                      <div class="form-group">
+                        <label for="user_name" class="form-label">Username</label>
+                        <input type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" id="user_name" placeholder="-masukkan username pengguna-">
+                        @error('user_name')
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                        </div>
+                        @enderror
                       </div>
-                      @enderror --}}
-                    </div>
-                    <div class="form-group">
-                      <label for="password" class="form-label">Password</label>
-                      <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="-masukkan password pengguna-">
-                      {{-- @error('password')
-                      <div class="invalid-feedback">
-                        {{ $message }}
+                      <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="-masukkan password pengguna-">
+                        @error('password')
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                        </div>
+                        @enderror
                       </div>
-                      @enderror --}}
-                    </div>
-                    <div class="form-group">
-                      <label for="role_id" class="form-label">Peran</label>
-                      <select class="select2 form-control @error('role_id') is-invalid @enderror" multiple="multiple" name="role_id" data-placeholder="-pilih peran pengguna-" style="width: 100%;">
-                        @foreach ($role as $r)
-                        <option value="{{ $r->id }}">{{ $r->role }}</option>
-                        @endforeach
-                      </select>
-                      {{-- @error('role_id')
-                      <div class="invalid-feedback">
-                        {{ $message }}
+                      <div class="form-group">
+                        <label for="role_id" class="form-label">Peran</label>
+                        <select class="form-control @error('role_id') is-invalid @enderror" id="role_id" name="role_id" data-placeholder="-pilih peran pengguna-" style="width: 100%;">
+                          <option selected disabled>-pilih peran pengguna-</option>
+                          <option value="1">Administrator</option>
+                          <option value="3">Guru</option>
+                        </select>
+                        @error('role_id')
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                        </div>
+                        @enderror
                       </div>
-                      @enderror --}}
-                    </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                  </form>
+                      <x-adminlte-button type="submit" class="btn bg-purple col-12 simpan" icon="fas fa fa-fw fa-save" label="Simpan Data"/>
+                      {{-- <x-adminlte-button id="simpan" class="btn bg-purple col-12 simpan" type="submit" label="Simpan Data"
+                      icon="fas fa fa-fw fa-save" hidden /> --}}
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          {{-- /tab tambah --}}
         </div>
-        {{-- /tab tambah --}}
       </div>
     </div>
   </div>
+  <div class="modal fade" id="modal_update_user" tabindex="-1" role="dialog" aria-labelledby="updateModal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form id="form_update_user">
+          
+          <div class="row">
+            <div class="col-sm-12">
+              <x-adminlte-input name="update_id" label="ID User" placeholder="ID"
+              fgroup-class="col-md-12" disabled />
+              <x-adminlte-input name="update_name" label="Nama" placeholder="Contoh : Ivan"
+              fgroup-class="col-md-12" />
+              
+              <x-adminlte-textarea name="update_user_name" label="Username" rows=5 igroup-size="sm"
+              placeholder="Masukan username..." fgroup-class="col-md-12">
+              <x-slot name="prependSlot">
+                <div class="input-group-text bg-purple">
+                  <i class="fas fa-lg fa-location-dot text-light"></i>
+                </div>
+              </x-slot>
+            </x-adminlte-textarea>
+            
+            <x-adminlte-input name="update_peran" label="Peran" placeholder="083xxxxxxx"
+            fgroup-class="col-md-12" />
+            
+          </div>
+          
+        </div>
+        <div class="row d-grid gap-2">
+          <div class="col-md-6 d-grid gap-2">
+            <x-adminlte-button class="btn col-12 bg-purple rounded-0" name="update_user"
+            type="submit" label="Simpan Data" theme="primary" icon="fas fa-fw fa-sm fa-save" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 </div>
 @stop
 @section('head_js')
@@ -149,7 +194,23 @@
 @endpush
 @stop
 @section('js')
-<script type="text/javascript">
+<script>
+  $(document).ready(function() {
+    //set csrf token
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  });
+  
+  function resetForm() {
+    $('#form_tambah_user').reset();
+    $('#form_tambah_user').find('.is-invalid').removeClass('is-invalid');
+    $('#form_tambah_user').find('.error').remove();
+  }
+</script>
+<script>
   $(document).ready(function () {
     //DataTable
     $("#example1").DataTable({
@@ -161,114 +222,145 @@
       "searching": true,
       "ordering": true,
       "info": true,
+      processing: true,
+      serverSide: true,
+      width: '100%',
+      ajax: {
+        url: "{{ route('user.getTable') }}",
+        type: 'GET',
+      },
+      columns: [
+      {
+        data: 'id',
+        name: 'id',
+        sClass: 'text-center',
+        width: '5%'
+      },
+      {
+        data: 'name',
+        name: 'name'
+      },
+      {
+        data: 'user_name',
+        name: 'user_name'
+      },
+      {
+        data: 'action',
+        name: 'action',
+        orderable: false,
+        searchable: false,
+        sClass: 'text-center',
+        width: '25%',
+      }
+      ]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     //Initialize Select2 Elements
-    $('.select2').select2({
-      placeholder:"pilih dulu"
-    });
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    });
   });
 </script>
 
-{{-- vue tambah user --}}
-<script type="module">
-import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-
-createApp({
-  data() {
-    return {
-      formData: {
-        name: '',
-        email: '',
-        user_name: '',
-        password: '',
-        role_id: ''
-      }
-    };
-  },
-  methods: {
-    tambahUser() {
-      axios
-        .post("{{ route('dataUser.store') }}", this.formData)
-        .then(response => {
-          if (response.data.success !== null) {
-            this.$refs.exampleTable.refresh();
-            this.resetForm();
-            this.showSuccessAlert();
-          } else {
-            this.showErrorAlert("Data Gagal Disimpan");
+<script>
+  //ajax tambah user
+  $(document).ready(function() {
+    $('.select2').select2();
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    });
+    $('#controller-tab-user-add').on('click', function() {
+      $('#form_tambah_user')[0].reset();
+    });
+    $('#form_tambah_user').on('submit', function(e) {
+      e.preventDefault();
+      let name = $('#name').val();
+      let email = $('#email').val();
+      let user_name = $('#user_name').val();
+      let password = $('#password').val();
+      let role_id = $('#role_id').val();
+      // Ubah role_id menjadi array jika tidak sudah menjadi array
+      // if (!Array.isArray(role_id)) {
+      //   role_id = [role_id];
+      // }
+      
+      $.ajax({
+        type: "POST",
+        url: "{{ route('dataUser.store') }}",
+        data: {
+          name: name,
+          email: email,
+          user_name: user_name,
+          password: password,
+          role_id: role_id,
+          // role_id: JSON.stringify(role_id), // Mengubah array menjadi string JSON
+        },
+        dataType: "JSON",
+        success: function(response) {
+          // if (response.success) {
+            $('#example1').DataTable().ajax.reload();
+            $('#form_tambah_user')[0].reset();
+            Swal.fire({
+              title: 'Berhasil',
+              text: 'Data berhasil disimpan!',
+              icon: 'success',
+              iconColor: '#fff',
+              toast: true,
+              background: '#45FFCA',
+              position: 'top-center',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+            });
+          },
+          error: function(err) {
+            
+            if (err.status == 422) {
+              $('#form_tambah_user').find(".is-invalid").removeClass(
+              "is-invalid");
+              $('#form_tambah_user').find('.error').remove();
+              
+              //send error to adminlte form
+              $.each(err.responseJSON.errors, function(i, error) {
+                var el = $(document).find('[name="' + i + '"]');
+                if (el.hasClass('is-invalid')) {
+                  el.removeClass('is-invalid');
+                  el.next().remove();
+                }
+                el.addClass('is-invalid');
+                el.after($('<span class="error invalid-feedback">' +
+                  error[0] + '</span>'));
+                });
+                Swal.fire({
+                  title: 'Gagal!',
+                  text: 'Mohon isi data dengan benar!',
+                  icon: 'error',
+                  iconColor: '#fff',
+                  toast: true,
+                  background: '#f8bb86',
+                  position: 'top-center',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                });
+              }
+            }
+          });
+        });
+      });
+    </script>
+    
+    {{-- <script>
+      //populate update form by ajax
+      $(document).on('click', '.edit', function() {
+        let id = $(this).attr('data-id');
+        $.ajax({
+          url: "{{ route('dataUser.edit') }}/" + id + "/edit",
+          dataType: "json",
+          success: function(data) {
+            $('#update_id').val(data.user.id);
+            $('#update_name').val(data.user.name);
+            $('#update_user_name').val(data.user.user_name);
+            $('#update_peran').val(data.userRole.role);
           }
         })
-        .catch(error => {
-          if (error.response.status === 422) {
-            this.handleValidationError(error.response.data.errors);
-            this.showErrorAlert("Mohon isi data dengan benar!");
-          }
-        });
-    },
-    resetForm() {
-      this.formData = {
-        name: '',
-        email: '',
-        user_name: '',
-        password: '',
-        role_id: ''
-      };
-    },
-    showSuccessAlert() {
-      this.$swal({
-        title: 'Berhasil!',
-        text: 'Data Berhasil Ditambahkan!',
-        icon: 'success',
-        iconColor: '#fff',
-        color: '#fff',
-        background: '#8D72E1',
-        position: 'center',
-        showCancelButton: true,
-        confirmButtonColor: '#541690',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Kembali Ke Daftar User',
-        cancelButtonText: 'Tutup',
-      }).then(result => {
-        if (result.isConfirmed) {
-          this.$refs.exampleTable.refresh();
-          this.$refs.contentTabUserTable.click();
-          setTimeout(() => {
-            this.resetForm();
-          }, 1000);
-        } else {
-          this.$refs.exampleTable.refresh();
-          this.resetForm();
-        }
       });
-    },
-    showErrorAlert(message) {
-      this.$swal({
-        title: 'Gagal!',
-        text: message,
-        icon: 'error',
-        iconColor: '#fff',
-        toast: true,
-        background: '#f8bb86',
-        position: 'center-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
-    },
-    handleValidationError(errors) {
-      Object.keys(errors).forEach(field => {
-        const el = document.querySelector(`[name="${field}"]`);
-        if (el) {
-          el.classList.remove('is-invalid');
-          el.insertAdjacentHTML('afterend', `<span class="error invalid-feedback">${errors[field][0]}</span>`);
-        }
-      });
-    },
-  },
-}).mount('#app')
-</script>
-@stop
+    </script> --}}
+    
+    @stop

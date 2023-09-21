@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @stop
 @section('content')
-<div class="card card-secondary card-tabs">
+<div class="card card-secondary card-tabs" id="app">
   <div class="card-header p-0 pt-0">
     {{-- tab control --}}
     <ul class="nav nav-tabs" id="kategori-tabs" role="tablist">
@@ -45,16 +45,14 @@
               <tr>
                 <th>Nama</th>
                 <th>Username</th>
-                {{-- <th>Peran</th> --}}
-                <th>Aksi</th>
+                <th>Peran</th>
               </tr>
             </thead>
-            @forelse ($user as $u)
+            @forelse ($data as $u)
             <tr>
-              <td>{{ $u->name }}</td>
-              <td>{{ $u->user_name }}</td>
-              {{-- <td>{{ $u->role->role }}</td> --}}
-              <td>Tombol</td>
+              <td>{{ $u->user->name }}</td>
+              <td>{{ $u->user->user_name }}</td>
+              <td>{{ $u->role->role }}</td>
             </tr>
             @empty
             <td>-</td> 
@@ -68,57 +66,57 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="bs-stepper-content">
-                  <form id="form_tambah_user">
+                  <form action="{{route('dataUser.store')}}" method="post" id="form_tambah_user">
                     @csrf
                     <div class="form-group">
                       <label for="name" class="form-label">Nama</label>
-                      <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="-masukkan nama pengguna-">
-                      @error('name')
+                      <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="-masukkan nama pengguna-">
+                      {{-- @error('name')
                       <div class="invalid-feedback">
                         {{ $message }}
                       </div>
-                      @enderror
+                      @enderror --}}
                     </div>
                     <div class="form-group">
                       <label for="email" class="form-label">E-mail</label>
-                      <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="-masukkan nama pengguna-">
-                      @error('email')
+                      <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="-masukkan nama pengguna-">
+                      {{-- @error('email')
                       <div class="invalid-feedback">
                         {{ $message }}
                       </div>
-                      @enderror
+                      @enderror --}}
                     </div>
                     <div class="form-group">
                       <label for="user_name" class="form-label">Username</label>
-                      <input type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" id="user_name" placeholder="-masukkan username pengguna-">
-                      @error('user_name')
+                      <input type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" placeholder="-masukkan username pengguna-">
+                      {{-- @error('user_name')
                       <div class="invalid-feedback">
                         {{ $message }}
                       </div>
-                      @enderror
+                      @enderror --}}
                     </div>
                     <div class="form-group">
                       <label for="password" class="form-label">Password</label>
-                      <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="-masukkan password pengguna-">
-                      @error('password')
+                      <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="-masukkan password pengguna-">
+                      {{-- @error('password')
                       <div class="invalid-feedback">
                         {{ $message }}
                       </div>
-                      @enderror
+                      @enderror --}}
                     </div>
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                       <label for="role_id" class="form-label">Peran</label>
-                      <select class="select2 form-control @error('role_id') is-invalid @enderror" multiple="multiple" id="role_id" name="role_id" data-placeholder="-pilih peran pengguna-" style="width: 100%;">
+                      <select class="select2 form-control @error('role_id') is-invalid @enderror" multiple="multiple" name="role_id" data-placeholder="-pilih peran pengguna-" style="width: 100%;">
                         @foreach ($role as $r)
                         <option value="{{ $r->id }}">{{ $r->role }}</option>
                         @endforeach
                       </select>
-                      @error('role_id')
+                      {{-- @error('role_id')
                       <div class="invalid-feedback">
                         {{ $message }}
                       </div>
-                      @enderror
-                    </div> --}}
+                      @enderror --}}
+                    </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                   </form>
                 </div>
@@ -151,23 +149,7 @@
 @endpush
 @stop
 @section('js')
-<script>
-  $(document).ready(function() {
-    //set csrf token
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-  });
-  
-  function resetForm() {
-    $('#form_tambah_user').reset();
-    $('#form_tambah_user').find('.is-invalid').removeClass('is-invalid');
-    $('#form_tambah_user').find('.error').remove();
-  }
-</script>
-<script>
+<script type="text/javascript">
   $(document).ready(function () {
     //DataTable
     $("#example1").DataTable({
@@ -181,116 +163,112 @@
       "info": true,
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     //Initialize Select2 Elements
-  });
-</script>
-<script>
-  //ajax tambah user
-  $(document).ready(function() {
-    $('.select2').select2();
+    $('.select2').select2({
+      placeholder:"pilih dulu"
+    });
     //Initialize Select2 Elements
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     });
-    $('#form_tambah_user').on('submit', function(e) {
-      e.preventDefault();
-      let name = $('#name').val();
-      let email = $('#email').val();
-      let user_name = $('#user_name').val();
-      let password = $('#password').val();
-      // let role_id = $('#role_id').val();
-      
-      $.ajax({
-        type: "POST",
-        url: "{{ route('dataUser.store') }}",
-        data: {
-          name: name,
-          email: email,
-          user_name: user_name,
-          password: password,
-          // role_id: role_id,
-        },
-        dataType: "JSON",
-        success: function(response) {
-          if (response.success != null) {
-            $('#example1').DataTable().ajax.reload();
-            $('#form_tambah_user').reset();
-            Swal.fire({
-              title: 'Berhasil!',
-              text: 'Data Berhasil Ditambahkan!',
-              icon: 'success',
-              iconColor: '#fff',
-              color: '#fff',
-              background: '#8D72E1',
-              position: 'center',
-              showCancelButton: true,
-              confirmButtonColor: '#541690',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Kembali Ke Daftar User',
-              cancelButtonText: 'Tutup',
-              
-            }).then((result) => {
-              if (result.isConfirmed) {
-                $('#example1').DataTable().ajax.reload();
-                $('#content-tab-user-table').trigger('click')
-                .delay(
-                1000);
-                resetForm();
-                
-              } else {
-                $('#example1').DataTable().ajax.reload();
-                resetForm();
-              }
-            });
+  });
+</script>
+
+{{-- vue tambah user --}}
+<script type="module">
+import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+createApp({
+  data() {
+    return {
+      formData: {
+        name: '',
+        email: '',
+        user_name: '',
+        password: '',
+        role_id: ''
+      }
+    };
+  },
+  methods: {
+    tambahUser() {
+      axios
+        .post("{{ route('dataUser.store') }}", this.formData)
+        .then(response => {
+          if (response.data.success !== null) {
+            this.$refs.exampleTable.refresh();
+            this.resetForm();
+            this.showSuccessAlert();
           } else {
-            Swal.fire({
-              title: 'Gagal!',
-              text: 'Data Gagal Disimpan',
-              icon: 'error',
-              iconColor: '#fff',
-              toast: true,
-              background: '#f8bb86',
-              position: 'center-end',
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-            });
+            this.showErrorAlert("Data Gagal Disimpan");
           }
-        },
-        error: function(err) {
-          
-          if (err.status == 422) {
-            console.log('aa');
-            $('#form_tambah_user').find(".is-invalid").removeClass(
-            "is-invalid");
-            $('#form_tambah_user').find('.error').remove();
-            
-            //send error to adminlte form
-            $.each(err.responseJSON.errors, function(i, error) {
-              var el = $(document).find('[name="' + i + '"]');
-              if (el.hasClass('is-invalid')) {
-                el.removeClass('is-invalid');
-                el.next().remove();
-              }
-              el.addClass('is-invalid');
-              el.after($('<span class="error invalid-feedback">' +
-                error[0] + '</span>'));
-              });
-              Swal.fire({
-                title: 'Gagal!',
-                text: 'Mohon isi data dengan benar!',
-                icon: 'error',
-                iconColor: '#fff',
-                toast: true,
-                background: '#f8bb86',
-                position: 'top-center',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-              });
-            }
+        })
+        .catch(error => {
+          if (error.response.status === 422) {
+            this.handleValidationError(error.response.data.errors);
+            this.showErrorAlert("Mohon isi data dengan benar!");
           }
         });
+    },
+    resetForm() {
+      this.formData = {
+        name: '',
+        email: '',
+        user_name: '',
+        password: '',
+        role_id: ''
+      };
+    },
+    showSuccessAlert() {
+      this.$swal({
+        title: 'Berhasil!',
+        text: 'Data Berhasil Ditambahkan!',
+        icon: 'success',
+        iconColor: '#fff',
+        color: '#fff',
+        background: '#8D72E1',
+        position: 'center',
+        showCancelButton: true,
+        confirmButtonColor: '#541690',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Kembali Ke Daftar User',
+        cancelButtonText: 'Tutup',
+      }).then(result => {
+        if (result.isConfirmed) {
+          this.$refs.exampleTable.refresh();
+          this.$refs.contentTabUserTable.click();
+          setTimeout(() => {
+            this.resetForm();
+          }, 1000);
+        } else {
+          this.$refs.exampleTable.refresh();
+          this.resetForm();
+        }
       });
-    });
-  </script>
-  @stop
+    },
+    showErrorAlert(message) {
+      this.$swal({
+        title: 'Gagal!',
+        text: message,
+        icon: 'error',
+        iconColor: '#fff',
+        toast: true,
+        background: '#f8bb86',
+        position: 'center-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+    },
+    handleValidationError(errors) {
+      Object.keys(errors).forEach(field => {
+        const el = document.querySelector(`[name="${field}"]`);
+        if (el) {
+          el.classList.remove('is-invalid');
+          el.insertAdjacentHTML('afterend', `<span class="error invalid-feedback">${errors[field][0]}</span>`);
+        }
+      });
+    },
+  },
+}).mount('#app')
+</script>
+@stop

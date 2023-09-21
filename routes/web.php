@@ -26,6 +26,10 @@ use App\Http\Controllers\RaporSiswaController;
 |
 */
 Route::resource('/dataUser', UserController::class);
+// Route::post('/dataUser', UserController::class, 'edit');
+// Route::get('/dataUser', UserController::class, 'edit');
+
+Route::get('/getTableUser', [UserController::class, 'getTable'])->name('user.getTable');
 
 Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
 Route::get('/dataGuru', [GuruController::class, 'index']);
@@ -37,10 +41,8 @@ Route::get('/tahfidz', [SiswaTahfidzController::class, 'index']);
 Route::get('/hadist', [SiswaHadistController::class, 'index']);
 Route::get('/doa', [SiswaDoaController::class, 'index']);
 Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
-
 Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'choose']);
 Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
-
 Route::get('/raporSiswa', [RaporSiswaController::class, 'index']);
 // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
 
@@ -58,10 +60,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 require __DIR__.'/auth.php';

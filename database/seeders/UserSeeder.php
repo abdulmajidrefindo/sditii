@@ -23,6 +23,8 @@ class UserSeeder extends Seeder
             'email' => 'abdulmajirefindo@gmail.com',
             'password' => bcrypt('12345'),
             'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+            'created_at'=>now()
         ]);
         DB::table('user')->insert([
             'name' => 'Ibnu Sina',
@@ -30,6 +32,8 @@ class UserSeeder extends Seeder
             'email' => 'ibnusina@gmail.com',
             'password' => bcrypt('12345'),
             'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+            'created_at'=>now()
         ]);
         DB::table('user')->insert([
             'name' => 'Tan Malaka',
@@ -37,6 +41,8 @@ class UserSeeder extends Seeder
             'email' => 'tanmalaka@gmail.com',
             'password' => bcrypt('12345'),
             'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+            'created_at'=>now()
         ]);
     }
 }
