@@ -59,14 +59,14 @@
                             </div>
                         </div>
                         
-                        <div class="form-group col-md-12">
+                        {{-- <div class="form-group col-md-12">
                             <label for="user_name" class="text-lightdark">
                                 Username
                             </label>
                             <div class="input-group">
                                 <input id="user_name" name="user_name" value="{{ $user->user_name }}"
                                 class="form-control" disabled>
-                            </div>
+                            </div> --}}
                         </div>
                         
                         <div class="form-group col-md-12">
@@ -79,18 +79,16 @@
                             </div>
                         </div>
                         
-                        <div class="form-group col-md-12">
+                        {{-- <div class="form-group col-md-12">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" 
-                            placeholder="-password disembunyikan-" 
-                            {{-- value="{{ $user->password }}" --}}
-                            disabled>
+                            placeholder="-password disembunyikan-" value="{{ $user->password }}" disabled>
                             @error('password')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
-                        </div>
+                        </div> --}}
                         
                         <div class="form-group col-md-12" id="role">
                             <label for="role" class="text-lightdark">
@@ -190,10 +188,10 @@
         });
         $('#edit').click(function() {
             $('#name').prop('disabled', false);
-            $('#user_name').prop('disabled', false);
+            // $('#user_name').prop('disabled', false);
             $('#email').prop('disabled', false);
-            $('#password').prop('disabled', false);
-            $('#password').prop('placeholder', '-masukkan password baru-');
+            // $('#password').prop('disabled', false);
+            // $('#password').prop('placeholder', '-masukkan password baru-');
             $('#role').prop('hidden', true);
             $('#update_role').prop('hidden', false);
             $('#simpan').prop('hidden', false);
@@ -208,18 +206,18 @@
                 type: 'PUT',
                 data: {
                     name: $('#name').val(),
-                    user_name: $('#user_name').val(),
+                    // user_name: $('#user_name').val(),
                     email: $('#email').val(),
                     role: $('#update_role').val(),
-                    password: $('#password').val(),
+                    // password: $('#password').val(),
                     
                 },
                 success: function(data) {
                     $('#name').prop('disabled', true);
-                    $('#user_name').prop('disabled', true);
+                    // $('#user_name').prop('disabled', true);
                     $('#email').prop('disabled', true);
-                    $('#password').prop('disabled', true);
-                    $('#password').prop('placeholder', '-password disembunyikan-');
+                    // $('#password').prop('disabled', true);
+                    // $('#password').prop('placeholder', '-password disembunyikan-');
                     $('#role').prop('hidden', false);
                     $('#update_role').prop('hidden', true);
                     $('#simpan').prop('hidden', true);
@@ -241,11 +239,12 @@
                 }
             });
             
-            //set updated_at with now
+            // set updated_at with now
             var now = new Date();
             var date = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
             var time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
             var dateTime = date + ' ' + time;
+            // var dateTime = now();
             $('#updated_at').val(dateTime);
             
         });

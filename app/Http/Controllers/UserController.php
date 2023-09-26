@@ -93,7 +93,7 @@ class UserController extends Controller
             'role_id'=>$role_ids,
             'created_at'=>now()
         ]);
-        if ($role_ids == 2){
+        if ($role_ids == 3){
             Guru::create([
                 'nama_guru'=>$request->get('name'),
                 'created_at'=>now(),
@@ -108,43 +108,59 @@ class UserController extends Controller
         }
     }
     
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $dataUser)
     {
         $validator=$request->validate([
             'name'=>'required',
             'email'=>'email',
-            'user_name'=>'required|unique:user,user_name',
-            'role_id'=>'required',
+            // 'user_name'=>'required|unique:user,user_name',
+            // 'user_name'=>'unique:user,user_name',
+            // 'role_id'=>'required',
         ],
         [
             'name.required'=>'Nama harus diisi',
             'email.email'=>'Isi dengan format email',
-            'user_name.required'=>'Username harus diisi',
-            'user_name.unique'=>'Username sudah digunakan',
-            'role_id.required'=>'Peran harus diisi'
+            // 'user_name.required'=>'Username harus diisi',
+            // 'user_name.unique'=>'Username sudah digunakan',
+            // 'role_id.required'=>'Peran harus diisi'
         ]);
-        $user->update([
+        // $p=$request->get('password');
+        // $securep=bcrypt($p);
+        $dataUser->update([
             'name'=>$request->get('name'),
             'email'=>$request->get('email'),
-            'user_name'=>$request->get('user_name'),
+            // 'user_name'=>$request->get('user_name'),
+            // 'password'=>$securep,
+            // 'updated_at'=>now()
         ]);
-        $id = $user->id;
-        $userRole=UserRoles::create([
-            'user_id'=>$id,
-            'role_id'=>$user->get('role_id')
-        ]);
+        // $user->update($request->only(['name', 'email', 'user_name']));
+        // $id = $user->id;
+        
+        // $deletedUserRole = UserRoles::where('user_id', $id)->get();
+        // $deletedUserRole->delete();
+        
+        // $userRoles=UserRoles::create([
+        //     'user_id'=>$id,
+        //     'role_id'=>$request->get('role_id'),
+        //     'created_at'=>now()
+        // ]);
+        
+        // $userRoles->create([
+        //     'user_id'=>$id,
+        //     'role_id'=>$request->get('role_id')
+        // ]);
         if ($user) {
             return response()->json(['success' => 'Data berhasil diupdate!']);
-            if($userRole){
-                return response()->json(['success' => 'Data berhasil diupdate!']);
-            }
-            else {
-                return response()->json(['success' => 'Data berhasil diupdate!']);
-            }
+            // if($userRoles){
+            //     return response()->json(['success' => 'Data berhasil diupdate!']);
+            // }
+            // else {
+            //     return response()->json(['success' => 'Data berhasil diupdate!']);
+            // }
         }
-        else if ($userRole) {
-            return response()->json(['success' => 'Peran berhasil diupdate!']);
-        }
+        // else if ($userRoles) {
+        //     return response()->json(['success' => 'Peran berhasil diupdate!']);
+        // }
         else{
             return response()->json(['error' => 'Data gagal diupdate!']);
         }
