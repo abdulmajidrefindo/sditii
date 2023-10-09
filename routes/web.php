@@ -25,16 +25,19 @@ use App\Http\Controllers\RaporSiswaController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::resource('/dataUser', UserController::class);
 // Route::post('/dataUser', UserController::class, 'edit');
 // Route::get('/dataUser', UserController::class, 'edit');
+Route::resource('/dataUser', UserController::class);
+Route::resource('/dataGuru', GuruController::class);
+Route::resource('/dataSiswa', SiswaController::class);
+Route::resource('/dataTahunPelajaran', PeriodeController::class);
 
 Route::get('/getTableUser', [UserController::class, 'getTable'])->name('user.getTable');
+Route::get('/getTableGuru', [GuruController::class, 'getTable'])->name('guru.getTable');
+Route::get('/getTableSiswa', [SiswaController::class, 'getTable'])->name('siswa.getTable');
+Route::get('/getTablePeriode', [PeriodeController::class, 'getTable'])->name('periode.getTable');
 
 Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
-Route::get('/dataGuru', [GuruController::class, 'index']);
-Route::get('/dataSiswa', [SiswaController::class, 'index']);
-Route::get('/dataTahunPelajaran', [PeriodeController::class, 'index']);
 Route::get('/pengumuman', [PengumumanController::class, 'index']);
 Route::get('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
 Route::get('/tahfidz', [SiswaTahfidzController::class, 'index']);

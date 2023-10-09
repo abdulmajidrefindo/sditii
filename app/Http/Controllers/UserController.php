@@ -95,6 +95,7 @@ class UserController extends Controller
         ]);
         if ($role_ids == 3){
             Guru::create([
+                'nip'=>null,
                 'nama_guru'=>$request->get('name'),
                 'created_at'=>now(),
                 'user_id'=>$new_user_id
@@ -108,7 +109,7 @@ class UserController extends Controller
         }
     }
     
-    public function update(UpdateUserRequest $request, User $dataUser)
+    public function update(User $dataUser, UpdateUserRequest $request)
     {
         $validator=$request->validate([
             'name'=>'required',
@@ -126,31 +127,31 @@ class UserController extends Controller
         ]);
         // $p=$request->get('password');
         // $securep=bcrypt($p);
+
         $dataUser->update([
             'name'=>$request->get('name'),
             'email'=>$request->get('email'),
             // 'user_name'=>$request->get('user_name'),
             // 'password'=>$securep,
-            // 'updated_at'=>now()
+            'updated_at'=>now()
         ]);
         // $user->update($request->only(['name', 'email', 'user_name']));
-        // $id = $user->id;
+        $id = $dataUser->id;
         
-        // $deletedUserRole = UserRoles::where('user_id', $id)->get();
-        // $deletedUserRole->delete();
+        $userRoles = UserRoles::where('user_id', $id);
+        // $userRoles->delete();
         
-        // $userRoles=UserRoles::create([
-        //     'user_id'=>$id,
-        //     'role_id'=>$request->get('role_id'),
-        //     'created_at'=>now()
-        // ]);
-        
+        $userRoles->update([
+            'role_id'=>$request->get('role'),
+            'updated_at'=>now()
+        ]);
+
         // $userRoles->create([
         //     'user_id'=>$id,
         //     'role_id'=>$request->get('role_id')
         // ]);
-        if ($user) {
-            return response()->json(['success' => 'Data berhasil diupdate!']);
+        if ($dataUser) {
+            return response()->json(['success' => $request->get('role')]);
             // if($userRoles){
             //     return response()->json(['success' => 'Data berhasil diupdate!']);
             // }
@@ -165,6 +166,15 @@ class UserController extends Controller
             return response()->json(['error' => 'Data gagal diupdate!']);
         }
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        //return response()->json('Berhasil Dihapur');
+
+        return response()->json(['success' => 'Data berhasil dihapus!']);
+    }
+
     public function getTable(Request $request){
         if ($request->ajax()) {
             // $userRole = UserRoles::all();

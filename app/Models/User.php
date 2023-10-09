@@ -12,9 +12,10 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Model 
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
     protected $table = "user";
     protected $guarded = ['id'];
+    // protected $fillable = ['name','user_name','email','email_verified_at','remember_token','createdAt','updatedAt','deleted_at'];
     protected $hidden = [
         'password',
         'remember_token',
@@ -40,5 +41,15 @@ class User extends Model
     public function pengumuman()
     {
         return $this->hasMany(Pengumuman::class);
+    }
+    //delete all child on delete
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function($user) {
+            $user->role()->delete();
+            $user->guru()->delete();
+            $user->pengumuman()->delete();
+        });
     }
 }

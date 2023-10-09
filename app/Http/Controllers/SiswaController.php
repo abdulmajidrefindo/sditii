@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
-use App\Http\Requests\StoreSiswaRequest;
-use App\Http\Requests\UpdateSiswaRequest;
+use App\Models\Kelas;
 use App\Models\SiswaTahfidz;
+use App\Http\Requests\StoreGuruRequest;
+use App\Http\Requests\UpdateGuruRequest;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Utilities\Request;
+use App\Http\Controllers\Controller;
 
 class SiswaController extends Controller
 {
@@ -17,9 +21,14 @@ class SiswaController extends Controller
     public function index()
     {
         $siswa = Siswa::all();
+        $kelas = Kelas::all();
+        // $data = Siswa::select('siswas.id','siswas.nisn','siswas.nama_siswa','siswas.orangtua_wali','siswas.created_at','siswas.updated_at','siswas.kelas_id','kelas.id','kelas.nama_kelas')
+        //     ->join('siswas','siswas.kelas_id','=','kelas.id')->get();
         return view('/dataSiswa/indexDataSiswa',
         [
-            'siswa'=>$siswa
+            'siswa'=>$siswa,
+            'kelas'=>$kelas,
+            // 'data'=>$data
         ]
         );
     }
@@ -54,23 +63,21 @@ class SiswaController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Siswa $siswa)
+    public function show(Siswa $dataSiswa)
     {
-        return view('siswa.show', compact('siswa'));
+        $siswa_id = $dataSiswa->id;
+        $siswa = Siswa::all();
+        $kelas_id = $dataSiswa->kelas_id;
+        $kelas_siswa = Kelas::all()->where('id',$kelas_id)->first();
+        return view('dataGuru/showGuru',
+        [
+            'siswa'=>$siswa,
+            'siswa_id'=>$siswa_id,
+            'kelas_id'=>$kelas_id,
+            'kelas_siswa'=>$kelas_siswa
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Siswa $siswa)
     {
         $id = $siswa->id;
@@ -100,15 +107,26 @@ class SiswaController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Siswa $siswa)
     {
         $siswa->delete();
         return response()->json(['success' => 'Data berhasil dihapus!']);
+    }
+    
+    public function getTable(Request $request){
+        if ($request->ajax()) {
+            $data = Siswa::all();
+            // $data = Siswa::select('siswas.id','siswas.nisn','siswas.nama_siswa','siswas.orangtua_wali','siswas.created_at','siswas.updated_at','siswas.kelas_id','kelas.id','kelas.nama_kelas')
+            // ->join('siswa_kelas','siswas.kelas_id','=','kelas.id')->get();
+            return DataTables::of($data)
+            ->addColumn('action', function ($row) {
+                $btn = '<a href="'. route('dataSiswa.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
+                
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
     }
 }

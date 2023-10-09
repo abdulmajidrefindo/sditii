@@ -43,7 +43,7 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Nama</th>
                 <th>Username</th>
                 {{-- <th>Peran</th> --}}
@@ -277,90 +277,145 @@
       let role_id = $('#role_id').val();
       // Ubah role_id menjadi array jika tidak sudah menjadi array
       // if (!Array.isArray(role_id)) {
-      //   role_id = [role_id];
-      // }
-      
-      $.ajax({
-        type: "POST",
-        url: "{{ route('dataUser.store') }}",
-        data: {
-          name: name,
-          email: email,
-          user_name: user_name,
-          password: password,
-          role_id: role_id,
-          // role_id: JSON.stringify(role_id), // Mengubah array menjadi string JSON
-        },
-        dataType: "JSON",
-        success: function(response) {
-          // if (response.success) {
-            $('#example1').DataTable().ajax.reload();
-            $('#form_tambah_user')[0].reset();
-            Swal.fire({
-              title: 'Berhasil',
-              text: 'Data berhasil disimpan!',
-              icon: 'success',
-              iconColor: '#fff',
-              toast: true,
-              background: '#45FFCA',
-              position: 'top-center',
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-            });
+        //   role_id = [role_id];
+        // }
+        
+        $.ajax({
+          type: "POST",
+          url: "{{ route('dataUser.store') }}",
+          data: {
+            name: name,
+            email: email,
+            user_name: user_name,
+            password: password,
+            role_id: role_id,
+            // role_id: JSON.stringify(role_id), // Mengubah array menjadi string JSON
           },
-          error: function(err) {
-            
-            if (err.status == 422) {
-              $('#form_tambah_user').find(".is-invalid").removeClass(
-              "is-invalid");
-              $('#form_tambah_user').find('.error').remove();
+          dataType: "JSON",
+          success: function(response) {
+            // if (response.success) {
+              $('#example1').DataTable().ajax.reload();
+              $('#form_tambah_user')[0].reset();
+              Swal.fire({
+                title: 'Berhasil',
+                text: 'Data berhasil disimpan!',
+                icon: 'success',
+                iconColor: '#fff',
+                toast: true,
+                background: '#45FFCA',
+                position: 'top-center',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+              });
+            },
+            error: function(err) {
               
-              //send error to adminlte form
-              $.each(err.responseJSON.errors, function(i, error) {
-                var el = $(document).find('[name="' + i + '"]');
-                if (el.hasClass('is-invalid')) {
-                  el.removeClass('is-invalid');
-                  el.next().remove();
+              if (err.status == 422) {
+                $('#form_tambah_user').find(".is-invalid").removeClass(
+                "is-invalid");
+                $('#form_tambah_user').find('.error').remove();
+                
+                //send error to adminlte form
+                $.each(err.responseJSON.errors, function(i, error) {
+                  var el = $(document).find('[name="' + i + '"]');
+                  if (el.hasClass('is-invalid')) {
+                    el.removeClass('is-invalid');
+                    el.next().remove();
+                  }
+                  el.addClass('is-invalid');
+                  el.after($('<span class="error invalid-feedback">' +
+                    error[0] + '</span>'));
+                  });
+                  Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Mohon isi data dengan benar!',
+                    icon: 'error',
+                    iconColor: '#fff',
+                    toast: true,
+                    background: '#f8bb86',
+                    position: 'top-center',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
                 }
-                el.addClass('is-invalid');
-                el.after($('<span class="error invalid-feedback">' +
-                  error[0] + '</span>'));
-                });
-                Swal.fire({
-                  title: 'Gagal!',
-                  text: 'Mohon isi data dengan benar!',
-                  icon: 'error',
-                  iconColor: '#fff',
-                  toast: true,
-                  background: '#f8bb86',
-                  position: 'top-center',
-                  showConfirmButton: false,
-                  timer: 3000,
-                  timerProgressBar: true,
-                });
               }
+            });
+          });
+        });
+      </script>
+      
+      <script>
+        //delete via ajax
+        $(document).on('click', '.delete', function() {
+          let id = $(this).attr('data-id');
+          Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data yang dihapus tak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $.ajax({
+                type: "DELETE",
+                url: "{{ route('dataUser.index') }}" + "/" + id,
+                success: function(response) {
+                  if (response.success != null) {
+                    $('#example1').DataTable().ajax.reload();
+                    Swal.fire({
+                      title: 'Berhasil!',
+                      text: 'Data Berhasil Dihapus',
+                      icon: 'success',
+                      iconColor: '#fff',
+                      color: '#fff',
+                      toast: true,
+                      background: '#8D72E1',
+                      position: 'top',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                    });
+                  } else {
+                    Swal.fire({
+                      title: 'Gagal!',
+                      text: 'Data Gagal Dihapus',
+                      icon: 'error',
+                      iconColor: '#fff',
+                      toast: true,
+                      background: '#f8bb86',
+                      position: 'center-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                    });
+                  }
+                }
+              });
             }
           });
         });
-      });
-    </script>
-    
-    {{-- <script>
-      //populate update form by ajax
-      $(document).on('click', '.edit', function() {
-        let id = $(this).attr('data-id');
-        $.ajax({
-          url: "{{ route('dataUser.edit') }}/" + id + "/edit",
-          dataType: "json",
-          success: function(data) {
-            $('#update_id').val(data.user.id);
-            $('#update_name').val(data.user.name);
-            $('#update_user_name').val(data.user.user_name);
-            $('#update_peran').val(data.userRole.role);
-          }
-        })
-      });
-    </script> --}}
-    
-    @stop
+      </script>
+      
+      {{-- <script>
+        //populate update form by ajax
+        $(document).on('click', '.edit', function() {
+          let id = $(this).attr('data-id');
+          $.ajax({
+            url: "{{ route('dataUser.edit') }}/" + id + "/edit",
+            dataType: "json",
+            success: function(data) {
+              $('#update_id').val(data.user.id);
+              $('#update_name').val(data.user.name);
+              $('#update_user_name').val(data.user.user_name);
+              $('#update_peran').val(data.userRole.role);
+            }
+          })
+        });
+      </script> --}}
+      
+      @stop

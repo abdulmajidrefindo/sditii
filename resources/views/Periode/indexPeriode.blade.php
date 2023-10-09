@@ -40,12 +40,13 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Index</th>
+                    <th>No</th>
                     <th>Tahun</th>
                     <th>Semester</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
-            @forelse ($periode as $p)
+            {{-- @forelse ($periode as $p)
             <tr>
                 <td>{{ $p->id }}</p>
                 <td>{{ $p->tahun_ajaran }}</p>
@@ -53,7 +54,7 @@
             </tr>
             @empty
               <td>-</td>
-            @endforelse
+            @endforelse --}}
           </table>
         </div>
       </div>
@@ -90,8 +91,25 @@
 <!-- Page specific script -->
 @stop
 @section('js')
-<script type="text/javascript">
-  $(function () {
+<script>
+  $(document).ready(function() {
+    //set csrf token
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  });
+  
+  function resetForm() {
+    $('#form_tambah_siswa').reset();
+    $('#form_tambah_siswa').find('.is-invalid').removeClass('is-invalid');
+    $('#form_tambah_siswa').find('.error').remove();
+  }
+</script>
+<script>
+  $(document).ready(function () {
+    //DataTable
     $("#example1").DataTable({
       "responsive": true,
       "lengthChange": true,
@@ -101,21 +119,171 @@
       "searching": true,
       "ordering": true,
       "info": true,
+      processing: true,
+      serverSide: true,
+      width: '100%',
+      ajax: {
+        url: "{{ route('periode.getTable') }}",
+        type: 'GET',
+      },
+      columns: [
+      {
+        data: 'id',
+        name: 'id',
+        sClass: 'text-center',
+        width: '5%'
+      },
+      {
+        data: 'tahun_ajaran',
+        name: 'tahun_ajaran'
+      },
+      {
+        data: 'semester',
+        name: 'semester'
+      },
+      {
+        data: 'action',
+        name: 'action',
+        orderable: false,
+        searchable: false,
+        sClass: 'text-center',
+        width: '25%',
+      }
+      ]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
   });
-  // $(function () {
-  //   $("#example1").DataTable({
-  //     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-  //   }).buttons().container().appendTo('example1_wrapper .col-md-6:eq(0)');
-  //   $("#example1").DataTable({
-  //     "paging": false,
-  //     "lengthChange": true,
-  //     "searching": false,
-  //     "ordering": true,
-  //     "info": true,
-  //     "autoWidth": true,
-  //     "responsive": true,
-  //   });
-  // });
 </script>
+
+{{-- ajax tambah guru --}}
+{{-- <script>
+  $(document).ready(function() {
+    $('.select2').select2();
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    });
+    $('#controller-tab-guru-add').on('click', function() {
+      $('#form_tambah_guru')[0].reset();
+    });
+    $('#form_tambah_guru').on('submit', function(e) {
+      e.preventDefault();
+      let user = $('#user').val();
+      let user_name = $('#user_name').val();
+      let nip = $('#nip').val();  
+      $.ajax({
+        type: "POST",
+        url: "{{ route('dataGuru.store') }}",
+        data: {
+          user: user,
+          user_name: user_name,
+          nip: nip,
+        },
+        dataType: "JSON",
+        success: function(response) {
+          // if (response.success) {
+            $('#example1').DataTable().ajax.reload();
+            $('#form_tambah_guru')[0].reset();
+            Swal.fire({
+              title: 'Berhasil',
+              text: 'Data berhasil disimpan!',
+              icon: 'success',
+              iconColor: '#fff',
+              toast: true,
+              background: '#45FFCA',
+              position: 'top-center',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+            });
+          },
+          error: function(err) {
+            
+            if (err.status == 422) {
+              $('#form_tambah_guru').find(".is-invalid").removeClass(
+              "is-invalid");
+              $('#form_tambah_guru').find('.error').remove();
+              
+              //send error to adminlte form
+              $.each(err.responseJSON.errors, function(i, error) {
+                var el = $(document).find('[name="' + i + '"]');
+                if (el.hasClass('is-invalid')) {
+                  el.removeClass('is-invalid');
+                  el.next().remove();
+                }
+                el.addClass('is-invalid');
+                el.after($('<span class="error invalid-feedback">' +
+                  error[0] + '</span>'));
+                });
+                Swal.fire({
+                  title: 'Gagal!',
+                  text: 'Mohon isi data dengan benar!',
+                  icon: 'error',
+                  iconColor: '#fff',
+                  toast: true,
+                  background: '#f8bb86',
+                  position: 'top-center',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                });
+              }
+            }
+          });
+        });
+      });
+    </script> --}}
+    
+    <script>
+      //delete via ajax
+      $(document).on('click', '.delete', function() {
+        let id = $(this).attr('data-id');
+        Swal.fire({
+          title: 'Apakah anda yakin?',
+          text: "Data yang dihapus tak dapat dikembalikan!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya, Hapus!',
+          cancelButtonText: 'Batal'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              type: "DELETE",
+              url: "{{ route('dataGuru.index') }}" + "/" + id,
+              success: function(response) {
+                if (response.success != null) {
+                  $('#example1').DataTable().ajax.reload();
+                  Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Data Berhasil Dihapus',
+                    icon: 'success',
+                    iconColor: '#fff',
+                    color: '#fff',
+                    toast: true,
+                    background: '#8D72E1',
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
+                } else {
+                  Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Data Gagal Dihapus',
+                    icon: 'error',
+                    iconColor: '#fff',
+                    toast: true,
+                    background: '#f8bb86',
+                    position: 'center-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
+                }
+              }
+            });
+          }
+        });
+      });
+    </script>
 @stop

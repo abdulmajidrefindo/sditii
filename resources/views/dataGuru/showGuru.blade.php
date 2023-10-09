@@ -22,7 +22,7 @@
     <div class="col-12 col-sm-12 col-md-6">
         <div class="card card-dark">
             <div class="card-header border-transparent">
-                <h3 class="card-title">Detail User </h3>
+                <h3 class="card-title">Detail Guru </h3>
                 <div class="card-tools">
                     <!-- button to edit page-->
                     
@@ -41,82 +41,65 @@
                         
                         <div class="form-group col-md-12">
                             <label class="text-lightdark">
-                                ID User
+                                ID Guru
                             </label>
                             <div class="input-group">
-                                <input id="id" name="id" value="{{ $user->id }}" class="form-control"
+                                <input id="id" name="id" value="{{ $guru->id }}" class="form-control"
                                 disabled>
                             </div>
                         </div>
                         
                         <div class="form-group col-md-12">
                             <label for="name" class="text-lightdark">
-                                Nama
+                                Nama Guru
                             </label>
                             <div class="input-group">
-                                <input id="name" name="name" value="{{ $user->name }}"
+                                <input id="nama_guru" name="nama_guru" value="{{ $guru->nama_guru }}"
                                 class="form-control" disabled>
                             </div>
                         </div>
-                        
-                        {{-- <div class="form-group col-md-12">
-                            <label for="user_name" class="text-lightdark">
-                                Username
-                            </label>
-                            <div class="input-group">
-                                <input id="user_name" name="user_name" value="{{ $user->user_name }}"
-                                class="form-control" disabled>
-                            </div>
-                        </div> --}}
                         
                         <div class="form-group col-md-12">
-                            <label for="email" class="text-lightdark">
-                                Email
+                            <label for="nip" class="text-lightdark">
+                                NIP
                             </label>
                             <div class="input-group">
-                                <input id="email" name="email" value="{{ $user->email }}"
+                                <input id="nip" name="nip" value="{{ $guru->nip }}"
                                 class="form-control" disabled>
                             </div>
                         </div>
                         
-                        {{-- <div class="form-group col-md-12">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" 
-                            placeholder="-password disembunyikan-" value="{{ $user->password }}" disabled>
-                            @error('password')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div> --}}
-                        
-                        <div class="form-group col-md-12" id="role">
-                            <label for="role" class="text-lightdark">
-                                Peran
+                        <div class="form-group col-md-12" id="kelas_before">
+                            <label for="kelas_before" class="text-lightdark">
+                                Kelas Perwalian
                             </label>
                             <div class="input-group">
-                                <input id="role" name="role" 
-                                
-                                value="@foreach ($userRole as $ur) {{ $ur->role->role }}, @endforeach" 
+                                <input id="kelas_before" name="kelas_before" 
+                                @if ($guru_kelas===null)
+                                value="" 
+                                @else
+                                value="{{ $guru_kelas->nama_kelas }}" 
+                                @endif
                                 class="form-control" disabled>
                             </div>
                         </div>
                         
-                        <div class="form-group col-md-12" hidden id="update_role">
-                            <label for="update_role" class="form-label">Peran</label>
-                            <select class="form-control @error('update_role') is-invalid @enderror" id="update_role" name="update_role" data-placeholder="-pilih peran pengguna-" style="width: 100%;">
-                                <option selected disabled>-pilih peran pengguna-</option>
-                                <option value="1">Administrator</option>
-                                <option value="3">Guru</option>
+                        <div class="form-group col-md-12" id="kelas" hidden>
+                            <label for="kelas" class="form-label">Kelas Perwalian</label>
+                            <select class="form-control @error('kelas') is-invalid @enderror" id="kelas" name="kelas" data-placeholder="-pilih kelas perwalian-" style="width: 100%;">
+                                <option selected disabled>-pilih kelas perwalian-</option>
+                                @foreach ($kelas as $k)
+                                <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                @endforeach
                             </select>
-                            @error('update_role')
+                            @error('kelas')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
                         
-                        <x-adminlte-input name="created_at" type="text" value="{{ $user->created_at }}"
+                        <x-adminlte-input name="created_at" type="text" value="{{ $guru->created_at }}"
                             label="Waktu Ditambahkan" fgroup-class="col-md-12" disabled>
                             
                             <x-slot name="prependSlot">
@@ -127,7 +110,7 @@
                             
                         </x-adminlte-input>
                         
-                        <x-adminlte-input name="updated_at" type="text" value="{{ $user->updated_at }}"
+                        <x-adminlte-input name="updated_at" type="text" value="{{ $guru->updated_at }}"
                             label="Waktu Diperbaharui" fgroup-class="col-md-12" disabled>
                             
                             <x-slot name="prependSlot">
@@ -181,62 +164,41 @@
 @section('js')
 <script>
     $(document).ready(function() {
-    //set csrf token
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-  });
-</script>
-<script>
-    $(document).ready(function() {
         $('.select2').select2();
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         });
         $('#edit').click(function() {
-            $('#name').prop('disabled', false);
-            // $('#user_name').prop('disabled', false);
-            $('#email').prop('disabled', false);
-            // $('#password').prop('disabled', false);
-            // $('#password').prop('placeholder', '-masukkan password baru-');
-            $('#role').prop('disabled', true);
-            $('#role').prop('hidden', true);
-            $('#update_role').prop('disabled', false);
-            $('#update_role').prop('hidden', false);
+            $('#nama_guru').prop('disabled', false);
+            $('#nip').prop('disabled', false);
+            $('#kelas_before').prop('disabled', true);
+            $('#kelas_before').prop('hidden', true);
+            $('#kelas').prop('disabled', false);
+            $('#kelas').prop('hidden', false);
             $('#simpan').prop('hidden', false);
             $('#edit').prop('hidden', true);
-            
         });
         
         $('#simpan').click(function() {
             //ajax update data
             $.ajax({
-                url: "{{ route('dataUser.update', $user->id) }}",
+                url: "{{ route('dataGuru.update', $guru->id) }}",
                 type: 'PUT',
                 data: {
-                    name: $('#name').val(),
-                    // user_name: $('#user_name').val(),
-                    email: $('#email').val(),
-                    role: $('#update_role').val(),
-                    // password: $('#password').val(),
-                    
+                    nama_guru: $('#nama_guru').val(),
+                    nip: $('#nip').val(),
+                    kelas: $('#kelas').val(),
                 },
                 success: function(data) {
-                    $('#name').prop('disabled', true);
-                    // $('#user_name').prop('disabled', true);
-                    $('#email').prop('disabled', true);
-                    // $('#password').prop('disabled', true);
-                    // $('#password').prop('placeholder', '-password disembunyikan-');
-                    $('#role').prop('disbled', false);
-                    $('#role').prop('hidden', false);
-                    $('#update_role').prop('disabled', true);
-                    $('#update_role').prop('hidden', true);
+                    $('#nama_guru').prop('disabled', true);
+                    $('#nip').prop('disabled', true);
+                    $('#kelas_before').prop('disabled', false);
+                    $('#kelas_before').prop('hidden', false);
+                    $('#kelas').prop('disabled', true);
+                    $('#kelas').prop('hidden', true);
                     $('#simpan').prop('hidden', true);
                     $('#edit').prop('hidden', false);
-                    
                     
                     Swal.fire({
                         icon: 'success',
