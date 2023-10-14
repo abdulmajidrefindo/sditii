@@ -138,12 +138,10 @@ class UserController extends Controller
         // $user->update($request->only(['name', 'email', 'user_name']));
         $id = $dataUser->id;
         
-        $userRoles = UserRoles::where('user_id', $id);
-        // $userRoles->delete();
-        
+        #update userRoles pivot table
+        $userRoles = UserRoles::where('user_id', $id)->first();
         $userRoles->update([
-            'role_id'=>$request->get('role'),
-            'updated_at'=>now()
+            'role_id'=>$request->get('role')
         ]);
 
         // $userRoles->create([
