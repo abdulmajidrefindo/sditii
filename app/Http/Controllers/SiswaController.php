@@ -107,10 +107,14 @@ class SiswaController extends Controller
         }
     }
 
-    public function destroy(Siswa $siswa)
+    public function destroy(Siswa $dataSiswa)
     {
-        $siswa->delete();
-        return response()->json(['success' => 'Data berhasil dihapus!']);
+
+        if ($dataSiswa->delete()) {
+            return response()->json(['success' => 'Data berhasil dihapus!']);
+        } else {
+            return response()->json(['errors' => 'Data gagal dihapus!']);
+        }
     }
     
     public function getTable(Request $request){

@@ -265,7 +265,11 @@
               if (result.isConfirmed) {
                 $.ajax({
                   type: "DELETE",
-                  url: "{{ route('dataGuru.index') }}" + "/" + id,
+                  url: "{{ route('dataSiswa.destroy', '') }}/" + id,
+                  data: {
+                    id: id,
+                  },
+                  dataType: "json",
                   success: function(response) {
                     if (response.success != null) {
                       $('#example1').DataTable().ajax.reload();
