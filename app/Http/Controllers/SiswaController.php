@@ -49,18 +49,35 @@ class SiswaController extends Controller
      * @param  \App\Http\Requests\StoreSiswaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSiswaRequest $request)
+    public function store(Request $request)
     {
+        $validator=$request->validate([
+            'nisn'=>'required|unique:siswas,nisn',
+            'nama_siswa'=>'required',
+            'orangtua_wali'=>'required',
+            'kelas'=>'required'
+        ],
+        [
+            'nisn.required'=>'NISN tidak boleh kosong!',
+            'nisn.unique'=>'NISN sudah terdaftar!',
+            'nama_siswa.required'=>'Nama siswa tidak boleh kosong!',
+            'orangtua_wali.required'=>'Nama orangtua/wali tidak boleh kosong!',
+            'kelas.required'=>'Kelas tidak boleh kosong!'
+        ]);
+
         $siswa = Siswa::create([
             'nisn' => $request->get('nisn'),
             'nama_siswa' => $request->get('nama_siswa'),
-            'orangtuawali_siswa' => $request->get('orangtuawali_siswa')
+            'orangtua_wali' => $request->get('orangtua_wali'),
+            'kelas_id' => $request->get('kelas')
         ]);
+
         if ($siswa) {
             return response()->json(['success' => 'Data berhasil disimpan!']);
         } else {
-            return response()->json(['errors' => 'Data gagal disimpan!']);
+            return response()->json(['error' => 'Data gagal disimpan!']);
         }
+
     }
 
     public function show(Siswa $dataSiswa)
@@ -127,6 +144,17 @@ class SiswaController extends Controller
                 $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 
                 return $btn;
+            })
+            // modify Kelas column
+            ->editColumn('nama_kelas', function ($row) {
+                // If kelas is null, then return "Belum Masuk Anggota Kelas"
+                if ($row->kelas == null) {
+                    return "Belum Masuk Anggota Kelas";
+                }
+                // If kelas is not null, then return nama_kelas
+                else {
+                    return $row->kelas->nama_kelas;
+                }
             })
             ->rawColumns(['action'])
             ->make(true);
