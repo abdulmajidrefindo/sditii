@@ -204,6 +204,7 @@
             // $('#password').prop('placeholder', '-masukkan password baru-');
             $('#form_role').prop('disabled', true);
             $('#form_role').prop('hidden', true);
+            $('#update_role').prop('disabled', false);
             $('#form_update_role').prop('disabled', false);
             $('#form_update_role').prop('hidden', false);
             $('#simpan').prop('hidden', false);
@@ -231,12 +232,17 @@
                     $('#email').prop('disabled', true);
                     // $('#password').prop('disabled', true);
                     // $('#password').prop('placeholder', '-password disembunyikan-');
-                    $('#role').prop('disabled', false);
-                    $('#form_role').prop('hidden', false);
                     $('#role').prop('disabled', true);
-                    $('#update_role').prop('hidden', true);
+                    $('#form_role').prop('hidden', false);
+                    $('#form_update_role').prop('hidden', true);
+                    $('#update_role').prop('disabled', true);
                     $('#simpan').prop('hidden', true);
                     $('#edit').prop('hidden', false);
+                    // role select the value
+                    var role = $('#update_role').val();
+                    var roleText = $('#update_role option:selected').text();
+                    $('#role').val(roleText);
+
                     
                     
                     Swal.fire({

@@ -115,9 +115,8 @@ class SiswaController extends Controller
     
     public function getTable(Request $request){
         if ($request->ajax()) {
-            $data = Siswa::all();
-            // $data = Siswa::select('siswas.id','siswas.nisn','siswas.nama_siswa','siswas.orangtua_wali','siswas.created_at','siswas.updated_at','siswas.kelas_id','kelas.id','kelas.nama_kelas')
-            // ->join('siswa_kelas','siswas.kelas_id','=','kelas.id')->get();
+            // siswa with kelas
+            $data = Siswa::with('kelas')->get();
             return DataTables::of($data)
             ->addColumn('action', function ($row) {
                 $btn = '<a href="'. route('dataSiswa.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';

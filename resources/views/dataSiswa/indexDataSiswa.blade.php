@@ -153,8 +153,8 @@
             name: 'orangtua_wali'
           },
           {
-            data: 'nama_kelas',
-            name: 'nama_kelas'
+            data: 'kelas.nama_kelas',
+            name: 'kelas'
           },
           {
             data: 'action',
