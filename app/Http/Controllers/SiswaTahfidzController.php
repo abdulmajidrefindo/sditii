@@ -87,6 +87,10 @@ class SiswaTahfidzController extends Controller
      */
     public function destroy(SiswaTahfidz $siswaTahfidz)
     {
-        //
+        if ($siswaTahfidz->delete()) {
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 }

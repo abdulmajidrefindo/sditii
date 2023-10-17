@@ -53,13 +53,14 @@ Route::get('/raporSiswa', [RaporSiswaController::class, 'index']);
 Route::resource('/dataProfilSekolah', ProfilSekolahController::class);
 Route::resource('/dataPengumuman', PengumumanController::class);
 Route::resource('/dataIbadahHarian', SiswaIbadahHarianController::class);
-Route::resource('/dataTahfidz', SiswaTahfidzController::class);
+
 Route::resource('/dataHadist', SiswaHadistController::class);
 Route::resource('/dataIWR', SiswaIlmanWaaRuuhanController::class);
 Route::resource('/dataBidangStudi', SiswaBidangStudiController::class);
 Route::resource('/dataRaporSiswa', RaporSiswaController::class);
 
 Route::resource('/siswaDoa', SiswaDoaController::class);
+Route::resource('/siswaTahfidz', SiswaTahfidzController::class);
 // choose kelas for siswaDoa
 
 

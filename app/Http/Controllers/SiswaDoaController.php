@@ -86,73 +86,26 @@ class SiswaDoaController extends Controller
      */
 public function update(Request $request, SiswaDoa $siswaDoa)
 {
-    $messages = [
-        'doa_1_id.integer' => 'Doa 1 harus berupa angka.',
-        'doa_2_id.integer' => 'Doa 2 harus berupa angka.',
-        'doa_3_id.integer' => 'Doa 3 harus berupa angka.',
-        'doa_4_id.integer' => 'Doa 4 harus berupa angka.',
-        'doa_5_id.integer' => 'Doa 5 harus berupa angka.',
-        'doa_6_id.integer' => 'Doa 6 harus berupa angka.',
-        'doa_7_id.integer' => 'Doa 7 harus berupa angka.',
-        'doa_8_id.integer' => 'Doa 8 harus berupa angka.',
-        'doa_9_id.integer' => 'Doa 9 harus berupa angka.',
-        'doa_1_id.min' => 'Doa 1 tidak boleh kurang dari 0.',
-        'doa_2_id.min' => 'Doa 2 tidak boleh kurang dari 0.',
-        'doa_3_id.min' => 'Doa 3 tidak boleh kurang dari 0.',
-        'doa_4_id.min' => 'Doa 4 tidak boleh kurang dari 0.',
-        'doa_5_id.min' => 'Doa 5 tidak boleh kurang dari 0.',
-        'doa_6_id.min' => 'Doa 6 tidak boleh kurang dari 0.',
-        'doa_7_id.min' => 'Doa 7 tidak boleh kurang dari 0.',
-        'doa_8_id.min' => 'Doa 8 tidak boleh kurang dari 0.',
-        'doa_9_id.min' => 'Doa 9 tidak boleh kurang dari 0.',
-        'doa_1_id.max' => 'Doa 1 tidak boleh lebih dari 100.',
-        'doa_2_id.max' => 'Doa 2 tidak boleh lebih dari 100.',
-        'doa_3_id.max' => 'Doa 3 tidak boleh lebih dari 100.',
-        'doa_4_id.max' => 'Doa 4 tidak boleh lebih dari 100.',
-        'doa_5_id.max' => 'Doa 5 tidak boleh lebih dari 100.',
-        'doa_6_id.max' => 'Doa 6 tidak boleh lebih dari 100.',
-        'doa_7_id.max' => 'Doa 7 tidak boleh lebih dari 100.',
-        'doa_8_id.max' => 'Doa 8 tidak boleh lebih dari 100.',
-        'doa_9_id.max' => 'Doa 9 tidak boleh lebih dari 100.',
-    ];
+    $messages = [];
+    $validator_rules = [];
+    $doa_fields = ['doa_1_id', 'doa_2_id', 'doa_3_id', 'doa_4_id', 'doa_5_id', 'doa_6_id', 'doa_7_id', 'doa_8_id', 'doa_9_id'];
 
-    $validator = Validator::make($request->all(), [
-        'doa_1_id' => 'integer|min:0|max:100',
-        'doa_2_id' => 'integer|min:0|max:100',
-        'doa_3_id' => 'integer|min:0|max:100',
-        'doa_4_id' => 'integer|min:0|max:100',
-        'doa_5_id' => 'integer|min:0|max:100',
-        'doa_6_id' => 'integer|min:0|max:100',
-        'doa_7_id' => 'integer|min:0|max:100',
-        'doa_8_id' => 'integer|min:0|max:100',
-        'doa_9_id' => 'integer|min:0|max:100',
-    ], $messages);
+    foreach ($doa_fields as $field) {
+        $messages[$field.'.integer'] = 'Doa '.substr($field, -4, 1).' harus berupa angka.';
+        $messages[$field.'.min'] = 'Doa '.substr($field, -4, 1).' tidak boleh kurang dari 0.';
+        $messages[$field.'.max'] = 'Doa '.substr($field, -4, 1).' tidak boleh lebih dari 100.';
+        $validator_rules[$field] = 'integer|min:0|max:100';
+    }
 
-    
+    $validator = Validator::make($request->all(), $validator_rules, $messages);
 
     if ($validator->fails()) {
         return response()->json(['error' => $validator->errors()], 422);
     }
 
-    $doa_1_id = $request->input('doa_1_id');
-    $doa_2_id = $request->input('doa_2_id');
-    $doa_3_id = $request->input('doa_3_id');
-    $doa_4_id = $request->input('doa_4_id');
-    $doa_5_id = $request->input('doa_5_id');
-    $doa_6_id = $request->input('doa_6_id');
-    $doa_7_id = $request->input('doa_7_id');
-    $doa_8_id = $request->input('doa_8_id');
-    $doa_9_id = $request->input('doa_9_id');
-
-    $siswaDoa->doa_1_id = $doa_1_id;
-    $siswaDoa->doa_2_id = $doa_2_id;
-    $siswaDoa->doa_3_id = $doa_3_id;
-    $siswaDoa->doa_4_id = $doa_4_id;
-    $siswaDoa->doa_5_id = $doa_5_id;
-    $siswaDoa->doa_6_id = $doa_6_id;
-    $siswaDoa->doa_7_id = $doa_7_id;
-    $siswaDoa->doa_8_id = $doa_8_id;
-    $siswaDoa->doa_9_id = $doa_9_id;
+    foreach ($doa_fields as $field) {
+        $siswaDoa->$field = $request->input($field);
+    }
 
     if ($siswaDoa->save()) {
         return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
