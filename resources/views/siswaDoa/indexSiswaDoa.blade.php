@@ -37,6 +37,23 @@
             <h3 class="card-title">Tabel Doa</h3>
         </div>
         <div class="card-body">
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="kelas">Pilih Kelas</label>
+              <form action="{{ url('/') }}/siswaDoa" method="post">
+                @csrf
+                <select class="custom-select" name="kelas_id" id="kelas_id">
+                  <option selected disabled>-Kelas-</option>
+                  @foreach ($data_kelas as $k)
+                  <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                  @endforeach
+                </select>
+                <input type="submit">
+              </form>
+            </div>
+          </div>
+
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               @foreach($siswa_d as $s)
@@ -82,7 +99,7 @@
                   <td>{{ optional($n)->doa_8->nilai }}</td>
                   <td>{{ optional($n)->doa_9->nilai }}</td>
                   <td>
-                    <a href="{{ route('siswaDoa.edit', $n->id) }}" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                    <a href="{{ route('siswaDoa.show', $n->id) }}" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
                     <a href="javascript:void(0)" data-toggle="tooltip"  data-id="{{$n->id}}" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
                   </td>
               </tr>

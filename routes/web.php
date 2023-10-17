@@ -37,6 +37,7 @@ Route::get('/getTableGuru', [GuruController::class, 'getTable'])->name('guru.get
 Route::get('/getTableSiswa', [SiswaController::class, 'getTable'])->name('siswa.getTable');
 Route::get('/getTablePeriode', [PeriodeController::class, 'getTable'])->name('periode.getTable');
 
+
 Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
 Route::get('/pengumuman', [PengumumanController::class, 'index']);
 Route::get('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
@@ -54,10 +55,12 @@ Route::resource('/dataPengumuman', PengumumanController::class);
 Route::resource('/dataIbadahHarian', SiswaIbadahHarianController::class);
 Route::resource('/dataTahfidz', SiswaTahfidzController::class);
 Route::resource('/dataHadist', SiswaHadistController::class);
-Route::resource('/siswaDoa', SiswaDoaController::class);
 Route::resource('/dataIWR', SiswaIlmanWaaRuuhanController::class);
 Route::resource('/dataBidangStudi', SiswaBidangStudiController::class);
 Route::resource('/dataRaporSiswa', RaporSiswaController::class);
+
+Route::resource('/siswaDoa', SiswaDoaController::class);
+// choose kelas for siswaDoa
 
 
 Route::get('/tes', function () {
