@@ -8,6 +8,9 @@ use App\Http\Requests\StoreSiswaTahfidzRequest;
 use App\Http\Requests\UpdateSiswaTahfidzRequest;
 use App\Models\PenilaianHurufAngka;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 class SiswaTahfidzController extends Controller
 {
     /**
@@ -53,7 +56,11 @@ class SiswaTahfidzController extends Controller
      */
     public function show(SiswaTahfidz $siswaTahfidz)
     {
-        //
+        $siswaTahfidz = SiswaTahfidz::with('siswa','tahfidz_1','tahfidz_2','tahfidz_3','tahfidz_4','tahfidz_5','tahfidz_6','tahfidz_7','tahfidz_8','tahfidz_9','tahfidz_10','tahfidz_11','tahfidz_12','tahfidz_13','tahfidz_14','tahfidz_15')->where('id',$siswaTahfidz->id)->first();
+        return view('/siswaTahfidz/showSiswaTahfidz', 
+        [
+            'siswaTahfidz'=>$siswaTahfidz,
+        ]);
     }
 
     /**
@@ -64,7 +71,7 @@ class SiswaTahfidzController extends Controller
      */
     public function edit(SiswaTahfidz $siswaTahfidz)
     {
-        //
+    
     }
 
     /**
@@ -74,9 +81,34 @@ class SiswaTahfidzController extends Controller
      * @param  \App\Models\SiswaTahfidz  $siswaTahfidz
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSiswaTahfidzRequest $request, SiswaTahfidz $siswaTahfidz)
+    public function update(Request $request, SiswaTahfidz $siswaTahfidz)
     {
-        //
+        $messages = [];
+        $validator_rules = [];
+        $tahfidz_fields = ['tahfidz_1_id', 'tahfidz_2_id', 'tahfidz_3_id', 'tahfidz_4_id', 'tahfidz_5_id', 'tahfidz_6_id', 'tahfidz_7_id', 'tahfidz_8_id', 'tahfidz_9_id', 'tahfidz_10_id', 'tahfidz_11_id', 'tahfidz_12_id', 'tahfidz_13_id', 'tahfidz_14_id', 'tahfidz_15_id'];
+
+        foreach ($tahfidz_fields as $field) {
+            $messages[$field.'.integer'] = 'Tahfidz '.substr($field, 8, -3).' harus berupa angka.';
+            $messages[$field.'.min'] = 'Tahfidz '.substr($field, 8, -3).' tidak boleh kurang dari 0.';
+            $messages[$field.'.max'] = 'Tahfidz '.substr($field, 8, -3).' tidak boleh lebih dari 100.';
+            $validator_rules[$field] = 'integer|min:0|max:100';
+        }
+
+        $validator = Validator::make($request->all(), $validator_rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+
+        foreach ($tahfidz_fields as $field) {
+            $siswaTahfidz->$field = $request->input($field);
+        }
+
+        if ($siswaTahfidz->save()) {
+            return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal diupdate!']);
+        }
     }
 
     /**
