@@ -65,7 +65,11 @@ class SiswaBidangStudiController extends Controller
      */
     public function show(SiswaBidangStudi $siswaBidangStudi)
     {
-        //
+        $siswaBidangStudi = SiswaBidangStudi::with('siswa','nilai_uh_1','nilai_uh_2','nilai_uh_3','nilai_uh_4','nilai_tugas_1','nilai_tugas_2','nilai_uts','nilai_pas')->where('id',$siswaBidangStudi->id)->first();
+        return view('/siswaBidangStudi/showSiswaBidangStudi', 
+        [
+            'siswaBidangStudi'=>$siswaBidangStudi
+        ]);
     }
 
     /**
