@@ -85,6 +85,10 @@ class SiswaHadistController extends Controller
      */
     public function destroy(SiswaHadist $siswaHadist)
     {
-        //
+        if ($siswaHadist->delete()) {
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 }
