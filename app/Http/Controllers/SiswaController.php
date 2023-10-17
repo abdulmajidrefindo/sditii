@@ -82,16 +82,12 @@ class SiswaController extends Controller
 
     public function show(Siswa $dataSiswa)
     {
-        $siswa_id = $dataSiswa->id;
-        $siswa = Siswa::all();
-        $kelas_id = $dataSiswa->kelas_id;
-        $kelas_siswa = Kelas::all()->where('id',$kelas_id)->first();
-        return view('dataGuru/showGuru',
+        $siswa = Siswa::find($dataSiswa->id);
+        $kelas = Kelas::all();
+        return view('dataSiswa.showSiswa',
         [
             'siswa'=>$siswa,
-            'siswa_id'=>$siswa_id,
-            'kelas_id'=>$kelas_id,
-            'kelas_siswa'=>$kelas_siswa
+            'kelas'=>$kelas
         ]);
     }
 
@@ -109,18 +105,33 @@ class SiswaController extends Controller
      * @param  \App\Models\Siswa  $siswa
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSiswaRequest $request, Siswa $siswa)
+    public function update(Siswa $dataSiswa, Request $request)
     {
+        $validator=$request->validate([
+            'nisn'=>'required',
+            'nama_siswa'=>'required',
+            'orangtua_wali'=>'required',
+            'kelas'=>'required'
+        ],
+        [
+            'nisn.required'=>'NISN tidak boleh kosong!',
+            'nama_siswa.required'=>'Nama siswa tidak boleh kosong!',
+            'orangtua_wali.required'=>'Nama orangtua/wali tidak boleh kosong!',
+            'kelas.required'=>'Kelas tidak boleh kosong!'
+        ]);
+
+        $siswa = Siswa::find($dataSiswa->id);
         $siswa->update([
             'nisn' => $request->get('nisn'),
             'nama_siswa' => $request->get('nama_siswa'),
-            'orangtuawali_siswa' => $request->get('orangtuawali_siswa')
+            'orangtua_wali' => $request->get('orangtua_wali'),
+            'kelas_id' => $request->get('kelas')
         ]);
 
         if ($siswa) {
-            return response()->json(['success' => 'Data berhasil disimpan!']);
+            return response()->json(['success' => 'Data berhasil diupdate!']);
         } else {
-            return response()->json(['errors' => 'Data gagal disimpan!']);
+            return response()->json(['error' => 'Data gagal diupdate!']);
         }
     }
 
