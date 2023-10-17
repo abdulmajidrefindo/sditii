@@ -86,6 +86,10 @@ class SiswaIbadahHarianController extends Controller
      */
     public function destroy(SiswaIbadahHarian $siswaIbadahHarian)
     {
-        //
+        if ($siswaIbadahHarian->delete()) {
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 }
