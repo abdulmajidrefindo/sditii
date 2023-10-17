@@ -63,6 +63,7 @@ Route::resource('/siswaDoa', SiswaDoaController::class);
 Route::resource('/siswaTahfidz', SiswaTahfidzController::class);
 Route::resource('/siswaHadist', SiswaHadistController::class);
 Route::resource('/siswaIbadahHarian', SiswaIbadahHarianController::class);
+Route::resource('/siswaBidangStudi', SiswaBidangStudiController::class);
 // choose kelas for siswaDoa
 
 

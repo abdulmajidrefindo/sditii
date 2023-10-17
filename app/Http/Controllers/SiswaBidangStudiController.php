@@ -99,6 +99,10 @@ class SiswaBidangStudiController extends Controller
      */
     public function destroy(SiswaBidangStudi $siswaBidangStudi)
     {
-        //
+        if ($siswaBidangStudi->delete()) {
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 }
