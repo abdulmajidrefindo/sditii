@@ -86,6 +86,26 @@ class SiswaDoaController extends Controller
      */
     public function destroy(SiswaDoa $siswaDoa)
     {
-        //
+        if ($siswaDoa->delete()) {
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
+
+    //get siswaDoa table for ajax and delete via sweetalert
+    // public function getTable()
+    // {
+    //     $siswa_d = SiswaDoa::with('siswa','doa_1','doa_2','doa_3','doa_4','doa_5',
+    //     'doa_6','doa_7','doa_8','doa_9','penilaian_huruf_angka')->get();
+    //     return datatables()->of($siswa_d)
+    //         ->addColumn('action', function ($siswa_d) {
+    //             $btn = '<a href="'. route('siswaDoa.edit', $siswa_d->id) .'" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+    //             $btn .= '&nbsp;&nbsp;';
+    //             $btn .= '<button type="button" name="delete" data-id="' . $siswa_d->id . '" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i></button>';
+    //         })
+    //         ->rawColumns(['action'])
+    //         ->addIndexColumn()
+    //         ->make(true);
+    // }
 }

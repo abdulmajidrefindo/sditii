@@ -17,10 +17,6 @@ class SiswaDoa extends Model
     {
         return $this->belongsTo(Siswa::class);
     }
-    public function doa()
-    {
-        return $this->belongsTo(Doa::class);
-    }
     public function penilaian_huruf_angka()
     {
         return $this->belongsTo(PenilaianHurufAngka::class);

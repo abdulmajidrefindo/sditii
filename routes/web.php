@@ -49,6 +49,17 @@ Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
 Route::get('/raporSiswa', [RaporSiswaController::class, 'index']);
 // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
 
+Route::resource('/dataProfilSekolah', ProfilSekolahController::class);
+Route::resource('/dataPengumuman', PengumumanController::class);
+Route::resource('/dataIbadahHarian', SiswaIbadahHarianController::class);
+Route::resource('/dataTahfidz', SiswaTahfidzController::class);
+Route::resource('/dataHadist', SiswaHadistController::class);
+Route::resource('/siswaDoa', SiswaDoaController::class);
+Route::resource('/dataIWR', SiswaIlmanWaaRuuhanController::class);
+Route::resource('/dataBidangStudi', SiswaBidangStudiController::class);
+Route::resource('/dataRaporSiswa', RaporSiswaController::class);
+
+
 Route::get('/tes', function () {
     return view('dashboard');
 });
