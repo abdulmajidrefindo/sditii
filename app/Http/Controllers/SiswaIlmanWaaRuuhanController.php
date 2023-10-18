@@ -85,6 +85,10 @@ class SiswaIlmanWaaRuuhanController extends Controller
      */
     public function destroy(SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
     {
-        //
+        if ($siswaIlmanWaaRuuhan->delete()) {
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 }

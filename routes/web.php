@@ -55,7 +55,6 @@ Route::resource('/dataPengumuman', PengumumanController::class);
 
 
 
-Route::resource('/dataIWR', SiswaIlmanWaaRuuhanController::class);
 Route::resource('/dataBidangStudi', SiswaBidangStudiController::class);
 Route::resource('/dataRaporSiswa', RaporSiswaController::class);
 
@@ -64,6 +63,7 @@ Route::resource('/siswaTahfidz', SiswaTahfidzController::class);
 Route::resource('/siswaHadist', SiswaHadistController::class);
 Route::resource('/siswaIbadahHarian', SiswaIbadahHarianController::class);
 Route::resource('/siswaBidangStudi', SiswaBidangStudiController::class);
+Route::resource('/siswaIlmanWaaRuuhan', SiswaIlmanWaaRuuhanController::class);
 // choose kelas for siswaDoa
 
 
