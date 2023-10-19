@@ -364,6 +364,10 @@
               $.ajax({
                 type: "DELETE",
                 url: "{{ route('dataUser.index') }}" + "/" + id,
+                data: {
+                  id: id
+                },
+                dataType: "JSON",
                 success: function(response) {
                   if (response.success != null) {
                     $('#example1').DataTable().ajax.reload();

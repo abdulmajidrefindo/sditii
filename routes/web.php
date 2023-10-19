@@ -37,6 +37,7 @@ Route::get('/getTableGuru', [GuruController::class, 'getTable'])->name('guru.get
 Route::get('/getTableSiswa', [SiswaController::class, 'getTable'])->name('siswa.getTable');
 Route::get('/getTablePeriode', [PeriodeController::class, 'getTable'])->name('periode.getTable');
 
+
 Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
 Route::get('/pengumuman', [PengumumanController::class, 'index']);
 Route::get('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
@@ -48,6 +49,23 @@ Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'choose']);
 Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
 Route::get('/raporSiswa', [RaporSiswaController::class, 'index']);
 // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
+
+Route::resource('/dataProfilSekolah', ProfilSekolahController::class);
+Route::resource('/dataPengumuman', PengumumanController::class);
+
+
+
+Route::resource('/dataBidangStudi', SiswaBidangStudiController::class);
+Route::resource('/dataRaporSiswa', RaporSiswaController::class);
+
+Route::resource('/siswaDoa', SiswaDoaController::class);
+Route::resource('/siswaTahfidz', SiswaTahfidzController::class);
+Route::resource('/siswaHadist', SiswaHadistController::class);
+Route::resource('/siswaIbadahHarian', SiswaIbadahHarianController::class);
+Route::resource('/siswaBidangStudi', SiswaBidangStudiController::class);
+Route::resource('/siswaIlmanWaaRuuhan', SiswaIlmanWaaRuuhanController::class);
+// choose kelas for siswaDoa
+
 
 Route::get('/tes', function () {
     return view('dashboard');

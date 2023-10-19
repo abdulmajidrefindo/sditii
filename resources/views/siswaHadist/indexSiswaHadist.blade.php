@@ -62,6 +62,7 @@
                     <th>{{ optional($s)->hadist_7->nama_nilai }}</th>
                     <th>{{ optional($s)->hadist_8->nama_nilai }}</th>
                     <th>{{ optional($s)->hadist_9->nama_nilai }}</th>
+                    <th>Aksi</th>
                 </tr>
                 @endif
                 @endforeach
@@ -80,6 +81,10 @@
                     <td>{{ optional($n)->hadist_7->nilai }}</td>
                     <td>{{ optional($n)->hadist_8->nilai }}</td>
                     <td>{{ optional($n)->hadist_9->nilai }}</td>
+                    <td>
+                      <a href="{{ route('siswaHadist.show', $n->id) }}" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                      <a href="javascript:void(0)" data-toggle="tooltip"  data-id="{{$n->id}}" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+                    </td>
                 </tr>
                 @empty
                 <td>-</td>
@@ -148,4 +153,60 @@
   //   });
   // });
 </script>
+
+<script>
+  //delete via ajax with sweet alert
+  $(document).on('click', '.delete', function() {
+      let id = $(this).attr('data-id');
+      let url = '{{ route("siswaHadist.destroy", ":id") }}';
+      url = url.replace(':id', id);
+      Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: "Data yang dihapus tidak dapat dikembalikan!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: url,
+            type: 'DELETE',
+            dataType: 'json',
+            data: {
+              method: '_DELETE',
+              submit: true,
+              _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+              if (response.status == 200) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: response.message,
+                }).then(function() {
+                  location.reload();
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Gagal',
+                  text: response.error,
+                });
+              }
+            },
+            error: function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: response.error,
+              });
+            }
+          });
+        }
+      });
+    });
+</script>
+
 @stop
