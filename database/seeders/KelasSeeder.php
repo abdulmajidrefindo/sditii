@@ -18,9 +18,6 @@ class KelasSeeder extends Seeder
     public function run()
     {
         DB::table('kelas')->insert([
-            'nama_kelas' => 'Bukan Wali Kelas',
-        ]);
-        DB::table('kelas')->insert([
             'guru_id' => '4',
             'nama_kelas' => 'Kelas 1',
         ]);
@@ -43,6 +40,9 @@ class KelasSeeder extends Seeder
         DB::table('kelas')->insert([
             'guru_id' => '9',
             'nama_kelas' => 'Kelas 6',
+        ]);
+        DB::table('kelas')->insert([
+            'nama_kelas' => 'Bukan Wali Kelas',
         ]);
     }
 }
