@@ -48,6 +48,7 @@
                     <th>Halaman</th>
                     <th>Nilai</th>
                     <th>Pengajar</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             @foreach ($siswa_i as $s)
@@ -60,6 +61,14 @@
                 <td>{{ $s->ilman_waa_ruuhan->halaman }}</td>
                 <td>{{ $s->penilaian_deskripsi->deskripsi }} / {{ $s->penilaian_deskripsi->keterangan }}</td>
                 <td>{{ $s->ilman_waa_ruuhan->guru->nama_guru }}</td>
+                <td>
+                  <a href="{{ route('siswaIlmanWaaRuuhan.show', $s->id) }}"
+                      class="btn btn-sm btn-success mx-1 shadow detail"><i
+                          class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                  <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{ $s->id }}"
+                      data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i
+                          class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+              </td>
             </tr>
             @endforeach
           </table>
@@ -126,4 +135,60 @@
   //   });
   // });
 </script>
+
+<script>
+  //delete via ajax with sweet alert
+  $(document).on('click', '.delete', function() {
+      let id = $(this).attr('data-id');
+      let url = '{{ route('siswaIlmanWaaRuuhan.destroy', ':id') }}';
+      url = url.replace(':id', id);
+      Swal.fire({
+          title: 'Apakah anda yakin?',
+          text: "Data yang dihapus tidak dapat dikembalikan!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya, hapus!'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              $.ajax({
+                  url: url,
+                  type: 'DELETE',
+                  dataType: 'json',
+                  data: {
+                      method: '_DELETE',
+                      submit: true,
+                      _token: '{{ csrf_token() }}'
+                  },
+                  success: function(response) {
+                      if (response.status == 200) {
+                          Swal.fire({
+                              icon: 'success',
+                              title: 'Berhasil',
+                              text: response.message,
+                          }).then(function() {
+                              location.reload();
+                          });
+                      } else {
+                          Swal.fire({
+                              icon: 'error',
+                              title: 'Gagal',
+                              text: response.error,
+                          });
+                      }
+                  },
+                  error: function(response) {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Gagal',
+                          text: response.error,
+                      });
+                  }
+              });
+          }
+      });
+  });
+</script>
+
 @stop

@@ -43,13 +43,13 @@ class User extends Model
         return $this->hasMany(Pengumuman::class);
     }
     //delete all child on delete
-    public static function boot()
-    {
+    public static function boot() {
         parent::boot();
-        static::deleting(function($user) {
-            $user->role()->delete();
-            $user->guru()->delete();
-            $user->pengumuman()->delete();
+        static::deleting(function($user) { // before delete() method call this
+             $user->role()->detach();
+             $user->guru()->delete();
+             $user->pengumuman()->delete();
+             // do the rest of the cleanup...
         });
     }
 }

@@ -138,12 +138,10 @@ class UserController extends Controller
         // $user->update($request->only(['name', 'email', 'user_name']));
         $id = $dataUser->id;
         
-        $userRoles = UserRoles::where('user_id', $id);
-        // $userRoles->delete();
-        
+        #update userRoles pivot table
+        $userRoles = UserRoles::where('user_id', $id)->first();
         $userRoles->update([
-            'role_id'=>$request->get('role'),
-            'updated_at'=>now()
+            'role_id'=>$request->get('role')
         ]);
 
         // $userRoles->create([
@@ -167,12 +165,18 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(User $user)
+    public function destroy(User $dataUser)
     {
-        $user->delete();
-        //return response()->json('Berhasil Dihapur');
-
-        return response()->json(['success' => 'Data berhasil dihapus!']);
+        $id = $dataUser->id;
+        $userRoles = UserRoles::where('user_id', $id)->first();
+        $userRoles->delete();
+        $dataUser->delete();
+        if ($dataUser) {
+            return response()->json(['success' => 'Data berhasil dihapus!']);
+        }
+        else{
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 
     public function getTable(Request $request){

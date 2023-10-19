@@ -45,21 +45,6 @@
                     <th>Nama Siswa</th>
                     <th>NISN</th>
                     <th>Kelas</th>
-                    {{-- <th>Nilai 1</th>
-                    <th>Nilai 2</th>
-                    <th>Nilai 3</th>
-                    <th>Nilai 4</th>
-                    <th>Nilai 5</th>
-                    <th>Nilai 6</th>
-                    <th>Nilai 7</th>
-                    <th>Nilai 8</th>
-                    <th>Nilai 9</th>
-                    <th>Nilai 10</th>
-                    <th>Nilai 11</th>
-                    <th>Nilai 12</th>
-                    <th>Nilai 13</th>
-                    <th>Nilai 14</th>
-                    <th>Nilai 15</th> --}}
                     <th>{{ optional($s)->tahfidz_1->nama_nilai }}</th>
                     <th>{{ optional($s)->tahfidz_2->nama_nilai }}</th>
                     <th>{{ optional($s)->tahfidz_3->nama_nilai }}</th>
@@ -75,6 +60,7 @@
                     <th>{{ optional($s)->tahfidz_13->nama_nilai }}</th>
                     <th>{{ optional($s)->tahfidz_14->nama_nilai }}</th>
                     <th>{{ optional($s)->tahfidz_15->nama_nilai }}</th>
+                    <th>Aksi</th>
                 </tr>
                 @endif
                 @endforeach
@@ -99,6 +85,10 @@
                     <td>{{ optional($n)->tahfidz_13->nilai }}</td>
                     <td>{{ optional($n)->tahfidz_14->nilai }}</td>
                     <td>{{ optional($n)->tahfidz_15->nilai }}</td>
+                    <td>
+                      <a href="{{ route('siswaTahfidz.show', $n->id) }}" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                      <a href="javascript:void(0)" data-toggle="tooltip"  data-id="{{$n->id}}" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+                    </td>
                 </tr>
                 @empty
                 <td>-</td>
@@ -167,4 +157,60 @@
   //   });
   // });
 </script>
+
+<script>
+  //delete via ajax with sweet alert
+  $(document).on('click', '.delete', function() {
+      let id = $(this).attr('data-id');
+      let url = '{{ route("siswaTahfidz.destroy", ":id") }}';
+      url = url.replace(':id', id);
+      Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: "Data yang dihapus tidak dapat dikembalikan!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: url,
+            type: 'DELETE',
+            dataType: 'json',
+            data: {
+              method: '_DELETE',
+              submit: true,
+              _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+              if (response.status == 200) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: response.message,
+                }).then(function() {
+                  location.reload();
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Gagal',
+                  text: response.error,
+                });
+              }
+            },
+            error: function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: response.error,
+              });
+            }
+          });
+        }
+      });
+    });
+</script>
+
 @stop

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreSiswaBidangStudiRequest;
 use App\Http\Requests\UpdateSiswaBidangStudiRequest;
 use App\Models\SiswaBidangStudi;
@@ -65,7 +66,11 @@ class SiswaBidangStudiController extends Controller
      */
     public function show(SiswaBidangStudi $siswaBidangStudi)
     {
-        //
+        $siswaBidangStudi = SiswaBidangStudi::with('siswa','nilai_uh_1','nilai_uh_2','nilai_uh_3','nilai_uh_4','nilai_tugas_1','nilai_tugas_2','nilai_uts','nilai_pas')->where('id',$siswaBidangStudi->id)->first();
+        return view('/siswaBidangStudi/showSiswaBidangStudi', 
+        [
+            'siswaBidangStudi'=>$siswaBidangStudi
+        ]);
     }
 
     /**
@@ -86,10 +91,37 @@ class SiswaBidangStudiController extends Controller
      * @param  \App\Models\SiswaMapel  $siswaMapel
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSiswaBidangStudiRequest $request, SiswaBidangStudi $siswaBidangStudi)
+    public function update(Request $request, SiswaBidangStudi $siswaBidangStudi)
     {
-        //
+
+        $messages = [];
+        $validator_rules = [];
+        $nilai_fields = ['nilai_uh_1_id', 'nilai_uh_2_id', 'nilai_uh_3_id', 'nilai_uh_4_id', 'nilai_tugas_1_id', 'nilai_tugas_2_id', 'nilai_uts_id', 'nilai_pas_id'];
+    
+        foreach ($nilai_fields as $field) {
+            $messages[$field.'.integer'] = 'Nilai harus berupa angka.';
+            $messages[$field.'.min'] = 'Nilai tidak boleh kurang dari 0.';
+            $messages[$field.'.max'] = 'Nilai tidak boleh lebih dari 100.';
+            $validator_rules[$field] = 'integer|min:0|max:100';
+        }
+    
+        $validator = Validator::make($request->all(), $validator_rules, $messages);
+    
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+    
+        foreach ($nilai_fields as $field) {
+            $siswaBidangStudi->$field = $request->input($field);
+        }
+    
+        if ($siswaBidangStudi->save()) {
+            return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal diupdate!']);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -99,6 +131,10 @@ class SiswaBidangStudiController extends Controller
      */
     public function destroy(SiswaBidangStudi $siswaBidangStudi)
     {
-        //
+        if ($siswaBidangStudi->delete()) {
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 }

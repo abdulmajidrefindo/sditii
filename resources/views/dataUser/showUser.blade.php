@@ -90,7 +90,7 @@
                             @enderror
                         </div> --}}
                         
-                        <div class="form-group col-md-12" id="role">
+                        <div class="form-group col-md-12" id="form_role">
                             <label for="role" class="text-lightdark">
                                 Peran
                             </label>
@@ -102,7 +102,7 @@
                             </div>
                         </div>
                         
-                        <div class="form-group col-md-12" hidden id="update_role">
+                        <div class="form-group col-md-12" hidden id="form_update_role">
                             <label for="update_role" class="form-label">Peran</label>
                             <select class="form-control @error('update_role') is-invalid @enderror" id="update_role" name="update_role" data-placeholder="-pilih peran pengguna-" style="width: 100%;">
                                 <option selected disabled>-pilih peran pengguna-</option>
@@ -202,10 +202,11 @@
             $('#email').prop('disabled', false);
             // $('#password').prop('disabled', false);
             // $('#password').prop('placeholder', '-masukkan password baru-');
-            $('#role').prop('disabled', true);
-            $('#role').prop('hidden', true);
+            $('#form_role').prop('disabled', true);
+            $('#form_role').prop('hidden', true);
             $('#update_role').prop('disabled', false);
-            $('#update_role').prop('hidden', false);
+            $('#form_update_role').prop('disabled', false);
+            $('#form_update_role').prop('hidden', false);
             $('#simpan').prop('hidden', false);
             $('#edit').prop('hidden', true);
             
@@ -220,8 +221,9 @@
                     name: $('#name').val(),
                     // user_name: $('#user_name').val(),
                     email: $('#email').val(),
-                    role: $('#update_role').val(),
                     // password: $('#password').val(),
+                    role: $('#update_role').val(),
+                    
                     
                 },
                 success: function(data) {
@@ -230,12 +232,17 @@
                     $('#email').prop('disabled', true);
                     // $('#password').prop('disabled', true);
                     // $('#password').prop('placeholder', '-password disembunyikan-');
-                    $('#role').prop('disbled', false);
-                    $('#role').prop('hidden', false);
+                    $('#role').prop('disabled', true);
+                    $('#form_role').prop('hidden', false);
+                    $('#form_update_role').prop('hidden', true);
                     $('#update_role').prop('disabled', true);
-                    $('#update_role').prop('hidden', true);
                     $('#simpan').prop('hidden', true);
                     $('#edit').prop('hidden', false);
+                    // role select the value
+                    var role = $('#update_role').val();
+                    var roleText = $('#update_role option:selected').text();
+                    $('#role').val(roleText);
+
                     
                     
                     Swal.fire({

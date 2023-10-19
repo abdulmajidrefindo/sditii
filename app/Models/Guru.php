@@ -169,4 +169,7 @@ class Guru extends Model
     {
         return $this->hasMany(Mapel::class);
     }
+
+    //delete all child on delete
+    
 }

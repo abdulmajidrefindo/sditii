@@ -37,6 +37,23 @@
             <h3 class="card-title">Tabel Doa</h3>
         </div>
         <div class="card-body">
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="kelas">Pilih Kelas</label>
+              <form action="{{ url('/') }}/siswaDoa" method="post">
+                @csrf
+                <select class="custom-select" name="kelas_id" id="kelas_id">
+                  <option selected disabled>-Kelas-</option>
+                  @foreach ($data_kelas as $k)
+                  <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                  @endforeach
+                </select>
+                <input type="submit">
+              </form>
+            </div>
+          </div>
+
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               @foreach($siswa_d as $s)
@@ -62,6 +79,7 @@
                   <th>{{ optional($s)->doa_7->nama_nilai }}</th>
                   <th>{{ optional($s)->doa_8->nama_nilai }}</th>
                   <th>{{ optional($s)->doa_9->nama_nilai }}</th>
+                  <th>Aksi</th>
               </tr>
               @endif
               @endforeach
@@ -80,6 +98,10 @@
                   <td>{{ optional($n)->doa_7->nilai }}</td>
                   <td>{{ optional($n)->doa_8->nilai }}</td>
                   <td>{{ optional($n)->doa_9->nilai }}</td>
+                  <td>
+                    <a href="{{ route('siswaDoa.show', $n->id) }}" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                    <a href="javascript:void(0)" data-toggle="tooltip"  data-id="{{$n->id}}" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+                  </td>
               </tr>
               @empty
               <td>-</td>
@@ -120,6 +142,18 @@
 <!-- Page specific script -->
 @stop
 @section('js')
+
+<script>
+  $(document).ready(function() {
+    //set csrf token
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  });
+</script>
+
 <script type="text/javascript">
   $(function () {
     $("#example1").DataTable({
@@ -148,4 +182,61 @@
   //   });
   // });
 </script>
+
+<script>
+  //delete via ajax with sweet alert
+  $(document).on('click', '.delete', function() {
+          let id = $(this).attr('data-id');
+          let url = '{{ route("siswaDoa.destroy", ":id") }}';
+          url = url.replace(':id', id);
+          Swal.fire({
+              title: 'Apakah anda yakin?',
+              text: "Data yang dihapus tidak dapat dikembalikan!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              // confirmButtonText: 'Yes, delete it!'
+              confirmButtonText: 'Ya, hapus!'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  $.ajax({
+                      url: url,
+                      type: 'DELETE',
+                      dataType: 'json',
+                      data: {
+                          method: '_DELETE',
+                          submit: true,
+                          _token: '{{ csrf_token() }}'
+                      },
+                      success: function(response) {
+                          if (response.status == 200) {
+                              Swal.fire({
+                                  icon: 'success',
+                                  title: 'Berhasil',
+                                  text: response.message,
+                                }).then(function() {
+                                  location.reload();
+                                });
+                          } else {
+                              Swal.fire({
+                                  icon: 'error',
+                                  title: 'Gagal',
+                                  text: response.error,
+                              });
+                          }
+                      },
+                      error: function(response) {
+                          Swal.fire({
+                              icon: 'error',
+                              title: 'Gagal',
+                              text: response.error,
+                          });
+                      }
+                  });
+              }
+          });
+      });
+</script>
+
 @stop
