@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dataUser', UserController::class)->middleware('role:Wali Kelas,Administrator');
     Route::resource('/dataGuru', GuruController::class);
     Route::resource('/dataSiswa', SiswaController::class);
-    Route::resource('/dataTahunPelajaran', PeriodeController::class);
+    Route::resource('/dataPeriode', PeriodeController::class);
     
     Route::get('/getTableUser', [UserController::class, 'getTable'])->name('user.getTable');
     Route::get('/getTableGuru', [GuruController::class, 'getTable'])->name('guru.getTable');

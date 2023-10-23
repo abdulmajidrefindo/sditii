@@ -358,7 +358,7 @@ return [
         ],
         [
             'text' => 'Data Tahun Pelajaran',
-            'url'  => 'dataTahunPelajaran',
+            'url'  => 'dataPeriode',
             'icon' => 'fas fa-fw fa-table',
         ],
 

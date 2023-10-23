@@ -40,12 +40,14 @@
                         <i class="fas fa-xs fa-table fa-fw"></i>
                         Daftar Guru</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="controller-tab-guru-add" data-toggle="pill" href="#content-tab-guru-add"
-                        role="tab" aria-controls="content-tab-guru-add" aria-selected="false">
-                        <i class="fas fa-xs fa-plus fa-fw"></i>
-                        Tambah Guru</a>
-                </li>
+                @if (Auth::user()->role->contains('role', 'Administrator'))
+                    <li class="nav-item">
+                        <a class="nav-link" id="controller-tab-guru-add" data-toggle="pill" href="#content-tab-guru-add"
+                            role="tab" aria-controls="content-tab-guru-add" aria-selected="false">
+                            <i class="fas fa-xs fa-plus fa-fw"></i>
+                            Tambah Guru</a>
+                    </li>
+                @endif
             </ul>
         </div>
 
@@ -61,7 +63,9 @@
                                 <th>Nama Guru</th>
                                 <th>NIP</th>
                                 {{-- <th>Peran</th> --}}
+                                @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <th>Aksi</th>
+                                @endif
                             </tr>
                         </thead>
                         {{-- @forelse ($user as $u)
@@ -77,52 +81,24 @@
                     </table>
                 </div>
                 {{-- /tab daftar --}}
-
-                {{-- tab tambah --}}
-                <div class="tab-pane fade" id="content-tab-guru-add" role="tabpanel"
-                    aria-labelledby="controller-tab-guru-add">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="bs-stepper-content">
-                                    <form id="form_tambah_guru">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="user" class="form-label">User</label>
-                                            <select class="form-control @error('user') is-invalid @enderror" id="user"
-                                                name="user" data-placeholder="-pilih user-" style="width: 100%;">
-                                                <option selected disabled>-pilih user-</option>
-                                                @foreach ($user as $u)
-                                                    <option value={{ $u->id }}>{{ $u->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('role_id')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-
+                @if (Auth::user()->role->contains('role', 'Administrator'))
+                    {{-- tab tambah --}}
+                    <div class="tab-pane fade" id="content-tab-guru-add" role="tabpanel"
+                        aria-labelledby="controller-tab-guru-add">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="bs-stepper-content">
+                                        <form id="form_tambah_guru">
+                                            @csrf
                                             <div class="form-group">
-                                                <label for="nip" class="form-label"
-                                                    style="margin-top: 15px">NIP</label>
-                                                <input type="nip"
-                                                    class="form-control @error('nip') is-invalid @enderror" name="nip"
-                                                    id="nip" placeholder="-masukkan NIP guru-">
-                                                @error('nip')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="kelas" class="form-label">Kelas Perwalian</label>
-                                                <select class="form-control @error('kelas') is-invalid @enderror"
-                                                    id="kelas" name="kelas" data-placeholder="-pilih kelas perwalian-"
+                                                <label for="user" class="form-label">User</label>
+                                                <select class="form-control @error('user') is-invalid @enderror"
+                                                    id="user" name="user" data-placeholder="-pilih user-"
                                                     style="width: 100%;">
-                                                    <option selected disabled>-pilih kelas perwalian-</option>
-                                                    @foreach ($kelas as $k)
-                                                        <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                                    <option selected disabled>-pilih user-</option>
+                                                    @foreach ($user as $u)
+                                                        <option value={{ $u->id }}>{{ $u->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('role_id')
@@ -130,18 +106,47 @@
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
-                                            </div>
 
-                                            <x-adminlte-button type="submit" class="btn bg-purple col-12 simpan"
-                                                icon="fas fa fa-fw fa-save" label="Simpan Data" />
-                                    </form>
+                                                <div class="form-group">
+                                                    <label for="nip" class="form-label"
+                                                        style="margin-top: 15px">NIP</label>
+                                                    <input type="nip"
+                                                        class="form-control @error('nip') is-invalid @enderror"
+                                                        name="nip" id="nip" placeholder="-masukkan NIP guru-">
+                                                    @error('nip')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="kelas" class="form-label">Kelas Perwalian</label>
+                                                    <select class="form-control @error('kelas') is-invalid @enderror"
+                                                        id="kelas" name="kelas"
+                                                        data-placeholder="-pilih kelas perwalian-" style="width: 100%;">
+                                                        <option selected disabled>-pilih kelas perwalian-</option>
+                                                        @foreach ($kelas as $k)
+                                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('role_id')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+
+                                                <x-adminlte-button type="submit" class="btn bg-purple col-12 simpan"
+                                                    icon="fas fa fa-fw fa-save" label="Simpan Data" />
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {{-- /tab tambah --}}
-
+                    {{-- /tab tambah --}}
+                @endif
             </div>
         </div>
     </div>
@@ -225,6 +230,7 @@
                         data: 'nip',
                         name: 'nip'
                     },
+                    @if (Auth::user()->role->contains('role', 'Administrator'))
                     {
                         data: 'action',
                         name: 'action',
@@ -233,6 +239,7 @@
                         sClass: 'text-center',
                         width: '25%',
                     }
+                    @endif
                 ]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             //Initialize Select2 Elements
@@ -242,82 +249,82 @@
     {{-- ajax tambah guru --}}
     <script>
         $(document).ready(function() {
-          $('.select2').select2();
-          $('.select2bs4').select2({
-            theme: 'bootstrap4'
-          });
-          $('#controller-tab-guru-add').on('click', function() {
-            $('#form_tambah_guru')[0].reset();
-          });
-          $('#form_tambah_guru').on('submit', function(e) {
-            e.preventDefault();
-            let user = $('#user').val();
-            let user_name = $('#user_name').val();
-            let nip = $('#nip').val();  
-            let kelas = $('#kelas').val();
-            $.ajax({
-              type: "POST",
-              url: "{{ route('dataGuru.store') }}",
-              data: {
-                user: user,
-                user_name: user_name,
-                nip: nip,
-                kelas: kelas,
-              },
-              dataType: "JSON",
-              success: function(response) {
-                // if (response.success) {
-                  $('#example1').DataTable().ajax.reload();
-                  $('#form_tambah_guru')[0].reset();
-                  Swal.fire({
-                    title: 'Berhasil',
-                    text: 'Data berhasil disimpan!',
-                    icon: 'success',
-                    iconColor: '#fff',
-                    toast: true,
-                    background: '#45FFCA',
-                    position: 'top-center',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                  });
-                },
-                error: function(err) {
-                  
-                  if (err.status == 422) {
-                    $('#form_tambah_guru').find(".is-invalid").removeClass(
-                    "is-invalid");
-                    $('#form_tambah_guru').find('.error').remove();
-                    
-                    //send error to adminlte form
-                    $.each(err.responseJSON.errors, function(i, error) {
-                      var el = $(document).find('[name="' + i + '"]');
-                      if (el.hasClass('is-invalid')) {
-                        el.removeClass('is-invalid');
-                        el.next().remove();
-                      }
-                      el.addClass('is-invalid');
-                      el.after($('<span class="error invalid-feedback">' +
-                        error[0] + '</span>'));
-                      });
-                      Swal.fire({
-                        title: 'Gagal!',
-                        text: 'Mohon isi data dengan benar!',
-                        icon: 'error',
-                        iconColor: '#fff',
-                        toast: true,
-                        background: '#f8bb86',
-                        position: 'top-center',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                      });
-                    }
-                  }
-                });
-              });
+            $('.select2').select2();
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
             });
-          </script>
+            $('#controller-tab-guru-add').on('click', function() {
+                $('#form_tambah_guru')[0].reset();
+            });
+            $('#form_tambah_guru').on('submit', function(e) {
+                e.preventDefault();
+                let user = $('#user').val();
+                let user_name = $('#user_name').val();
+                let nip = $('#nip').val();
+                let kelas = $('#kelas').val();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('dataGuru.store') }}",
+                    data: {
+                        user: user,
+                        user_name: user_name,
+                        nip: nip,
+                        kelas: kelas,
+                    },
+                    dataType: "JSON",
+                    success: function(response) {
+                        // if (response.success) {
+                        $('#example1').DataTable().ajax.reload();
+                        $('#form_tambah_guru')[0].reset();
+                        Swal.fire({
+                            title: 'Berhasil',
+                            text: 'Data berhasil disimpan!',
+                            icon: 'success',
+                            iconColor: '#fff',
+                            toast: true,
+                            background: '#45FFCA',
+                            position: 'top-center',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        });
+                    },
+                    error: function(err) {
+
+                        if (err.status == 422) {
+                            $('#form_tambah_guru').find(".is-invalid").removeClass(
+                                "is-invalid");
+                            $('#form_tambah_guru').find('.error').remove();
+
+                            //send error to adminlte form
+                            $.each(err.responseJSON.errors, function(i, error) {
+                                var el = $(document).find('[name="' + i + '"]');
+                                if (el.hasClass('is-invalid')) {
+                                    el.removeClass('is-invalid');
+                                    el.next().remove();
+                                }
+                                el.addClass('is-invalid');
+                                el.after($('<span class="error invalid-feedback">' +
+                                    error[0] + '</span>'));
+                            });
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: 'Mohon isi data dengan benar!',
+                                icon: 'error',
+                                iconColor: '#fff',
+                                toast: true,
+                                background: '#f8bb86',
+                                position: 'top-center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
     <script>
         //delete via ajax

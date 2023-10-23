@@ -41,11 +41,14 @@
                                     href="#content-tab-siswa-table" role="tab" aria-controls="content-tab-siswa-table"
                                     aria-selected="true">Data Siswa</a>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="controller-tab-siswa-add" data-toggle="tab"
-                                    href="#content-tab-siswa-add" role="tab" aria-controls="content-tab-siswa-add"
-                                    aria-selected="false">Tambah Siswa</a>
-                            </li>
+                            @if (Auth::user()->role->contains('role', 'Administrator'))
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="controller-tab-siswa-add" data-toggle="tab"
+                                        href="#content-tab-siswa-add" role="tab" aria-controls="content-tab-siswa-add"
+                                        aria-selected="false">Tambah Siswa</a>
+                                </li>
+                            @endif
+                        </ul>
 
                     </div>
                     <div class="card-body">
@@ -61,91 +64,101 @@
                                             <th>NISN</th>
                                             <th>Orang Tua/Wali</th>
                                             <th>Kelas</th>
+                                            @if (Auth::user()->role->contains('role', 'Administrator'))
                                             <th>Aksi</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                 </table>
                             </div>
                             {{-- -----------------end tab add siswa----------------- --}}
+                            @if (Auth::user()->role->contains('role', 'Administrator'))
+                                {{-- -----------------tab add siswa----------------- --}}
+                                <div class="tab-pane fade" id="content-tab-siswa-add" role="tabpanel"
+                                    aria-labelledby="controller-tab-siswa-add">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="bs-stepper-content">
+                                                    <form id="form_tambah_siswa">
+                                                        @csrf
+                                                        {{-- Input NISN --}}
+                                                        <div class="form-group">
+                                                            <label for="nisn">NISN</label>
+                                                            <input type="text"
+                                                                class="form-control @error('nisn') is-invalid @enderror"
+                                                                id="nisn" name="nisn" placeholder="Masukkan NISN">
+                                                            @error('nisn')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
 
-                            {{-- -----------------tab add siswa----------------- --}}
-                            <div class="tab-pane fade" id="content-tab-siswa-add" role="tabpanel"
-                                aria-labelledby="controller-tab-siswa-add">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="bs-stepper-content">
-                                                <form id="form_tambah_siswa">
-                                                    @csrf
-                                                    {{-- Input NISN --}}
-                                                    <div class="form-group">
-                                                        <label for="nisn">NISN</label>
-                                                        <input type="text"
-                                                            class="form-control @error('nisn') is-invalid @enderror"
-                                                            id="nisn" name="nisn" placeholder="Masukkan NISN">
-                                                        @error('nisn')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                        @enderror
-                                                    </div>
+                                                        {{-- Input Nama Siswa --}}
+                                                        <div class="form-group">
+                                                            <label for="nama_siswa">Nama Siswa</label>
+                                                            <input type="text"
+                                                                class="form-control @error('nama_siswa') is-invalid @enderror"
+                                                                id="nama_siswa" name="nama_siswa"
+                                                                placeholder="Masukkan Nama Siswa">
+                                                            @error('nama_siswa')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
 
-                                                    {{-- Input Nama Siswa --}}
-                                                    <div class="form-group">
-                                                        <label for="nama_siswa">Nama Siswa</label>
-                                                        <input type="text"
-                                                            class="form-control @error('nama_siswa') is-invalid @enderror"
-                                                            id="nama_siswa" name="nama_siswa"
-                                                            placeholder="Masukkan Nama Siswa">
-                                                        @error('nama_siswa')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                        @enderror
-                                                    </div>
+                                                        {{-- Orang Tua/Wali --}}
+                                                        <div class="form-group">
+                                                            <label for="orangtua_wali">Orang Tua/Wali</label>
+                                                            <input type="text"
+                                                                class="form-control @error('orangtua_wali') is-invalid @enderror"
+                                                                id="orangtua_wali" name="orangtua_wali"
+                                                                placeholder="Masukkan Nama Orang Tua/Wali">
+                                                            @error('orangtua_wali')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
 
-                                                    {{-- Orang Tua/Wali --}}
-                                                    <div class="form-group">
-                                                        <label for="orangtua_wali">Orang Tua/Wali</label>
-                                                        <input type="text"
-                                                            class="form-control @error('orangtua_wali') is-invalid @enderror"
-                                                            id="orangtua_wali" name="orangtua_wali"
-                                                            placeholder="Masukkan Nama Orang Tua/Wali">
-                                                        @error('orangtua_wali')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                        @enderror
-                                                    </div>
-
-                                                    {{-- Input Kelas --}}
-                                                    <div class="form-group">
-                                                        <label for="kelas">Kelas</label>
-                                                        <select
-                                                            class="form-control select2bs4 @error('kelas') is-invalid @enderror"
-                                                            id="kelas" name="kelas" style="width: 100%;">
-                                                            <option value="" selected disabled>Pilih Kelas</option>
-                                                            @foreach ($kelas as $item)
-                                                                <option value="{{ $item->id }}">{{ $item->nama_kelas }}
+                                                        {{-- Input Kelas --}}
+                                                        <div class="form-group">
+                                                            <label for="kelas">Kelas</label>
+                                                            <select
+                                                                class="form-control select2bs4 @error('kelas') is-invalid @enderror"
+                                                                id="kelas" name="kelas" style="width: 100%;">
+                                                                <option value="" selected disabled>Pilih Kelas
                                                                 </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('kelas')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                        @enderror
-                                                    </div>
+                                                                @foreach ($kelas as $item)
+                                                                    {{-- except id 1 --}}
+                                                                    @if ($item->id != 1)
+                                                                        <option value="{{ $item->id }}">
+                                                                            {{ $item->nama_kelas }}
+                                                                    @endif
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('kelas')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
 
-                                                    {{-- Simpan --}}
-                                                    <x-adminlte-button type="submit" class="btn bg-purple col-12 simpan"
-                                                        icon="fas fa fa-fw fa-save" label="Simpan Data" />
-                                                </form>
+                                                        {{-- Simpan --}}
+                                                        <x-adminlte-button type="submit"
+                                                            class="btn bg-purple col-12 simpan" icon="fas fa fa-fw fa-save"
+                                                            label="Simpan Data" />
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                {{-- -----------------end tab add siswa----------------- --}}
+                            @endif
                         </div>
 
 
@@ -241,6 +254,7 @@
                         data: 'kelas.nama_kelas',
                         name: 'kelas'
                     },
+                    @if (Auth::user()->role->contains('role', 'Administrator'))
                     {
                         data: 'action',
                         name: 'action',
@@ -249,6 +263,7 @@
                         sClass: 'text-center',
                         width: '25%',
                     }
+                    @endif
                 ]
             }).buttons().container().appendTo('#tabel-siswa_wrapper .col-md-6:eq(0)');
             //Initialize Select2 Elements
@@ -271,7 +286,7 @@
                     processData: false,
                     dataType: "json",
                     success: function(response) {
-                      Swal.fire({
+                        Swal.fire({
                             title: 'Berhasil',
                             text: 'Data berhasil disimpan!',
                             icon: 'success',
@@ -289,7 +304,7 @@
                         $('#controller-tab-siswa-table').addClass('active');
                         $('#controller-tab-siswa-add').removeClass('active');
                         resetForm();
-                        
+
                     },
                     error: function(err) {
                         if (err.status == 422) {
