@@ -30,7 +30,7 @@ use App\Http\Controllers\RaporSiswaController;
 
 Route::middleware('auth')->group(function () {
 
-    Route::resource('/dataUser', UserController::class)->middleware('role:Guru,Administrator');
+    Route::resource('/dataUser', UserController::class)->middleware('role:Wali Kelas,Administrator');
     Route::resource('/dataGuru', GuruController::class);
     Route::resource('/dataSiswa', SiswaController::class);
     Route::resource('/dataTahunPelajaran', PeriodeController::class);
@@ -39,7 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/getTableGuru', [GuruController::class, 'getTable'])->name('guru.getTable');
     Route::get('/getTableSiswa', [SiswaController::class, 'getTable'])->name('siswa.getTable');
     Route::get('/getTablePeriode', [PeriodeController::class, 'getTable'])->name('periode.getTable');
-    
     
     Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
     Route::get('/pengumuman', [PengumumanController::class, 'index']);
@@ -50,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'choose']);
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
-    Route::get('/raporSiswa', [RaporSiswaController::class, 'index']);
+    Route::get('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator');
     // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
     
     Route::resource('/dataProfilSekolah', ProfilSekolahController::class);
