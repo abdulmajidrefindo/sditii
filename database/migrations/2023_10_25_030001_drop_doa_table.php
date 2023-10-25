@@ -55,29 +55,6 @@ return new class extends Migration
      */
     public function down()
     {
-        // add the foreign key
-        Schema::table('siswa_doas', function (Blueprint $table) {
-            $table->foreignId('doa_2_id')->nullable()->references('id')->on('doas_2');
-            $table->foreignId('doa_3_id')->nullable()->references('id')->on('doas_3');
-            $table->foreignId('doa_4_id')->nullable()->references('id')->on('doas_4');
-            $table->foreignId('doa_5_id')->nullable()->references('id')->on('doas_5');
-            $table->foreignId('doa_6_id')->nullable()->references('id')->on('doas_6');
-            $table->foreignId('doa_7_id')->nullable()->references('id')->on('doas_7');
-            $table->foreignId('doa_8_id')->nullable()->references('id')->on('doas_8');
-            $table->foreignId('doa_9_id')->nullable()->references('id')->on('doas_9');
-        });
-
-        // add the column
-        Schema::table('siswa_doas', function (Blueprint $table) {
-            $table->unsignedBigInteger('doa_2_id')->nullable();
-            $table->unsignedBigInteger('doa_3_id')->nullable();
-            $table->unsignedBigInteger('doa_4_id')->nullable();
-            $table->unsignedBigInteger('doa_5_id')->nullable();
-            $table->unsignedBigInteger('doa_6_id')->nullable();
-            $table->unsignedBigInteger('doa_7_id')->nullable();
-            $table->unsignedBigInteger('doa_8_id')->nullable();
-            $table->unsignedBigInteger('doa_9_id')->nullable();
-        });
 
         // create the table
         Schema::create('doas_2', function (Blueprint $table) {
@@ -134,6 +111,30 @@ return new class extends Migration
             $table->string('nama_nilai')->nullable();
             $table->integer('nilai')->nullable();
             $table->timestamps();
+        });
+
+        // add the column
+        Schema::table('siswa_doas', function (Blueprint $table) {
+            $table->unsignedBigInteger('doa_2_id')->nullable();
+            $table->unsignedBigInteger('doa_3_id')->nullable();
+            $table->unsignedBigInteger('doa_4_id')->nullable();
+            $table->unsignedBigInteger('doa_5_id')->nullable();
+            $table->unsignedBigInteger('doa_6_id')->nullable();
+            $table->unsignedBigInteger('doa_7_id')->nullable();
+            $table->unsignedBigInteger('doa_8_id')->nullable();
+            $table->unsignedBigInteger('doa_9_id')->nullable();
+        });
+
+                // add the foreign key
+        Schema::table('siswa_doas', function (Blueprint $table) {
+            $table->foreignId('doa_2_id')->nullable()->references('id')->on('doas_2');
+            $table->foreignId('doa_3_id')->nullable()->references('id')->on('doas_3');
+            $table->foreignId('doa_4_id')->nullable()->references('id')->on('doas_4');
+            $table->foreignId('doa_5_id')->nullable()->references('id')->on('doas_5');
+            $table->foreignId('doa_6_id')->nullable()->references('id')->on('doas_6');
+            $table->foreignId('doa_7_id')->nullable()->references('id')->on('doas_7');
+            $table->foreignId('doa_8_id')->nullable()->references('id')->on('doas_8');
+            $table->foreignId('doa_9_id')->nullable()->references('id')->on('doas_9');
         });
     }
 

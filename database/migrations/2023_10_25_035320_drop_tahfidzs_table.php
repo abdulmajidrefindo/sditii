@@ -73,42 +73,8 @@ return new class extends Migration
      */
     public function down()
     {
-        // add the foreign key
-        Schema::table('siswa_tahfidzs', function (Blueprint $table) {
-            $table->foreignId('tahfidz_2_id')->nullable()->references('id')->on('tahfidzs_2');
-            $table->foreignId('tahfidz_3_id')->nullable()->references('id')->on('tahfidzs_3');
-            $table->foreignId('tahfidz_4_id')->nullable()->references('id')->on('tahfidzs_4');
-            $table->foreignId('tahfidz_5_id')->nullable()->references('id')->on('tahfidzs_5');
-            $table->foreignId('tahfidz_6_id')->nullable()->references('id')->on('tahfidzs_6');
-            $table->foreignId('tahfidz_7_id')->nullable()->references('id')->on('tahfidzs_7');
-            $table->foreignId('tahfidz_8_id')->nullable()->references('id')->on('tahfidzs_8');
-            $table->foreignId('tahfidz_9_id')->nullable()->references('id')->on('tahfidzs_9');
-            $table->foreignId('tahfidz_10_id')->nullable()->references('id')->on('tahfidzs_10');
-            $table->foreignId('tahfidz_11_id')->nullable()->references('id')->on('tahfidzs_11');
-            $table->foreignId('tahfidz_12_id')->nullable()->references('id')->on('tahfidzs_12');
-            $table->foreignId('tahfidz_13_id')->nullable()->references('id')->on('tahfidzs_13');
-            $table->foreignId('tahfidz_14_id')->nullable()->references('id')->on('tahfidzs_14');
-            $table->foreignId('tahfidz_15_id')->nullable()->references('id')->on('tahfidzs_15');
-        });
 
-        // add the column
-        Schema::table('siswa_tahfidzs', function (Blueprint $table) {
-            $table->foreignId('tahfidz_2_id')->nullable()->references('id')->on('tahfidzs_2');
-            $table->foreignId('tahfidz_3_id')->nullable()->references('id')->on('tahfidzs_3');
-            $table->foreignId('tahfidz_4_id')->nullable()->references('id')->on('tahfidzs_4');
-            $table->foreignId('tahfidz_5_id')->nullable()->references('id')->on('tahfidzs_5');
-            $table->foreignId('tahfidz_6_id')->nullable()->references('id')->on('tahfidzs_6');
-            $table->foreignId('tahfidz_7_id')->nullable()->references('id')->on('tahfidzs_7');
-            $table->foreignId('tahfidz_8_id')->nullable()->references('id')->on('tahfidzs_8');
-            $table->foreignId('tahfidz_9_id')->nullable()->references('id')->on('tahfidzs_9');
-            $table->foreignId('tahfidz_10_id')->nullable()->references('id')->on('tahfidzs_10');
-            $table->foreignId('tahfidz_11_id')->nullable()->references('id')->on('tahfidzs_11');
-            $table->foreignId('tahfidz_12_id')->nullable()->references('id')->on('tahfidzs_12');
-            $table->foreignId('tahfidz_13_id')->nullable()->references('id')->on('tahfidzs_13');
-            $table->foreignId('tahfidz_14_id')->nullable()->references('id')->on('tahfidzs_14');
-            $table->foreignId('tahfidz_15_id')->nullable()->references('id')->on('tahfidzs_15');
-        });
-
+        //create
         Schema::create('tahfidzs_2', function (Blueprint $table) {
             $table->id();
             $table->string('nama_nilai')->nullable();
@@ -205,6 +171,43 @@ return new class extends Migration
             $table->string('nama_nilai')->nullable();
             $table->integer('nilai')->nullable();
             $table->timestamps();
+        });
+
+        // add the column
+        Schema::table('siswa_tahfidzs', function (Blueprint $table) {
+            $table->unsignedBigInteger('tahfidz_2_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_3_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_4_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_5_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_6_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_7_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_8_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_9_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_10_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_11_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_12_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_13_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_14_id')->nullable();
+            $table->unsignedBigInteger('tahfidz_15_id')->nullable();
+        });
+
+        
+        // add the foreign key
+        Schema::table('siswa_tahfidzs', function (Blueprint $table) {
+            $table->foreignId('tahfidz_2_id')->nullable()->references('id')->on('tahfidzs_2');
+            $table->foreignId('tahfidz_3_id')->nullable()->references('id')->on('tahfidzs_3');
+            $table->foreignId('tahfidz_4_id')->nullable()->references('id')->on('tahfidzs_4');
+            $table->foreignId('tahfidz_5_id')->nullable()->references('id')->on('tahfidzs_5');
+            $table->foreignId('tahfidz_6_id')->nullable()->references('id')->on('tahfidzs_6');
+            $table->foreignId('tahfidz_7_id')->nullable()->references('id')->on('tahfidzs_7');
+            $table->foreignId('tahfidz_8_id')->nullable()->references('id')->on('tahfidzs_8');
+            $table->foreignId('tahfidz_9_id')->nullable()->references('id')->on('tahfidzs_9');
+            $table->foreignId('tahfidz_10_id')->nullable()->references('id')->on('tahfidzs_10');
+            $table->foreignId('tahfidz_11_id')->nullable()->references('id')->on('tahfidzs_11');
+            $table->foreignId('tahfidz_12_id')->nullable()->references('id')->on('tahfidzs_12');
+            $table->foreignId('tahfidz_13_id')->nullable()->references('id')->on('tahfidzs_13');
+            $table->foreignId('tahfidz_14_id')->nullable()->references('id')->on('tahfidzs_14');
+            $table->foreignId('tahfidz_15_id')->nullable()->references('id')->on('tahfidzs_15');
         });
     }
 };

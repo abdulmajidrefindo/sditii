@@ -55,29 +55,6 @@ return new class extends Migration
      */
     public function down()
     {
-        // add the foreign key
-        Schema::table('siswa_hadists', function (Blueprint $table) {
-            $table->foreignId('hadist_2_id')->nullable()->references('id')->on('hadists_2');
-            $table->foreignId('hadist_3_id')->nullable()->references('id')->on('hadists_3');
-            $table->foreignId('hadist_4_id')->nullable()->references('id')->on('hadists_4');
-            $table->foreignId('hadist_5_id')->nullable()->references('id')->on('hadists_5');
-            $table->foreignId('hadist_6_id')->nullable()->references('id')->on('hadists_6');
-            $table->foreignId('hadist_7_id')->nullable()->references('id')->on('hadists_7');
-            $table->foreignId('hadist_8_id')->nullable()->references('id')->on('hadists_8');
-            $table->foreignId('hadist_9_id')->nullable()->references('id')->on('hadists_9');
-        });
-
-        // add the column
-        Schema::table('siswa_hadists', function (Blueprint $table) {
-            $table->unsignedBigInteger('hadist_2_id')->nullable();
-            $table->unsignedBigInteger('hadist_3_id')->nullable();
-            $table->unsignedBigInteger('hadist_4_id')->nullable();
-            $table->unsignedBigInteger('hadist_5_id')->nullable();
-            $table->unsignedBigInteger('hadist_6_id')->nullable();
-            $table->unsignedBigInteger('hadist_7_id')->nullable();
-            $table->unsignedBigInteger('hadist_8_id')->nullable();
-            $table->unsignedBigInteger('hadist_9_id')->nullable();
-        });
 
         Schema::create('hadists_2', function (Blueprint $table) {
             $table->id();
@@ -134,5 +111,31 @@ return new class extends Migration
             $table->integer('nilai')->nullable();
             $table->timestamps();
         });
+
+        // add the column
+        Schema::table('siswa_hadists', function (Blueprint $table) {
+            $table->unsignedBigInteger('hadist_2_id')->nullable();
+            $table->unsignedBigInteger('hadist_3_id')->nullable();
+            $table->unsignedBigInteger('hadist_4_id')->nullable();
+            $table->unsignedBigInteger('hadist_5_id')->nullable();
+            $table->unsignedBigInteger('hadist_6_id')->nullable();
+            $table->unsignedBigInteger('hadist_7_id')->nullable();
+            $table->unsignedBigInteger('hadist_8_id')->nullable();
+            $table->unsignedBigInteger('hadist_9_id')->nullable();
+        });
+
+        // add the foreign key
+        Schema::table('siswa_hadists', function (Blueprint $table) {
+            $table->foreignId('hadist_2_id')->nullable()->references('id')->on('hadists_2');
+            $table->foreignId('hadist_3_id')->nullable()->references('id')->on('hadists_3');
+            $table->foreignId('hadist_4_id')->nullable()->references('id')->on('hadists_4');
+            $table->foreignId('hadist_5_id')->nullable()->references('id')->on('hadists_5');
+            $table->foreignId('hadist_6_id')->nullable()->references('id')->on('hadists_6');
+            $table->foreignId('hadist_7_id')->nullable()->references('id')->on('hadists_7');
+            $table->foreignId('hadist_8_id')->nullable()->references('id')->on('hadists_8');
+            $table->foreignId('hadist_9_id')->nullable()->references('id')->on('hadists_9');
+        });
+
+        
     }
 };
