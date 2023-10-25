@@ -93,7 +93,7 @@
                                                             <input type="text"
                                                                 class="form-control @error('tahun_ajaran') is-invalid @enderror"
                                                                 id="tahun_ajaran" name="tahun_ajaran"
-                                                                placeholder="Masukkan Tahun Ajaran">
+                                                                placeholder="Format: 2020/2021"
                                                             @error('tahun_ajaran')
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
@@ -104,10 +104,10 @@
                                                         {{-- Input Semester --}}
                                                         <div class="form-group">
                                                             <label for="semester">Semester</label>
-                                                            <input type="text"
-                                                                class="form-control @error('semester') is-invalid @enderror"
-                                                                id="semester" name="semester"
-                                                                placeholder="Masukkan Semester">
+                                                            <select class="form-control @error('semester') is-invalid @enderror" id="semester" name="semester">
+                                                                <option value="1">Ganjil</option>
+                                                                <option value="2">Genap</option>
+                                                            </select>
                                                             @error('semester')
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
