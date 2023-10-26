@@ -71,61 +71,42 @@
 
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
-                                        @foreach ($siswa_d as $s)
-                                            @if ($loop->iteration <= 1)
-                                                <tr>
-                                                    <th>Nama Siswa</th>
-                                                    <th>NISN</th>
-                                                    <th>Kelas</th>
-                                                    {{-- <th>Nilai 1</th>
-                    <th>Nilai 2</th>
-                    <th>Nilai 3</th>
-                    <th>Nilai 4</th>
-                    <th>Nilai 5</th>
-                    <th>Nilai 6</th>
-                    <th>Nilai 7</th>
-                    <th>Nilai 8</th> --}}
-                                                    <th>{{ optional($s)->doa_1->nama_nilai }}</th>
-                                                    <th>{{ optional($s)->doa_2->nama_nilai }}</th>
-                                                    <th>{{ optional($s)->doa_3->nama_nilai }}</th>
-                                                    <th>{{ optional($s)->doa_4->nama_nilai }}</th>
-                                                    <th>{{ optional($s)->doa_5->nama_nilai }}</th>
-                                                    <th>{{ optional($s)->doa_6->nama_nilai }}</th>
-                                                    <th>{{ optional($s)->doa_7->nama_nilai }}</th>
-                                                    <th>{{ optional($s)->doa_8->nama_nilai }}</th>
-                                                    <th>{{ optional($s)->doa_9->nama_nilai }}</th>
-                                                    <th>Aksi</th>
-                                                </tr>
-                                            @endif
-                                        @endforeach
-                                    </thead>
-                                    @forelse ($siswa_d as $n)
                                         <tr>
-                                            <td>{{ $n->siswa->nama_siswa }}</td>
-                                            <td>{{ $n->siswa->nisn }}</td>
-                                            <td>{{ $n->siswa->kelas->nama_kelas }}</td>
-                                            <td>{{ optional($n)->doa_1->nilai }}</td>
-                                            <td>{{ optional($n)->doa_2->nilai }}</td>
-                                            <td>{{ optional($n)->doa_3->nilai }}</td>
-                                            <td>{{ optional($n)->doa_4->nilai }}</td>
-                                            <td>{{ optional($n)->doa_5->nilai }}</td>
-                                            <td>{{ optional($n)->doa_6->nilai }}</td>
-                                            <td>{{ optional($n)->doa_7->nilai }}</td>
-                                            <td>{{ optional($n)->doa_8->nilai }}</td>
-                                            <td>{{ optional($n)->doa_9->nilai }}</td>
-                                            <td>
-                                                <a href="{{ route('siswaDoa.show', $n->id) }}"
-                                                    class="btn btn-sm btn-success mx-1 shadow detail"><i
-                                                        class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
-                                                <a href="javascript:void(0)" data-toggle="tooltip"
-                                                    data-id="{{ $n->id }}" data-original-title="Delete"
-                                                    class="btn btn-sm btn-danger mx-1 shadow delete"><i
-                                                        class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
-                                            </td>
+                                            <th>No</th>
+                                            <th>Nama Siswa</th>
+                                            <th>NISN</th>
+                                            <th>Kelas</th>
+                                            @foreach ($siswa_d as $siswa)
+                                                @foreach ($siswa as $key => $value)
+                                                    @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
+                                                        <th>{{ $key }}</th>
+                                                    @endif
+                                                @endforeach
+                                                @break
+                                            @endforeach
+                                            <th>Aksi</th>
                                         </tr>
-                                    @empty
-                                        <td>-</td>
-                                    @endforelse
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($siswa_d as $siswa)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $siswa['nama_siswa'] }}</td>
+                                                <td>{{ $siswa['nisn'] }}</td>
+                                                <td>{{ $siswa['kelas'] }}</td>
+                                                @foreach ($siswa as $key => $value)
+                                                    @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
+                                                        <td>{{ $value }}</td>
+                                                    @endif
+                                                @endforeach
+                                                <td>
+                                                    <a href="{{ url('/') }}/siswaDoa/A/edit"
+                                                        class="btn btn-warning btn-sm">Edit</a>
+                                                    <button type="button" class="btn btn-danger btn-sm delete"
+                                                        data-id="A">Delete</button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                 </table>
                             </div>
 

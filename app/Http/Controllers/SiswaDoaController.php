@@ -21,14 +21,45 @@ class SiswaDoaController extends Controller
      */
     public function index()
     {
-        $siswa_d = SiswaDoa::with('siswa','doa_1','doa_2','doa_3','doa_4','doa_5',
-        'doa_6','doa_7','doa_8','doa_9','penilaian_huruf_angka')->get();
+        // Join table siswa_doa, siswa, doa_1, penilaian_huruf_angka where doa_1.kelas_id = 1
+        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->whereHas('doa_1', function ($query) {
+            $query->where('kelas_id', 1);
+        })->get();
+        $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) {
+            $result = [];
+            $result['siswa_id'] = $item[0]->siswa_id;
+            $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
+            $result['nisn'] = $item[0]->siswa->nisn;
+            $result['kelas'] = $item[0]->siswa->kelas->id;
+            foreach ($item as $doa_siswa) {
+                $result[$doa_siswa->doa_1->nama_nilai] = $doa_siswa->penilaian_huruf_angka->nilai_angka;
+            }
+            return $result;
+        });
+
+        // $modified_siswa_d = [];
+        // foreach ($siswa_d as $item) {
+        //     $siswa_id = $item->siswa_id;
+        //     if (!isset($modified_siswa_d[$siswa_id])) {
+        //         $modified_siswa_d[$siswa_id] = [
+        //             'siswa_id' => $item->siswa_id,
+        //             'siswa_nama' => $item->siswa->nama_siswa,
+        //             'kelas' => $item->siswa->kelas->id
+        //         ];
+        //     }
+
+        //     $modified_siswa_d[$siswa_id][$item->doa_1->nama_nilai] = $item->penilaian_huruf_angka->nilai_angka;
+        // }
+
+
         $data_kelas = Kelas::all();
         return view('/siswaDoa/indexSiswaDoa', 
         [
-            'siswa_d'=>$siswa_d,
+            'siswa_d'=>$modified_siswa_d,
             'data_kelas'=>$data_kelas
         ]);
+        
+        //return response()->json($modified_siswa_d);
     }
 
     /**
