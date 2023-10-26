@@ -112,17 +112,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // add the column
-        Schema::table('siswa_hadists', function (Blueprint $table) {
-            $table->unsignedBigInteger('hadist_2_id')->nullable();
-            $table->unsignedBigInteger('hadist_3_id')->nullable();
-            $table->unsignedBigInteger('hadist_4_id')->nullable();
-            $table->unsignedBigInteger('hadist_5_id')->nullable();
-            $table->unsignedBigInteger('hadist_6_id')->nullable();
-            $table->unsignedBigInteger('hadist_7_id')->nullable();
-            $table->unsignedBigInteger('hadist_8_id')->nullable();
-            $table->unsignedBigInteger('hadist_9_id')->nullable();
-        });
+
 
         // add the foreign key
         Schema::table('siswa_hadists', function (Blueprint $table) {

@@ -174,22 +174,7 @@ return new class extends Migration
         });
 
         // add the column
-        Schema::table('siswa_tahfidzs', function (Blueprint $table) {
-            $table->unsignedBigInteger('tahfidz_2_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_3_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_4_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_5_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_6_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_7_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_8_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_9_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_10_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_11_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_12_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_13_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_14_id')->nullable();
-            $table->unsignedBigInteger('tahfidz_15_id')->nullable();
-        });
+
 
         
         // add the foreign key

@@ -52,8 +52,8 @@ return new class extends Migration
 
         // rename siswa_bidang_studis column, nilai_tugas_1 to nilai_tugas_1_id
         Schema::table('siswa_bidang_studis', function (Blueprint $table) {
-            $table->renameColumn('nilai_tugas_1', 'nilai_tugas_1_id');
-            $table->renameColumn('nilai_tugas_2', 'nilai_tugas_2_id');
+            $table->dropColumn('nilai_tugas_1');
+            $table->dropColumn('nilai_tugas_2');
         });
 
         // link the foreign key from siswa_bidang_studi

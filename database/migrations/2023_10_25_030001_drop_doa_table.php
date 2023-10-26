@@ -113,17 +113,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // add the column
-        Schema::table('siswa_doas', function (Blueprint $table) {
-            $table->unsignedBigInteger('doa_2_id')->nullable();
-            $table->unsignedBigInteger('doa_3_id')->nullable();
-            $table->unsignedBigInteger('doa_4_id')->nullable();
-            $table->unsignedBigInteger('doa_5_id')->nullable();
-            $table->unsignedBigInteger('doa_6_id')->nullable();
-            $table->unsignedBigInteger('doa_7_id')->nullable();
-            $table->unsignedBigInteger('doa_8_id')->nullable();
-            $table->unsignedBigInteger('doa_9_id')->nullable();
-        });
 
                 // add the foreign key
         Schema::table('siswa_doas', function (Blueprint $table) {

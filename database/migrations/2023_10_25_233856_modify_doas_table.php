@@ -34,7 +34,7 @@ return new class extends Migration
         // add nilai column
         $table->integer('nilai')->nullable();
         // add penilaian_huruf_angka_id column
-        $table->foreignId('penilaian_huruf_angka_id')->after('id')->nullable()->references('id')->on('penilaian_huruf_angka');
+        $table->foreignId('penilaian_huruf_angka_id')->after('id')->nullable()->references('id')->on('penilaian_huruf_angkas');
         // drop kelas_id column
         $table->dropForeign(['kelas_id']);
         $table->dropColumn('kelas_id');

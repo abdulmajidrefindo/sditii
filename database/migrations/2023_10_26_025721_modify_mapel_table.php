@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hadists_8', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_nilai')->nullable();
-            $table->integer('nilai')->nullable();
-            $table->timestamps();
+        Schema::table('mapels', function (Blueprint $table) {
+            $table->foreignId('kelas_id')->after('guru_id')->nullable()->references('id')->on('kelas');
         });
     }
 
@@ -28,6 +25,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hadists_8');
+        Schema::table('mapels', function (Blueprint $table) {
+            $table->dropForeign(['kelas_id']);
+            $table->dropColumn('kelas_id');
+        });
     }
 };

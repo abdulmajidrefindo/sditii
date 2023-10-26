@@ -466,16 +466,6 @@ return new class extends Migration
             $table->dropForeign(['rapor_siswa_id']);
         });
 
-        
-        Schema::table('siswa_ilman_waa_ruuhans', function (Blueprint $table) {
-            $table->foreignId('siswa_id')->nullable()->references('id')->on('siswas');
-            $table->foreignId('ilman_waa_ruuhan_id')->nullable()->references('id')->on('ilman_waa_ruuhans');
-            $table->foreignId('penilaian_deskripsi_id')->nullable()->references('id')->on('penilaian_deskripsis');
-            $table->foreignId('profil_sekolah_id')->nullable()->references('id')->on('profil_sekolahs');
-            $table->foreignId('periode_id')->nullable()->references('id')->on('periodes');
-            $table->foreignId('rapor_siswa_id')->nullable()->references('id')->on('rapor_siswas');
-        });
-
         Schema::table('siswa_tahfidzs', function (Blueprint $table) {
             $table->dropForeign(['siswa_id']);
             $table->dropForeign(['tahfidz_1_id']);
@@ -503,13 +493,9 @@ return new class extends Migration
             $table->dropForeign(['role_id']);
         });
 
-        Schema::table('nilai_pass', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-        });
+        
 
-        Schema::table('nilai_utss', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-        });
+       
 
         Schema::table('mapels', function (Blueprint $table) {
             $table->dropForeign(['guru_id']);
@@ -531,239 +517,35 @@ return new class extends Migration
             $table->dropForeign(['rapor_siswa_id']);
         });
 
-        Schema::table('nilai_tugass_1', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-        });
-
-        Schema::table('nilai_tugass_2', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-        });
-
-        Schema::table('nilai_uhs_1', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-        });
-
-        Schema::table('nilai_uhs_2', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-        });
-
-        Schema::table('nilai_uhs_3', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-        });
-
-        Schema::table('nilai_uhs_4', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-        });
+        
 
         Schema::table('doas_1', function (Blueprint $table) {
             $table->dropForeign(['penilaian_huruf_angka_id']);
             $table->dropForeign(['guru_id']);
         });
 
-        Schema::table('doas_2', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-
-        Schema::table('doas_3', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-
-        Schema::table('doas_4', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-
-        Schema::table('doas_5', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-
-        Schema::table('doas_6', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-
-        Schema::table('doas_7', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-
-        Schema::table('doas_8', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-
-        Schema::table('doas_9', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
+        
 
         Schema::table('hadists_1', function (Blueprint $table) {
             $table->dropForeign(['penilaian_huruf_angka_id']);
             $table->dropForeign(['guru_id']);
         });
     
-        Schema::table('hadists_2', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('hadists_3', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('hadists_4', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('hadists_5', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('hadists_6', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('hadists_7', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('hadists_8', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('hadists_9', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
+        
 
         Schema::table('ibadah_harians_1', function (Blueprint $table) {
             $table->dropForeign(['guru_id']);
             $table->dropForeign(['penilaian_deskripsi_id']);
         });
     
-        Schema::table('ibadah_harians_2', function (Blueprint $table) {
-            $table->dropForeign(['guru_id']);
-            $table->dropForeign(['penilaian_deskripsi_id']);
-        });
-    
-        Schema::table('ibadah_harians_3', function (Blueprint $table) {
-            $table->dropForeign(['guru_id']);
-            $table->dropForeign(['penilaian_deskripsi_id']);
-        });
-    
-        Schema::table('ibadah_harians_4', function (Blueprint $table) {
-            $table->dropForeign(['guru_id']);
-            $table->dropForeign(['penilaian_deskripsi_id']);
-        });
-    
-        Schema::table('ibadah_harians_5', function (Blueprint $table) {
-            $table->dropForeign(['guru_id']);
-            $table->dropForeign(['penilaian_deskripsi_id']);
-        });
-    
-        Schema::table('ibadah_harians_6', function (Blueprint $table) {
-            $table->dropForeign(['guru_id']);
-            $table->dropForeign(['penilaian_deskripsi_id']);
-        });
-    
-        Schema::table('ibadah_harians_7', function (Blueprint $table) {
-            $table->dropForeign(['guru_id']);
-            $table->dropForeign(['penilaian_deskripsi_id']);
-        });
-    
-        Schema::table('ibadah_harians_8', function (Blueprint $table) {
-            $table->dropForeign(['guru_id']);
-            $table->dropForeign(['penilaian_deskripsi_id']);
-        });
-    
-        Schema::table('ibadah_harians_9', function (Blueprint $table) {
-            $table->dropForeign(['guru_id']);
-            $table->dropForeign(['penilaian_deskripsi_id']);
-        });
+        
 
         Schema::table('tahfidzs_1', function (Blueprint $table) {
             $table->dropForeign(['penilaian_huruf_angka_id']);
             $table->dropForeign(['guru_id']);
         });
     
-        Schema::table('tahfidzs_2', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_3', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_4', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_5', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_6', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_7', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_8', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_9', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_10', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_11', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_12', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_13', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_14', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
-    
-        Schema::table('tahfidzs_15', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_huruf_angka_id']);
-            $table->dropForeign(['guru_id']);
-        });
+        
         
     }
 };

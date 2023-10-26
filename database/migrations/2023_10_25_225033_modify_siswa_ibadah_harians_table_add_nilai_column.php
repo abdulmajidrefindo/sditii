@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('siswa_ibadah_harians', function (Blueprint $table) {
-            $table->foreignId('penilaian_deskripsis_id')->nullable()->references('id')->on('penilaian_deskripsis');
+            $table->foreignId('penilaian_deskripsi_id')->nullable()->references('id')->on('penilaian_deskripsis');
         });
     }
 
@@ -27,8 +27,8 @@ return new class extends Migration
     {
         // Modify table siswa_ibadah_harians, drop nilai column
         Schema::table('siswa_ibadah_harians', function (Blueprint $table) {
-            $table->dropForeign(['penilaian_deskripsis_id']);
-            $table->dropColumn('penilaian_deskripsis_id');
+            $table->dropForeign(['penilaian_deskripsi_id']);
+            $table->dropColumn('penilaian_deskripsi_id');
         });
     }
 };

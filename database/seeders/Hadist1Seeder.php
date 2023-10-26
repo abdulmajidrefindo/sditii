@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use App\Models\Kelas;
+use App\Models\Guru;
+
 class Hadist1Seeder extends Seeder
 {
     /**
@@ -17,14 +20,25 @@ class Hadist1Seeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0; $i <= 100; $i++)
-        {
-            DB::table('hadists_1')->insert([
-                'nama_nilai' => 'Keutamaan Jujur',
-                'penilaian_huruf_angka_id' => ($i-101)*-1,
-                'nilai' => $i,
-                'guru_id' => mt_rand(1,10),
-            ]);
+        $hadist = [
+            'Keutamaan Membaca Al-Qur’an',
+            'Keutamaan Jujur',
+            'Keutamaan Berbuat Baik Kepada Orang Tua',
+            'Keutamaan Berbuat Baik Kepada Tetangga',
+            'Anjuran Menjaga Amanah',
+            'Sholat Sunnah Rawatib',
+        ];
+        
+        for ($i=0; $i < count($hadist); $i++) { 
+            for ($j=1; $j <= Kelas::count()-1; $j++) { 
+                DB::table('hadists_1')->insert([
+                    'nama_nilai' => $hadist[$i],
+                    'guru_id' => Guru::inRandomOrder()->first()->id,
+                    'kelas_id' => $j,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
         }
     }
 }

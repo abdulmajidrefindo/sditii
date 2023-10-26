@@ -113,17 +113,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // add the column
-        Schema::table('siswa_ibadah_harians', function (Blueprint $table) {
-            $table->unsignedBigInteger('ibadah_harian_2_id')->nullable();
-            $table->unsignedBigInteger('ibadah_harian_3_id')->nullable();
-            $table->unsignedBigInteger('ibadah_harian_4_id')->nullable();
-            $table->unsignedBigInteger('ibadah_harian_5_id')->nullable();
-            $table->unsignedBigInteger('ibadah_harian_6_id')->nullable();
-            $table->unsignedBigInteger('ibadah_harian_7_id')->nullable();
-            $table->unsignedBigInteger('ibadah_harian_8_id')->nullable();
-            $table->unsignedBigInteger('ibadah_harian_9_id')->nullable();
-        });
 
         //add the foreign key from siswa_ibadah_harian
         Schema::table('siswa_ibadah_harians', function (Blueprint $table) {
