@@ -75,7 +75,6 @@
                                             <th>No</th>
                                             <th>Nama Siswa</th>
                                             <th>NISN</th>
-                                            <th>Kelas</th>
                                             @foreach ($siswa_d as $siswa)
                                                 @foreach ($siswa as $key => $value)
                                                     @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
@@ -93,17 +92,14 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $siswa['nama_siswa'] }}</td>
                                                 <td>{{ $siswa['nisn'] }}</td>
-                                                <td>{{ $siswa['kelas'] }}</td>
                                                 @foreach ($siswa as $key => $value)
                                                     @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
                                                         <td>{{ $value }}</td>
                                                     @endif
                                                 @endforeach
                                                 <td>
-                                                    <a href="{{ url('/') }}/siswaDoa/A/edit"
-                                                        class="btn btn-warning btn-sm">Edit</a>
-                                                    <button type="button" class="btn btn-danger btn-sm delete"
-                                                        data-id="A">Delete</button>
+                                                    <a href="{{ route('siswaDoa.show', $siswa['siswa_id']) }}" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                                                    <a href="javascript:void(0)" data-toggle="tooltip"  data-id="{{$siswa['siswa_id']}}" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -256,9 +252,9 @@
     <script>
         //delete via ajax with sweet alert
         $(document).on('click', '.delete', function() {
-            let id = $(this).attr('data-id');
-            let url = '{{ route('siswaDoa.destroy', ':id') }}';
-            url = url.replace(':id', id);
+            let siswa_id = $(this).attr('data-id');
+            let url = '{{ route('siswaDoa.destroy', ':siswa_id') }}';
+            url = url.replace(':siswa_id', siswa_id);
             Swal.fire({
                 title: 'Apakah anda yakin?',
                 text: "Data yang dihapus tidak dapat dikembalikan!",

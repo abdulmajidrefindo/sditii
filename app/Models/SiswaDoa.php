@@ -13,7 +13,6 @@ class SiswaDoa extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'id',
         'siswa_id',
         'doa_1_id',
         'profil_sekolah_id',

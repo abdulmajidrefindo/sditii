@@ -30,7 +30,6 @@ class SiswaDoaController extends Controller
             $result['siswa_id'] = $item[0]->siswa_id;
             $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
             $result['nisn'] = $item[0]->siswa->nisn;
-            $result['kelas'] = $item[0]->siswa->kelas->id;
             foreach ($item as $doa_siswa) {
                 $result[$doa_siswa->doa_1->nama_nilai] = $doa_siswa->penilaian_huruf_angka->nilai_angka;
             }
@@ -91,9 +90,9 @@ class SiswaDoaController extends Controller
      */
     public function show(SiswaDoa $siswaDoa)
     {
-        $siswaDoa = SiswaDoa::with('siswa','doa_1','doa_2','doa_3','doa_4','doa_5','doa_6','doa_7','doa_8','doa_9','penilaian_huruf_angka')->where('id', $siswaDoa->id)->firstOrFail();
-        return view('/siswaDoa/showSiswaDoa', ['siswaDoa' => $siswaDoa]);
-        //return response()->json($siswaDoa);
+        $siswaDoa = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('id', $siswaDoa->id)->firstOrFail();
+        //return view('/siswaDoa/showSiswaDoa', ['siswaDoa' => $siswaDoa]);
+        return response()->json($siswaDoa);
     }
     
 
@@ -152,9 +151,19 @@ public function update(Request $request, SiswaDoa $siswaDoa)
      * @param  \App\Models\SiswaDoa  $siswaDoa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SiswaDoa $siswaDoa)
+
+    public function destroy($siswa_id)
     {
-        if ($siswaDoa->delete()) {
+        // Url di route destroy menggunana siswa_id bukan id siswa_doa
+        $siswaDoa = SiswaDoa::where('siswa_id', $siswa_id)->get();
+        $berhasil = 0;
+        foreach ($siswaDoa as $item) {
+            if ($item->delete()) {
+                $berhasil++;
+            }
+        }
+
+        if ($berhasil > 0) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal dihapus!']);
