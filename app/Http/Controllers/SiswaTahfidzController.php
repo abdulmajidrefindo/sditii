@@ -149,13 +149,15 @@ class SiswaTahfidzController extends Controller
     {
         $siswaTahfidz = SiswaTahfidz::where('siswa_id', $siswa_id)->get();
         $berhasil = 0;
+        $processed = 0;
         foreach ($siswaTahfidz as $item) {
+            $processed++;
             if ($item->delete()) {
                 $berhasil++;
             }
         }
 
-        if ($berhasil > 0) {
+        if ($berhasil > 0 && $berhasil == $processed) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal dihapus!']);
