@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SiswaTahfidz;
 use App\Models\Tahfidz1;
+use App\Models\Kelas;
 use App\Http\Requests\StoreSiswaTahfidzRequest;
 use App\Http\Requests\UpdateSiswaTahfidzRequest;
 use App\Models\PenilaianHurufAngka;
@@ -20,10 +21,26 @@ class SiswaTahfidzController extends Controller
      */
     public function index()
     {
-        $siswa_t = SiswaTahfidz::with('siswa','tahfidz_1','tahfidz_2','tahfidz_3','tahfidz_4','tahfidz_5','tahfidz_6','tahfidz_7','tahfidz_8','tahfidz_9','tahfidz_10','tahfidz_11','tahfidz_12','tahfidz_13','tahfidz_14','tahfidz_15')->get();
+        $siswa_t = SiswaTahfidz::with('siswa','tahfidz_1','penilaian_huruf_angka')->whereHas('tahfidz_1', function ($query) {
+            $query->where('kelas_id', 1);
+        })->get();
+
+        $modified_siswa_t = $siswa_t->groupBy(['siswa_id'])->map(function ($item) {
+            $result = [];
+            $result['siswa_id'] = $item[0]->siswa_id;
+            $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
+            $result['nisn'] = $item[0]->siswa->nisn;
+            foreach ($item as $tahfidz_siswa) {
+                $result[$tahfidz_siswa->tahfidz_1->nama_nilai] = $tahfidz_siswa->penilaian_huruf_angka->nilai_angka;
+            }
+            return $result;
+        });
+
+        $data_kelas = Kelas::all();
         return view('/siswaTahfidz/indexSiswaTahfidz', 
         [
-            'siswa_t'=>$siswa_t,
+            'siswa_t'=>$modified_siswa_t,
+            'data_kelas'=>$data_kelas
         ]);
     }
 
@@ -117,9 +134,17 @@ class SiswaTahfidzController extends Controller
      * @param  \App\Models\SiswaTahfidz  $siswaTahfidz
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SiswaTahfidz $siswaTahfidz)
+    public function destroy($siswa_id)
     {
-        if ($siswaTahfidz->delete()) {
+        $siswaTahfidz = SiswaTahfidz::where('siswa_id', $siswa_id)->get();
+        $berhasil = 0;
+        foreach ($siswaTahfidz as $item) {
+            if ($item->delete()) {
+                $berhasil++;
+            }
+        }
+
+        if ($berhasil > 0) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal dihapus!']);

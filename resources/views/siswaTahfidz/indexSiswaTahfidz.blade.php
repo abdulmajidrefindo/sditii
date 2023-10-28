@@ -39,61 +39,45 @@
         <div class="card-body">
           <table id="example1" class="table table-bordered table-striped">
             <thead>
-                @foreach($siswa_t as $s)
-                @if($loop->iteration<=1)
                 <tr>
+                    <th>No</th>
                     <th>Nama Siswa</th>
                     <th>NISN</th>
-                    <th>Kelas</th>
-                    <th>{{ optional($s)->tahfidz_1->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_2->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_3->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_4->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_5->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_6->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_7->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_8->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_9->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_10->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_11->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_12->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_13->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_14->nama_nilai }}</th>
-                    <th>{{ optional($s)->tahfidz_15->nama_nilai }}</th>
-                    <th>Aksi</th>
-                </tr>
-                @endif
+                    @foreach ($siswa_t as $siswa)
+                        @foreach ($siswa as $key => $value)
+                            @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
+                                <th>{{ $key }}</th>
+                            @endif
+                        @endforeach
+                    @break
                 @endforeach
-            </thead>
-                @forelse ($siswa_t as $n)
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($siswa_t as $siswa)
                 <tr>
-                    <td>{{ $n->siswa->nama_siswa }}</td>
-                    <td>{{ $n->siswa->nisn }}</td>
-                    <td>{{ $n->siswa->kelas->nama_kelas }}</td>
-                    <td>{{ optional($n)->tahfidz_1->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_2->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_3->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_4->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_5->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_6->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_7->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_8->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_9->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_10->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_11->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_12->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_13->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_14->nilai }}</td>
-                    <td>{{ optional($n)->tahfidz_15->nilai }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $siswa['nama_siswa'] }}</td>
+                    <td>{{ $siswa['nisn'] }}</td>
+                    @foreach ($siswa as $key => $value)
+                        @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
+                            <td>{{ $value }}</td>
+                        @endif
+                    @endforeach
                     <td>
-                      <a href="{{ route('siswaTahfidz.show', $n->id) }}" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
-                      <a href="javascript:void(0)" data-toggle="tooltip"  data-id="{{$n->id}}" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+                        <a href="{{ route('siswaTahfidz.show', $siswa['siswa_id']) }}"
+                            class="btn btn-sm btn-success mx-1 shadow detail"><i
+                                class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                        <a href="javascript:void(0)" data-toggle="tooltip"
+                            data-id="{{ $siswa['siswa_id'] }}" data-original-title="Delete"
+                            class="btn btn-sm btn-danger mx-1 shadow delete"><i
+                                class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
                     </td>
                 </tr>
-                @empty
-                <td>-</td>
-                @endforelse
-          </table>
+            @endforeach
+        </tbody>
+    </table>
         </div>
       </div>
     </div>
