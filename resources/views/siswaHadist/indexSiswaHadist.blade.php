@@ -39,56 +39,39 @@
         <div class="card-body">
           <table id="example1" class="table table-bordered table-striped">
             <thead>
-                @foreach($siswa_h as $s)
-                @if($loop->iteration<=1)
-                <tr>
-                    <th>Nama Siswa</th>
-                    <th>NISN</th>
-                    <th>Kelas</th>
-                    {{-- <th>Nilai 1</th>
-                    <th>Nilai 2</th>
-                    <th>Nilai 3</th>
-                    <th>Nilai 4</th>
-                    <th>Nilai 5</th>
-                    <th>Nilai 6</th>
-                    <th>Nilai 7</th>
-                    <th>Nilai 8</th> --}}
-                    <th>{{ optional($s)->hadist_1->nama_nilai }}</th>
-                    <th>{{ optional($s)->hadist_2->nama_nilai }}</th>
-                    <th>{{ optional($s)->hadist_3->nama_nilai }}</th>
-                    <th>{{ optional($s)->hadist_4->nama_nilai }}</th>
-                    <th>{{ optional($s)->hadist_5->nama_nilai }}</th>
-                    <th>{{ optional($s)->hadist_6->nama_nilai }}</th>
-                    <th>{{ optional($s)->hadist_7->nama_nilai }}</th>
-                    <th>{{ optional($s)->hadist_8->nama_nilai }}</th>
-                    <th>{{ optional($s)->hadist_9->nama_nilai }}</th>
-                    <th>Aksi</th>
-                </tr>
-                @endif
+              <tr>
+                <th>No</th>
+                <th>Nama Siswa</th>
+                <th>NISN</th>
+                @foreach ($siswa_h as $siswa)
+                    @foreach ($siswa as $key => $value)
+                        @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
+                            <th>{{ $key }}</th>
+                        @endif
+                    @endforeach
+                    @break
                 @endforeach
+                <th>Aksi</th>
+            </tr>
             </thead>
-                @forelse ($siswa_h as $n)
-                <tr>
-                    <td>{{ $n->siswa->nama_siswa }}</td>
-                    <td>{{ $n->siswa->nisn }}</td>
-                    <td>{{ $n->siswa->kelas->nama_kelas }}</td>
-                    <td>{{ optional($n)->hadist_1->nilai }}</td>
-                    <td>{{ optional($n)->hadist_2->nilai }}</td>
-                    <td>{{ optional($n)->hadist_3->nilai }}</td>
-                    <td>{{ optional($n)->hadist_4->nilai }}</td>
-                    <td>{{ optional($n)->hadist_5->nilai }}</td>
-                    <td>{{ optional($n)->hadist_6->nilai }}</td>
-                    <td>{{ optional($n)->hadist_7->nilai }}</td>
-                    <td>{{ optional($n)->hadist_8->nilai }}</td>
-                    <td>{{ optional($n)->hadist_9->nilai }}</td>
-                    <td>
-                      <a href="{{ route('siswaHadist.show', $n->id) }}" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
-                      <a href="javascript:void(0)" data-toggle="tooltip"  data-id="{{$n->id}}" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
-                    </td>
-                </tr>
-                @empty
-                <td>-</td>
-                @endforelse
+            <tbody>
+              @foreach ($siswa_h as $siswa)
+                  <tr>
+                      <td>{{ $loop->iteration }}</td>
+                      <td>{{ $siswa['nama_siswa'] }}</td>
+                      <td>{{ $siswa['nisn'] }}</td>
+                      @foreach ($siswa as $key => $value)
+                          @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
+                              <td>{{ $value }}</td>
+                          @endif
+                      @endforeach
+                      <td>
+                          <a href="{{ route('siswaHadist.show', $siswa['siswa_id']) }}" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                          <a href="javascript:void(0)" data-toggle="tooltip"  data-id="{{$siswa['siswa_id']}}" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+                      </td>
+                  </tr>
+              @endforeach
+          </tbody>
           </table>
         </div>
       </div>
