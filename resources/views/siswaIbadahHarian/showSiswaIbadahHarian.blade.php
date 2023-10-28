@@ -44,7 +44,7 @@
                                         NISN
                                     </label>
                                     <div class="input-group">
-                                        <input id="nisn" name="nisn" value="{{ $siswaIbadahHarian->siswa->nisn }}"
+                                        <input id="nisn" name="nisn" value="{{ $siswaIbadahHarian[0]->siswa->nisn }}"
                                             class="form-control" disabled>
                                     </div>
                                 </div>
@@ -55,33 +55,27 @@
                                     </label>
                                     <div class="input-group">
                                         <input id="nama_siswa" name="nama_siswa"
-                                            value="{{ $siswaIbadahHarian->siswa->nama_siswa }}" class="form-control" disabled>
+                                            value="{{ $siswaIbadahHarian[0]->siswa->nama_siswa }}" class="form-control" disabled>
                                     </div>
                                 </div>
-                                @foreach ($siswaIbadahHarian->getAttributes() as $key => $value)
-                                    @if (strpos($key, 'ibadah_harian') !== false)
+                                @foreach ($siswaIbadahHarian as $siswa_ib)
                                         <div class="form-group col-md-12">
-                                            {{-- the key is ibadah_harian1_id--}}
-                                            <label for="{{ $key }}" class="text-lightdark">
-                                                {{ $siswaIbadahHarian->{substr($key, 0, -3)}->nama_kriteria }}
+                                            <label for="ibadah_harian_{{ $siswa_ib->id }}" class="text-lightdark">
+                                                    {{ $siswa_ib->ibadah_harian_1->nama_kriteria }}
                                             </label>
                                             <div class="input-group">
-                                                <select id="{{ $key }}" name="{{ $key }}" class="form-control @error($key) is-invalid @enderror" disabled>
-                                                    <option value="">-- Pilih {{ $siswaIbadahHarian->{substr($key, 0, -3)}->nama_kriteria }} --</option>
+                                                <select id="ibadah_harian_{{ $siswa_ib->id }}" name="ibadah_harian_{{ $siswa_ib->id }}" class="form-control @error($siswa_ib->id) is-invalid @enderror">
                                                     @foreach ($penilaian_deskripsi as $deskripsi)
-                                                        <option value="{{ $deskripsi->id }}" {{ $deskripsi->id == $siswaIbadahHarian->{substr($key, 0, -3)}->id ? 'selected' : '' }}>
-                                                            {{ $deskripsi->keterangan }}
-                                                        </option>
+                                                        <option value="{{ $deskripsi->id }}" {{ (old($siswa_ib->id) ?? $siswa_ib->penilaian_deskripsi->deskripsi) == $deskripsi->deskripsi ? 'selected' : '' }}>{{ $deskripsi->keterangan }}</option>
                                                     @endforeach
                                                 </select>
-                                                @error($key)
+                                                @error($siswa_ib->id)
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </div>
                                         </div>
-                                    @endif
                                 @endforeach
 
                                 <x-adminlte-button id="edit" class="btn bg-purple col-12 edit" label="Edit Data"
@@ -112,39 +106,23 @@
             $('#edit').show();
             $('#simpan').hide();
             $('#batal').hide();
+            $('input').prop('disabled', true);
+            $('select').prop('disabled', true);
 
             $('#form_ibadah_harian').on('submit', function(e) {
                 e.preventDefault();
                 $('#edit').show();
                 $('#simpan').hide();
                 $('#batal').hide();
+
+                var data = $(this).serialize();
                 $('input').prop('disabled', true);
                 $('select').prop('disabled', true);
 
-                var ibadah_harian_1 = $('#ibadah_harian_1_id').val();
-                var ibadah_harian_2 = $('#ibadah_harian_2_id').val();
-                var ibadah_harian_3 = $('#ibadah_harian_3_id').val();
-                var ibadah_harian_4 = $('#ibadah_harian_4_id').val();
-                var ibadah_harian_5 = $('#ibadah_harian_5_id').val();
-                var ibadah_harian_6 = $('#ibadah_harian_6_id').val();
-                var ibadah_harian_7 = $('#ibadah_harian_7_id').val();
-                var ibadah_harian_8 = $('#ibadah_harian_8_id').val();
-                var ibadah_harian_9 = $('#ibadah_harian_9_id').val();
-
                 $.ajax({
-                    url: "{{ route('siswaIbadahHarian.update', $siswaIbadahHarian->id) }}",
+                    url: "{{ route('siswaIbadahHarian.update', $siswaIbadahHarian[0]->siswa_id) }}",
                     type: "PATCH",
-                    data: {
-                        ibadah_harian_1_id: ibadah_harian_1,
-                        ibadah_harian_2_id: ibadah_harian_2,
-                        ibadah_harian_3_id: ibadah_harian_3,
-                        ibadah_harian_4_id: ibadah_harian_4,
-                        ibadah_harian_5_id: ibadah_harian_5,
-                        ibadah_harian_6_id: ibadah_harian_6,
-                        ibadah_harian_7_id: ibadah_harian_7,
-                        ibadah_harian_8_id: ibadah_harian_8,
-                        ibadah_harian_9_id: ibadah_harian_9,
-                    },
+                    data: data,
                     success: function(data) {
                         Swal.fire({
                             icon: 'success',

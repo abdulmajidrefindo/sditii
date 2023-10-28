@@ -72,9 +72,9 @@ class SiswaIbadahHarianController extends Controller
      * @param  \App\Models\SiswaIbadahHarian  $siswaIbadahHarian
      * @return \Illuminate\Http\Response
      */
-    public function show(SiswaIbadahHarian $siswaIbadahHarian)
+    public function show($siswa_id)
     {
-        $siswaIbadahHarian = SiswaIbadahHarian::with('siswa','ibadah_harian_1','ibadah_harian_2','ibadah_harian_3','ibadah_harian_4','ibadah_harian_5','ibadah_harian_6','ibadah_harian_7','ibadah_harian_8','ibadah_harian_9','penilaian_deskripsi')->where('id',$siswaIbadahHarian->id)->first();
+        $siswaIbadahHarian = SiswaIbadahHarian::where('siswa_id', $siswa_id)->get();
         $penilaian_deskripsi = PenilaianDeskripsi::all();
         return view('/siswaIbadahHarian/showSiswaIbadahHarian', 
         [
@@ -102,16 +102,20 @@ class SiswaIbadahHarianController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, SiswaIbadahHarian $siswaIbadahHarian)
+    public function update(Request $request, $siswa_id)
     {
         $messages = [];
+        $ibadah_harian_fields = [];
         $validator_rules = [];
-        $ibadah_harian_fields = ['ibadah_harian_1_id', 'ibadah_harian_2_id', 'ibadah_harian_3_id', 'ibadah_harian_4_id', 'ibadah_harian_5_id', 'ibadah_harian_6_id', 'ibadah_harian_7_id', 'ibadah_harian_8_id', 'ibadah_harian_9_id'];
+
+        foreach ($request->all() as $key => $value) {
+            $ibadah_harian_fields[] = $key;
+        }
     
         foreach ($ibadah_harian_fields as $field) {
-            $messages[$field.'.integer'] = 'Ibadah harian '.substr($field, 16, -3).' tak boleh kosong.';
-            $messages[$field.'.min'] = 'Ibadah harian '.substr($field, 16, -3).' tidak boleh diluar pilihan.';
-            $messages[$field.'.max'] = 'Ibadah harian '.substr($field, 16, -3).' tidak boleh diluar pilihan.';
+            $messages[$field.'.integer'] = 'Ibadah harian tak boleh kosong.';
+            $messages[$field.'.min'] = 'Ibadah harian tidak boleh diluar pilihan.';
+            $messages[$field.'.max'] = 'Ibadah harian tidak boleh diluar pilihan.';
             $validator_rules[$field] = 'integer|min:1|max:4';
         }
     
@@ -120,12 +124,19 @@ class SiswaIbadahHarianController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
-    
-        foreach ($ibadah_harian_fields as $field) {
-            $siswaIbadahHarian->$field = $request->input($field);
+
+        $berhasil = 0;
+        $processed = 0;
+        foreach($request->all() as $key => $value) {
+            $id = str_replace('ibadah_harian_', '', $key);
+            $siswaibadahharian = SiswaIbadahHarian::find($id);
+            $siswaibadahharian->penilaian_deskripsi_id = $value;
+            $processed++;
+            if ($siswaibadahharian->save()) {
+                $berhasil++;
+            }
         }
-    
-        if ($siswaIbadahHarian->save()) {
+        if ($berhasil > 0 && $berhasil == $processed) {
             return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal diupdate!']);
