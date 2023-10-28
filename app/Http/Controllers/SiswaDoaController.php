@@ -88,13 +88,13 @@ class SiswaDoaController extends Controller
      * @param  \App\Models\SiswaDoa  $siswaDoa
      * @return \Illuminate\Http\Response
      */
-    public function show(SiswaDoa $siswaDoa)
+    public function show($siswa_id)
     {
-        $siswaDoa = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('id', $siswaDoa->id)->firstOrFail();
-        //return view('/siswaDoa/showSiswaDoa', ['siswaDoa' => $siswaDoa]);
-        return response()->json($siswaDoa);
+        // Url di route show menggunana siswa_id bukan id siswa_doa
+        $siswaDoa = SiswaDoa::where('siswa_id', $siswa_id)->get();
+        //return response()->json($siswaDoa);
+        return view('/siswaDoa/showSiswaDoa', ['siswaDoa' => $siswaDoa]);
     }
-    
 
     /**
      * Show the form for editing the specified resource.
@@ -114,16 +114,20 @@ class SiswaDoaController extends Controller
      * @param  \App\Models\SiswaDoa  $siswaDoa
      * @return \Illuminate\Http\Response
      */
-public function update(Request $request, SiswaDoa $siswaDoa)
+public function update(Request $request, $siswa_id)
 {
     $messages = [];
     $validator_rules = [];
-    $doa_fields = ['doa_1_id', 'doa_2_id', 'doa_3_id', 'doa_4_id', 'doa_5_id', 'doa_6_id', 'doa_7_id', 'doa_8_id', 'doa_9_id'];
+    $doa_fields = [];
+
+    foreach ($request->all() as $key => $value) {
+        $doa_fields[] = $key;
+    }
 
     foreach ($doa_fields as $field) {
-        $messages[$field.'.integer'] = 'Doa '.substr($field, -4, 1).' harus berupa angka.';
-        $messages[$field.'.min'] = 'Doa '.substr($field, -4, 1).' tidak boleh kurang dari 0.';
-        $messages[$field.'.max'] = 'Doa '.substr($field, -4, 1).' tidak boleh lebih dari 100.';
+        $messages[$field.'.integer'] = 'Nilai doa harus berupa angka.';
+        $messages[$field.'.min'] = 'Nilai doa tidak boleh kurang dari 0.';
+        $messages[$field.'.max'] = 'Nilai doa tidak boleh lebih dari 100.';
         $validator_rules[$field] = 'integer|min:0|max:100';
     }
 
@@ -133,16 +137,23 @@ public function update(Request $request, SiswaDoa $siswaDoa)
         return response()->json(['error' => $validator->errors()], 422);
     }
 
-    foreach ($doa_fields as $field) {
-        $siswaDoa->$field = $request->input($field);
+    $berhasil = 0;
+    foreach($request->all() as $key => $value) {
+        $id = str_replace('doa_', '', $key);
+        $siswaDoa = SiswaDoa::find($id);
+        $siswaDoa->penilaian_huruf_angka_id = $value;
+        if ($siswaDoa->save()) {
+            $berhasil++;
+        }
     }
-
-    if ($siswaDoa->save()) {
+    $count_request = count($request->all());
+    if ($berhasil > 0 && $berhasil == $count_request) {
         return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
     } else {
         return response()->json(['error' => 'Data gagal diupdate!']);
     }
-    
+
+    //return response()->json($validator->validated());
 }
 
     /**

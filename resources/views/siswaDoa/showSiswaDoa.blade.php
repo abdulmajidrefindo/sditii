@@ -42,7 +42,7 @@
                                         NIS
                                     </label>
                                     <div class="input-group">
-                                        <input id="nisn" name="nisn" value="{{ $siswaDoa->siswa->nisn }}"
+                                        <input id="nisn" name="nisn" value="{{ $siswaDoa[0]->siswa->nisn }}"
                                             class="form-control" disabled>
                                     </div>
                                 </div>
@@ -52,47 +52,27 @@
                                         Nama Siswa
                                     </label>
                                     <div class="input-group">
-                                        <input id="nama_siswa" name="nama_siswa" value="{{ $siswaDoa->siswa->nama_siswa }}"
+                                        <input id="nama_siswa" name="nama_siswa" value="{{ $siswaDoa[0]->siswa->nama_siswa }}"
                                             class="form-control" disabled>
                                     </div>
                                 </div>
 
-                                @foreach ($siswaDoa->getAttributes() as $key => $value)
-                                    @if (strpos($key, 'doa_') !== false)
+                                @foreach ($siswaDoa as $siswa_d)
                                         <div class="form-group col-md-12">
-                                            <label for="{{ $key }}" class="text-lightdark">
-                                                @if (strpos($key, 'doa_1') !== false)
-                                                    Doa {{ $siswaDoa->doa_1->nama_nilai }}
-                                                @elseif (strpos($key, 'doa_2') !== false)
-                                                    Doa {{ $siswaDoa->doa_2->nama_nilai }}
-                                                @elseif (strpos($key, 'doa_3') !== false)
-                                                    Doa {{ $siswaDoa->doa_3->nama_nilai }}
-                                                @elseif (strpos($key, 'doa_4') !== false)
-                                                    Doa {{ $siswaDoa->doa_4->nama_nilai }}
-                                                @elseif (strpos($key, 'doa_5') !== false)
-                                                    Doa {{ $siswaDoa->doa_5->nama_nilai }}
-                                                @elseif (strpos($key, 'doa_6') !== false)
-                                                    Doa {{ $siswaDoa->doa_6->nama_nilai }}
-                                                @elseif (strpos($key, 'doa_7') !== false)
-                                                    Doa {{ $siswaDoa->doa_7->nama_nilai }}
-                                                @elseif (strpos($key, 'doa_8') !== false)
-                                                    Doa {{ $siswaDoa->doa_8->nama_nilai }}
-                                                @elseif (strpos($key, 'doa_9') !== false)
-                                                    Doa {{ $siswaDoa->doa_9->nama_nilai }}
-                                                @endif
+                                            <label for="doa_{{ $siswa_d->id }}" class="text-lightdark">
+                                                    {{ $siswa_d->doa_1->nama_nilai }}
                                             </label>
                                             <div class="input-group">
-                                                <input id="{{ $key }}" name="{{ $key }}"
-                                                    value="{{ old($key, $value) }}"
-                                                    class="form-control @error($key) is-invalid @enderror" disabled>
-                                                @error($key)
+                                                <input id="doa_{{ $siswa_d->id }}" name="doa_{{ $siswa_d->id }}"
+                                                    value="{{ old($siswa_d->id) ?? $siswa_d->penilaian_huruf_angka_id }}"
+                                                    class="form-control @error($siswa_d->id) is-invalid @enderror">
+                                                @error($siswa_d->id)
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </div>
                                         </div>
-                                    @endif
                                 @endforeach
 
                                 <x-adminlte-button id="edit" class="btn bg-purple col-12 edit" label="Edit Data"
@@ -123,40 +103,22 @@
             $('#edit').show();
             $('#simpan').hide();
             $('#batal').hide();
-
+            $('input').prop('disabled', true);
             $('#form_siswa_doa').on('submit', function(e) {
                 e.preventDefault();
+                var $form = $(this); 
                 $('#edit').show();
                 $('#simpan').hide();
                 $('#batal').hide();
-                $('input').prop('disabled', true);
 
                 var nisn = $('#nisn').val();
-                var doa_1 = $('#doa_1_id').val();
-                var doa_2 = $('#doa_2_id').val();
-                var doa_3 = $('#doa_3_id').val();
-                var doa_4 = $('#doa_4_id').val();
-                var doa_5 = $('#doa_5_id').val();
-                var doa_6 = $('#doa_6_id').val();
-                var doa_7 = $('#doa_7_id').val();
-                var doa_8 = $('#doa_8_id').val();
-                var doa_9 = $('#doa_9_id').val();
-
+                // all form input value as data
+                var data = $form.serialize();
+                $('input').prop('disabled', true);
                 $.ajax({
-                    url: "{{ route('siswaDoa.update', $siswaDoa->id) }}",
+                    url: "{{ route('siswaDoa.update', $siswaDoa[0]->siswa->id) }}",
                     type: "PATCH",
-                    data: {
-                        nisn: nisn,
-                        doa_1_id: doa_1,
-                        doa_2_id: doa_2,
-                        doa_3_id: doa_3,
-                        doa_4_id: doa_4,
-                        doa_5_id: doa_5,
-                        doa_6_id: doa_6,
-                        doa_7_id: doa_7,
-                        doa_8_id: doa_8,
-                        doa_9_id: doa_9,
-                    },
+                    data: data,
                     success: function(data) {
                         Swal.fire({
                             icon: 'success',
