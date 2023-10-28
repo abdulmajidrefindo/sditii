@@ -59,14 +59,14 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <label for="nilai_uh_1_id" class="text-lightdark">
+                                    <label for="nilai_uh_1" class="text-lightdark">
                                         Nilai UH 1
                                     </label>
                                     <div class="input-group">
-                                        <input id="nilai_uh_1_id" name="nilai_uh_1_id"
-                                            value="{{ old('nilai_uh_1_id', $siswaBidangStudi->nilai_uh_1_id) }}"
-                                            class="form-control @error('nilai_uh_1_id') is-invalid @enderror" disabled>
-                                        @error('nilai_uh_1_id')
+                                        <input id="nilai_uh_1" name="nilai_uh_1"
+                                            value="{{ old('nilai_uh_1', $siswaBidangStudi->uh_1->nilai_angka) }}"
+                                            class="form-control @error('nilai_uh_1') is-invalid @enderror" disabled>
+                                        @error('nilai_uh_1')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -75,14 +75,14 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <label for="nilai_uh_2_id" class="text-lightdark">
+                                    <label for="nilai_uh_2" class="text-lightdark">
                                         Nilai UH 2
                                     </label>
                                     <div class="input-group">
-                                        <input id="nilai_uh_2_id" name="nilai_uh_2_id"
-                                            value="{{ old('nilai_uh_2_id', $siswaBidangStudi->nilai_uh_2_id) }}"
-                                            class="form-control @error('nilai_uh_2_id') is-invalid @enderror" disabled>
-                                        @error('nilai_uh_2_id')
+                                        <input id="nilai_uh_2" name="nilai_uh_2"
+                                            value="{{ old('nilai_uh_2', $siswaBidangStudi->uh_2->nilai_angka) }}"
+                                            class="form-control @error('nilai_uh_2') is-invalid @enderror" disabled>
+                                        @error('nilai_uh_2')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -91,14 +91,14 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <label for="nilai_uh_3_id" class="text-lightdark">
+                                    <label for="nilai_uh_3" class="text-lightdark">
                                         Nilai UH 3
                                     </label>
                                     <div class="input-group">
-                                        <input id="nilai_uh_3_id" name="nilai_uh_3_id"
-                                            value="{{ old('nilai_uh_3_id', $siswaBidangStudi->nilai_uh_3_id) }}"
-                                            class="form-control @error('nilai_uh_3_id') is-invalid @enderror" disabled>
-                                        @error('nilai_uh_3_id')
+                                        <input id="nilai_uh_3" name="nilai_uh_3"
+                                            value="{{ old('nilai_uh_3', $siswaBidangStudi->uh_3->nilai_angka) }}"
+                                            class="form-control @error('nilai_uh_3') is-invalid @enderror" disabled>
+                                        @error('nilai_uh_3')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -107,14 +107,14 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <label for="nilai_uh_4_id" class="text-lightdark">
+                                    <label for="nilai_uh_4" class="text-lightdark">
                                         Nilai UH 4
                                     </label>
                                     <div class="input-group">
-                                        <input id="nilai_uh_4_id" name="nilai_uh_4_id"
-                                            value="{{ old('nilai_uh_4_id', $siswaBidangStudi->nilai_uh_4_id) }}"
-                                            class="form-control @error('nilai_uh_4_id') is-invalid @enderror" disabled>
-                                        @error('nilai_uh_4_id')
+                                        <input id="nilai_uh_4" name="nilai_uh_4"
+                                            value="{{ old('nilai_uh_4', $siswaBidangStudi->uh_4->nilai_angka) }}"
+                                            class="form-control @error('nilai_uh_4') is-invalid @enderror" disabled>
+                                        @error('nilai_uh_4')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -123,14 +123,14 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <label for="nilai_tugas_1_id" class="text-lightdark">
+                                    <label for="nilai_tugas_1" class="text-lightdark">
                                         Nilai Tugas 1
                                     </label>
                                     <div class="input-group">
-                                        <input id="nilai_tugas_1_id" name="nilai_tugas_1_id"
-                                            value="{{ old('nilai_tugas_1_id', $siswaBidangStudi->nilai_tugas_1_id) }}"
-                                            class="form-control @error('nilai_tugas_1_id') is-invalid @enderror" disabled>
-                                        @error('nilai_tugas_1_id')
+                                        <input id="nilai_tugas_1" name="nilai_tugas_1"
+                                            value="{{ old('nilai_tugas_1', $siswaBidangStudi->tugas_1->nilai_angka) }}"
+                                            class="form-control @error('nilai_tugas_1') is-invalid @enderror" disabled>
+                                        @error('nilai_tugas_1')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -139,14 +139,14 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <label for="nilai_tugas_2_id" class="text-lightdark">
+                                    <label for="nilai_tugas_2" class="text-lightdark">
                                         Nilai Tugas 2
                                     </label>
                                     <div class="input-group">
-                                        <input id="nilai_tugas_2_id" name="nilai_tugas_2_id"
-                                            value="{{ old('nilai_tugas_2_id', $siswaBidangStudi->nilai_tugas_2_id) }}"
-                                            class="form-control @error('nilai_tugas_2_id') is-invalid @enderror" disabled>
-                                        @error('nilai_tugas_2_id')
+                                        <input id="nilai_tugas_2" name="nilai_tugas_2"
+                                            value="{{ old('nilai_tugas_2', $siswaBidangStudi->tugas_2->nilai_angka) }}"
+                                            class="form-control @error('nilai_tugas_2') is-invalid @enderror" disabled>
+                                        @error('nilai_tugas_2')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -155,14 +155,14 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <label for="nilai_uts_id" class="text-lightdark">
+                                    <label for="nilai_uts" class="text-lightdark">
                                         Nilai UTS
                                     </label>
                                     <div class="input-group">
-                                        <input id="nilai_uts_id" name="nilai_uts_id"
-                                            value="{{ old('nilai_uts_id', $siswaBidangStudi->nilai_uts_id) }}"
-                                            class="form-control @error('nilai_uts_id') is-invalid @enderror" disabled>
-                                        @error('nilai_uts_id')
+                                        <input id="nilai_uts" name="nilai_uts"
+                                            value="{{ old('nilai_uts', $siswaBidangStudi->uts->nilai_angka) }}"
+                                            class="form-control @error('nilai_uts') is-invalid @enderror" disabled>
+                                        @error('nilai_uts')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -171,14 +171,14 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <label for="nilai_pas_id" class="text-lightdark">
+                                    <label for="nilai_pas" class="text-lightdark">
                                         Nilai UAS
                                     </label>
                                     <div class="input-group">
-                                        <input id="nilai_pas_id" name="nilai_pas_id"
-                                            value="{{ old('nilai_pas_id', $siswaBidangStudi->nilai_pas_id) }}"
-                                            class="form-control @error('nilai_pas_id') is-invalid @enderror" disabled>
-                                        @error('nilai_pas_id')
+                                        <input id="nilai_pas" name="nilai_pas"
+                                            value="{{ old('nilai_pas', $siswaBidangStudi->pas->nilai_angka) }}"
+                                            class="form-control @error('nilai_pas') is-invalid @enderror" disabled>
+                                        @error('nilai_pas')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -221,27 +221,27 @@
                 $('#simpan').hide();
                 $('#batal').hide();
                 $('input').prop('disabled', true);
-                var nilai_uh_1_id = $('#nilai_uh_1_id').val();
-                var nilai_uh_2_id = $('#nilai_uh_2_id').val();
-                var nilai_uh_3_id = $('#nilai_uh_3_id').val();
-                var nilai_uh_4_id = $('#nilai_uh_4_id').val();
-                var nilai_tugas_1_id = $('#nilai_tugas_1_id').val();
-                var nilai_tugas_2_id = $('#nilai_tugas_2_id').val();
-                var nilai_uts_id = $('#nilai_uts_id').val();
-                var nilai_pas_id = $('#nilai_pas_id').val();
+                var uh_1 = $('#nilai_uh_1').val();
+                var uh_2 = $('#nilai_uh_2').val();
+                var uh_3 = $('#nilai_uh_3').val();
+                var uh_4 = $('#nilai_uh_4').val();
+                var tugas_1 = $('#nilai_tugas_1').val();
+                var tugas_2 = $('#nilai_tugas_2').val();
+                var uts = $('#nilai_uts').val();
+                var pas = $('#nilai_pas').val();
 
                 $.ajax({
                     url: "{{ route('siswaBidangStudi.update', $siswaBidangStudi->id) }}",
                     type: "PATCH",
                     data: {
-                        nilai_uh_1_id: nilai_uh_1_id,
-                        nilai_uh_2_id: nilai_uh_2_id,
-                        nilai_uh_3_id: nilai_uh_3_id,
-                        nilai_uh_4_id: nilai_uh_4_id,
-                        nilai_tugas_1_id: nilai_tugas_1_id,
-                        nilai_tugas_2_id: nilai_tugas_2_id,
-                        nilai_uts_id: nilai_uts_id,
-                        nilai_pas_id: nilai_pas_id,
+                        nilai_uh_1: uh_1,
+                        nilai_uh_2: uh_2,
+                        nilai_uh_3: uh_3,
+                        nilai_uh_4: uh_4,
+                        nilai_tugas_1: tugas_1,
+                        nilai_tugas_2: tugas_2,
+                        nilai_uts: uts,
+                        nilai_pas: pas,
                     },
                     success: function(data) {
                         Swal.fire({

@@ -28,13 +28,17 @@ class SiswaBidangStudiController extends Controller
     public function index(Request $request)
     {
         $data_mapel=Mapel::all();
+        $data_kelas=Kelas::all();
         $mapel=$request->mapel_id;
-        $siswa_bs = SiswaBidangStudi::with('siswa','nilai_uh_1','nilai_uh_2','nilai_uh_3','nilai_uh_4','nilai_tugas_1','nilai_tugas_2','nilai_uts','nilai_pas')->where('mapel_id',$mapel)->get();
+        $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->get();
         return view('/siswaBidangStudi/indexSiswaBidangStudi', 
         [
             'data_mapel'=>$data_mapel,
+            'data_kelas'=>$data_kelas,
             'siswa_bs'=>$siswa_bs
         ]);
+
+        return response()->json($siswa_bs);
     }
 
     /**
@@ -66,7 +70,7 @@ class SiswaBidangStudiController extends Controller
      */
     public function show(SiswaBidangStudi $siswaBidangStudi)
     {
-        $siswaBidangStudi = SiswaBidangStudi::with('siswa','nilai_uh_1','nilai_uh_2','nilai_uh_3','nilai_uh_4','nilai_tugas_1','nilai_tugas_2','nilai_uts','nilai_pas')->where('id',$siswaBidangStudi->id)->first();
+        $siswaBidangStudi = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('id',$siswaBidangStudi->id)->first();
         return view('/siswaBidangStudi/showSiswaBidangStudi', 
         [
             'siswaBidangStudi'=>$siswaBidangStudi
@@ -96,7 +100,11 @@ class SiswaBidangStudiController extends Controller
 
         $messages = [];
         $validator_rules = [];
-        $nilai_fields = ['nilai_uh_1_id', 'nilai_uh_2_id', 'nilai_uh_3_id', 'nilai_uh_4_id', 'nilai_tugas_1_id', 'nilai_tugas_2_id', 'nilai_uts_id', 'nilai_pas_id'];
+        $nilai_fields = [];
+
+        foreach ($request->all() as $key => $value) {
+            $nilai_fields[] = $key;
+        }
     
         foreach ($nilai_fields as $field) {
             $messages[$field.'.integer'] = 'Nilai harus berupa angka.';
@@ -110,9 +118,9 @@ class SiswaBidangStudiController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
-    
-        foreach ($nilai_fields as $field) {
-            $siswaBidangStudi->$field = $request->input($field);
+        foreach ($request->all() as $key => $value) {
+            $value = $value == 0 ? 101 : $value;
+            $siswaBidangStudi->$key = $value;
         }
     
         if ($siswaBidangStudi->save()) {
@@ -120,6 +128,9 @@ class SiswaBidangStudiController extends Controller
         } else {
             return response()->json(['error' => 'Data gagal diupdate!']);
         }
+
+        //return response()->json($request->all());
+        
     }
 
 

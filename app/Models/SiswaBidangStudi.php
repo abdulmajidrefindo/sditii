@@ -37,35 +37,35 @@ class SiswaBidangStudi extends Model
     {
         return $this->belongsTo(Mapel::class);
     }
-    public function nilai_uh_1()
+    public function uh_1()
     {
         return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_uh_1', 'id');
     }
-    public function nilai_uh_2()
+    public function uh_2()
     {
         return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_uh_2', 'id');
     }
-    public function nilai_uh_3()
+    public function uh_3()
     {
         return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_uh_3', 'id');
     }
-    public function nilai_uh_4()
+    public function uh_4()
     {
         return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_uh_4', 'id');
     }
-    public function nilai_tugas_1()
+    public function tugas_1()
     {
         return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_tugas_1', 'id');
     }
-    public function nilai_tugas_2()
+    public function tugas_2()
     {
         return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_tugas_2', 'id');
     }
-    public function nilai_uts()
+    public function uts()
     {
         return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_uts', 'id');
     }
-    public function nilai_pas()
+    public function pas()
     {
         return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_pas', 'id');
     }
