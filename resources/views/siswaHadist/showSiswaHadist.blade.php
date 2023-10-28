@@ -64,7 +64,7 @@
                                             </label>
                                             <div class="input-group">
                                                 <input id="hadist_{{ $siswa_h->id }}" name="hadist_{{ $siswa_h->id }}"
-                                                    value="{{ old($siswa_h->id) ?? $siswa_h->penilaian_huruf_angka_id }}"
+                                                    value="{{ old($siswa_h->id) ?? $siswa_h->penilaian_huruf_angka->nilai_angka }}"
                                                     class="form-control @error($siswa_h->id) is-invalid @enderror">
                                                 @error($siswa_h->id)
                                                     <span class="invalid-feedback" role="alert">

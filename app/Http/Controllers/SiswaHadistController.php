@@ -129,6 +129,7 @@ class SiswaHadistController extends Controller
         foreach($request->all() as $key => $value) {
             $id = str_replace('hadist_', '', $key);
             $siswahadist = SiswaHadist::find($id);
+            $value = ($value == 0) ? 101 : $value;
             $siswahadist->penilaian_huruf_angka_id = $value;
             if ($siswahadist->save()) {
                 $berhasil++;

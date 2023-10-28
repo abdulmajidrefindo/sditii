@@ -71,9 +71,9 @@ class SiswaTahfidzController extends Controller
      * @param  \App\Models\SiswaTahfidz  $siswaTahfidz
      * @return \Illuminate\Http\Response
      */
-    public function show(SiswaTahfidz $siswaTahfidz)
+    public function show($siswa_id)
     {
-        $siswaTahfidz = SiswaTahfidz::with('siswa','tahfidz_1','tahfidz_2','tahfidz_3','tahfidz_4','tahfidz_5','tahfidz_6','tahfidz_7','tahfidz_8','tahfidz_9','tahfidz_10','tahfidz_11','tahfidz_12','tahfidz_13','tahfidz_14','tahfidz_15')->where('id',$siswaTahfidz->id)->first();
+        $siswaTahfidz = SiswaTahfidz::where('siswa_id', $siswa_id)->get();
         return view('/siswaTahfidz/showSiswaTahfidz', 
         [
             'siswaTahfidz'=>$siswaTahfidz,
@@ -98,16 +98,20 @@ class SiswaTahfidzController extends Controller
      * @param  \App\Models\SiswaTahfidz  $siswaTahfidz
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SiswaTahfidz $siswaTahfidz)
+    public function update(Request $request, $siswa_id)
     {
         $messages = [];
+        $tahfidz_fields = [];
         $validator_rules = [];
-        $tahfidz_fields = ['tahfidz_1_id', 'tahfidz_2_id', 'tahfidz_3_id', 'tahfidz_4_id', 'tahfidz_5_id', 'tahfidz_6_id', 'tahfidz_7_id', 'tahfidz_8_id', 'tahfidz_9_id', 'tahfidz_10_id', 'tahfidz_11_id', 'tahfidz_12_id', 'tahfidz_13_id', 'tahfidz_14_id', 'tahfidz_15_id'];
+
+        foreach ($request->all() as $key => $value) {
+            $tahfidz_fields[] = $key;
+        }
 
         foreach ($tahfidz_fields as $field) {
-            $messages[$field.'.integer'] = 'Tahfidz '.substr($field, 8, -3).' harus berupa angka.';
-            $messages[$field.'.min'] = 'Tahfidz '.substr($field, 8, -3).' tidak boleh kurang dari 0.';
-            $messages[$field.'.max'] = 'Tahfidz '.substr($field, 8, -3).' tidak boleh lebih dari 100.';
+            $messages[$field.'.integer'] = 'Nilai tahfidz harus berupa angka.';
+            $messages[$field.'.min'] = 'Nilai tahfidz tidak boleh kurang dari 0.';
+            $messages[$field.'.max'] = 'Nilai tahfidz tidak boleh lebih dari 100.';
             $validator_rules[$field] = 'integer|min:0|max:100';
         }
 
@@ -117,11 +121,18 @@ class SiswaTahfidzController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        foreach ($tahfidz_fields as $field) {
-            $siswaTahfidz->$field = $request->input($field);
+        $berhasil = 0;
+        foreach($request->all() as $key => $value) {
+            $id = str_replace('tahfidz_', '', $key);
+            $siswatahfidz = SiswaTahfidz::find($id);
+            $value = ($value == 0) ? 101 : $value; 
+            $siswatahfidz->penilaian_huruf_angka_id = $value;
+            if ($siswatahfidz->save()) {
+                $berhasil++;
+            }
         }
-
-        if ($siswaTahfidz->save()) {
+        $count_request = count($request->all());
+        if ($berhasil > 0 && $berhasil == $count_request) {
             return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal diupdate!']);
