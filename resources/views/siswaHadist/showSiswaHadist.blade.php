@@ -43,7 +43,7 @@
                                         NIS
                                     </label>
                                     <div class="input-group">
-                                        <input id="nisn" name="nisn" value="{{ $siswaHadist->siswa->nisn }}"
+                                        <input id="nisn" name="nisn" value="{{ $siswaHadist[0]->siswa->nisn }}"
                                             class="form-control" disabled>
                                     </div>
                                 </div>
@@ -54,28 +54,25 @@
                                     </label>
                                     <div class="input-group">
                                         <input id="nama_siswa" name="nama_siswa"
-                                            value="{{ $siswaHadist->siswa->nama_siswa }}" class="form-control" disabled>
+                                            value="{{ $siswaHadist[0]->siswa->nama_siswa }}" class="form-control" disabled>
                                     </div>
                                 </div>
-                                @foreach ($siswaHadist->getAttributes() as $key => $value)
-                                    @if (strpos($key, 'hadist_') !== false)
+                                @foreach ($siswaHadist as $siswa_h)
                                         <div class="form-group col-md-12">
-                                            {{-- the key is hadist_1_id--}}
-                                            <label for="{{ $key }}" class="text-lightdark">
-                                                {{ $siswaHadist->{substr($key, 0, -3)}->nama_nilai }}
+                                            <label for="hadist_{{ $siswa_h->id }}" class="text-lightdark">
+                                                    {{ $siswa_h->hadist_1->nama_nilai }}
                                             </label>
                                             <div class="input-group">
-                                                <input id="{{ $key }}" name="{{ $key }}"
-                                                    value="{{ old($key, $value) }}"
-                                                    class="form-control @error($key) is-invalid @enderror" disabled>
-                                                @error($key)
+                                                <input id="hadist_{{ $siswa_h->id }}" name="hadist_{{ $siswa_h->id }}"
+                                                    value="{{ old($siswa_h->id) ?? $siswa_h->penilaian_huruf_angka_id }}"
+                                                    class="form-control @error($siswa_h->id) is-invalid @enderror">
+                                                @error($siswa_h->id)
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </div>
                                         </div>
-                                    @endif
                                 @endforeach
 
                                 <x-adminlte-button id="edit" class="btn bg-purple col-12 edit" label="Edit Data"
@@ -106,38 +103,21 @@
             $('#edit').show();
             $('#simpan').hide();
             $('#batal').hide();
+            $('input').prop('disabled', true);
 
             $('#form_siswa_hadist').on('submit', function(e) {
                 e.preventDefault();
                 $('#edit').show();
                 $('#simpan').hide();
                 $('#batal').hide();
+                
+                var data = $(this).serialize();
                 $('input').prop('disabled', true);
 
-                var hadist_1 = $('#hadist_1_id').val();
-                var hadist_2 = $('#hadist_2_id').val();
-                var hadist_3 = $('#hadist_3_id').val();
-                var hadist_4 = $('#hadist_4_id').val();
-                var hadist_5 = $('#hadist_5_id').val();
-                var hadist_6 = $('#hadist_6_id').val();
-                var hadist_7 = $('#hadist_7_id').val();
-                var hadist_8 = $('#hadist_8_id').val();
-                var hadist_9 = $('#hadist_9_id').val();
-
                 $.ajax({
-                    url: "{{ route('siswaHadist.update', $siswaHadist->id) }}",
+                    url: "{{ route('siswaHadist.update', $siswaHadist[0]->siswa->id) }}",
                     type: "PATCH",
-                    data: {
-                        hadist_1_id: hadist_1,
-                        hadist_2_id: hadist_2,
-                        hadist_3_id: hadist_3,
-                        hadist_4_id: hadist_4,
-                        hadist_5_id: hadist_5,
-                        hadist_6_id: hadist_6,
-                        hadist_7_id: hadist_7,
-                        hadist_8_id: hadist_8,
-                        hadist_9_id: hadist_9,
-                    },
+                    data: data,
                     success: function(data) {
                         Swal.fire({
                             icon: 'success',

@@ -111,8 +111,6 @@
                 $('#simpan').hide();
                 $('#batal').hide();
 
-                var nisn = $('#nisn').val();
-                // all form input value as data
                 var data = $form.serialize();
                 $('input').prop('disabled', true);
                 $.ajax({
