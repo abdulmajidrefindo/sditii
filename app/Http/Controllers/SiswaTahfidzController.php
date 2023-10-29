@@ -19,10 +19,11 @@ class SiswaTahfidzController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $siswa_t = SiswaTahfidz::with('siswa','tahfidz_1','penilaian_huruf_angka')->whereHas('tahfidz_1', function ($query) {
-            $query->where('kelas_id', 1);
+        $kelas_id = $request->kelas_id;
+        $siswa_t = SiswaTahfidz::with('siswa','tahfidz_1','penilaian_huruf_angka')->whereHas('tahfidz_1', function ($query) use ($kelas_id) {
+            $query->where('kelas_id', $kelas_id);
         })->get();
 
         $modified_siswa_t = $siswa_t->groupBy(['siswa_id'])->map(function ($item) {

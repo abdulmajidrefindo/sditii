@@ -15,9 +15,11 @@ class SiswaBidangStudiController extends Controller
 {
     public function choose(){
         $data_mapel=Mapel::all();
-        return view('/siswaBidangStudi/chooseSiswaBidangStudi',
+        $data_kelas=Kelas::all();
+        return view('/siswaBidangStudi/indexSiswaBidangStudi', 
         [
-            'data_mapel'=>$data_mapel
+            'data_mapel'=>$data_mapel,
+            'data_kelas'=>$data_kelas
         ]);
     }
     /**
@@ -30,7 +32,10 @@ class SiswaBidangStudiController extends Controller
         $data_mapel=Mapel::all();
         $data_kelas=Kelas::all();
         $mapel=$request->mapel_id;
-        $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->get();
+        $kelas=$request->kelas_id;
+        $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->whereHas('siswa', function ($query) use ($kelas) {
+            $query->where('kelas_id', $kelas);
+        })->get();
         return view('/siswaBidangStudi/indexSiswaBidangStudi', 
         [
             'data_mapel'=>$data_mapel,
@@ -38,7 +43,12 @@ class SiswaBidangStudiController extends Controller
             'siswa_bs'=>$siswa_bs
         ]);
 
-        return response()->json($siswa_bs);
+        //return response()->json($siswa_bs);
+    }
+
+    public function kelas_mapel($kelas_id){
+        $mapel = Mapel::where('kelas_id',$kelas_id)->get();
+        return response()->json($mapel);
     }
 
     /**

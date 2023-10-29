@@ -37,6 +37,21 @@
                         <h3 class="card-title">Tabel Tahfidz</h3>
                     </div>
                     <div class="card-body">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="mapel">Pilih Mata Pelajaran</label>
+                                <form action="{{ url('/') }}/tahfidz" method="post">
+                                    @csrf
+                                    <select class="custom-select" name="kelas_id" id="kelas_id">
+                                        <option selected disabled>-Kelas-</option>
+                                        @foreach ($data_kelas as $k)
+                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="submit">
+                                </form>
+                            </div>
+                        </div>
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>

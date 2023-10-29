@@ -39,9 +39,17 @@
                     <div class="card-body">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="mapel">Pilih Mata Pelajaran</label>
                                 <form action="{{ url('/') }}/bidangStudi" method="post">
                                     @csrf
+                                    <label for="kelas">Pilih Kelas</label>
+                                    <select class="custom-select" name="kelas_id" id="kelas_id">
+                                        <option selected disabled>-Kelas-</option>
+                                        @foreach ($data_kelas as $k)
+                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <label for="mapel">Pilih Mata Pelajaran</label>
                                     <select class="custom-select" name="mapel_id" id="mapel_id">
                                         <option selected disabled>-Mata Pelajaran-</option>
                                         @foreach ($data_mapel as $m)
@@ -160,6 +168,32 @@
         //     "responsive": true,
         //   });
         // });
+    </script>
+
+    <script>
+        //change mapel based on kelas
+        $(document).ready(function() {
+            $('select[name="kelas_id"]').on('change', function() {
+                let kelas_id = $(this).val();
+                console.log(kelas_id);
+                if (kelas_id) {
+                    jQuery.ajax({
+                        url: '/bidangStudi/getKelasMapel/' + kelas_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('select[name="mapel_id"]').empty();
+                            $.each(data, function(key, value) {
+                                $('select[name="mapel_id"]').append('<option value="' +
+                                    value.id + '">' + value.nama_mapel + '</option>');
+                            });
+                        },
+                    });
+                } else {
+                    $('select[name="mapel_id"]').empty();
+                }
+            });
+        });
     </script>
 
     <script>

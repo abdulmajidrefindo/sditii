@@ -44,11 +44,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengumuman', [PengumumanController::class, 'index']);
     Route::get('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
     Route::get('/tahfidz', [SiswaTahfidzController::class, 'index']);
+    Route::post('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::get('/hadist', [SiswaHadistController::class, 'index']);
     Route::get('/doa', [SiswaDoaController::class, 'index']);
     Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
-    Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'choose']);
+    Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
+    Route::get('/bidangStudi/getKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'kelas_mapel']);
     Route::get('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator');
     // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
     

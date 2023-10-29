@@ -36,6 +36,27 @@
                         <div class="card-header">
                             <h3 class="card-title">Tabel Bidang Studi</h3>
                         </div>
+                        <div class="form-group">
+                            <form action="{{ url('/') }}/bidangStudi" method="post">
+                                @csrf
+                                <label for="mapel">Pilih Kelas</label>
+                                <select class="custom-select" name="mapel_id" id="mapel_id">
+                                    <option selected disabled>-Kelas-</option>
+                                    @foreach ($data_kelas as $k)
+                                        <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                    @endforeach
+                                </select>
+
+                                <label for="mapel">Pilih Mata Pelajaran</label>
+                                <select class="custom-select" name="mapel_id" id="mapel_id">
+                                    <option selected disabled>-Mata Pelajaran-</option>
+                                    @foreach ($data_mapel as $m)
+                                        <option value={{ $m->id }}>{{ $m->nama_mapel }}</option>
+                                    @endforeach
+                                </select>
+                                <input type="submit">
+                            </form>
+                        </div>
                         <div class="card-body">
                             <div class="col-sm-6">
                                 <div class="form-group">
