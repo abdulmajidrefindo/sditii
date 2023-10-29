@@ -15,6 +15,8 @@ use App\Http\Controllers\SiswaIlmanWaaRuuhanController;
 use App\Http\Controllers\SiswaBidangStudiController;
 use App\Http\Controllers\RaporSiswaController;
 
+use App\Http\Controllers\DoaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,7 +75,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('/siswaIbadahHarian', SiswaIbadahHarianController::class);
     Route::resource('/siswaBidangStudi', SiswaBidangStudiController::class);
     Route::resource('/siswaIlmanWaaRuuhan', SiswaIlmanWaaRuuhanController::class);
-    // choose kelas for siswaDoa
+
+    Route::post('/data_doa_update', [DoaController::class, 'update'])->name('data_doa.update');
+    Route::post('/data_doa_tambah', [DoaController::class, 'store'])->name('data_doa.store');
     
     
     Route::get('/tes', function () {

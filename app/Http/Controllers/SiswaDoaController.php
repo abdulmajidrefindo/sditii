@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SiswaDoa;
 use App\Models\Doa1;
 use App\Models\Kelas;
+use App\Models\Guru;
 use App\Http\Requests\StoreSiswaDoaRequest;
 use App\Http\Requests\UpdateSiwaDoaRequest;
 
@@ -25,6 +26,7 @@ class SiswaDoaController extends Controller
         // Main page
         $kelas_id = $request->kelas_id;
         $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        $data_guru = Guru::all();
         $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
@@ -43,6 +45,7 @@ class SiswaDoaController extends Controller
         [
             'siswa_d'=>$modified_siswa_d,
             'data_kelas'=>$data_kelas,
+            'data_guru'=>$data_guru,
         ]);
         
         //return response()->json($modified_siswa_d);
@@ -71,41 +74,7 @@ class SiswaDoaController extends Controller
      */
     public function store(Request $request)
     {
-        //return response()->json($request->all());
-        $doa_fields = [];
-        foreach ($request->all() as $key => $value) {
-            if (strpos($key, 'doa_') !== false || strpos($key, 'delete_') !== false) {
-                $doa_fields[$key] = $value;
-            }
-        }
-
-        // Update Doa if containt doa_(id) and delete if containt delete_(id)
-        $berhasil = 0;
-        $processed = 0;
-        foreach ($doa_fields as $field => $value) {
-            if (strpos($field, 'doa_') !== false) {
-                $id = str_replace('doa_', '', $field);
-                $doa = Doa1::find($id);
-                $doa->nama_nilai = $value;
-                if ($doa->save()) {
-                    $berhasil++;
-                }
-                $processed++;
-            } else if (strpos($field, 'delete_') !== false) {
-                $id = str_replace('delete_', '', $field);
-                $doa = Doa1::find($id);
-                if ($doa->delete()) {
-                    $berhasil++;
-                }
-                $processed++;
-            }
-        }
-
-        if ($berhasil > 0 && $berhasil == $processed) {
-            return response()->json(['success' => 'Data berhasil disimpan!', 'status' => '200']);
-        } else {
-            return response()->json(['error' => 'Data gagal disimpan!']);
-        }  
+        
     }
 
     /**

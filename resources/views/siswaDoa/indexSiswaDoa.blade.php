@@ -56,6 +56,12 @@
                                         href="#content-tab-doa-add" role="tab" aria-controls="content-tab-doa-add"
                                         aria-selected="false">Atur Penilaian Doa</a>
                                 </li>
+
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="controller-tambah-doa-add" data-toggle="tab"
+                                        href="#content-tambah-doa-add" role="tab" aria-controls="content-tambah-doa-add"
+                                        aria-selected="false">Tambah Doa</a>
+                                </li>
                             @endif
                         </ul>
                     </div>
@@ -187,6 +193,113 @@
                             {{-- Tab add content end --}}
                         @endif
 
+                        @if (Auth::user()->role->contains('role', 'Administrator'))
+                            {{-- Tab add content --}}
+                            <div class="tab-pane fade" id="content-tambah-doa-add" role="tabpanel"
+                                aria-labelledby="controller-tambah-doa-add">
+                                <div class="card-body">
+                                    <form id="form_tambah_doa">
+                                        @csrf
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+
+                                                <div class="bs-stepper-content">
+                                                    {{-- Input Kelas --}}
+                                                    <div class="form-group">
+                                                        <label for="kelas">Pilih Kelas</label>
+                                                        <select class="custom-select" name="kelas_doa_tambah"
+                                                            id="kelas_doa_tambah">
+                                                            <option selected disabled>-Kelas-</option>
+                                                            @foreach ($data_kelas as $k)
+                                                                <option value={{ $k->id }}>{{ $k->nama_kelas }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('kelas_doa_tambah')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="bs-stepper-content">
+                                                    {{-- Input Nilai --}}
+                                                    <div id="tambah_doa_1">
+                                                        <div class="form-group">
+                                                            <label for="tambah_doa_guru_1">Pilih Guru</label>
+                                                            <select class="custom-select" name="tambah_doa_guru_1"
+                                                                id="tambah_doa_guru_1">
+                                                                <option selected disabled>-Guru-</option>
+                                                                @foreach ($data_guru as $g)
+                                                                    <option value={{ $g->id }}>
+                                                                        {{ $g->nama_guru }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('tambah_doa_guru_1')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="tambah_doa_1">Tambah Doa</label>
+                                                            <input type="text" class="form-control"
+                                                                name="tambah_doa_1" id="tambah_doa_1"
+                                                                placeholder="Masukkan Doa">
+                                                            @error('tambah_doa_1')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div id="tambah_doa_tambah">
+                                                        {{-- Akan ditambahkan melalui ajax --}}
+                                                    </div>
+
+                                                    <div id="tambah_doa_button">
+
+                                                        <x-adminlte-button type="button" id="kurang_doa"
+                                                        class="btn bg-red col-12 kurang_doa"
+                                                        icon="fas fa fa-fw fa-minus" label="Hapus Doa"/>
+
+                                                        <x-adminlte-button type="button" id="tambah_doa"
+                                                            class="btn-outline-secondary col-12 tambah_doa"
+                                                            icon="fas fa fa-fw fa-plus" label="Tambah Doa" />
+                                                            
+                                                        
+
+                                                    </div>
+                                                    {{-- Simpan --}}
+                                                </div>
+
+                                                <hr>
+                                                <x-adminlte-button type="submit"
+                                            class="btn bg-purple col-12 simpan"
+                                            icon="fas fa fa-fw fa-save" label="Simpan Data" />
+
+                                            </div>
+                                            
+                                            
+                                        
+
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                            {{-- Tab add content end --}}
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -234,6 +347,95 @@
             }
         });
         $('#tambah_doa_button').hide();
+    });
+</script>
+
+<script>
+//tambah doa
+    $(document).ready(function() {
+        $('#kurang_doa').hide();
+        var i = 1;
+        $('#tambah_doa').click(function() {
+            i++;
+            $('#tambah_doa_tambah').append(
+                '<hr id="garis' + i +
+                '" <div id="tambah_doa_' + i +
+                '"><div class="form-group"><label for="tambah_doa_guru_' + i +
+                '">Pilih Guru</label><select class="custom-select" name="tambah_doa_guru_' + i +
+                '" id="tambah_doa_guru_' + i +
+                '"><option selected disabled>-Guru-</option>@foreach ($data_guru as $g)<option value={{ $g->id }}>{{ $g->nama_guru }}</option>@endforeach</select>@error("tambah_doa_guru_' +
+                i +
+                '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div><div class="form-group"><label for="tambah_doa_' +
+                i +
+                '">Tambah Doa</label><input type="text" class="form-control" name="tambah_doa_' + i +
+                '" id="tambah_doa_' + i +
+                '" placeholder="Masukkan Doa">@error("tambah_doa_' + i +
+                '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div></div>'
+            );
+            $('#kurang_doa').show();
+        });
+
+        $('#kurang_doa').click(function() {
+            $('#garis' + i).remove();
+            $('#tambah_doa_' + i).remove();
+            i--;
+            if (i == 1) {
+                $('#kurang_doa').hide();
+            }
+        });
+
+
+
+    });
+</script>
+
+<script>
+    //aler on form_tambah_doa submit
+    $(document).on('submit', '#form_tambah_doa', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data Akan Segera Disimpan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            // cancelButtonColor: '#d33',
+            // confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Ya, simpan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('data_doa.store') }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#form_tambah_doa').serialize(),
+                    success: function(response) {
+                        if (response.status == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: response.message,
+                            }).then(function() {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: response.error,
+                            });
+                        }
+                    },
+                    error: function(response) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: response.error,
+                        });
+                    }
+                });
+            }
+        });
     });
 </script>
 
@@ -410,7 +612,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '{{ route('siswaDoa.store') }}',
+                    url: '{{ route('data_doa.update') }}',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#form_daftar_doa').serialize(),
