@@ -43,10 +43,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
     Route::get('/pengumuman', [PengumumanController::class, 'index']);
     Route::get('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
+    Route::post('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
     Route::get('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::post('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::get('/hadist', [SiswaHadistController::class, 'index']);
+    Route::post('/hadist', [SiswaHadistController::class, 'index']);
     Route::get('/doa', [SiswaDoaController::class, 'index']);
+    Route::post('/doa', [SiswaDoaController::class, 'index']);
     Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);

@@ -21,16 +21,10 @@ class Doa1Seeder extends Seeder
     public function run()
     {
         $Doa = [
-            'Doa Sebelum Makan',
-            'Doa Sesudah Makan',
-            'Doa Sebelum Tidur',
-            'Doa Bangun Tidur',
-            'Doa Masuk Kamar Mandi',
-            'Doa Keluar Kamar Mandi',
-            'Doa Sebelum Belajar',
-            'Doa Sesudah Belajar',
-            'Doa Sebelum Mengerjakan Ujian',
-            'Doa Sesudah Mengerjakan Ujian',
+            'Doa Makan',
+            'Doa Makan',
+            'Doa Tidur',
+            'Doa Bangun',
         ];
 
         for ($i=0; $i < count($Doa); $i++) { 

@@ -30,7 +30,7 @@ class SiswaBidangStudiController extends Controller
     public function index(Request $request)
     {
         $data_mapel=Mapel::all();
-        $data_kelas=Kelas::all();
+        $data_kelas=Kelas::all()->except(Kelas::all()->last()->id);
         $mapel=$request->mapel_id;
         $kelas=$request->kelas_id;
         $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->whereHas('siswa', function ($query) use ($kelas) {

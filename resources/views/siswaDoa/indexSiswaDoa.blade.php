@@ -53,19 +53,21 @@
                         <div class="tab-content" id="doaTabContent">
                             <div class="tab-pane active show" id="content-tab-doa-table" role="tabpanel"
                                 aria-labelledby="controller-tab-doa-table">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="kelas">Pilih Kelas</label>
-                                        <form action="{{ url('/') }}/siswaDoa" method="post">
-                                            @csrf
-                                            <select class="custom-select" name="kelas_id" id="kelas_id">
-                                                <option selected disabled>-Kelas-</option>
-                                                @foreach ($data_kelas as $k)
-                                                    <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
-                                                @endforeach
-                                            </select>
-                                            <input type="submit">
-                                        </form>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <form action="{{ url('/') }}/doa" method="post">
+                                                @csrf
+                                                <label for="kelas">Pilih Kelas</label>
+                                                <select class="custom-select" name="kelas_id" id="kelas_id">
+                                                    <option selected disabled>-Kelas-</option>
+                                                    @foreach ($data_kelas as $k)
+                                                        <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="submit">
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
 

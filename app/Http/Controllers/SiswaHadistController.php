@@ -17,10 +17,11 @@ class SiswaHadistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request  $request)
     {
-        $siswa_h = SiswaHadist::with('siswa','hadist_1','penilaian_huruf_angka')->whereHas('hadist_1', function ($query) {
-            $query->where('kelas_id', 1);
+        $kelas_id = $request->kelas_id;
+        $siswa_h = SiswaHadist::with('siswa','hadist_1','penilaian_huruf_angka')->whereHas('hadist_1', function ($query) use ($kelas_id) {
+            $query->where('kelas_id', $kelas_id);
         })->get();
         $modified_siswa_h = $siswa_h->groupBy(['siswa_id'])->map(function ($item) {
             $result = [];
@@ -37,7 +38,7 @@ class SiswaHadistController extends Controller
         //     'siswa_h'=>$siswa_h
         // ]);
 
-        $data_kelas = Kelas::all();
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         return view('/siswaHadist/indexSiswaHadist', 
         [
             'siswa_h'=>$modified_siswa_h,

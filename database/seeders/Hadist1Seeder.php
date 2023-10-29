@@ -21,12 +21,10 @@ class Hadist1Seeder extends Seeder
     public function run()
     {
         $hadist = [
-            'Keutamaan Membaca Al-Qur’an',
+            'Membaca Al-Qur’an',
             'Keutamaan Jujur',
-            'Keutamaan Berbuat Baik Kepada Orang Tua',
-            'Keutamaan Berbuat Baik Kepada Tetangga',
-            'Anjuran Menjaga Amanah',
-            'Sholat Sunnah Rawatib',
+            'Menjaga Amanah',
+            'Puasa',
         ];
         
         for ($i=0; $i < count($hadist); $i++) { 

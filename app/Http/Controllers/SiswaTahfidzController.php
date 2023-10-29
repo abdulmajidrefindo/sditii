@@ -37,7 +37,7 @@ class SiswaTahfidzController extends Controller
             return $result;
         });
 
-        $data_kelas = Kelas::all();
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         return view('/siswaTahfidz/indexSiswaTahfidz', 
         [
             'siswa_t'=>$modified_siswa_t,

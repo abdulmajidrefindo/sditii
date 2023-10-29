@@ -19,11 +19,11 @@ class SiswaDoaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request  $request)
     {
-        // Join table siswa_doa, siswa, doa_1, penilaian_huruf_angka where doa_1.kelas_id = 1
-        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->whereHas('doa_1', function ($query) {
-            $query->where('kelas_id', 1);
+        $kelas_id = $request->kelas_id;
+        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->whereHas('doa_1', function ($query) use ($kelas_id) {
+            $query->where('kelas_id', $kelas_id);
         })->get();
         $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) {
             $result = [];
@@ -51,7 +51,7 @@ class SiswaDoaController extends Controller
         // }
 
 
-        $data_kelas = Kelas::all();
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         return view('/siswaDoa/indexSiswaDoa', 
         [
             'siswa_d'=>$modified_siswa_d,

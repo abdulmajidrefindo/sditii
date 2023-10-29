@@ -24,12 +24,6 @@ class Tahfidz1Seeder extends Seeder
             'Al-Fatihah',
             'An-Naba',
             'An-Nazi\'at',
-            'Abasa',
-            'At-Takwir',
-            'Al-Infitar',
-            'At-Tatfif',
-            'Al-Insyiqaq',
-            'Al-Buruj',
         ];
         
         for ($i=0; $i < count($suratJuz30); $i++) { 

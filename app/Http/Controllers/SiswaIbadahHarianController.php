@@ -18,10 +18,11 @@ class SiswaIbadahHarianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request  $request)
     {
-        $siswa_ib = SiswaIbadahHarian::with('siswa','ibadah_harian_1','penilaian_deskripsi')->whereHas('ibadah_harian_1', function ($query) {
-            $query->where('kelas_id', 1);
+        $kelas_id = $request->kelas_id;
+        $siswa_ib = SiswaIbadahHarian::with('siswa','ibadah_harian_1','penilaian_deskripsi')->whereHas('ibadah_harian_1', function ($query) use ($kelas_id) {
+            $query->where('kelas_id', $kelas_id);
         })->get();
 
         $modified_siswa_ib = $siswa_ib->groupBy(['siswa_id'])->map(function ($item) {
@@ -35,7 +36,7 @@ class SiswaIbadahHarianController extends Controller
             return $result;
         });
 
-        $data_kelas = Kelas::all();
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         return view('/siswaIbadahHarian/indexSiswaIbadahHarian', 
         [
             'siswa_ib'=>$modified_siswa_ib,
