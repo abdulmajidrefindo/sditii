@@ -37,6 +37,23 @@
             <h3 class="card-title">Tabel Ilman Waa Ruuhan</h3>
         </div>
         <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <form action="{{ url('/') }}/doa" method="post">
+                            @csrf
+                            <label for="kelas">Pilih Kelas</label>
+                            <select class="custom-select" name="kelas_id" id="kelas_id">
+                                <option selected disabled>-Kelas-</option>
+                                @foreach ($data_kelas as $k)
+                                    <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                @endforeach
+                            </select>
+                            <input type="submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
           <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>

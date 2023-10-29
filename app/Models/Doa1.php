@@ -20,7 +20,7 @@ class Doa1 extends Model
 
     public function siswa_doa()
     {
-        return $this->hasMany(SiswaDoa::class);
+        return $this->hasMany(SiswaDoa::class, 'doa_1_id', 'id');
     }
 
     public function guru()
@@ -31,5 +31,12 @@ class Doa1 extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);
+    }
+
+    //on delete
+    public function delete()
+    {
+        $this->siswa_doa()->delete();
+        return parent::delete();
     }
 }

@@ -21,7 +21,7 @@ class SiswaIbadahHarianController extends Controller
     public function index(Request  $request)
     {
         $kelas_id = $request->kelas_id;
-        $siswa_ib = SiswaIbadahHarian::with('siswa','ibadah_harian_1','penilaian_deskripsi')->whereHas('ibadah_harian_1', function ($query) use ($kelas_id) {
+        $siswa_ib = SiswaIbadahHarian::with('siswa','ibadah_harian_1','penilaian_deskripsi')->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
 

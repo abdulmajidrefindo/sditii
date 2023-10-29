@@ -50,7 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/hadist', [SiswaHadistController::class, 'index']);
     Route::get('/doa', [SiswaDoaController::class, 'index']);
     Route::post('/doa', [SiswaDoaController::class, 'index']);
+    Route::get('/doa/getKelasDoa/{kelas_id}', [SiswaDoaController::class, 'kelas_doa']);
     Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
+    Route::post('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::get('/bidangStudi/getKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'kelas_mapel']);

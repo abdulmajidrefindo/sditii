@@ -22,7 +22,7 @@ class SiswaTahfidzController extends Controller
     public function index(Request $request)
     {
         $kelas_id = $request->kelas_id;
-        $siswa_t = SiswaTahfidz::with('siswa','tahfidz_1','penilaian_huruf_angka')->whereHas('tahfidz_1', function ($query) use ($kelas_id) {
+        $siswa_t = SiswaTahfidz::with('siswa','tahfidz_1','penilaian_huruf_angka')->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
 

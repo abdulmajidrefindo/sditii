@@ -20,7 +20,7 @@ class SiswaHadistController extends Controller
     public function index(Request  $request)
     {
         $kelas_id = $request->kelas_id;
-        $siswa_h = SiswaHadist::with('siswa','hadist_1','penilaian_huruf_angka')->whereHas('hadist_1', function ($query) use ($kelas_id) {
+        $siswa_h = SiswaHadist::with('siswa','hadist_1','penilaian_huruf_angka')->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
         $modified_siswa_h = $siswa_h->groupBy(['siswa_id'])->map(function ($item) {
