@@ -117,7 +117,12 @@
                                             <td>{{ $siswa['nisn'] }}</td>
                                             @foreach ($siswa as $key => $value)
                                                 @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
-                                                    <td>{{ $value }}</td>
+                                                    <td>@if ($value == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $value }}
+                                                        @endif
+                                                    </td>
                                                 @endif
                                             @endforeach
                                             <td>
@@ -151,7 +156,7 @@
                                                     <div class="form-group">
                                                         <label for="kelas">Pilih Kelas</label>
                                                         <select class="custom-select" name="kelas_doa" id="kelas_doa">
-                                                            <option selected disabled>-Kelas-</option>
+                                                            <option selected>-Kelas-</option>
                                                             @foreach ($data_kelas as $k)
                                                                 <option value={{ $k->id }}>{{ $k->nama_kelas }}
                                                                 </option>
@@ -229,7 +234,7 @@
                                             <div class="col-md-6">
                                                 <div class="bs-stepper-content">
                                                     {{-- Input Nilai --}}
-                                                    <div id="tambah_doa_1">
+                                                    <div id="form_tambah_doa_1">
                                                         <div class="form-group">
                                                             <label for="tambah_doa_guru_1">Pilih Guru</label>
                                                             <select class="custom-select" name="tambah_doa_guru_1"
@@ -359,7 +364,7 @@
             i++;
             $('#tambah_doa_tambah').append(
                 '<hr id="garis' + i +
-                '" <div id="tambah_doa_' + i +
+                '"> <div id="form_tambah_doa_' + i +
                 '"><div class="form-group"><label for="tambah_doa_guru_' + i +
                 '">Pilih Guru</label><select class="custom-select" name="tambah_doa_guru_' + i +
                 '" id="tambah_doa_guru_' + i +
@@ -422,16 +427,35 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal',
-                                text: response.error,
+                                text: response.message,
                             });
                         }
                     },
-                    error: function(response) {
+                    error: function(errors) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
-                            text: response.error,
+                            text: 'Data gagal disimpan!'
                         });
+                        // add error messages
+                        if (errors.responseJSON.errors) {
+                            // delete all error messages
+                            $('#form_tambah_doa .invalid-feedback').remove();
+                            $('#form_tambah_doa select').removeClass(
+                                'is-invalid');
+                            $('#form_tambah_doa input').removeClass(
+                                'is-invalid');
+                            
+                            $.each(errors.responseJSON.errors, function(key, value) {
+                                $('#form_tambah_doa #' + key).addClass(
+                                    'is-invalid');
+                                $('#form_tambah_doa #' + key).parent().find(
+                                    '.invalid-feedback').remove();
+                                $('#form_tambah_doa #' + key).parent().append(
+                                    '<div class="invalid-feedback">' +
+                                    value + '</div>');
+                            });
+                        }
                     }
                 });
             }
@@ -548,7 +572,7 @@
         url = url.replace(':siswa_id', siswa_id);
         Swal.fire({
             title: 'Apakah anda yakin?',
-            text: "Data yang dihapus tidak dapat dikembalikan!",
+            text: "Nilai siswa akan dikosongkan!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
