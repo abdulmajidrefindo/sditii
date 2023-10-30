@@ -43,7 +43,7 @@
                                         NIS
                                     </label>
                                     <div class="input-group">
-                                        <input id="nisn" name="nisn" value="{{ $siswaTahfidz->siswa->nisn }}"
+                                        <input id="nisn" name="nisn" value="{{ $siswaTahfidz[0]->siswa->nisn }}"
                                             class="form-control" disabled>
                                     </div>
                                 </div>
@@ -54,28 +54,25 @@
                                     </label>
                                     <div class="input-group">
                                         <input id="nama_siswa" name="nama_siswa"
-                                            value="{{ $siswaTahfidz->siswa->nama_siswa }}" class="form-control" disabled>
+                                            value="{{ $siswaTahfidz[0]->siswa->nama_siswa }}" class="form-control" disabled>
                                     </div>
                                 </div>
-                                @foreach ($siswaTahfidz->getAttributes() as $key => $value)
-                                    @if (strpos($key, 'tahfidz_') !== false)
+                                @foreach ($siswaTahfidz as $siswa_t)
                                         <div class="form-group col-md-12">
-                                            {{-- the key is tahfidz_1_id--}}
-                                            <label for="{{ $key }}" class="text-lightdark">
-                                                {{ $siswaTahfidz->{substr($key, 0, -3)}->nama_nilai }}
+                                            <label for="tahfidz_{{ $siswa_t->id }}" class="text-lightdark">
+                                                    {{ $siswa_t->tahfidz_1->nama_nilai }}
                                             </label>
                                             <div class="input-group">
-                                                <input id="{{ $key }}" name="{{ $key }}"
-                                                    value="{{ old($key, $value) }}"
-                                                    class="form-control @error($key) is-invalid @enderror" disabled>
-                                                @error($key)
+                                                <input id="tahfidz_{{ $siswa_t->id }}" name="tahfidz_{{ $siswa_t->id }}"
+                                                    value="{{ old($siswa_t->id) ?? $siswa_t->penilaian_huruf_angka->nilai_angka }}"
+                                                    class="form-control @error($siswa_t->id) is-invalid @enderror">
+                                                @error($siswa_t->id)
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </div>
                                         </div>
-                                    @endif
                                 @endforeach
 
                                 <x-adminlte-button id="edit" class="btn bg-purple col-12 edit" label="Edit Data"
@@ -106,50 +103,22 @@
             $('#edit').show();
             $('#simpan').hide();
             $('#batal').hide();
+            $('input').prop('disabled', true);
 
             $('#form_siswa_tahfidz').on('submit', function(e) {
                 e.preventDefault();
                 $('#edit').show();
                 $('#simpan').hide();
                 $('#batal').hide();
+                
+
+                var data = $(this).serialize();
                 $('input').prop('disabled', true);
 
-                var tahfidz_1 = $('#tahfidz_1_id').val();
-                var tahfidz_2 = $('#tahfidz_2_id').val();
-                var tahfidz_3 = $('#tahfidz_3_id').val();
-                var tahfidz_4 = $('#tahfidz_4_id').val();
-                var tahfidz_5 = $('#tahfidz_5_id').val();
-                var tahfidz_6 = $('#tahfidz_6_id').val();
-                var tahfidz_7 = $('#tahfidz_7_id').val();
-                var tahfidz_8 = $('#tahfidz_8_id').val();
-                var tahfidz_9 = $('#tahfidz_9_id').val();
-                var tahfidz_10 = $('#tahfidz_10_id').val();
-                var tahfidz_11 = $('#tahfidz_11_id').val();
-                var tahfidz_12 = $('#tahfidz_12_id').val();
-                var tahfidz_13 = $('#tahfidz_13_id').val();
-                var tahfidz_14 = $('#tahfidz_14_id').val();
-                var tahfidz_15 = $('#tahfidz_15_id').val();
-
                 $.ajax({
-                    url: "{{ route('siswaTahfidz.update', $siswaTahfidz->id) }}",
+                    url: "{{ route('siswaTahfidz.update', $siswaTahfidz[0]->siswa_id) }}",
                     type: "PATCH",
-                    data: {
-                        tahfidz_1_id: tahfidz_1,
-                        tahfidz_2_id: tahfidz_2,
-                        tahfidz_3_id: tahfidz_3,
-                        tahfidz_4_id: tahfidz_4,
-                        tahfidz_5_id: tahfidz_5,
-                        tahfidz_6_id: tahfidz_6,
-                        tahfidz_7_id: tahfidz_7,
-                        tahfidz_8_id: tahfidz_8,
-                        tahfidz_9_id: tahfidz_9,
-                        tahfidz_10_id: tahfidz_10,
-                        tahfidz_11_id: tahfidz_11,
-                        tahfidz_12_id: tahfidz_12,
-                        tahfidz_13_id: tahfidz_13,
-                        tahfidz_14_id: tahfidz_14,
-                        tahfidz_15_id: tahfidz_15,
-                    },
+                    data: data,
                     success: function(data) {
                         Swal.fire({
                             icon: 'success',

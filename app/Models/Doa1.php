@@ -12,16 +12,31 @@ class Doa1 extends Model
     protected $guarded = ['id'];
     public $timestamps = true;
 
+    protected $fillable = [
+        'nama_nilai',
+        'guru_id',
+        'kelas_id',
+    ];
+
     public function siswa_doa()
     {
-        return $this->hasMany(SiswaDoa::class);
+        return $this->hasMany(SiswaDoa::class, 'doa_1_id', 'id');
     }
-    public function penilaian_huruf_angka()
-    {
-        return $this->belongsTo(PenilaianHurufAngka::class);
-    }
+
     public function guru()
     {
         return $this->belongsTo(Guru::class);
+    }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
+
+    //on delete
+    public function delete()
+    {
+        $this->siswa_doa()->delete();
+        return parent::delete();
     }
 }

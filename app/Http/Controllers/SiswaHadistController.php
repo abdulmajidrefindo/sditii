@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiswaHadist;
+use App\Models\Kelas;
 use App\Http\Requests\StoreSiswaHadistRequest;
 use App\Http\Requests\UpdateSiswaHadistRequest;
 
@@ -16,12 +17,32 @@ class SiswaHadistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request  $request)
     {
-        $siswa_h = SiswaHadist::with('siswa','hadist_1','hadist_2','hadist_3','hadist_4','hadist_5','hadist_6','hadist_7','hadist_8','hadist_9')->get();
+        $kelas_id = $request->kelas_id;
+        $siswa_h = SiswaHadist::with('siswa','hadist_1','penilaian_huruf_angka')->whereHas('siswa', function ($query) use ($kelas_id) {
+            $query->where('kelas_id', $kelas_id);
+        })->get();
+        $modified_siswa_h = $siswa_h->groupBy(['siswa_id'])->map(function ($item) {
+            $result = [];
+            $result['siswa_id'] = $item[0]->siswa_id;
+            $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
+            $result['nisn'] = $item[0]->siswa->nisn;
+            foreach ($item as $hadist_siswa) {
+                $result[$hadist_siswa->hadist_1->nama_nilai] = $hadist_siswa->penilaian_huruf_angka->nilai_angka;
+            }
+            return $result;
+        });
+        // return view('/siswaHadist/indexSiswaHadist', 
+        // [
+        //     'siswa_h'=>$siswa_h
+        // ]);
+
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         return view('/siswaHadist/indexSiswaHadist', 
         [
-            'siswa_h'=>$siswa_h
+            'siswa_h'=>$modified_siswa_h,
+            'data_kelas'=>$data_kelas
         ]);
     }
 
@@ -52,13 +73,15 @@ class SiswaHadistController extends Controller
      * @param  \App\Models\SiswaHadist  $siswaHadist
      * @return \Illuminate\Http\Response
      */
-    public function show(SiswaHadist $siswaHadist)
+    public function show($siswa_id)
     {
-        $siswaHadist = SiswaHadist::with('siswa','hadist_1','hadist_2','hadist_3','hadist_4','hadist_5','hadist_6','hadist_7','hadist_8','hadist_9')->where('id',$siswaHadist->id)->first();
+        $siswaHadist = SiswaHadist::where('siswa_id', $siswa_id)->get();
         return view('/siswaHadist/showSiswaHadist', 
         [
             'siswaHadist'=>$siswaHadist
         ]);
+
+        // return response()->json($siswaHadist);
     }
 
     /**
@@ -80,30 +103,41 @@ class SiswaHadistController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, SiswaHadist $siswaHadist)
+    public function update(Request $request, $siswa_id)
     {
         $messages = [];
+        $hadist_fields = [];
         $validator_rules = [];
-        $hadist_fields = ['hadist_1_id', 'hadist_2_id', 'hadist_3_id', 'hadist_4_id', 'hadist_5_id', 'hadist_6_id', 'hadist_7_id', 'hadist_8_id', 'hadist_9_id'];
-    
+
+        foreach ($request->all() as $key => $value) {
+            $hadist_fields[] = $key;
+        }
+
         foreach ($hadist_fields as $field) {
-            $messages[$field.'.integer'] = 'Hadist '.substr($field, 7, -3).' harus berupa angka.';
-            $messages[$field.'.min'] = 'Hadist '.substr($field, 7, -3).' tidak boleh kurang dari 0.';
-            $messages[$field.'.max'] = 'Hadist '.substr($field, 7, -3).' tidak boleh lebih dari 100.';
+            $messages[$field.'.integer'] = 'Nilai hadist harus berupa angka.';
+            $messages[$field.'.min'] = 'Nilai hadist tidak boleh kurang dari 0.';
+            $messages[$field.'.max'] = 'Nilai hadist tidak boleh lebih dari 100.';
             $validator_rules[$field] = 'integer|min:0|max:100';
         }
-    
+
         $validator = Validator::make($request->all(), $validator_rules, $messages);
-    
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
-    
-        foreach ($hadist_fields as $field) {
-            $siswaHadist->$field = $request->input($field);
+
+        $berhasil = 0;
+        foreach($request->all() as $key => $value) {
+            $id = str_replace('hadist_', '', $key);
+            $siswahadist = SiswaHadist::find($id);
+            $value = ($value == 0) ? 101 : $value;
+            $siswahadist->penilaian_huruf_angka_id = $value;
+            if ($siswahadist->save()) {
+                $berhasil++;
+            }
         }
-    
-        if ($siswaHadist->save()) {
+        $count_request = count($request->all());
+        if ($berhasil > 0 && $berhasil == $count_request) {
             return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal diupdate!']);
@@ -117,9 +151,17 @@ class SiswaHadistController extends Controller
      * @param  \App\Models\SiswaHadist  $siswaHadist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SiswaHadist $siswaHadist)
+    public function destroy($siswa_id)
     {
-        if ($siswaHadist->delete()) {
+        $siswaHadist = SiswaHadist::where('siswa_id', $siswa_id)->get();
+        $berhasil = 0;
+        foreach ($siswaHadist as $item) {
+            if ($item->delete()) {
+                $berhasil++;
+            }
+        }
+
+        if ($berhasil > 0) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal dihapus!']);

@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use App\Models\Kelas;
+use App\Models\Guru;
+
 class Doa1Seeder extends Seeder
 {
     /**
@@ -17,14 +20,23 @@ class Doa1Seeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0; $i <= 100; $i++)
-        {
-            DB::table('doas_1')->insert([
-                'nama_nilai' => 'Masuk Rumah',
-                'penilaian_huruf_angka_id' => ($i-101)*-1,
-                'nilai' => $i,
-                'guru_id' => mt_rand(1,10),
-            ]);
+        $Doa = [
+            'Doa Makan',
+            'Doa Makan',
+            'Doa Tidur',
+            'Doa Bangun',
+        ];
+
+        for ($i=0; $i < count($Doa); $i++) { 
+            for ($j=1; $j <= Kelas::count()-1; $j++) { 
+                DB::table('doas_1')->insert([
+                    'nama_nilai' => $Doa[$i],
+                    'guru_id' => Guru::inRandomOrder()->first()->id,
+                    'kelas_id' => $j,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
         }
     }
 }

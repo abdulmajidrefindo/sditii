@@ -11,6 +11,8 @@ use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Utilities\Request;
 use App\Http\Controllers\Controller;
 
+
+
 class GuruController extends Controller
 {
     /**
@@ -56,7 +58,7 @@ class GuruController extends Controller
     {
         $validator=$request->validate([
             'user'=>'required',
-            'nip'=>'required|unique:guru,nip',
+            'nip'=>'required|unique:gurus,nip',
             'kelas'=>'required'
         ],
         [
@@ -74,8 +76,7 @@ class GuruController extends Controller
             'user_id'=>$selected_user_id
         ]);
 
-        $new_guru = Guru::all()->where('nip',$request->get('nip'));
-        $new_guru_id = $new_guru->id;
+        $new_guru_id = $guru->id;
         $selected_kelas = $request->kelas;
         $target_kelas = Kelas::all()->where('id',$selected_kelas)->first();
         if ($selected_kelas==0) {

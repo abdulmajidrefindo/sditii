@@ -393,6 +393,159 @@ return new class extends Migration
     */
     public function down()
     {
-        Schema::dropIfExists('siswa_bidang_studis');
+        Schema::table('siswas', function (Blueprint $table) {
+            $table->dropForeign(['rapor_siswa_id']);
+            $table->dropForeign(['kelas_id']);
+        });
+    
+        Schema::table('gurus', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+    
+        Schema::table('kelas', function (Blueprint $table) {
+            $table->dropForeign(['guru_id']);
+        });
+    
+        Schema::table('format_rapors', function (Blueprint $table) {
+            $table->dropForeign(['kelas_id']);
+        });
+    
+        Schema::table('ilman_waa_ruuhans', function (Blueprint $table) {
+            $table->dropForeign(['guru_id']);
+        });
+    
+        Schema::table('pengumumen', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+
+        Schema::table('siswa_doas', function (Blueprint $table) {
+            $table->dropForeign(['siswa_id']);
+            $table->dropForeign(['doa_1_id']);
+            $table->dropForeign(['doa_2_id']);
+            $table->dropForeign(['doa_3_id']);
+            $table->dropForeign(['doa_4_id']);
+            $table->dropForeign(['doa_5_id']);
+            $table->dropForeign(['doa_6_id']);
+            $table->dropForeign(['doa_7_id']);
+            $table->dropForeign(['doa_8_id']);
+            $table->dropForeign(['doa_9_id']);
+            $table->dropForeign(['profil_sekolah_id']);
+            $table->dropForeign(['periode_id']);
+            $table->dropForeign(['rapor_siswa_id']);
+        });
+
+        Schema::table('siswa_hadists', function (Blueprint $table) {
+            $table->dropForeign(['siswa_id']);
+            $table->dropForeign(['hadist_1_id']);
+            $table->dropForeign(['hadist_2_id']);
+            $table->dropForeign(['hadist_3_id']);
+            $table->dropForeign(['hadist_4_id']);
+            $table->dropForeign(['hadist_5_id']);
+            $table->dropForeign(['hadist_6_id']);
+            $table->dropForeign(['hadist_7_id']);
+            $table->dropForeign(['hadist_8_id']);
+            $table->dropForeign(['hadist_9_id']);
+            $table->dropForeign(['profil_sekolah_id']);
+            $table->dropForeign(['periode_id']);
+            $table->dropForeign(['rapor_siswa_id']);
+        });
+
+        Schema::table('siswa_ibadah_harians', function (Blueprint $table) {
+            $table->dropForeign(['siswa_id']);
+            $table->dropForeign(['ibadah_harian_1_id']);
+            $table->dropForeign(['ibadah_harian_2_id']);
+            $table->dropForeign(['ibadah_harian_3_id']);
+            $table->dropForeign(['ibadah_harian_4_id']);
+            $table->dropForeign(['ibadah_harian_5_id']);
+            $table->dropForeign(['ibadah_harian_6_id']);
+            $table->dropForeign(['ibadah_harian_7_id']);
+            $table->dropForeign(['ibadah_harian_8_id']);
+            $table->dropForeign(['ibadah_harian_9_id']);
+            $table->dropForeign(['profil_sekolah_id']);
+            $table->dropForeign(['periode_id']);
+            $table->dropForeign(['rapor_siswa_id']);
+        });
+
+        Schema::table('siswa_tahfidzs', function (Blueprint $table) {
+            $table->dropForeign(['siswa_id']);
+            $table->dropForeign(['tahfidz_1_id']);
+            $table->dropForeign(['tahfidz_2_id']);
+            $table->dropForeign(['tahfidz_3_id']);
+            $table->dropForeign(['tahfidz_4_id']);
+            $table->dropForeign(['tahfidz_5_id']);
+            $table->dropForeign(['tahfidz_6_id']);
+            $table->dropForeign(['tahfidz_7_id']);
+            $table->dropForeign(['tahfidz_8_id']);
+            $table->dropForeign(['tahfidz_9_id']);
+            $table->dropForeign(['tahfidz_10_id']);
+            $table->dropForeign(['tahfidz_11_id']);
+            $table->dropForeign(['tahfidz_12_id']);
+            $table->dropForeign(['tahfidz_13_id']);
+            $table->dropForeign(['tahfidz_14_id']);
+            $table->dropForeign(['tahfidz_15_id']);
+            $table->dropForeign(['profil_sekolah_id']);
+            $table->dropForeign(['periode_id']);
+            $table->dropForeign(['rapor_siswa_id']);
+        });
+
+        Schema::table('user_roles', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['role_id']);
+        });
+
+        
+
+       
+
+        Schema::table('mapels', function (Blueprint $table) {
+            $table->dropForeign(['guru_id']);
+        });
+
+        Schema::table('siswa_bidang_studis', function (Blueprint $table) {
+            $table->dropForeign(['siswa_id']);
+            $table->dropForeign(['mapel_id']);
+            $table->dropForeign(['nilai_uh_1_id']);
+            $table->dropForeign(['nilai_uh_2_id']);
+            $table->dropForeign(['nilai_uh_3_id']);
+            $table->dropForeign(['nilai_uh_4_id']);
+            $table->dropForeign(['nilai_tugas_1_id']);
+            $table->dropForeign(['nilai_tugas_2_id']);
+            $table->dropForeign(['nilai_uts_id']);
+            $table->dropForeign(['nilai_pas_id']);
+            $table->dropForeign(['profil_sekolah_id']);
+            $table->dropForeign(['periode_id']);
+            $table->dropForeign(['rapor_siswa_id']);
+        });
+
+        
+
+        Schema::table('doas_1', function (Blueprint $table) {
+            $table->dropForeign(['penilaian_huruf_angka_id']);
+            $table->dropForeign(['guru_id']);
+        });
+
+        
+
+        Schema::table('hadists_1', function (Blueprint $table) {
+            $table->dropForeign(['penilaian_huruf_angka_id']);
+            $table->dropForeign(['guru_id']);
+        });
+    
+        
+
+        Schema::table('ibadah_harians_1', function (Blueprint $table) {
+            $table->dropForeign(['guru_id']);
+            $table->dropForeign(['penilaian_deskripsi_id']);
+        });
+    
+        
+
+        Schema::table('tahfidzs_1', function (Blueprint $table) {
+            $table->dropForeign(['penilaian_huruf_angka_id']);
+            $table->dropForeign(['guru_id']);
+        });
+    
+        
+        
     }
 };

@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nilai_uhss_2');
+        Schema::dropIfExists('nilai_uhs_2');
     }
 };

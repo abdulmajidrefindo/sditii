@@ -39,9 +39,17 @@
                     <div class="card-body">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="mapel">Pilih Mata Pelajaran</label>
                                 <form action="{{ url('/') }}/bidangStudi" method="post">
                                     @csrf
+                                    <label for="kelas">Pilih Kelas</label>
+                                    <select class="custom-select" name="kelas_id" id="kelas_id">
+                                        <option selected disabled>-Kelas-</option>
+                                        @foreach ($data_kelas as $k)
+                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <label for="mapel">Pilih Mata Pelajaran</label>
                                     <select class="custom-select" name="mapel_id" id="mapel_id">
                                         <option selected disabled>-Mata Pelajaran-</option>
                                         @foreach ($data_mapel as $m)
@@ -75,14 +83,14 @@
                                     <td>{{ $n->siswa->nama_siswa }}</td>
                                     <td>{{ $n->siswa->nisn }}</td>
                                     <td>{{ $n->siswa->kelas->nama_kelas }}</td>
-                                    <td>{{ $n->nilai_uh_1->nilai }}</td>
-                                    <td>{{ $n->nilai_uh_2->nilai }}</td>
-                                    <td>{{ $n->nilai_uh_3->nilai }}</td>
-                                    <td>{{ $n->nilai_uh_4->nilai }}</td>
-                                    <td>{{ $n->nilai_tugas_1->nilai }}</td>
-                                    <td>{{ $n->nilai_tugas_2->nilai }}</td>
-                                    <td>{{ $n->nilai_uts->nilai }}</td>
-                                    <td>{{ $n->nilai_pas->nilai }}</td>
+                                    <td>{{ $n->uh_1->nilai_angka }}</td>
+                                    <td>{{ $n->uh_2->nilai_angka }}</td>
+                                    <td>{{ $n->uh_3->nilai_angka }}</td>
+                                    <td>{{ $n->uh_4->nilai_angka }}</td>
+                                    <td>{{ $n->tugas_1->nilai_angka }}</td>
+                                    <td>{{ $n->tugas_2->nilai_angka }}</td>
+                                    <td>{{ $n->uts->nilai_angka }}</td>
+                                    <td>{{ $n->pas->nilai_angka }}</td>
                                     {{-- <td>{{ optional($n->nilai_akhir) }}</td> --}}
 
                                     <td>
@@ -160,6 +168,32 @@
         //     "responsive": true,
         //   });
         // });
+    </script>
+
+    <script>
+        //change mapel based on kelas
+        $(document).ready(function() {
+            $('select[name="kelas_id"]').on('change', function() {
+                let kelas_id = $(this).val();
+                console.log(kelas_id);
+                if (kelas_id) {
+                    jQuery.ajax({
+                        url: '/bidangStudi/getKelasMapel/' + kelas_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('select[name="mapel_id"]').empty();
+                            $.each(data, function(key, value) {
+                                $('select[name="mapel_id"]').append('<option value="' +
+                                    value.id + '">' + value.nama_mapel + '</option>');
+                            });
+                        },
+                    });
+                } else {
+                    $('select[name="mapel_id"]').empty();
+                }
+            });
+        });
     </script>
 
     <script>

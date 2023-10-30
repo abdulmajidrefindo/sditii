@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use App\Models\Tahfidz1;
+use App\Models\Siswa;
+use App\Models\PenilaianHurufAngka;
+
 class SiswaTahfidzSeeder extends Seeder
 {
     /**
@@ -17,30 +21,34 @@ class SiswaTahfidzSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 60; $i++)
-        {
-                DB::table('siswa_tahfidzs')->insert([
-                    'siswa_id' => $i,
-                    'tahfidz_1_id' => mt_rand(1, 101),
-                    'tahfidz_2_id' => mt_rand(1, 101),
-                    'tahfidz_3_id' => mt_rand(1, 101),
-                    'tahfidz_4_id' => mt_rand(1, 101),
-                    'tahfidz_5_id' => mt_rand(1, 101),
-                    'tahfidz_6_id' => mt_rand(1, 101),
-                    'tahfidz_7_id' => mt_rand(1, 101),
-                    'tahfidz_8_id' => mt_rand(1, 101),
-                    'tahfidz_9_id' => mt_rand(1, 101),
-                    'tahfidz_10_id' => mt_rand(1, 101),
-                    'tahfidz_11_id' => mt_rand(1, 101),
-                    'tahfidz_12_id' => mt_rand(1, 101),
-                    'tahfidz_13_id' => mt_rand(1, 101),
-                    'tahfidz_14_id' => mt_rand(1, 101),
-                    'tahfidz_15_id' => mt_rand(1, 101),
-                    // 'nilai_angka' => mt_rand(0, 100),
-                    'profil_sekolah_id' => 1,
-                    'periode_id' => 1,
-                    'rapor_siswa_id' => 1
-                ]);
+
+        // for ($i=1; $i <= Siswa::count(); $i++) { 
+        //     for ($j = 1; $j <= Tahfidz1::count(); $j++)
+        //     {
+        //         DB::table('siswa_tahfidzs')->insert([
+        //             'siswa_id' => $i,
+        //             'tahfidz_1_id' => $j,
+        //             'profil_sekolah_id' => 1,
+        //             'periode_id' => 1,
+        //             'rapor_siswa_id' => 1,
+        //             'penilaian_huruf_angka_id' => PenilaianHurufAngka::all()->random()->id
+        //         ]);
+        //     }
+        // }
+
+        $siswaTahfidz = Siswa::join('tahfidzs_1', 'siswas.kelas_id', '=', 'tahfidzs_1.kelas_id')
+                            ->select('siswas.id as siswa_id', 'tahfidzs_1.id as tahfidz_1_id')
+                            ->get();
+
+        foreach ($siswaTahfidz as $key => $value) {
+            DB::table('siswa_tahfidzs')->insert([
+                'siswa_id' => $value->siswa_id,
+                'tahfidz_1_id' => $value->tahfidz_1_id,
+                'profil_sekolah_id' => 1,
+                'periode_id' => 1,
+                'rapor_siswa_id' => 1,
+                'penilaian_huruf_angka_id' => PenilaianHurufAngka::all()->random()->id
+            ]);
         }
     }
 }

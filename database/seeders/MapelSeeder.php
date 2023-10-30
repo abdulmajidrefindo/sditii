@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use App\Models\Kelas;
+use App\Models\Guru;
+
 class MapelSeeder extends Seeder
 {
     /**
@@ -17,33 +20,25 @@ class MapelSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('Mapels')->insert([
-            'guru_id' => mt_rand(1,10),
-            'nama_mapel' => 'Al-Quran',
-        ]);
-        DB::table('Mapels')->insert([
-            'guru_id' => mt_rand(1,10),
-            'nama_mapel' => 'Hadist',
-        ]);
-        DB::table('Mapels')->insert([
-            'guru_id' => mt_rand(1,10),
-            'nama_mapel' => 'Akidah',
-        ]);
-        DB::table('Mapels')->insert([
-            'guru_id' => mt_rand(1,10),
-            'nama_mapel' => 'Akhlak',
-        ]);
-        DB::table('Mapels')->insert([
-            'guru_id' => mt_rand(1,10),
-            'nama_mapel' => 'Fiqih',
-        ]);
-        DB::table('Mapels')->insert([
-            'guru_id' => mt_rand(1,10),
-            'nama_mapel' => 'Thariq Islam',
-        ]);
-        DB::table('Mapels')->insert([
-            'guru_id' => mt_rand(1,10),
-            'nama_mapel' => 'Bahasa Arab',
-        ]);
+        $mapel = ['Hadist',
+                'Akidah',
+                'Al-Qur\'an',
+                'Fiqih',
+                'Sejarah Kebudayaan Islam',
+                'Bahasa Arab',
+                'Thariqah',
+                'Tafsir',
+                'Tahfizh'];
+
+        foreach ($mapel as $key => $value) {
+            for ($i=1; $i <= Kelas::count()-1; $i++) { 
+                DB::table('Mapels')->insert([
+                    'guru_id' => Guru::all()->random()->id,
+                    'nama_mapel' => $value,
+                    'kelas_id' => $i,
+                ]);
+            }
+        }
+
     }
 }

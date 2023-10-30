@@ -40,6 +40,20 @@ class PeriodeController extends Controller
      */
     public function store(StorePeriodeRequest $request)
     {
+
+        //validate
+        $validator = $request->validate([
+            'tahun_ajaran' => ['required', 'regex:/^\d{4}\/\d{4}$/'],
+            'semester' => ['required', 'numeric', 'between:1,2']
+        ],
+        [
+            'tahun_ajaran.required' => 'Tahun ajaran harus diisi!',
+            'tahun_ajaran.regex' => 'Format tahun ajaran tidak sesuai!',
+            'semester.required' => 'Semester harus diisi!',
+            'semester.numeric' => 'Semester harus berupa angka!',
+            'semester.between' => 'Semester harus bernilai 1 atau 2!'
+        ]
+    );
         $periode = Periode::create([
             'tahun_ajaran' => $request->get('tahun_ajaran'),
             'semester' => $request->get('semester')
@@ -101,7 +115,7 @@ class PeriodeController extends Controller
             $data = Periode::all();
             return DataTables::of($data)
             ->addColumn('action', function ($row) {
-                $btn = '<a href="'. route('dataTahunPelajaran.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $btn = '<a href="'. route('dataPeriode.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                 $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 return $btn;
             })

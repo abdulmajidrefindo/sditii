@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SiswaIlmanWaaRuuhan;
 use App\Models\IlmanWaaRuuhan;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreSiswaIlmanWaaRuuhanRequest;
@@ -16,12 +17,17 @@ class SiswaIlmanWaaRuuhanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->get();
+        $kelas_id = $request->kelas_id;
+        $kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->whereHas('siswa', function ($query) use ($kelas_id) {
+            $query->where('kelas_id', $kelas_id);
+        })->get();
         return view('/siswaIWR/indexSiswaIWR', 
         [
-            'siswa_i'=>$siswa_i
+            'siswa_i'=>$siswa_i,
+            'data_kelas'=>$kelas
         ]);
     }
 

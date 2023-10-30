@@ -17,71 +17,7 @@ class PenilaianHurufAngkaSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 100; $i >= 91; $i--)
-        {
-            DB::table('penilaian_huruf_angkas')->insert([
-                'nilai_angka' => $i,
-                'nilai_huruf' => 'A+',
-                'keterangan_angka' => '-kosong-'
-            ]);
-        }
-        for ($i = 90; $i >= 86; $i--)
-        {
-            DB::table('penilaian_huruf_angkas')->insert([
-                'nilai_angka' => $i,
-                'nilai_huruf' => 'A',
-                'keterangan_angka' => '-kosong-'
-            ]);
-        }
-        for ($i = 85; $i >= 81; $i--)
-        {
-            DB::table('penilaian_huruf_angkas')->insert([
-                'nilai_angka' => $i,
-                'nilai_huruf' => 'B+',
-                'keterangan_angka' => '-kosong-'
-            ]);
-        }
-        for ($i = 80; $i >= 76; $i--)
-        {
-            DB::table('penilaian_huruf_angkas')->insert([
-                'nilai_angka' => $i,
-                'nilai_huruf' => 'B',
-                'keterangan_angka' => '-kosong-'
-            ]);
-        }
-        for ($i = 75; $i >= 71; $i--)
-        {
-            DB::table('penilaian_huruf_angkas')->insert([
-                'nilai_angka' => $i,
-                'nilai_huruf' => 'B-',
-                'keterangan_angka' => '-kosong-'
-            ]);
-        }
-        for ($i = 70; $i >= 66; $i--)
-        {
-            DB::table('penilaian_huruf_angkas')->insert([
-                'nilai_angka' => $i,
-                'nilai_huruf' => 'C+',
-                'keterangan_angka' => '-kosong-'
-            ]);
-        }
-        for ($i = 65; $i >= 61; $i--)
-        {
-            DB::table('penilaian_huruf_angkas')->insert([
-                'nilai_angka' => $i,
-                'nilai_huruf' => 'C',
-                'keterangan_angka' => '-kosong-'
-            ]);
-        }
-        for ($i = 60; $i >= 51; $i--)
-        {
-            DB::table('penilaian_huruf_angkas')->insert([
-                'nilai_angka' => $i,
-                'nilai_huruf' => 'D',
-                'keterangan_angka' => '-kosong-'
-            ]);
-        }
-        for ($i = 50; $i >= 0; $i--)
+        for ($i = 1; $i <= 50; $i++)
         {
             DB::table('penilaian_huruf_angkas')->insert([
                 'nilai_angka' => $i,
@@ -89,6 +25,92 @@ class PenilaianHurufAngkaSeeder extends Seeder
                 'keterangan_angka' => '-kosong-'
             ]);
         }
+
+        for ($i = 51; $i <= 60; $i++)
+        {
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'D',
+                'keterangan_angka' => '-kosong-'
+            ]);
+        }
+
+        for ($i = 61; $i <= 65; $i++)
+        {
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'C',
+                'keterangan_angka' => '-kosong-'
+            ]);
+        }
+
+        for ($i = 66; $i <= 70; $i++)
+        {
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'C+',
+                'keterangan_angka' => '-kosong-'
+            ]);
+        }
+
+        for ($i = 71; $i <= 75; $i++)
+        {
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'B-',
+                'keterangan_angka' => '-kosong-'
+            ]);
+        }
+
+        for ($i = 76; $i <= 80; $i++)
+        {
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'B',
+                'keterangan_angka' => '-kosong-'
+            ]);
+        }
+
+        for ($i = 81; $i <= 85; $i++)
+        {
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'B+',
+                'keterangan_angka' => '-kosong-'
+            ]);
+        }
+
+        for ($i = 86; $i <= 90; $i++)
+        {
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'A',
+                'keterangan_angka' => '-kosong-'
+            ]);
+        }
+
+        for ($i = 91; $i <= 100; $i++)
+        {
+            DB::table('penilaian_huruf_angkas')->insert([
+                'nilai_angka' => $i,
+                'nilai_huruf' => 'A+',
+                'keterangan_angka' => '-kosong-'
+            ]);
+        }
+
+        DB::table('penilaian_huruf_angkas')->insert([
+            'nilai_angka' => 0,
+            'nilai_huruf' => 'E',
+            'keterangan_angka' => '-kosong-'
+        ]);
+
+        
+        
+        
+        
+        
+        
+        
             // DB::table('penilaian_huruf_angkas')->insert([
             //     'nilai_angka' => $i,
             //     'nilai_huruf' => 'A',

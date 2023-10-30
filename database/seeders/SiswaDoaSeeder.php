@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use App\Models\Siswa;
+use App\Models\Doa1;
+use App\Models\PenilaianHurufAngka;
+
 class SiswaDoaSeeder extends Seeder
 {
     /**
@@ -17,23 +21,32 @@ class SiswaDoaSeeder extends Seeder
     */
     public function run()
     {
-        for ($i = 1; $i <= 60; $i++)
-        {
+        // for ($i = 1; $i <= Siswa::count(); $i++) { 
+        //     for ($j = 1; $j <= Doa1::count(); $j++)
+        //     {
+        //         DB::table('siswa_doas')->insert([
+        //             'siswa_id' => $i,
+        //             'doa_1_id' => $j,
+        //             'profil_sekolah_id' => 1,
+        //             'periode_id' => 1,
+        //             'rapor_siswa_id' => 1,
+        //             'penilaian_huruf_angka_id' => PenilaianHurufAngka::all()->random()->id
+        //         ]);
+        //     }
+        // }
+
+        $siswaDoa = Siswa::join('doas_1', 'siswas.kelas_id', '=', 'doas_1.kelas_id')
+                            ->select('siswas.id as siswa_id', 'doas_1.id as doa_1_id')
+                            ->get();
+
+        foreach ($siswaDoa as $key => $value) {
             DB::table('siswa_doas')->insert([
-                'siswa_id' => $i,
-                'doa_1_id' => mt_rand(1, 101),
-                'doa_2_id' => mt_rand(1, 101),
-                'doa_3_id' => mt_rand(1, 101),
-                'doa_4_id' => mt_rand(1, 101),
-                'doa_5_id' => mt_rand(1, 101),
-                'doa_6_id' => mt_rand(1, 101),
-                'doa_7_id' => mt_rand(1, 101),
-                'doa_8_id' => mt_rand(1, 101),
-                'doa_9_id' => mt_rand(1, 101),
-                // 'nilai_angka' => mt_rand(0, 100),
+                'siswa_id' => $value->siswa_id,
+                'doa_1_id' => $value->doa_1_id,
                 'profil_sekolah_id' => 1,
                 'periode_id' => 1,
-                'rapor_siswa_id' => 1
+                'rapor_siswa_id' => 1,
+                'penilaian_huruf_angka_id' => PenilaianHurufAngka::all()->random()->id
             ]);
         }
     }

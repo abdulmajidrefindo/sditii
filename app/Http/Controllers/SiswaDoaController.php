@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiswaDoa;
+use App\Models\Doa1;
 use App\Models\Kelas;
+use App\Models\Guru;
 use App\Http\Requests\StoreSiswaDoaRequest;
 use App\Http\Requests\UpdateSiwaDoaRequest;
 
@@ -19,16 +21,39 @@ class SiswaDoaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $siswa_d = SiswaDoa::with('siswa','doa_1','doa_2','doa_3','doa_4','doa_5',
-        'doa_6','doa_7','doa_8','doa_9','penilaian_huruf_angka')->get();
-        $data_kelas = Kelas::all();
+        // Main page
+        $kelas_id = $request->kelas_id;
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        $data_guru = Guru::all();
+        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->whereHas('siswa', function ($query) use ($kelas_id) {
+            $query->where('kelas_id', $kelas_id);
+        })->get();
+        $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) {
+            $result = [];
+            $result['siswa_id'] = $item[0]->siswa_id;
+            $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
+            $result['nisn'] = $item[0]->siswa->nisn;
+            foreach ($item as $doa_siswa) {
+                $result[$doa_siswa->doa_1->nama_nilai] = $doa_siswa->penilaian_huruf_angka->nilai_angka;
+            }
+            return $result;
+        });
+
         return view('/siswaDoa/indexSiswaDoa', 
         [
-            'siswa_d'=>$siswa_d,
-            'data_kelas'=>$data_kelas
+            'siswa_d'=>$modified_siswa_d,
+            'data_kelas'=>$data_kelas,
+            'data_guru'=>$data_guru,
         ]);
+        
+        //return response()->json($modified_siswa_d);
+    }
+
+    public function kelas_doa($kelas_id){
+        $data_doa = Doa1::where('kelas_id', $kelas_id)->get();
+        return response()->json($data_doa);
     }
 
     /**
@@ -47,9 +72,9 @@ class SiswaDoaController extends Controller
      * @param  \App\Http\Requests\StoreSiswaDoaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSiswaDoaRequest $request)
+    public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -58,13 +83,13 @@ class SiswaDoaController extends Controller
      * @param  \App\Models\SiswaDoa  $siswaDoa
      * @return \Illuminate\Http\Response
      */
-    public function show(SiswaDoa $siswaDoa)
+    public function show($siswa_id)
     {
-        $siswaDoa = SiswaDoa::with('siswa','doa_1','doa_2','doa_3','doa_4','doa_5','doa_6','doa_7','doa_8','doa_9','penilaian_huruf_angka')->where('id', $siswaDoa->id)->firstOrFail();
-        return view('/siswaDoa/showSiswaDoa', ['siswaDoa' => $siswaDoa]);
+        // Url di route show menggunana siswa_id bukan id siswa_doa
+        $siswaDoa = SiswaDoa::where('siswa_id', $siswa_id)->get();
         //return response()->json($siswaDoa);
+        return view('/siswaDoa/showSiswaDoa', ['siswaDoa' => $siswaDoa]);
     }
-    
 
     /**
      * Show the form for editing the specified resource.
@@ -84,16 +109,20 @@ class SiswaDoaController extends Controller
      * @param  \App\Models\SiswaDoa  $siswaDoa
      * @return \Illuminate\Http\Response
      */
-public function update(Request $request, SiswaDoa $siswaDoa)
+public function update(Request $request, $siswa_id)
 {
     $messages = [];
     $validator_rules = [];
-    $doa_fields = ['doa_1_id', 'doa_2_id', 'doa_3_id', 'doa_4_id', 'doa_5_id', 'doa_6_id', 'doa_7_id', 'doa_8_id', 'doa_9_id'];
+    $doa_fields = [];
+
+    foreach ($request->all() as $key => $value) {
+        $doa_fields[] = $key;
+    }
 
     foreach ($doa_fields as $field) {
-        $messages[$field.'.integer'] = 'Doa '.substr($field, -4, 1).' harus berupa angka.';
-        $messages[$field.'.min'] = 'Doa '.substr($field, -4, 1).' tidak boleh kurang dari 0.';
-        $messages[$field.'.max'] = 'Doa '.substr($field, -4, 1).' tidak boleh lebih dari 100.';
+        $messages[$field.'.integer'] = 'Nilai doa harus berupa angka.';
+        $messages[$field.'.min'] = 'Nilai doa tidak boleh kurang dari 0.';
+        $messages[$field.'.max'] = 'Nilai doa tidak boleh lebih dari 100.';
         $validator_rules[$field] = 'integer|min:0|max:100';
     }
 
@@ -103,16 +132,23 @@ public function update(Request $request, SiswaDoa $siswaDoa)
         return response()->json(['error' => $validator->errors()], 422);
     }
 
-    foreach ($doa_fields as $field) {
-        $siswaDoa->$field = $request->input($field);
+    $berhasil = 0;
+    foreach($request->all() as $key => $value) {
+        $id = str_replace('doa_', '', $key);
+        $siswaDoa = SiswaDoa::find($id);
+        $siswaDoa->penilaian_huruf_angka_id = $value;
+        if ($siswaDoa->save()) {
+            $berhasil++;
+        }
     }
-
-    if ($siswaDoa->save()) {
+    $count_request = count($request->all());
+    if ($berhasil > 0 && $berhasil == $count_request) {
         return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
     } else {
         return response()->json(['error' => 'Data gagal diupdate!']);
     }
-    
+
+    //return response()->json($validator->validated());
 }
 
     /**
@@ -121,9 +157,25 @@ public function update(Request $request, SiswaDoa $siswaDoa)
      * @param  \App\Models\SiswaDoa  $siswaDoa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SiswaDoa $siswaDoa)
+
+    public function destroy($siswa_id)
     {
-        if ($siswaDoa->delete()) {
+        // Url di route destroy menggunana siswa_id bukan id siswa_doa
+        $siswaDoa = SiswaDoa::where('siswa_id', $siswa_id)->get();
+        $berhasil = 0;
+        $processed = 0;
+        foreach ($siswaDoa as $item) {
+            // if ($item->delete()) {
+            //     $berhasil++;
+            // }
+            $item->penilaian_huruf_angka_id = 101; // 101 = 0
+            if ($item->save()) {
+                $berhasil++;
+            }
+            $processed++;
+        }
+
+        if ($berhasil > 0 && $berhasil == $processed) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal dihapus!']);

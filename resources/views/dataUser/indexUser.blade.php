@@ -27,12 +27,16 @@
           <i class="fas fa-xs fa-table fa-fw"></i>
           Daftar User</a>
         </li>
+
+        @if (Auth::user()->role->contains('role', 'Administrator'))
         <li class="nav-item">
           <a class="nav-link" id="controller-tab-user-add" data-toggle="pill" href="#content-tab-user-add" role="tab" aria-controls="content-tab-user-add" aria-selected="false">
             <i class="fas fa-xs fa-plus fa-fw"></i>
             Tambah User</a>
           </li>
         </ul>
+        @endif
+
       </div>
       {{-- /tab control --}}
       <div class="card-body">
@@ -47,7 +51,9 @@
                 <th>Nama</th>
                 <th>Username</th>
                 {{-- <th>Peran</th> --}}
+                @if (Auth::user()->role->contains('role', 'Administrator'))
                 <th>Aksi</th>
+                @endif
               </tr>
             </thead>
             {{-- @forelse ($user as $u)
@@ -244,6 +250,8 @@
         data: 'user_name',
         name: 'user_name'
       },
+      // only show this column if user is admin
+      @if (Auth::user()->role->contains('role', 'Administrator'))
       {
         data: 'action',
         name: 'action',
@@ -252,6 +260,7 @@
         sClass: 'text-center',
         width: '25%',
       }
+      @endif
       ]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     //Initialize Select2 Elements

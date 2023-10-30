@@ -107,7 +107,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/sditii2.png',
             'alt' => 'Loading...',
@@ -129,7 +129,7 @@ return [
     |
     */
 
-    'usermenu_enabled' => true,
+    'usermenu_enabled' => false,
     'usermenu_header' => false,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
@@ -358,7 +358,7 @@ return [
         ],
         [
             'text' => 'Data Tahun Pelajaran',
-            'url'  => 'dataTahunPelajaran',
+            'url'  => 'dataPeriode',
             'icon' => 'fas fa-fw fa-table',
         ],
 
