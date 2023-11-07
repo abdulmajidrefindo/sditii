@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiswaHadist;
+use App\Models\Hadist1;
 use App\Models\Kelas;
+use App\Models\Guru;
 use App\Http\Requests\StoreSiswaHadistRequest;
 use App\Http\Requests\UpdateSiswaHadistRequest;
 
@@ -20,6 +22,8 @@ class SiswaHadistController extends Controller
     public function index(Request  $request)
     {
         $kelas_id = $request->kelas_id;
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        $data_guru = Guru::all();
         $siswa_h = SiswaHadist::with('siswa','hadist_1','penilaian_huruf_angka')->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
@@ -42,8 +46,14 @@ class SiswaHadistController extends Controller
         return view('/siswaHadist/indexSiswaHadist', 
         [
             'siswa_h'=>$modified_siswa_h,
-            'data_kelas'=>$data_kelas
+            'data_kelas'=>$data_kelas,
+            'data_guru'=>$data_guru,
         ]);
+    }
+
+    public function kelas_hadist($kelas_id){
+        $data_hadist = Hadist1::where('kelas_id', $kelas_id)->get();
+        return response()->json($data_hadist);
     }
 
     /**
@@ -156,7 +166,11 @@ class SiswaHadistController extends Controller
         $siswaHadist = SiswaHadist::where('siswa_id', $siswa_id)->get();
         $berhasil = 0;
         foreach ($siswaHadist as $item) {
-            if ($item->delete()) {
+            // if ($item->delete()) {
+            //     $berhasil++;
+            // }
+            $item->penilaian_huruf_angka_id = 101; // 101 = 0
+            if ($item->save()) {
                 $berhasil++;
             }
         }

@@ -24,9 +24,9 @@
                     <div class="card-tools">
                         <!-- button to edit page-->
 
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
-                        </button>
+                        </button> --}}
                         <button type="button" class="btn btn-tool" data-card-widget="remove">
                             <i class="fas fa-times"></i>
                         </button>
