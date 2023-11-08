@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SiswaTahfidz;
 use App\Models\Tahfidz1;
 use App\Models\Kelas;
+use App\Models\Guru;
 use App\Http\Requests\StoreSiswaTahfidzRequest;
 use App\Http\Requests\UpdateSiswaTahfidzRequest;
 use App\Models\PenilaianHurufAngka;
@@ -22,6 +23,8 @@ class SiswaTahfidzController extends Controller
     public function index(Request $request)
     {
         $kelas_id = $request->kelas_id;
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        $data_guru = Guru::all();
         $siswa_t = SiswaTahfidz::with('siswa','tahfidz_1','penilaian_huruf_angka')->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
@@ -41,9 +44,16 @@ class SiswaTahfidzController extends Controller
         return view('/siswaTahfidz/indexSiswaTahfidz', 
         [
             'siswa_t'=>$modified_siswa_t,
-            'data_kelas'=>$data_kelas
+            'data_kelas'=>$data_kelas,
+            'data_guru'=>$data_guru,
         ]);
     }
+
+    public function kelas_tahfidz($kelas_id){
+        $data_tahfidz = Tahfidz1::where('kelas_id', $kelas_id)->get();
+        return response()->json($data_tahfidz);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -153,7 +163,12 @@ class SiswaTahfidzController extends Controller
         $processed = 0;
         foreach ($siswaTahfidz as $item) {
             $processed++;
-            if ($item->delete()) {
+            // if ($item->delete()) {
+            //     $berhasil++;
+            // }
+
+            $item->penilaian_huruf_angka_id = 101; // 101 = 0
+            if ($item->save()) {
                 $berhasil++;
             }
         }

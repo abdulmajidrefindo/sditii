@@ -20,7 +20,7 @@ class Tahfidz1 extends Model
 
     public function siswa_tahfidz()
     {
-        return $this->hasMany(SiswaTahfidz::class);
+        return $this->hasMany(SiswaTahfidz::class, 'tahfidz_1_id', 'id');
     }
     public function guru()
     {
@@ -29,6 +29,12 @@ class Tahfidz1 extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);
+    }
+
+    public function delete()
+    {
+        $this->siswa_tahfidz()->delete();
+        return parent::delete();
     }
 
 }
