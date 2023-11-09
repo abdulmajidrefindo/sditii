@@ -19,6 +19,7 @@ use App\Http\Controllers\DoaController;
 use App\Http\Controllers\HadistController;
 use App\Http\Controllers\TahfidzController;
 use App\Http\Controllers\IbadahHarianController;
+use App\Http\Controllers\BidangStudiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +98,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/data_ibadah_harian_update', [IbadahHarianController::class, 'update'])->name('data_ibadah_harian.update');
     Route::post('/data_ibadah_harian_tambah', [IbadahHarianController::class, 'store'])->name('data_ibadah_harian.store');
+
+    Route::post('/data_bidang_studi_update', [BidangStudiController::class, 'update'])->name('data_bidang_studi.update');
+    Route::post('/data_bidang_studi_tambah', [BidangStudiController::class, 'store'])->name('data_bidang_studi.store');
     
     
     Route::get('/tes', function () {
