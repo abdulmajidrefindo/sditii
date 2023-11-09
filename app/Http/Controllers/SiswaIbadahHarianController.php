@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiswaIbadahHarian;
+use App\Models\Siswa;
+use App\Models\IbadahHarian1;
 use App\Models\PenilaianDeskripsi;
 use App\Models\Kelas;
+use App\Models\Guru;
 use App\Http\Requests\StoreSiswaIbadahHarianRequest;
 use App\Http\Requests\UpdateSiswaIbadahHarianRequest;
+
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -21,6 +26,8 @@ class SiswaIbadahHarianController extends Controller
     public function index(Request  $request)
     {
         $kelas_id = $request->kelas_id;
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        $data_guru = Guru::all();
         $siswa_ib = SiswaIbadahHarian::with('siswa','ibadah_harian_1','penilaian_deskripsi')->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
@@ -36,14 +43,19 @@ class SiswaIbadahHarianController extends Controller
             return $result;
         });
 
-        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         return view('/siswaIbadahHarian/indexSiswaIbadahHarian', 
         [
             'siswa_ib'=>$modified_siswa_ib,
-            'data_kelas'=>$data_kelas
+            'data_kelas'=>$data_kelas,
+            'data_guru'=>$data_guru,
         ]);
 
         //return response()->json($modified_siswa_ib);
+    }
+
+    public function kelas_ibadah_harian($kelas_id){
+        $data_ibadah_harian = IbadahHarian1::where('kelas_id', $kelas_id)->get();
+        return response()->json($data_ibadah_harian);
     }
 
     /**
@@ -158,9 +170,16 @@ class SiswaIbadahHarianController extends Controller
         $processed = 0;
         foreach ($siswa_ib as $ibadah_harian_siswa) {
             $processed++;
-            if ($ibadah_harian_siswa->delete()) {
+            // if ($ibadah_harian_siswa->delete()) {
+            //     $berhasil++;
+            // }
+
+            $ibadah_harian_siswa->penilaian_deskripsi_id = 5;
+            if ($ibadah_harian_siswa->save()) {
                 $berhasil++;
             }
+
+
         }
         if ($berhasil > 0 && $berhasil == $processed) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);

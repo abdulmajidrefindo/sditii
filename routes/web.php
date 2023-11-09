@@ -18,6 +18,7 @@ use App\Http\Controllers\RaporSiswaController;
 use App\Http\Controllers\DoaController;
 use App\Http\Controllers\HadistController;
 use App\Http\Controllers\TahfidzController;
+use App\Http\Controllers\IbadahHarianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,12 +47,15 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
     Route::get('/pengumuman', [PengumumanController::class, 'index']);
+
     Route::get('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
     Route::post('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
+    Route::get('/ibadahHarian/getKelasIbadahHarian/{kelas_id}', [SiswaIbadahHarianController::class, 'kelas_ibadah_harian']);
+
     Route::get('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::post('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::get('/tahfidz/getKelasTahfidz/{kelas_id}', [SiswaTahfidzController::class, 'kelas_tahfidz']);
-    
+
     Route::get('/hadist', [SiswaHadistController::class, 'index']);
     Route::post('/hadist', [SiswaHadistController::class, 'index']);
     Route::get('/hadist/getKelasHadist/{kelas_id}', [SiswaHadistController::class, 'kelas_hadist']);
@@ -90,6 +94,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/data_tahfidz_update', [TahfidzController::class, 'update'])->name('data_tahfidz.update');
     Route::post('/data_tahfidz_tambah', [TahfidzController::class, 'store'])->name('data_tahfidz.store');
+
+    Route::post('/data_ibadah_harian_update', [IbadahHarianController::class, 'update'])->name('data_ibadah_harian.update');
+    Route::post('/data_ibadah_harian_tambah', [IbadahHarianController::class, 'store'])->name('data_ibadah_harian.store');
     
     
     Route::get('/tes', function () {
