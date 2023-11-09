@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mapel;
+use App\Models\SiswaBidangStudi;
+use App\Models\Siswa;
 use App\Http\Requests\StoreBidangStudiRequest;
 use App\Http\Requests\UpdateBidangStudiRequest;
 
@@ -36,9 +38,93 @@ class BidangStudiController extends Controller
      * @param  \App\Http\Requests\StoreBidangStudiRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBidangStudiRequest $request)
+    public function store(Request $request)
     {
-        //
+        //kelas_bidang_studi_tambah,tambah_bidang_studi_1,tambah_bidang_studi_2,tambah_bidang_studi_guru_1,tambah_bidang_studi_guru_2 etc
+
+        //validation
+        $fields = [];
+        $fields[] = 'kelas_bidang_studi_tambah';
+        $messages = [];
+        $messages['kelas_bidang_studi_tambah.required'] = 'Kolom kelas_bidang_studi_tambah tidak boleh kosong!';
+        $validator_rules = [];
+        $validator_rules['kelas_bidang_studi_tambah'] = 'required';
+
+        foreach ($request->all() as $key => $value) {
+            if (strpos($key, 'tambah_bidang_studi_') !== false && strpos($key, 'tambah_bidang_studi_guru_') === false) {
+                $fields[] = $key;
+            }
+        }
+        foreach ($fields as $key) {
+            $messages[$key.'.required'] = 'Kolom '.$key.' tidak boleh kosong!';
+            $validator_rules[$key] = 'required';
+            if (strpos($key, 'tambah_bidang_studi_') !== false && strpos($key, 'tambah_bidang_studi_guru_') === false) {
+                $index = str_replace('tambah_bidang_studi_', '', $key);
+                $messages['tambah_bidang_studi_guru_'.$index.'.required'] = 'Kolom tambah_bidang_studi_guru_'.$index.' tidak boleh kosong!';
+                $validator_rules['tambah_bidang_studi_guru_'.$index] = 'required';
+            }
+        }
+
+        $request->validate($validator_rules, $messages);
+
+
+        $kelas_id = $request->input('kelas_bidang_studi_tambah');
+        $new_bidang_studi = [];
+        $new_bidang_studi_guru = [];
+        foreach ($request->all() as $key => $value) {
+            if (strpos($key, 'tambah_bidang_studi_guru_') !== false) {
+                $new_bidang_studi_guru[str_replace('tambah_bidang_studi_guru_', '', $key)] = $value;
+            }
+            else if (strpos($key, 'tambah_bidang_studi_') !== false) {
+                $new_bidang_studi[str_replace('tambah_bidang_studi_', '', $key)] = $value;
+            }
+        }
+
+        $berhasil = 0;
+        $processed = 0;
+        $new_bidang_studi_id = [];
+        foreach ($new_bidang_studi as $key => $value) {
+            $bidang_studi = new Mapel;
+            $bidang_studi->kelas_id = $kelas_id;
+            $bidang_studi->nama_mapel = $value;
+            $bidang_studi->guru_id = $new_bidang_studi_guru[$key];
+            if ($bidang_studi->save()) {
+                $berhasil++;
+                $new_bidang_studi_id[] = $bidang_studi->id;
+            }
+            $processed++;
+        }
+
+        // Add siswaDoa with nilai 0 for all siswa in kelas_id
+        $siswas = Siswa::where('kelas_id', $kelas_id)->get(); 
+        foreach ($siswas as $siswa) {
+            foreach ($new_bidang_studi_id as $value) {
+                $siswaDoa = new SiswaBidangStudi;
+                $siswaDoa->siswa_id = $siswa->id;
+                $siswaDoa->mapel_id = $value;
+                $siswaDoa->profil_sekolah_id = 1;
+                $siswaDoa->periode_id = 1;
+                $siswaDoa->rapor_siswa_id = 1;
+                $siswaDoa->nilai_uh_1 = 101;
+                $siswaDoa->nilai_uh_2 = 101;
+                $siswaDoa->nilai_uh_3 = 101;
+                $siswaDoa->nilai_uh_4 = 101;
+                $siswaDoa->nilai_tugas_1 = 101;
+                $siswaDoa->nilai_tugas_2 = 101;
+                $siswaDoa->nilai_uts = 101;
+                $siswaDoa->nilai_pas = 101;
+                if ($siswaDoa->save()) {
+                    $berhasil++;
+                }
+                $processed++;
+            }
+        }
+
+        if ($berhasil > 0 && $berhasil == $processed) {
+            return response()->json(['success' => 'Data berhasil disimpan!', 'status' => '200']);
+        } else {
+            return response()->json(['error' => 'Data gagal disimpan!']);
+        }
     }
 
     /**

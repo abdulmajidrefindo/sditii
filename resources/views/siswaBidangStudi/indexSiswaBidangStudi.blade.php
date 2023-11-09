@@ -47,7 +47,15 @@
                                         aria-controls="content-tab-bidang-studi-add" aria-selected="false">Atur
                                         Penilaian</a>
                                 </li>
+
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="controller-tambah-bidang-studi-add" data-toggle="tab"
+                                        href="#content-tambah-bidang-studi-add" role="tab"
+                                        aria-controls="content-tambah-bidang-studi-add" aria-selected="false">Tambah Bidang Studi</a>
+                                </li>
+
                             @endif
+
                         </ul>
                     </div>
                     <div class="card-body">
@@ -106,14 +114,62 @@
                                                 <td>{{ $n->siswa->nama_siswa }}</td>
                                                 <td>{{ $n->siswa->nisn }}</td>
                                                 <td>{{ $n->siswa->kelas->nama_kelas }}</td>
-                                                <td>{{ $n->uh_1->nilai_angka }}</td>
-                                                <td>{{ $n->uh_2->nilai_angka }}</td>
-                                                <td>{{ $n->uh_3->nilai_angka }}</td>
-                                                <td>{{ $n->uh_4->nilai_angka }}</td>
-                                                <td>{{ $n->tugas_1->nilai_angka }}</td>
-                                                <td>{{ $n->tugas_2->nilai_angka }}</td>
-                                                <td>{{ $n->uts->nilai_angka }}</td>
-                                                <td>{{ $n->pas->nilai_angka }}</td>
+                                                <td>
+                                                    @if ($n->uh_1->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uh_1->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->uh_2->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uh_2->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->uh_3->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uh_3->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->uh_4->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uh_4->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->tugas_1->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->tugas_1->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->tugas_2->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->tugas_2->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->uts->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uts->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->pas->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->pas->nilai_angka }}
+                                                    @endif
+                                                </td>
                                                 {{-- <td>{{ optional($n->nilai_akhir) }}</td> --}}
 
                                                 <td>
@@ -189,6 +245,99 @@
                                 </div>
                                 {{-- Tab add content end --}}
                             @endif
+
+                            @if (Auth::user()->role->contains('role', 'Administrator'))
+                            {{-- Tab add content --}}
+                            <div class="tab-pane fade" id="content-tambah-bidang-studi-add" role="tabpanel"
+                                aria-labelledby="controller-tambah-bidang-studi-add">
+                                <div class="card-body">
+                                    <form id="form_tambah_bidang_studi">
+                                        @csrf
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+
+                                                <div class="bs-stepper-content">
+                                                    {{-- Input Kelas --}}
+                                                    <div class="form-group">
+                                                        <label for="kelas">Pilih Kelas</label>
+                                                        <select class="custom-select" name="kelas_bidang_studi_tambah"
+                                                            id="kelas_bidang_studi_tambah">
+                                                            <option selected disabled>-Kelas-</option>
+                                                            @foreach ($data_kelas as $k)
+                                                                <option value={{ $k->id }}>{{ $k->nama_kelas }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('kelas_bidang_studi_tambah')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="bs-stepper-content">
+                                                    {{-- Input Nilai --}}
+                                                    <div id="form_tambah_bidang_studi_1">
+                                                        <div class="form-group">
+                                                            <label for="tambah_bidang_studi_guru_1">Pilih Guru</label>
+                                                            <select class="custom-select" name="tambah_bidang_studi_guru_1"
+                                                                id="tambah_bidang_studi_guru_1">
+                                                                <option selected disabled>-Guru-</option>
+                                                                @foreach ($data_guru as $g)
+                                                                    <option value={{ $g->id }}>
+                                                                        {{ $g->nama_guru }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('tambah_bidang_studi_guru_1')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="tambah_bidang_studi_1">Tambah Bidang Studi</label>
+                                                            <input type="text" class="form-control"
+                                                                name="tambah_bidang_studi_1" id="tambah_bidang_studi_1"
+                                                                placeholder="Masukkan Bidang Studi">
+                                                            @error('tambah_bidang_studi_1')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+
+                                                    </div>
+                                                    <div id="tambah_bidang_studi_tambah">
+                                                        {{-- Akan ditambahkan melalui ajax --}}
+                                                    </div>
+                                                    <div id="tambah_bidang_studi_button">
+                                                        <x-adminlte-button type="button" id="kurang_bidang_studi"
+                                                            class="btn bg-red col-12 kurang_bidang_studi"
+                                                            icon="fas fa fa-fw fa-minus" label="Hapus Bidang Studi" />
+                                                        <x-adminlte-button type="button" id="tambah_bidang_studi"
+                                                            class="btn-outline-secondary col-12 tambah_bidang_studi"
+                                                            icon="fas fa fa-fw fa-plus" label="Tambah Bidang Studi" />
+                                                    </div>
+                                                    {{-- Simpan --}}
+                                                </div>
+                                                <hr>
+                                                <x-adminlte-button type="submit" class="btn bg-purple col-12 simpan"
+                                                    icon="fas fa fa-fw fa-save" label="Simpan Data" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                            {{-- Tab add content end --}}
+                        @endif
 
                         </div>
                     </div>
@@ -298,7 +447,7 @@
                         $('#daftar_bidang_studi').append(
                             '<div class="form-group input-group"><input type="text" class="form-control" name="bidang_studi_' +
                             value.id + '" id="bidang_studi_' + value.id +
-                            '" placeholder="Masukkan Hadist" value="' + value
+                            '" placeholder="Masukkan Bidang Studi" value="' + value
                             .nama_mapel +
                             '" ><div class="input-group-append"><button data-id="' +
                             value.id +
@@ -460,6 +609,75 @@
             });
         });
     </script>
+
+<script>
+    //aler on form_tambah_bidang_studi submit
+    $(document).on('submit', '#form_tambah_bidang_studi', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data Akan Segera Disimpan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            // cancelButtonColor: '#d33',
+            // confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Ya, simpan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('data_bidang_studi.store') }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#form_tambah_bidang_studi').serialize(),
+                    success: function(response) {
+                        if (response.status == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: response.message,
+                            }).then(function() {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function(errors) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'Data gagal disimpan!'
+                        });
+                        // add error messages
+                        if (errors.responseJSON.errors) {
+                            // delete all error messages
+                            $('#form_tambah_bidang_studi .invalid-feedback').remove();
+                            $('#form_tambah_bidang_studi select').removeClass(
+                                'is-invalid');
+                            $('#form_tambah_bidang_studi input').removeClass(
+                                'is-invalid');
+
+                            $.each(errors.responseJSON.errors, function(key, value) {
+                                $('#form_tambah_bidang_studi #' + key).addClass(
+                                    'is-invalid');
+                                $('#form_tambah_bidang_studi #' + key).parent().find(
+                                    '.invalid-feedback').remove();
+                                $('#form_tambah_bidang_studi #' + key).parent().append(
+                                    '<div class="invalid-feedback">' +
+                                    value + '</div>');
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
 
     <script>
         //delete via ajax with sweet alert
