@@ -15,7 +15,7 @@ class ProfilSekolahController extends Controller
      */
     public function index()
     {
-        $profil = ProfilSekolah::all();
+        $profil = ProfilSekolah::first();
         return view('/profilSekolah/indexProfilSekolah',
         [
             'profil'=>$profil

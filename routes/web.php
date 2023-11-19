@@ -21,6 +21,8 @@ use App\Http\Controllers\TahfidzController;
 use App\Http\Controllers\IbadahHarianController;
 use App\Http\Controllers\BidangStudiController;
 
+use App\Http\Controllers\DashboardController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dataUser', UserController::class)->middleware('role:Wali Kelas,Administrator');
     Route::resource('/dataGuru', GuruController::class);
     Route::resource('/dataSiswa', SiswaController::class);
+    Route::post('/dataSiswaKelas', [SiswaController::class, 'index']);
     Route::resource('/dataPeriode', PeriodeController::class);
     
     Route::get('/getTableUser', [UserController::class, 'getTable'])->name('user.getTable');
@@ -70,6 +73,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::get('/bidangStudi/getKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'kelas_mapel']);
     Route::get('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator');
+    Route::get('/raporSiswa/{id}/print', [RaporSiswaController::class, 'print'])->middleware('role:Wali Kelas,Administrator');
+    Route::get('/raporSiswa/{id}/detail', [RaporSiswaController::class, 'detail'])->middleware('role:Wali Kelas,Administrator');
     // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
     
     Route::resource('/dataProfilSekolah', ProfilSekolahController::class);
@@ -106,16 +111,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/tes', function () {
         return view('dashboard');
     });
-    Route::get('/', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
     Route::get('/register', function () {
         return view('register');
     });
-    
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');    
 
 });
 

@@ -63,7 +63,7 @@
                             <div class="tab-pane active show" id="content-tab-bidang-studi-table" role="tabpanel"
                                 aria-labelledby="controller-tab-bidang-studi-table">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group">
                                             <form action="{{ url('/') }}/bidangStudi" method="post">
                                                 @csrf

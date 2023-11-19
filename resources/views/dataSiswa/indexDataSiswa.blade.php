@@ -56,6 +56,30 @@
                             {{-- -----------------tab add siswa----------------- --}}
                             <div class="tab-pane active show" id="content-tab-siswa-table" role="tabpanel"
                                 aria-labelledby="controller-tab-siswa-table">
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <form method="post" id="form_kelas">
+                                                @csrf
+                                                <label for="kelas">Pilih Kelas</label>
+                                                <div class="input-group">
+                                                    <select class="custom-select" name="kelas_id" id="kelas_id">
+                                                        <option selected disabled>-Kelas-</option>
+                                                        @foreach ($kelas as $k)
+                                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    {{-- <div class="input-group-append">
+                                                        <x-adminlte-button type="submit" class="btn bg-purple d-inline"
+                                                            icon="fas fa fa-fw fa-save" label="Pilih" />
+                                                    </div> --}}
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <table id="tabel-siswa" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
@@ -65,7 +89,7 @@
                                             <th>Orang Tua/Wali</th>
                                             <th>Kelas</th>
                                             @if (Auth::user()->role->contains('role', 'Administrator'))
-                                            <th>Aksi</th>
+                                                <th>Aksi</th>
                                             @endif
                                         </tr>
                                     </thead>
@@ -149,8 +173,8 @@
 
                                                         {{-- Simpan --}}
                                                         <x-adminlte-button type="submit"
-                                                            class="btn bg-purple col-12 simpan" icon="fas fa fa-fw fa-save"
-                                                            label="Simpan Data" />
+                                                            class="btn bg-purple col-12 simpan"
+                                                            icon="fas fa fa-fw fa-save" label="Simpan Data" />
                                                     </form>
                                                 </div>
                                             </div>
@@ -178,7 +202,8 @@
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables/jquery.dataTables.min.js') }}></script> --}}
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}></script> --}}
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}></script> --}}
-    <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}></script>
+    <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}>
+    </script>
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}></script> --}}
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}></script> --}}
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/jszip/jszip.min.js') }}></script> --}}
@@ -255,18 +280,81 @@
                         name: 'kelas'
                     },
                     @if (Auth::user()->role->contains('role', 'Administrator'))
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                        sClass: 'text-center',
-                        width: '25%',
-                    }
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false,
+                            sClass: 'text-center',
+                            width: '25%',
+                        }
                     @endif
                 ]
             }).buttons().container().appendTo('#tabel-siswa_wrapper .col-md-6:eq(0)');
             //Initialize Select2 Elements
+        });
+    </script>
+
+    <script>
+        //onchange kelas
+        $(document).ready(function() {
+            $('#kelas_id').on('change', function() {
+                let id = $(this).val();
+                $('#tabel-siswa').DataTable().destroy();
+                $('#tabel-siswa').DataTable({
+                    "responsive": true,
+                    "lengthChange": true,
+                    "autoWidth": false,
+                    "buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
+                    "paging": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    processing: true,
+                    serverSide: true,
+                    width: '100%',
+                    ajax: {
+                        url: "{{ route('siswa.getTable') }}",
+                        type: 'GET',
+                        data: {
+                            kelas_id: id
+                        }
+                    },
+                    columns: [{
+                            data: 'id',
+                            name: 'id',
+                            sClass: 'text-center',
+                            width: '5%'
+                        },
+                        {
+                            data: 'nama_siswa',
+                            name: 'nama_siswa'
+                        },
+                        {
+                            data: 'nisn',
+                            name: 'nisn'
+                        },
+                        {
+                            data: 'orangtua_wali',
+                            name: 'orangtua_wali'
+                        },
+                        {
+                            data: 'kelas.nama_kelas',
+                            name: 'kelas'
+                        },
+                        @if (Auth::user()->role->contains('role', 'Administrator'))
+                            {
+                                data: 'action',
+                                name: 'action',
+                                orderable: false,
+                                searchable: false,
+                                sClass: 'text-center',
+                                width: '25%',
+                            }
+                        @endif
+                    ]
+                }).buttons().container().appendTo('#tabel-siswa_wrapper .col-md-6:eq(0)');
+            });
         });
     </script>
 
