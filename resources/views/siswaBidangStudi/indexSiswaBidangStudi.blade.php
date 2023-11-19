@@ -32,79 +32,314 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Tabel Bidang Studi</h3>
+                <div class="card card-secondary card-tabs">
+                    <div class="card-header p-0 pt-0">
+                        <ul class="nav nav-tabs" id="bidangStudiTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="controller-tab-bidang-studi-table" data-toggle="tab"
+                                    href="#content-tab-bidang-studi-table" role="tab"
+                                    aria-controls="content-tab-bidang-studi-table" aria-selected="true">Nilai Siswa</a>
+                            </li>
+                            @if (Auth::user()->role->contains('role', 'Administrator'))
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="controller-tab-bidang-studi-add" data-toggle="tab"
+                                        href="#content-tab-bidang-studi-add" role="tab"
+                                        aria-controls="content-tab-bidang-studi-add" aria-selected="false">Atur
+                                        Penilaian</a>
+                                </li>
+
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="controller-tambah-bidang-studi-add" data-toggle="tab"
+                                        href="#content-tambah-bidang-studi-add" role="tab"
+                                        aria-controls="content-tambah-bidang-studi-add" aria-selected="false">Tambah Bidang Studi</a>
+                                </li>
+
+                            @endif
+
+                        </ul>
                     </div>
                     <div class="card-body">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <form action="{{ url('/') }}/bidangStudi" method="post">
-                                    @csrf
-                                    <label for="kelas">Pilih Kelas</label>
-                                    <select class="custom-select" name="kelas_id" id="kelas_id">
-                                        <option selected disabled>-Kelas-</option>
-                                        @foreach ($data_kelas as $k)
-                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
-                                        @endforeach
-                                    </select>
+                        <div class="tab-content" id="bidangStudiTabContent">
+                            <div class="tab-pane active show" id="content-tab-bidang-studi-table" role="tabpanel"
+                                aria-labelledby="controller-tab-bidang-studi-table">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <form action="{{ url('/') }}/bidangStudi" method="post">
+                                                @csrf
+                                                <label for="kelas">Pilih Kelas</label>
+                                                <select class="custom-select" name="kelas_id" id="kelas_id">
+                                                    <option selected disabled>-Kelas-</option>
+                                                    @foreach ($data_kelas as $k)
+                                                        <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                                    @endforeach
+                                                </select>
 
-                                    <label for="mapel">Pilih Mata Pelajaran</label>
-                                    <select class="custom-select" name="mapel_id" id="mapel_id">
-                                        <option selected disabled>-Mata Pelajaran-</option>
-                                        @foreach ($data_mapel as $m)
-                                            <option value={{ $m->id }}>{{ $m->nama_mapel }}</option>
+                                                <label for="mapel">Pilih Mata Pelajaran</label>
+                                                <div class="input-group">
+                                                    <select class="custom-select" name="mapel_id" id="mapel_id">
+                                                        <option selected disabled>-Pilih Kelas Terlebih Dulu-</option>
+                                                        {{-- @foreach ($data_mapel as $m)
+                                                        <option value={{ $m->id }}>{{ $m->nama_mapel }}</option>
+                                                    @endforeach --}}
+                                                    </select>
+                                                    <div class="input-group-append">
+                                                        <x-adminlte-button type="submit" class="btn bg-purple d-inline"
+                                                            icon="fas fa fa-fw fa-save" label="Pilih" />
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Nama</th>
+                                                <th>NISN</th>
+                                                <th>Kelas</th>
+                                                <th>Ulangan Harian 1</th>
+                                                <th>Ulangan Harian 2</th>
+                                                <th>Ulangan Harian 3</th>
+                                                <th>Ulangan Harian 4</th>
+                                                <th>Tugas 1</th>
+                                                <th>Tugas 2</th>
+                                                <th>UTS</th>
+                                                <th>PAS</th>
+                                                {{-- <th>Nilai Akhir</th> --}}
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        @foreach ($siswa_bs as $n)
+                                            <tr>
+                                                <td>{{ $n->siswa->nama_siswa }}</td>
+                                                <td>{{ $n->siswa->nisn }}</td>
+                                                <td>{{ $n->siswa->kelas->nama_kelas }}</td>
+                                                <td>
+                                                    @if ($n->uh_1->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uh_1->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->uh_2->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uh_2->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->uh_3->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uh_3->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->uh_4->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uh_4->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->tugas_1->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->tugas_1->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->tugas_2->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->tugas_2->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->uts->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->uts->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($n->pas->nilai_angka == null)
+                                                        <span class="badge badge-danger">Kosong</span>
+                                                    @else
+                                                        {{ $n->pas->nilai_angka }}
+                                                    @endif
+                                                </td>
+                                                {{-- <td>{{ optional($n->nilai_akhir) }}</td> --}}
+
+                                                <td>
+                                                    <a href="{{ route('siswaBidangStudi.show', $n->id) }}"
+                                                        class="btn btn-sm btn-success mx-1 shadow detail"><i
+                                                            class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                                                    <a href="javascript:void(0)" data-toggle="tooltip"
+                                                        data-id="{{ $n->id }}" data-original-title="Delete"
+                                                        class="btn btn-sm btn-danger mx-1 shadow delete"><i
+                                                            class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+                                                </td>
+                                            </tr>
                                         @endforeach
-                                    </select>
-                                    <input type="submit">
-                                </form>
+                                    </table>
+                                </div>
                             </div>
+
+                            @if (Auth::user()->role->contains('role', 'Administrator'))
+                                {{-- Tab add content --}}
+                                <div class="tab-pane fade" id="content-tab-bidang-studi-add" role="tabpanel"
+                                    aria-labelledby="controller-tab-bidang-studi-add">
+                                    <div class="card-body">
+                                        <form id="form_daftar_bidang_studi">
+                                            @csrf
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+
+                                                    <div class="bs-stepper-content">
+                                                        {{-- Input Kelas --}}
+                                                        <div class="form-group">
+                                                            <label for="kelas">Pilih Kelas</label>
+                                                            <select class="custom-select" name="kelas_bidang_studi"
+                                                                id="kelas_bidang_studi">
+                                                                <option selected>-Kelas-</option>
+                                                                @foreach ($data_kelas as $k)
+                                                                    <option value={{ $k->id }}>{{ $k->nama_kelas }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('kelas_bidang_studi')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="bs-stepper-content">
+                                                        {{-- Input Nilai --}}
+                                                        <label for="kelas">Daftar Mata Pelajaran</label>
+                                                        <div id="daftar_bidang_studi">
+                                                            {{-- Akan ditambahkan melalui ajax --}}
+                                                        </div>
+
+                                                        <div id="tambah_bidang_studi_button">
+                                                            {{-- <x-adminlte-button type="button" id="tambah_bidang_studi" class="btn-outline-secondary col-12 tambah_bidang_studi" icon="fas fa fa-fw fa-plus" label="Tambah Doa"/> --}}
+                                                            <x-adminlte-button type="submit"
+                                                                class="btn bg-purple col-12 simpan"
+                                                                icon="fas fa fa-fw fa-save" label="Simpan Data" />
+                                                            <br>
+                                                        </div>
+                                                        {{-- Simpan --}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                                {{-- Tab add content end --}}
+                            @endif
+
+                            @if (Auth::user()->role->contains('role', 'Administrator'))
+                            {{-- Tab add content --}}
+                            <div class="tab-pane fade" id="content-tambah-bidang-studi-add" role="tabpanel"
+                                aria-labelledby="controller-tambah-bidang-studi-add">
+                                <div class="card-body">
+                                    <form id="form_tambah_bidang_studi">
+                                        @csrf
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+
+                                                <div class="bs-stepper-content">
+                                                    {{-- Input Kelas --}}
+                                                    <div class="form-group">
+                                                        <label for="kelas">Pilih Kelas</label>
+                                                        <select class="custom-select" name="kelas_bidang_studi_tambah"
+                                                            id="kelas_bidang_studi_tambah">
+                                                            <option selected disabled>-Kelas-</option>
+                                                            @foreach ($data_kelas as $k)
+                                                                <option value={{ $k->id }}>{{ $k->nama_kelas }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('kelas_bidang_studi_tambah')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="bs-stepper-content">
+                                                    {{-- Input Nilai --}}
+                                                    <div id="form_tambah_bidang_studi_1">
+                                                        <div class="form-group">
+                                                            <label for="tambah_bidang_studi_guru_1">Pilih Guru</label>
+                                                            <select class="custom-select" name="tambah_bidang_studi_guru_1"
+                                                                id="tambah_bidang_studi_guru_1">
+                                                                <option selected disabled>-Guru-</option>
+                                                                @foreach ($data_guru as $g)
+                                                                    <option value={{ $g->id }}>
+                                                                        {{ $g->nama_guru }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('tambah_bidang_studi_guru_1')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="tambah_bidang_studi_1">Tambah Bidang Studi</label>
+                                                            <input type="text" class="form-control"
+                                                                name="tambah_bidang_studi_1" id="tambah_bidang_studi_1"
+                                                                placeholder="Masukkan Bidang Studi">
+                                                            @error('tambah_bidang_studi_1')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+
+                                                    </div>
+                                                    <div id="tambah_bidang_studi_tambah">
+                                                        {{-- Akan ditambahkan melalui ajax --}}
+                                                    </div>
+                                                    <div id="tambah_bidang_studi_button">
+                                                        <x-adminlte-button type="button" id="kurang_bidang_studi"
+                                                            class="btn bg-red col-12 kurang_bidang_studi"
+                                                            icon="fas fa fa-fw fa-minus" label="Hapus Bidang Studi" />
+                                                        <x-adminlte-button type="button" id="tambah_bidang_studi"
+                                                            class="btn-outline-secondary col-12 tambah_bidang_studi"
+                                                            icon="fas fa fa-fw fa-plus" label="Tambah Bidang Studi" />
+                                                    </div>
+                                                    {{-- Simpan --}}
+                                                </div>
+                                                <hr>
+                                                <x-adminlte-button type="submit" class="btn bg-purple col-12 simpan"
+                                                    icon="fas fa fa-fw fa-save" label="Simpan Data" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                            {{-- Tab add content end --}}
+                        @endif
+
                         </div>
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>NISN</th>
-                                    <th>Kelas</th>
-                                    <th>Ulangan Harian 1</th>
-                                    <th>Ulangan Harian 2</th>
-                                    <th>Ulangan Harian 3</th>
-                                    <th>Ulangan Harian 4</th>
-                                    <th>Tugas 1</th>
-                                    <th>Tugas 2</th>
-                                    <th>UTS</th>
-                                    <th>PAS</th>
-                                    {{-- <th>Nilai Akhir</th> --}}
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            @foreach ($siswa_bs as $n)
-                                <tr>
-                                    <td>{{ $n->siswa->nama_siswa }}</td>
-                                    <td>{{ $n->siswa->nisn }}</td>
-                                    <td>{{ $n->siswa->kelas->nama_kelas }}</td>
-                                    <td>{{ $n->uh_1->nilai_angka }}</td>
-                                    <td>{{ $n->uh_2->nilai_angka }}</td>
-                                    <td>{{ $n->uh_3->nilai_angka }}</td>
-                                    <td>{{ $n->uh_4->nilai_angka }}</td>
-                                    <td>{{ $n->tugas_1->nilai_angka }}</td>
-                                    <td>{{ $n->tugas_2->nilai_angka }}</td>
-                                    <td>{{ $n->uts->nilai_angka }}</td>
-                                    <td>{{ $n->pas->nilai_angka }}</td>
-                                    {{-- <td>{{ optional($n->nilai_akhir) }}</td> --}}
-
-                                    <td>
-                                        <a href="{{ route('siswaBidangStudi.show', $n->id) }}"
-                                            class="btn btn-sm btn-success mx-1 shadow detail"><i
-                                                class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
-                                        <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{ $n->id }}"
-                                            data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i
-                                                class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
-                                    </td>
-
-                                </tr>
-                            @endforeach
-                        </table>
                     </div>
                 </div>
             </div>
@@ -141,6 +376,184 @@
     <!-- Page specific script -->
 @stop
 @section('js')
+
+    <script>
+        $(document).ready(function() {
+            //set csrf token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('#tambah_bidang_studi_button').hide();
+        });
+    </script>
+
+    <script>
+        //tambah bidang_studi
+        $(document).ready(function() {
+            $('#kurang_bidang_studi').hide();
+            var i = 1;
+            $('#tambah_bidang_studi').click(function() {
+                i++;
+                $('#tambah_bidang_studi_tambah').append(
+                    '<hr id="garis' + i +
+                    '"> <div id="form_tambah_bidang_studi_' + i +
+                    '"><div class="form-group"><label for="tambah_bidang_studi_guru_' + i +
+                    '">Pilih Guru</label><select class="custom-select" name="tambah_bidang_studi_guru_' +
+                    i +
+                    '" id="tambah_bidang_studi_guru_' + i +
+                    '"><option selected disabled>-Guru-</option>@foreach ($data_guru as $g)<option value={{ $g->id }}>{{ $g->nama_guru }}</option>@endforeach</select>@error("tambah_bidang_studi_guru_' +
+                    i +
+                    '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div><div class="form-group"><label for="tambah_bidang_studi_' +
+                    i +
+                    '">Tambah Doa</label><input type="text" class="form-control" name="tambah_bidang_studi_' +
+                    i +
+                    '" id="tambah_bidang_studi_' + i +
+                    '" placeholder="Masukkan Doa">@error("tambah_bidang_studi_' + i +
+                    '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div></div>'
+                );
+                $('#kurang_bidang_studi').show();
+            });
+
+            $('#kurang_bidang_studi').click(function() {
+                $('#garis' + i).remove();
+                $('#form_tambah_bidang_studi_' + i).remove();
+                i--;
+                if (i == 1) {
+                    $('#kurang_bidang_studi').hide();
+                }
+            });
+        });
+    </script>
+
+<script>
+    $(document).ready(function() {
+
+        //On kelas_bidang_studi change, loop through all kelas_bidang_studi from ajax and append to #daftar_bidang_studi
+        $('select[name="kelas_bidang_studi"]').on('change', function() {
+            var kelas_bidang_studi = $(this).val();
+
+            $.ajax({
+                url: '/bidangStudi/getKelasMapel/' + kelas_bidang_studi,
+                type: "GET",
+                data: {
+                    kelas_bidang_studi: kelas_bidang_studi
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('#daftar_bidang_studi').empty();
+                    $.each(data, function(index, value) {
+                        $('#daftar_bidang_studi').append(
+                            '<div class="form-group input-group"><input type="text" class="form-control" name="bidang_studi_' +
+                            value.id + '" id="bidang_studi_' + value.id +
+                            '" placeholder="Masukkan Bidang Studi" value="' + value
+                            .nama_mapel +
+                            '" ><div class="input-group-append"><button data-id="' +
+                            value.id +
+                            '" class="btn btn-outline bg-red delete-bidang-studi" type="button">Hapus</button></div><div class="invalid-feedback"></div></div>'
+                        );
+                    });
+                }
+            });
+
+            $('#tambah_bidang_studi_button').show();
+        });
+    });
+</script>
+
+<script>
+    // Hapus daftar bidang studi di tab atur penilaian
+    $(document).on('click', '.delete-bidang-studi', function() {
+        //get the parent div
+        var parent = $(this).parent().parent();
+        //get the parent name
+        var parent_input = parent.find('input');
+        let bidang_studi_id = $(this).attr('data-id');
+        //disable the input by add disabled-form class
+        parent_input.addClass('disabled-form');
+        //change the input name
+        parent_input.attr('name', 'delete_' + bidang_studi_id);
+        // change the button to cancel
+        $(this).html('Batal');
+        $(this).removeClass('delete-bidang-studi');
+        $(this).addClass('cancel-delete-bidang-studi');
+        $(this).removeClass('bg-red');
+        $(this).addClass('bg-secondary');
+    });
+
+    $(document).on('click', '.cancel-delete-bidang-studi', function() {
+        //get the parent div
+        var parent = $(this).parent().parent();
+        //get the parent name
+        var parent_input = parent.find('input');
+        let bidang_studi_id = $(this).attr('data-id');
+        //enable the input
+        parent_input.removeClass('disabled-form');
+        //change the input name
+        parent_input.attr('name', 'bidang_studi_' + bidang_studi_id);
+        // change the button to cancel
+        $(this).html('Hapus');
+        $(this).removeClass('cancel-delete-bidang-studi');
+        $(this).addClass('delete-bidang-studi');
+        $(this).addClass('bg-red');
+    });
+</script>
+
+<script>
+    //Simpan daftar bidang studi
+    $(document).on('submit', '#form_daftar_bidang_studi', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            // cancelButtonColor: '#d33',
+            // confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Ya, simpan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('data_bidang_studi.update') }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#form_daftar_bidang_studi').serialize(),
+                    success: function(response) {
+                        if (response.status == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: response.message,
+                            }).then(function() {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: response.error,
+                            });
+                        }
+                    },
+                    error: function(errors) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'Mohon isi data dengan benar!'
+                        });
+                        // add error messages, belum bener
+                        if (errors.responseJSON.errors) {
+                            console.log(errors.responseJSON.errors);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+
     <script type="text/javascript">
         $(function() {
             $("#example1").DataTable({
@@ -185,7 +598,8 @@
                             $('select[name="mapel_id"]').empty();
                             $.each(data, function(key, value) {
                                 $('select[name="mapel_id"]').append('<option value="' +
-                                    value.id + '">' + value.nama_mapel + '</option>');
+                                    value.id + '">' + value.nama_mapel + '</option>'
+                                );
                             });
                         },
                     });
@@ -195,6 +609,75 @@
             });
         });
     </script>
+
+<script>
+    //aler on form_tambah_bidang_studi submit
+    $(document).on('submit', '#form_tambah_bidang_studi', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data Akan Segera Disimpan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            // cancelButtonColor: '#d33',
+            // confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Ya, simpan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('data_bidang_studi.store') }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#form_tambah_bidang_studi').serialize(),
+                    success: function(response) {
+                        if (response.status == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: response.message,
+                            }).then(function() {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function(errors) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'Data gagal disimpan!'
+                        });
+                        // add error messages
+                        if (errors.responseJSON.errors) {
+                            // delete all error messages
+                            $('#form_tambah_bidang_studi .invalid-feedback').remove();
+                            $('#form_tambah_bidang_studi select').removeClass(
+                                'is-invalid');
+                            $('#form_tambah_bidang_studi input').removeClass(
+                                'is-invalid');
+
+                            $.each(errors.responseJSON.errors, function(key, value) {
+                                $('#form_tambah_bidang_studi #' + key).addClass(
+                                    'is-invalid');
+                                $('#form_tambah_bidang_studi #' + key).parent().find(
+                                    '.invalid-feedback').remove();
+                                $('#form_tambah_bidang_studi #' + key).parent().append(
+                                    '<div class="invalid-feedback">' +
+                                    value + '</div>');
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
 
     <script>
         //delete via ajax with sweet alert

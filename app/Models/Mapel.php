@@ -20,4 +20,10 @@ class Mapel extends Model
     {
         return $this->hasMany(SiswaBidangStudi::class);
     }
+
+    public function delete()
+    {
+        $this->siswa_bidang_studi()->delete();
+        return parent::delete();
+    }
 }

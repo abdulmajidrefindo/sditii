@@ -10,6 +10,7 @@ use App\Models\SiswaBidangStudi;
 use App\Models\Mapel;
 use App\Models\Siswa;
 use App\Models\Kelas;
+use App\Models\Guru;
 
 class SiswaBidangStudiController extends Controller
 {
@@ -31,6 +32,7 @@ class SiswaBidangStudiController extends Controller
     {
         $data_mapel=Mapel::all();
         $data_kelas=Kelas::all()->except(Kelas::all()->last()->id);
+        $data_guru = Guru::all();
         $mapel=$request->mapel_id;
         $kelas=$request->kelas_id;
         $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->whereHas('siswa', function ($query) use ($kelas) {
@@ -40,7 +42,8 @@ class SiswaBidangStudiController extends Controller
         [
             'data_mapel'=>$data_mapel,
             'data_kelas'=>$data_kelas,
-            'siswa_bs'=>$siswa_bs
+            'siswa_bs'=>$siswa_bs,
+            'data_guru'=>$data_guru,
         ]);
 
         //return response()->json($siswa_bs);

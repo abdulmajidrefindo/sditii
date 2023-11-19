@@ -38,18 +38,23 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="form-group">
-                        <form action="{{ url('/') }}/doa" method="post">
+                        <form action="{{ url('/') }}/iwr" method="post">
                             @csrf
                             <label for="kelas">Pilih Kelas</label>
-                            <select class="custom-select" name="kelas_id" id="kelas_id">
-                                <option selected disabled>-Kelas-</option>
-                                @foreach ($data_kelas as $k)
-                                    <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
-                                @endforeach
-                            </select>
-                            <input type="submit">
+                            <div class="input-group">
+                                <select class="custom-select" name="kelas_id" id="kelas_id">
+                                    <option selected disabled>-Kelas-</option>
+                                    @foreach ($data_kelas as $k)
+                                        <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="input-group-append">
+                                    <x-adminlte-button type="submit" class="btn bg-purple d-inline"
+                                        icon="fas fa fa-fw fa-save" label="Pilih" />
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

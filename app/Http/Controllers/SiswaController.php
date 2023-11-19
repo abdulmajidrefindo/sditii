@@ -18,10 +18,15 @@ class SiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $siswa = Siswa::all();
         $kelas = Kelas::all();
+        $kelas_id = $request->kelas_id;
+        if ($kelas_id == null) {
+            $siswa = Siswa::all();
+        } else {
+            $siswa = Siswa::where('kelas_id', $kelas_id)->get();
+        }
         // $data = Siswa::select('siswas.id','siswas.nisn','siswas.nama_siswa','siswas.orangtua_wali','siswas.created_at','siswas.updated_at','siswas.kelas_id','kelas.id','kelas.nama_kelas')
         //     ->join('siswas','siswas.kelas_id','=','kelas.id')->get();
         return view('/dataSiswa/indexDataSiswa',
@@ -147,8 +152,14 @@ class SiswaController extends Controller
     
     public function getTable(Request $request){
         if ($request->ajax()) {
+
+            if ($request->kelas_id == null) {
+                $data = Siswa::with('kelas')->get();
+            } else {
+                $data = Siswa::with('kelas')->where('kelas_id', $request->kelas_id)->get();
+            }
             // siswa with kelas
-            $data = Siswa::with('kelas')->get();
+            //$data = Siswa::with('kelas')->get();
             return DataTables::of($data)
             ->addColumn('action', function ($row) {
                 $btn = '<a href="'. route('dataSiswa.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';

@@ -388,9 +388,6 @@
                 $('#kurang_doa').hide();
             }
         });
-
-
-
     });
 </script>
 

@@ -59,7 +59,7 @@
                     <th>NISN</th>
                     <th>Kelas</th>
                     <th>Wali Kelas</th>
-                    <th>Print</th>
+                    <th>Aksi</th>
                   </tr>
                 </thead>
                 @forelse ($data_siswa as $s)
@@ -68,7 +68,10 @@
                   <td>{{ $s->nisn }}</td>
                   <td>{{ $s->kelas->nama_kelas }}</td>
                   <td>{{ $s->kelas->guru->nama_guru }}</td>
-                  <td><button type="button" class="btn btn-block btn-primary">Unduh Rapor</button></td>
+                  <td>
+                    <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail" class="btn btn-block btn-primary">Detail</a>
+                    <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/print" class="btn btn-block btn-primary">Print</a>
+                  </td>
                 </tr>
                 @empty
                 <td>-</td>

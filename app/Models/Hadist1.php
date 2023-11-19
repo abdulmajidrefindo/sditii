@@ -19,7 +19,7 @@ class Hadist1 extends Model
 
     public function siswa_hadist()
     {
-        return $this->hasMany(SiswaHadist::class);
+        return $this->hasMany(SiswaHadist::class, 'hadist_1_id', 'id');
     }
     public function guru()
     {
@@ -28,5 +28,11 @@ class Hadist1 extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);
+    }
+
+    public function delete()
+    {
+        $this->siswa_hadist()->delete();
+        return parent::delete();
     }
 }

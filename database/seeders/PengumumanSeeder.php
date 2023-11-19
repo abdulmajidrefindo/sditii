@@ -21,6 +21,9 @@ class PengumumanSeeder extends Seeder
             'judul' => 'Ganti Password',
             'isi' => 'Untuk memastikan keamanan, pengguna baru harap segera mengubah password!',
             'user_id' => '1',
+            'created_at' => now(),
+            'updated_at' => now(),
+            'publishet_at' => now(),
         ]);
     }
 }

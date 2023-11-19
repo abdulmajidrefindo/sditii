@@ -15,7 +15,7 @@ class IbadahHarian1 extends Model
 
     public function siswa_ibadah_harian()
     {
-        return $this->hasMany(SiswaIbadahHarian::class);
+        return $this->hasMany(SiswaIbadahHarian::class, 'ibadah_harian_1_id', 'id');
     }
     public function penilaian_deskripsi()
     {
@@ -24,5 +24,10 @@ class IbadahHarian1 extends Model
     public function guru()
     {
         return $this->belongsTo(Guru::class);
+    }
+    public function delete()
+    {
+        $this->siswa_ibadah_harian()->delete();
+        return parent::delete();
     }
 }
