@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\IbadahHarian1;
 use App\Models\SiswaIbadahHarian;
 use App\Models\Siswa;
+use App\Models\Periode;
 use App\Http\Requests\StoreIbadahHarianRequest;
 use App\Http\Requests\UpdateIbadahHarianRequest;
 
@@ -103,7 +104,7 @@ class IbadahHarianController extends Controller
                 $siswaTahfidz->siswa_id = $siswa->id;
                 $siswaTahfidz->ibadah_harian_1_id = $value;
                 $siswaTahfidz->profil_sekolah_id = 1;
-                $siswaTahfidz->periode_id = 1;
+                $siswaTahfidz->periode_id = Periode::where('status', 'aktif')->first()->id;
                 $siswaTahfidz->rapor_siswa_id = 1;
                 $siswaTahfidz->penilaian_deskripsi_id = 5;
                 if ($siswaTahfidz->save()) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Hadist1;
 use App\Models\SiswaHadist;
 use App\Models\Siswa;
+use App\Models\Periode;
 use App\Http\Requests\StoreHadistRequest;
 use App\Http\Requests\UpdateHadistRequest;
 
@@ -103,7 +104,7 @@ class HadistController extends Controller
                 $siswaHadist->siswa_id = $siswa->id;
                 $siswaHadist->hadist_1_id = $value;
                 $siswaHadist->profil_sekolah_id = 1;
-                $siswaHadist->periode_id = 1;
+                $siswaHadist->periode_id = Periode::where('status', 'aktif')->first()->id;
                 $siswaHadist->rapor_siswa_id = 1;
                 $siswaHadist->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 if ($siswaHadist->save()) {

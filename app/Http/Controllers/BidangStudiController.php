@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Mapel;
 use App\Models\SiswaBidangStudi;
 use App\Models\Siswa;
+use App\Models\Periode;
 use App\Http\Requests\StoreBidangStudiRequest;
 use App\Http\Requests\UpdateBidangStudiRequest;
+
 
 use Illuminate\Http\Request;
 
@@ -103,7 +105,7 @@ class BidangStudiController extends Controller
                 $siswaDoa->siswa_id = $siswa->id;
                 $siswaDoa->mapel_id = $value;
                 $siswaDoa->profil_sekolah_id = 1;
-                $siswaDoa->periode_id = 1;
+                $siswaDoa->periode_id = Periode::where('status', 'aktif')->first()->id;
                 $siswaDoa->rapor_siswa_id = 1;
                 $siswaDoa->nilai_uh_1 = 101;
                 $siswaDoa->nilai_uh_2 = 101;

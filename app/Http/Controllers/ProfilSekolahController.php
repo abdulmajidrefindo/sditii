@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProfilSekolah;
 use App\Http\Requests\StoreProfilSekolahRequest;
 use App\Http\Requests\UpdateProfilSekolahRequest;
+use Illuminate\Http\Request;
 
 class ProfilSekolahController extends Controller
 {
@@ -62,7 +63,9 @@ class ProfilSekolahController extends Controller
      */
     public function show(ProfilSekolah $profilSekolah)
     {
-        return view('profilSekolah.show', compact('profilSekolah'));
+        $profil = ProfilSekolah::first();
+
+        return view('/profilSekolah/indexProfilSekolah', compact('profil'));
     }
 
     /**
@@ -85,20 +88,34 @@ class ProfilSekolahController extends Controller
      * @param  \App\Models\ProfilSekolah  $profilSekolah
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProfilSekolahRequest $request, ProfilSekolah $profilSekolah)
+    public function update(Request $request, ProfilSekolah $profilSekolah)
     {
-        $profilSekolah->update([
-            'nama_sekolah' => $request->get('nama_sekolah'),
-            'alamat_sekolah' => $request->get('alamat_sekolah'),
-            'email_sekolah' => $request->get('email_sekolah'),
-            'kontak_sekolah' => $request->get('kontak_sekolah'),
-            'website_sekolah' => $request->get('website_sekolah')
-        ]);
+        //validate message
+        $messages = [
+            'nama_sekolah.required' => 'Nama sekolah wajib diisi!',
+            'alamat_sekolah.required' => 'Alamat sekolah wajib diisi!',
+            'email_sekolah.required' => 'Email sekolah wajib diisi!',
+            'kontak_sekolah.required' => 'Kontak sekolah wajib diisi!',
+            'website_sekolah.required' => 'Website sekolah wajib diisi!'
+        ];
 
+        //validate request
+        $request->validate([
+            'nama_sekolah' => 'required',
+            'alamat_sekolah' => 'required',
+            'email_sekolah' => 'required|email',
+            'kontak_sekolah' => 'required',
+            'website_sekolah' => 'required'
+        ], $messages);
+
+        $profilSekolah->update($request->all());
+        $profil = ProfilSekolah::first();
         if ($profilSekolah) {
-            return response()->json(['success' => 'Data berhasil disimpan!']);
+            $success = "Data berhasil disimpan!";
+            return view('/profilSekolah/indexProfilSekolah', compact('profil', 'success'));
         } else {
-            return response()->json(['errors' => 'Data gagal disimpan!']);
+            $errors = "Data gagal disimpan!";
+            return view('/profilSekolah/indexProfilSekolah', compact('profil', 'errors'));
         }
     }
 
