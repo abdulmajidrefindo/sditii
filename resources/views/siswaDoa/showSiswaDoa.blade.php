@@ -142,7 +142,7 @@
                                     el.after($('<span class="error invalid-feedback">' +
                                         error[0] + '</span>'));
                                 });
-                                console.log(err.responseJSON.error);
+                                
                             Swal.fire({
                                 title: 'Gagal!',
                                 text: 'Mohon isi data dengan benar!',
