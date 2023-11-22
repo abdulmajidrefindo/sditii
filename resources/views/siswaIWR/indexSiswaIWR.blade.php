@@ -79,9 +79,14 @@
                 <td>{{ $s->siswa->nisn }}</td>
                 <td>{{ $s->siswa->kelas->nama_kelas }}</td>
                 <td>{{ $s->ilman_waa_ruuhan->pencapaian }}</td>
-                <td>{{ $s->ilman_waa_ruuhan->jilid }}</td>
-                <td>{{ $s->ilman_waa_ruuhan->halaman }}</td>
-                <td>{{ $s->penilaian_deskripsi->deskripsi }} / {{ $s->penilaian_deskripsi->keterangan }}</td>
+                <td>{{ $s->jilid }}</td>
+                <td>{{ $s->halaman }}</td>
+                <td>@if ($s->penilaian_deskripsi->deskripsi != 'K')
+                    {{ $s->penilaian_deskripsi->deskripsi }} / {{ $s->penilaian_deskripsi->keterangan }}
+                    @else
+                    <span class="badge badge-danger">Kosong</span>
+                    @endif
+                </td>
                 <td>{{ $s->ilman_waa_ruuhan->guru->nama_guru }}</td>
                 <td>
                   <a href="{{ route('siswaIlmanWaaRuuhan.show', $s->id) }}"
