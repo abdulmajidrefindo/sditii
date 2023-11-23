@@ -37,7 +37,8 @@ class IbadahHarian1Seeder extends Seeder
                     'guru_id' => Guru::inRandomOrder()->first()->id,
                     'kelas_id' => $i,
                     'created_at' => now(),
-                    'updated_at' => now()
+                    'updated_at' => now(),
+                    'periode_id' => '1',
                 ]);
             }
         }

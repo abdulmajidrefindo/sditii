@@ -61,6 +61,7 @@
                                             <th>No</th>
                                             <th>Tahun</th>
                                             <th>Semester</th>
+                                            <th>Status</th>
                                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                                 <th>Aksi</th>
                                             @endif
@@ -214,6 +215,12 @@
                     {
                         data: 'semester',
                         name: 'semester'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        sClass: 'text-center',
+                        width: '10%'
                     },
                     @if (Auth::user()->role->contains('role', 'Administrator'))
                         {

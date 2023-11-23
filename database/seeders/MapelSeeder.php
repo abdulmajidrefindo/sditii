@@ -36,6 +36,9 @@ class MapelSeeder extends Seeder
                     'guru_id' => Guru::all()->random()->id,
                     'nama_mapel' => $value,
                     'kelas_id' => $i,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                    'periode_id' => '1',
                 ]);
             }
         }

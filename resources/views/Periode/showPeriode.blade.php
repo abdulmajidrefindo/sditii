@@ -78,26 +78,30 @@
                             </div>
 
                             <div class="form-group col-md-12">
+
                                 <label for="status" class="text-lightdark">
                                     Status
                                 </label>
-                                <select id="status" name="status" disabled
-                                    class="form-control select2bs4 @error('status') is-invalid @enderror">
-                                    <option value="aktif" {{ $dataPeriode->status == 'aktif' ? 'selected' : '' }}>
-                                        Aktif
-                                    </option>
-                                    <option value="tidak aktif"
-                                        {{ $dataPeriode->status == 'tidak aktif' ? 'selected' : '' }}>
-                                        Tidak Aktif
-                                    </option>
-                                </select>
-
+                                @if ($dataPeriode->status == 'aktif')
+                                    <div class="input-group">
+                                        <div id="status" name="status"
+                                            class="form-control">
+                                            Aktif
+                                        </div>
+                                    </div>
+                                @else
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="status" type="checkbox" value="aktif" 
+                                    {{ $dataPeriode->status == 'aktif' ? 'checked' : '' }} disabled>
+                                    <label for="status" class="custom-control-label">Atur Sebagai Semester Aktif</label>
+                                    </div>
+                            
                                 @error('status')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
-
+                                @endif
                             </div>
 
                             <x-adminlte-input name="created_at" type="text" value="{{ $dataPeriode->created_at }}"
@@ -111,7 +115,7 @@
 
                             </x-adminlte-input>
 
-                            <x-adminlte-input name="updated_at" type="text" value="{{ $dataPeriode->updated_at }}"
+                        <x-adminlte-input name="updated_at" type="text" value="{{ $dataPeriode->updated_at }}"
                                 label="Waktu Diperbaharui" fgroup-class="col-md-12" disabled>
 
                                 <x-slot name="prependSlot">
@@ -122,11 +126,11 @@
 
                             </x-adminlte-input>
 
-                            <x-adminlte-button id="edit" class="btn bg-purple col-12 edit" type="submit"
+                            <x-adminlte-button id="edit" class="btn bg-purple col-12 edit"
                                 label="Edit Data" icon="fas fa fa-fw fa-edit" />
                             <x-adminlte-button id="simpan" class="btn bg-purple col-12 simpan" type="submit"
                                 label="Simpan Data" icon="fas fa fa-fw fa-save" hidden />
-                            <x-adminlte-button id="batal" class="btn bg-red col-12 cancel" type="submit" label="Batal"
+                            <x-adminlte-button id="batal" class="btn bg-red col-12 cancel" label="Batal"
                                 icon="fas fa fa-fw fa-times" hidden />
                         </div>
                     </div>
@@ -176,6 +180,7 @@
             });
 
             $('#simpan').click(function() {
+                event.preventDefault();
                 //ajax update data
                 $.ajax({
                     url: "{{ route('dataPeriode.update', $dataPeriode->id) }}",

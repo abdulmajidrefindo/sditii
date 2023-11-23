@@ -33,7 +33,8 @@ class Tahfidz1Seeder extends Seeder
                     'guru_id' => Guru::inRandomOrder()->first()->id,
                     'kelas_id' => $j,
                     'created_at' => now(),
-                    'updated_at' => now()
+                    'updated_at' => now(),
+                    'periode_id' => '1',
                 ]);
             }
         }
