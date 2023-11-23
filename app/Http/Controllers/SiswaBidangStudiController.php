@@ -52,7 +52,8 @@ class SiswaBidangStudiController extends Controller
     }
 
     public function kelas_mapel($kelas_id){
-        $mapel = Mapel::where('kelas_id',$kelas_id)->get();
+        $semester = Periode::where('status','aktif')->first();
+        $mapel = Mapel::where('kelas_id',$kelas_id)->where('periode_id',$semester->id)->get();
         return response()->json($mapel);
     }
 

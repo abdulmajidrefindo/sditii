@@ -42,6 +42,7 @@ class DoaController extends Controller
     public function store(Request $request)
     {
         //kelas_doa_tambah,tambah_doa_1,tambah_doa_2,tambah_doa_guru_1,tambah_doa_guru_2 etc
+        $semester = Periode::where('status', 'aktif')->first()->id;
 
         //validation
         $fields = [];
@@ -89,6 +90,7 @@ class DoaController extends Controller
             $doa->kelas_id = $kelas_id;
             $doa->nama_nilai = $value;
             $doa->guru_id = $new_doa_guru[$key];
+            $doa->periode_id = $semester;
             if ($doa->save()) {
                 $berhasil++;
                 $new_doa_id[] = $doa->id;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SiswaIlmanWaaRuuhan;
 use App\Models\IlmanWaaRuuhan;
 use App\Models\Kelas;
+use App\Models\Periode;
 use App\Models\PenilaianDeskripsi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +23,8 @@ class SiswaIlmanWaaRuuhanController extends Controller
     {
         $kelas_id = $request->kelas_id;
         $kelas = Kelas::all()->except(Kelas::all()->last()->id);
-        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->whereHas('siswa', function ($query) use ($kelas_id) {
+        $periode = Periode::where('status','aktif')->first();
+        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
         return view('/siswaIWR/indexSiswaIWR', 

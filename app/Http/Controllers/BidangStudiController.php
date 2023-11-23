@@ -43,7 +43,7 @@ class BidangStudiController extends Controller
     public function store(Request $request)
     {
         //kelas_bidang_studi_tambah,tambah_bidang_studi_1,tambah_bidang_studi_2,tambah_bidang_studi_guru_1,tambah_bidang_studi_guru_2 etc
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         //validation
         $fields = [];
         $fields[] = 'kelas_bidang_studi_tambah';
@@ -90,6 +90,7 @@ class BidangStudiController extends Controller
             $bidang_studi->kelas_id = $kelas_id;
             $bidang_studi->nama_mapel = $value;
             $bidang_studi->guru_id = $new_bidang_studi_guru[$key];
+            $bidang_studi->periode_id = $semester;
             if ($bidang_studi->save()) {
                 $berhasil++;
                 $new_bidang_studi_id[] = $bidang_studi->id;

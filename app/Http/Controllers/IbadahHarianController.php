@@ -42,7 +42,7 @@ class IbadahHarianController extends Controller
     public function store(Request $request)
     {
         //kelas_ibadah_harian_tambah,tambah_ibadah_harian_1,tambah_ibadah_harian_2,tambah_ibadah_harian_guru_1,tambah_ibadah_harian_guru_2 etc
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         //validation
         $fields = [];
         $fields[] = 'kelas_ibadah_harian_tambah';
@@ -89,6 +89,7 @@ class IbadahHarianController extends Controller
             $ibadah_harian->kelas_id = $kelas_id;
             $ibadah_harian->nama_kriteria = $value;
             $ibadah_harian->guru_id = $new_ibadah_harian_guru[$key];
+            $ibadah_harian->periode_id = $semester;
             if ($ibadah_harian->save()) {
                 $berhasil++;
                 $new_ibadah_harian_id[] = $ibadah_harian->id;

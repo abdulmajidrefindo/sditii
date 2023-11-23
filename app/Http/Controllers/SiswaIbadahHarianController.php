@@ -8,6 +8,7 @@ use App\Models\IbadahHarian1;
 use App\Models\PenilaianDeskripsi;
 use App\Models\Kelas;
 use App\Models\Guru;
+use App\Models\Periode;
 use App\Http\Requests\StoreSiswaIbadahHarianRequest;
 use App\Http\Requests\UpdateSiswaIbadahHarianRequest;
 
@@ -28,7 +29,8 @@ class SiswaIbadahHarianController extends Controller
         $kelas_id = $request->kelas_id;
         $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         $data_guru = Guru::all();
-        $siswa_ib = SiswaIbadahHarian::with('siswa','ibadah_harian_1','penilaian_deskripsi')->whereHas('siswa', function ($query) use ($kelas_id) {
+        $periode = Periode::where('status','aktif')->first();
+        $siswa_ib = SiswaIbadahHarian::with('siswa','ibadah_harian_1','penilaian_deskripsi')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
 
@@ -54,7 +56,8 @@ class SiswaIbadahHarianController extends Controller
     }
 
     public function kelas_ibadah_harian($kelas_id){
-        $data_ibadah_harian = IbadahHarian1::where('kelas_id', $kelas_id)->get();
+        $semester = Periode::where('status','aktif')->first();
+        $data_ibadah_harian = IbadahHarian1::where('kelas_id', $kelas_id)->where('periode_id', $semester->id)->get();
         return response()->json($data_ibadah_harian);
     }
 

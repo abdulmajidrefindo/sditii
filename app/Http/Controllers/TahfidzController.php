@@ -43,7 +43,7 @@ class TahfidzController extends Controller
     public function store(Request $request)
     {
         //kelas_tahfidz_tambah,tambah_tahfidz_1,tambah_tahfidz_2,tambah_tahfidz_guru_1,tambah_tahfidz_guru_2 etc
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         //validation
         $fields = [];
         $fields[] = 'kelas_tahfidz_tambah';
@@ -90,6 +90,7 @@ class TahfidzController extends Controller
             $tahfidz->kelas_id = $kelas_id;
             $tahfidz->nama_nilai = $value;
             $tahfidz->guru_id = $new_tahfidz_guru[$key];
+            $tahfidz->periode_id = $semester;
             if ($tahfidz->save()) {
                 $berhasil++;
                 $new_tahfidz_id[] = $tahfidz->id;

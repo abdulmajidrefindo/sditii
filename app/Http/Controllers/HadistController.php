@@ -42,7 +42,7 @@ class HadistController extends Controller
     public function store(Request $request)
     {
         //kelas_hadist_tambah,tambah_hadist_1,tambah_hadist_2,tambah_hadist_guru_1,tambah_hadist_guru_2 etc
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         //validation
         $fields = [];
         $fields[] = 'kelas_hadist_tambah';
@@ -89,6 +89,7 @@ class HadistController extends Controller
             $hadist->kelas_id = $kelas_id;
             $hadist->nama_nilai = $value;
             $hadist->guru_id = $new_hadist_guru[$key];
+            $hadist->periode_id = $semester;
             if ($hadist->save()) {
                 $berhasil++;
                 $new_hadist_id[] = $hadist->id;
