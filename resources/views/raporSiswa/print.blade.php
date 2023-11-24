@@ -9,6 +9,14 @@
     {{-- Bootstrap Reboot --}}
     <link href="{{ asset('/css/bootstrap-reboot.min.css') }}" rel="stylesheet">
     {{-- Bootstrap --}}
+
+    <style type="text/css" media="print">
+        @page {
+            size: auto;   /* auto is the initial value */
+            margin: 0;  /* this affects the margin in the printer settings */
+        }
+        </style>
+
 </head>
 @php
     date_default_timezone_set('Asia/Jakarta');
