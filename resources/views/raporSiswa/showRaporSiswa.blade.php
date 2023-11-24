@@ -159,8 +159,8 @@
                                 @foreach ($data_iwr as $n)
                                     <tr>
                                         <td>{{ $n->ilman_waa_ruuhan->pencapaian }}</td>
-                                        <td>{{ $n->ilman_waa_ruuhan->jilid }}</td>
-                                        <td>{{ $n->ilman_waa_ruuhan->halaman }}</td>
+                                        <td>{{ $n->jilid }}</td>
+                                        <td>{{ $n->halaman }}</td>
                                         <td>{{ $n->penilaian_deskripsi->deskripsi }} / {{ $n->penilaian_deskripsi->keterangan }}</td>
                                     </tr>
                                 @endforeach
