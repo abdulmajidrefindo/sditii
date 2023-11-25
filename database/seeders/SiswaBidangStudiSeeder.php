@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use App\Models\Siswa;
 use App\Models\Mapel;
 
+use App\Models\SubKelas;
+
 class SiswaBidangStudiSeeder extends Seeder
 {
     /**
@@ -41,7 +43,12 @@ class SiswaBidangStudiSeeder extends Seeder
         //     }
         // 
 
-        $siswaBidangStudi = Siswa::join('mapels', 'siswas.kelas_id', '=', 'mapels.kelas_id')
+        // $siswaBidangStudi = Siswa::join('mapels', 'siswas.kelas_id', '=', 'mapels.kelas_id')
+        //                     ->select('siswas.id as siswa_id', 'mapels.id as mapel_id')
+        //                     ->get();
+
+        $siswaBidangStudi = Siswa::join('sub_kelas', 'siswas.sub_kelas_id', '=', 'sub_kelas.id')
+                            ->join('mapels', 'sub_kelas.kelas_id', '=', 'mapels.kelas_id')
                             ->select('siswas.id as siswa_id', 'mapels.id as mapel_id')
                             ->get();
 

@@ -39,9 +39,14 @@ class SiswaHadistSeeder extends Seeder
         //     }
         // }
 
-        $siswaHadist = Siswa::join('hadists_1', 'siswas.kelas_id', '=', 'hadists_1.kelas_id')
-                            ->select('siswas.id as siswa_id', 'hadists_1.id as hadist_1_id')
-                            ->get();
+        // $siswaHadist = Siswa::join('hadists_1', 'siswas.sub_kelas.kelas_id', '=', 'hadists_1.kelas_id')
+        //                     ->select('siswas.id as siswa_id', 'hadists_1.id as hadist_1_id')
+        //                     ->get();
+
+        $siswaHadist = Siswa::join('sub_kelas', 'siswas.sub_kelas_id', '=', 'sub_kelas.id')
+                                ->join('hadists_1', 'sub_kelas.kelas_id', '=', 'hadists_1.kelas_id')
+                                ->select('siswas.id as siswa_id', 'hadists_1.id as hadist_1_id')
+                                ->get();
 
         foreach ($siswaHadist as $key => $value) {
             DB::table('siswa_hadists')->insert([

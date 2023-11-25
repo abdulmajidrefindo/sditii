@@ -35,9 +35,14 @@ class SiswaIbadahHarianSeeder extends Seeder
         //     }
         // }
 
-        $siswaIbadahHarian = Siswa::join('ibadah_harians_1', 'siswas.kelas_id', '=', 'ibadah_harians_1.kelas_id')
-                            ->select('siswas.id as siswa_id', 'ibadah_harians_1.id as ibadah_harian_1_id')
-                            ->get();
+        // $siswaIbadahHarian = Siswa::join('ibadah_harians_1', 'siswas.sub_kelas.kelas_id', '=', 'ibadah_harians_1.kelas_id')
+        //                     ->select('siswas.id as siswa_id', 'ibadah_harians_1.id as ibadah_harian_1_id')
+        //                     ->get();
+
+        $siswaIbadahHarian = Siswa::join('sub_kelas', 'siswas.sub_kelas_id', '=', 'sub_kelas.id')
+                                ->join('ibadah_harians_1', 'sub_kelas.kelas_id', '=', 'ibadah_harians_1.kelas_id')
+                                ->select('siswas.id as siswa_id', 'ibadah_harians_1.id as ibadah_harian_1_id')
+                                ->get();
 
         foreach ($siswaIbadahHarian as $key => $value) {
             DB::table('siswa_ibadah_harians')->insert([
