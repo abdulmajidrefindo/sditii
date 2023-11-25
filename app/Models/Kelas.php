@@ -17,10 +17,10 @@ class Kelas extends Model
     {
         return $this->belongsTo(RaporSiswa::class);
     }
-    public function guru()
-    {
-        return $this->belongsTo(Guru::class);
-    }
+    // public function guru()
+    // {
+    //     return $this->belongsTo(Guru::class);
+    // }
     public function siswa()
     {
         return $this->hasMany(Siswa::class);

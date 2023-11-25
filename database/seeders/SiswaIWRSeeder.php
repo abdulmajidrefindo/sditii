@@ -30,6 +30,7 @@ class SiswaIWRSeeder extends Seeder
                     'siswa_id' => $i,
                     'ilman_waa_ruuhan_id' => 1,
                     'penilaian_deskripsi_id' => PenilaianDeskripsi::all()->random()->id,
+                    'penilaian_huruf_angka_id' => PenilaianHurufAngka::all()->random()->id,
                     'profil_sekolah_id' => 1,
                     'periode_id' => 1,
                     'rapor_siswa_id' => 1,

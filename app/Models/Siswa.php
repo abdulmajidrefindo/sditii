@@ -18,13 +18,15 @@ class Siswa extends Model
         'orangtua_wali',
         'kelas_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'sub_kelas_id'
     ];
 
-    
-    public function kelas()
+
+    public function sub_kelas()
     {
-        return $this->belongsTo(Kelas::class);
+        // return with kelas data
+        return $this->belongsTo(SubKelas::class, 'sub_kelas_id', 'id')->with('kelas');
     }
 
     public function rapor_siswa()

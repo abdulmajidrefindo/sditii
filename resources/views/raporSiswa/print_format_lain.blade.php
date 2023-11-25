@@ -143,67 +143,15 @@
 
             <br />
 
-            <table width="100%" class="table-khs">
-                <thead>
-                    <tr>
-                        <tr colspan="9" style="text-align: left; border-top: none;"> <b>B. BIDANG STUDI</b></tr>
-                    </tr>
-                    <tr>
-                        <th rowspan="2">No</th>
-                        <th rowspan="2">Mata Pelajaran</th>
-                        <th colspan="2">Nilai Prestasi</th>
-                    </tr>
-                    <tr>
-                        <th>Angka</th>
-                        <th>Huruf</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($data_mapel as $n)
-                        <tr>
-                            <td class="text-center pr-4">{{ $loop->iteration }}</td>
-                            <td>{{ $n->mapel->nama_mapel }}</td>
-                            <td class="text-center">{{ $n->akhir->nilai_angka }}</td>
-                            <td class="text-center">{{ $n->akhir->nilai_huruf }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <br />
-
             <table style="border: none;" width="100%">
                 <tr>
                     {{-- Ibadah Harian, tahfidz Left Half --}}
                     <td width="50%" style="vertical-align: top;">
-                        <table class="table-khs" width="100%" style="border: none;">
-                            <thead>
-                                <tr>
-                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">C. IBADAH HARIAN</span></tr>
-                                </tr>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Kriteria</th>
-                                    <th>Nilai</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data_ih as $n)
-                                    <tr>
-                                        <td class="text-center pr-4">{{ $loop->iteration }}</td>
-                                        <td>{{ $n->ibadah_harian_1->nama_kriteria }}</td>
-                                        <td class="text-center">{{ $n->penilaian_deskripsi->deskripsi }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                        <br />
 
                         <table class="table-khs" style="border: none;" width="100%">
                             <thead>
                                 <tr>
-                                    <tr colspan="4" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">D. TAHFIDZ</span></tr>
+                                    <tr colspan="4" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">C. TAHFIDZ</span></tr>
                                 </tr>
                                 <tr>
                                     <th rowspan="2">No</th>
@@ -227,15 +175,39 @@
                             </tbody>
                         </table>
 
-
-
+                        <br />
                     </td>
                     {{-- Ibadah Hadist, Doa Right Half --}}
                     <td width="50%" style="vertical-align: top;">
+
+                        <table class="table-khs" width="100%" style="border: none;">
+                            <thead>
+                                <tr>
+                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">B. IBADAH HARIAN</span></tr>
+                                </tr>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kriteria</th>
+                                    <th>Nilai</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data_ih as $n)
+                                    <tr>
+                                        <td class="text-center pr-4">{{ $loop->iteration }}</td>
+                                        <td>{{ $n->ibadah_harian_1->nama_kriteria }}</td>
+                                        <td class="text-center">{{ $n->penilaian_deskripsi->deskripsi }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <br />
+
                         <table class="table-khs" style="border: none;" width="100%">
                             <thead>
                                 <tr>
-                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">E. HADIST</span></tr>
+                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">D. HADIST</span></tr>
                                     </th>
                                 </tr>
                                 <tr>
@@ -265,7 +237,7 @@
                         <table class="table-khs" style="border: none;" width="100%">
                             <thead>
                                 <tr>
-                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">F. DOA</span></tr>
+                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">E. DOA</span></tr>
                                 </tr>
                                 <tr>
                                     <th rowspan="2">No</th>

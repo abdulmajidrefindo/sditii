@@ -6,6 +6,8 @@ use App\Models\Doa1;
 use App\Models\SiswaDoa;
 use App\Models\Siswa;
 use App\Models\Periode;
+use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Http\Requests\StoreDoaRequest;
 use App\Http\Requests\UpdateDoaRequest;
 
@@ -98,8 +100,10 @@ class DoaController extends Controller
             $processed++;
         }
 
+        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
+
         // Add siswaDoa with nilai 0 for all siswa in kelas_id
-        $siswas = Siswa::where('kelas_id', $kelas_id)->get(); 
+        $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
         foreach ($siswas as $siswa) {
             foreach ($new_doa_id as $value) {
                 $siswaDoa = new SiswaDoa;

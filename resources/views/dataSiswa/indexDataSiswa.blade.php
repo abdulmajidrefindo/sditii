@@ -157,10 +157,10 @@
                                                                 </option>
                                                                 @foreach ($kelas as $item)
                                                                     {{-- except id 1 --}}
-                                                                    @if ($item->id != 1)
+                                                                    
                                                                         <option value="{{ $item->id }}">
                                                                             {{ $item->nama_kelas }}
-                                                                    @endif
+                                                                    
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -276,7 +276,7 @@
                         name: 'orangtua_wali'
                     },
                     {
-                        data: 'kelas.nama_kelas',
+                        data: 'nama_kelas',
                         name: 'kelas'
                     },
                     @if (Auth::user()->role->contains('role', 'Administrator'))
@@ -339,7 +339,7 @@
                             name: 'orangtua_wali'
                         },
                         {
-                            data: 'kelas.nama_kelas',
+                            data: 'nama_kelas',
                             name: 'kelas'
                         },
                         @if (Auth::user()->role->contains('role', 'Administrator'))

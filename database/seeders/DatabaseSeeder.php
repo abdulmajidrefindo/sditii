@@ -27,7 +27,8 @@ class DatabaseSeeder extends Seeder
             RaporSiswaSeeder::class,
             KelasSeeder::class
         ]);
-        Siswa::factory(60)->create();
+
+        Siswa::factory(160)->create();
         
         $this->call([
             RolesSeeder::class,

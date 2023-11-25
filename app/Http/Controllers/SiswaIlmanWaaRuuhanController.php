@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SiswaIlmanWaaRuuhan;
 use App\Models\IlmanWaaRuuhan;
 use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Models\Periode;
 use App\Models\PenilaianDeskripsi;
 use Illuminate\Http\Request;
@@ -21,16 +22,36 @@ class SiswaIlmanWaaRuuhanController extends Controller
      */
     public function index(Request $request)
     {
-        $kelas_id = $request->kelas_id;
         $kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        
+        $data_sub_kelas = SubKelas::with('kelas')->get();
+        foreach ($data_sub_kelas as $key => $value) {
+            $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
+        }
+
         $periode = Periode::where('status','aktif')->first();
-        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
-            $query->where('kelas_id', $kelas_id);
+
+        
+        $kelas_id = $request->kelas_id;
+        if ($kelas_id == null) {
+            $kelas_id = 1;
+        }
+
+        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
+            $query->where('sub_kelas_id', $kelas_id);
         })->get();
+
+        $kelas_aktif = null;
+        if ($kelas_id != null) {
+            $kelas_aktif = SubKelas::with('kelas')->where('id', $kelas_id)->first();
+        }
+
         return view('/siswaIWR/indexSiswaIWR', 
         [
             'siswa_i'=>$siswa_i,
-            'data_kelas'=>$kelas
+            'data_kelas'=>$kelas,
+            'data_sub_kelas'=>$data_sub_kelas,
+            'kelas_aktif'=>$kelas_aktif,
         ]);
     }
 
@@ -63,7 +84,7 @@ class SiswaIlmanWaaRuuhanController extends Controller
      */
     public function show(SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
     {
-        $siswaIlmanWaaRuuhan = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->where('id',$siswaIlmanWaaRuuhan->id)->first();
+        $siswaIlmanWaaRuuhan = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_huruf_angka')->where('id',$siswaIlmanWaaRuuhan->id)->first();
         $penilaian_deskripsi = PenilaianDeskripsi::all();
         return view('/siswaIWR/showSiswaIWR', 
         [
@@ -94,12 +115,12 @@ class SiswaIlmanWaaRuuhanController extends Controller
     {
         $messages = [];
         $validator_rules = [];
-        $nilai_fields = ['ilman_waa_ruuhan_jilid', 'ilman_waa_ruuhan_halaman'];
+        $nilai_fields = ['ilman_waa_ruuhan_jilid', 'ilman_waa_ruuhan_halaman', 'ilman_waa_ruuhan_nilai'];
     
         foreach ($nilai_fields as $field) {
             $messages[$field.'.integer'] = 'Nilai harus berupa angka.';
             $messages[$field.'.min'] = 'Nilai tidak boleh kurang dari 0.';
-            $messages[$field.'.max'] = 'Nilai tidak boleh lebih dari 10.';
+            $messages[$field.'.max'] = 'Nilai tidak boleh lebih dari 100.';
             $validator_rules[$field] = 'integer|min:0|max:100';
         }
     
@@ -113,7 +134,7 @@ class SiswaIlmanWaaRuuhanController extends Controller
         //$ilman_waa_ruuhan = IlmanWaaRuuhan::where('jilid',$request->ilman_waa_ruuhan_jilid)->where('halaman',$request->ilman_waa_ruuhan_halaman)->first();
         $siswaIlmanWaaRuuhan->jilid = $request->ilman_waa_ruuhan_jilid;
         $siswaIlmanWaaRuuhan->halaman = $request->ilman_waa_ruuhan_halaman;
-        $siswaIlmanWaaRuuhan->penilaian_deskripsi_id = $request->ilman_waa_ruuhan_nilai;
+        $siswaIlmanWaaRuuhan->penilaian_huruf_angka_id = $request->ilman_waa_ruuhan_nilai;
     
         if ($siswaIlmanWaaRuuhan->save()) {
             return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);

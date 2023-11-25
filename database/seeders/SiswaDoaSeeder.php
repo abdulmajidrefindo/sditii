@@ -35,9 +35,14 @@ class SiswaDoaSeeder extends Seeder
         //     }
         // }
 
-        $siswaDoa = Siswa::join('doas_1', 'siswas.kelas_id', '=', 'doas_1.kelas_id')
-                            ->select('siswas.id as siswa_id', 'doas_1.id as doa_1_id')
-                            ->get();
+        // $siswaDoa = Siswa::join('doas_1', 'siswas.sub_kelas.kelas_id', '=', 'doas_1.kelas_id')
+        //                     ->select('siswas.id as siswa_id', 'doas_1.id as doa_1_id')
+        //                     ->get();
+
+        $siswaDoa = Siswa::join('sub_kelas', 'siswas.sub_kelas_id', '=', 'sub_kelas.id')
+                                ->join('doas_1', 'sub_kelas.kelas_id', '=', 'doas_1.kelas_id')
+                                ->select('siswas.id as siswa_id', 'doas_1.id as doa_1_id')
+                                ->get();
 
         foreach ($siswaDoa as $key => $value) {
             DB::table('siswa_doas')->insert([

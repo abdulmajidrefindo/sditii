@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SiswaTahfidz;
 use App\Models\Tahfidz1;
 use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Models\Guru;
 use App\Models\Periode;
 use App\Http\Requests\StoreSiswaTahfidzRequest;
@@ -24,11 +25,20 @@ class SiswaTahfidzController extends Controller
     public function index(Request $request)
     {
         $kelas_id = $request->kelas_id;
+        $data_sub_kelas = SubKelas::with('kelas')->get();
+        foreach ($data_sub_kelas as $key => $value) {
+            $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
+        }
         $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         $data_guru = Guru::all();
         $periode = Periode::where('status','aktif')->first();
+
+        if ($kelas_id == null) {
+            $kelas_id = 1;
+        }
+
         $siswa_t = SiswaTahfidz::with('siswa','tahfidz_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
-            $query->where('kelas_id', $kelas_id);
+            $query->where('sub_kelas_id', $kelas_id);
         })->get();
 
         $modified_siswa_t = $siswa_t->groupBy(['siswa_id'])->map(function ($item) {
@@ -42,11 +52,17 @@ class SiswaTahfidzController extends Controller
             return $result;
         });
 
-        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        $kelas_aktif = null;
+        if ($kelas_id != null) {
+            $kelas_aktif = SubKelas::with('kelas')->where('id', $kelas_id)->first();
+        }
+
         return view('/siswaTahfidz/indexSiswaTahfidz', 
         [
             'siswa_t'=>$modified_siswa_t,
             'data_kelas'=>$data_kelas,
+            'kelas_aktif'=>$kelas_aktif,
+            'data_sub_kelas'=>$data_sub_kelas,
             'data_guru'=>$data_guru,
         ]);
     }

@@ -36,9 +36,14 @@ class SiswaTahfidzSeeder extends Seeder
         //     }
         // }
 
-        $siswaTahfidz = Siswa::join('tahfidzs_1', 'siswas.kelas_id', '=', 'tahfidzs_1.kelas_id')
-                            ->select('siswas.id as siswa_id', 'tahfidzs_1.id as tahfidz_1_id')
-                            ->get();
+        // $siswaTahfidz = Siswa::join('tahfidzs_1', 'siswas.sub_kelas.kelas_id', '=', 'tahfidzs_1.kelas_id')
+        //                     ->select('siswas.id as siswa_id', 'tahfidzs_1.id as tahfidz_1_id')
+        //                     ->get();
+
+        $siswaTahfidz = Siswa::join('sub_kelas', 'siswas.sub_kelas_id', '=', 'sub_kelas.id')
+                                ->join('tahfidzs_1', 'sub_kelas.kelas_id', '=', 'tahfidzs_1.kelas_id')
+                                ->select('siswas.id as siswa_id', 'tahfidzs_1.id as tahfidz_1_id')
+                                ->get();
 
         foreach ($siswaTahfidz as $key => $value) {
             DB::table('siswa_tahfidzs')->insert([

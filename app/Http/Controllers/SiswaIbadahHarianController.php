@@ -7,6 +7,7 @@ use App\Models\Siswa;
 use App\Models\IbadahHarian1;
 use App\Models\PenilaianDeskripsi;
 use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Models\Guru;
 use App\Models\Periode;
 use App\Http\Requests\StoreSiswaIbadahHarianRequest;
@@ -28,11 +29,23 @@ class SiswaIbadahHarianController extends Controller
     {
         $kelas_id = $request->kelas_id;
         $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        
+        $data_sub_kelas = SubKelas::with('kelas')->get();
+        foreach ($data_sub_kelas as $key => $value) {
+            $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
+        }
+
+        if ($kelas_id == null) {
+            $kelas_id = 1;
+        }
+
         $data_guru = Guru::all();
         $periode = Periode::where('status','aktif')->first();
         $siswa_ib = SiswaIbadahHarian::with('siswa','ibadah_harian_1','penilaian_deskripsi')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
-            $query->where('kelas_id', $kelas_id);
+            $query->where('sub_kelas_id', $kelas_id);
         })->get();
+
+        
 
         $modified_siswa_ib = $siswa_ib->groupBy(['siswa_id'])->map(function ($item) {
             $result = [];
@@ -45,10 +58,17 @@ class SiswaIbadahHarianController extends Controller
             return $result;
         });
 
+        $kelas_aktif = null;
+        if ($kelas_id != null) {
+            $kelas_aktif = SubKelas::with('kelas')->where('id', $kelas_id)->first();
+        }
+
         return view('/siswaIbadahHarian/indexSiswaIbadahHarian', 
         [
             'siswa_ib'=>$modified_siswa_ib,
             'data_kelas'=>$data_kelas,
+            'kelas_aktif'=>$kelas_aktif,
+            'data_sub_kelas'=>$data_sub_kelas,
             'data_guru'=>$data_guru,
         ]);
 

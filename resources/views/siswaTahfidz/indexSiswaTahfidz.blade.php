@@ -68,8 +68,9 @@
                                                 <div class="input-group">
                                                     <select class="custom-select" name="kelas_id" id="kelas_id">
                                                         <option selected disabled>-Kelas-</option>
-                                                        @foreach ($data_kelas as $k)
-                                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                                        @foreach ($data_sub_kelas as $k)
+                                                            <option value={{ $k->id }} @if($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
+                                                                {{ $k->nama_kelas }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append">
