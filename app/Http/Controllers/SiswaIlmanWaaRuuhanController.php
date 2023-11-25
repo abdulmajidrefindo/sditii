@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SiswaIlmanWaaRuuhan;
 use App\Models\IlmanWaaRuuhan;
 use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Models\Periode;
 use App\Models\PenilaianDeskripsi;
 use Illuminate\Http\Request;
@@ -21,16 +22,36 @@ class SiswaIlmanWaaRuuhanController extends Controller
      */
     public function index(Request $request)
     {
-        $kelas_id = $request->kelas_id;
         $kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        
+        $data_sub_kelas = SubKelas::with('kelas')->get();
+        foreach ($data_sub_kelas as $key => $value) {
+            $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
+        }
+
         $periode = Periode::where('status','aktif')->first();
+
+        
+        $kelas_id = $request->kelas_id;
+        if ($kelas_id == null) {
+            $kelas_id = 1;
+        }
+
         $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
-            $query->where('kelas_id', $kelas_id);
+            $query->where('sub_kelas_id', $kelas_id);
         })->get();
+
+        $kelas_aktif = null;
+        if ($kelas_id != null) {
+            $kelas_aktif = SubKelas::with('kelas')->where('id', $kelas_id)->first();
+        }
+
         return view('/siswaIWR/indexSiswaIWR', 
         [
             'siswa_i'=>$siswa_i,
-            'data_kelas'=>$kelas
+            'data_kelas'=>$kelas,
+            'data_sub_kelas'=>$data_sub_kelas,
+            'kelas_aktif'=>$kelas_aktif,
         ]);
     }
 

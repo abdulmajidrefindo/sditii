@@ -170,6 +170,7 @@ class SiswaController extends Controller
                     'periode_id' => Periode::where('status', 'aktif')->first()->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_huruf_angka_id' => 101,
+                    'penilaian_deskripsi_id' => 5,
                     'jilid' => 0,
                     'halaman' => 0,
                 ]);
