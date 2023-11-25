@@ -6,6 +6,8 @@ use App\Models\Tahfidz1;
 use App\Models\SiswaTahfidz;
 use App\Models\Siswa;
 use App\Models\Periode;
+use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Http\Requests\StoreTahfidzRequest;
 use App\Http\Requests\UpdateTahfidzRequest;
 
@@ -98,8 +100,10 @@ class TahfidzController extends Controller
             $processed++;
         }
 
+        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
+
         // Add siswaTahfidz with nilai 0 for all siswa in kelas_id
-        $siswas = Siswa::where('kelas_id', $kelas_id)->get(); 
+        $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
         foreach ($siswas as $siswa) {
             foreach ($new_tahfidz_id as $value) {
                 $siswaTahfidz = new SiswaTahfidz;
