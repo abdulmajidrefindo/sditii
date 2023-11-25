@@ -70,6 +70,11 @@ class SiswaBidangStudi extends Model
         return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_pas', 'id');
     }
 
+    public function akhir()
+    {
+        return $this->belongsTo(PenilaianHurufAngka::class, 'nilai_akhir', 'id');
+    }
+
     public function rapor_siswa()
     {
         return $this->belongsTo(RaporSiswa::class);

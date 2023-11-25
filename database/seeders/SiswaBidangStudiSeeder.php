@@ -64,6 +64,7 @@ class SiswaBidangStudiSeeder extends Seeder
                 'nilai_tugas_2' => mt_rand(1, 101),
                 'nilai_uts' => mt_rand(1, 101),
                 'nilai_pas' => mt_rand(1, 101),
+                'nilai_akhir' => mt_rand(1, 101),
                 'profil_sekolah_id' => 1,
                 'periode_id' => 1,
                 'rapor_siswa_id' => 1

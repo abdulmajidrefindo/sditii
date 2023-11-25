@@ -82,8 +82,8 @@
                 <td>{{ $s->ilman_waa_ruuhan->pencapaian }}</td>
                 <td>{{ $s->jilid }}</td>
                 <td>{{ $s->halaman }}</td>
-                <td>@if ($s->penilaian_deskripsi->deskripsi != 'K')
-                    {{ $s->penilaian_deskripsi->deskripsi }} / {{ $s->penilaian_deskripsi->keterangan }}
+                <td>@if ($s->penilaian_huruf_angka->nilai_angka !== null)
+                    {{ $s->penilaian_huruf_angka->nilai_angka }} / {{ $s->penilaian_huruf_angka->nilai_huruf }}
                     @else
                     <span class="badge badge-danger">Kosong</span>
                     @endif

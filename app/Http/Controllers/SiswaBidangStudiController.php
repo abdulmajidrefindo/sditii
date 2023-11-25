@@ -160,10 +160,13 @@ class SiswaBidangStudiController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
+
+        $nilai_akhir = ($request->nilai_uh_1 + $request->nilai_uh_2 + $request->nilai_uh_3 + $request->nilai_uh_4 + $request->nilai_tugas_1 + $request->nilai_tugas_2 + $request->nilai_uts + $request->nilai_pas)/8;
         foreach ($request->all() as $key => $value) {
             $value = $value == 0 ? 101 : $value;
             $siswaBidangStudi->$key = $value;
         }
+        $siswaBidangStudi->nilai_akhir = round($nilai_akhir, 0);
     
         if ($siswaBidangStudi->save()) {
             return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
@@ -182,9 +185,19 @@ class SiswaBidangStudiController extends Controller
      * @param  \App\Models\SiswaMapel  $siswaMapel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SiswaBidangStudi $siswaBidangStudi)
+    public function destroy($id)
     {
-        if ($siswaBidangStudi->delete()) {
+        $siswaBidangStudi = SiswaBidangStudi::find($id);
+        $siswaBidangStudi->nilai_uh_1 = 101;
+        $siswaBidangStudi->nilai_uh_2 = 101;
+        $siswaBidangStudi->nilai_uh_3 = 101;
+        $siswaBidangStudi->nilai_uh_4 = 101;
+        $siswaBidangStudi->nilai_tugas_1 = 101;
+        $siswaBidangStudi->nilai_tugas_2 = 101;
+        $siswaBidangStudi->nilai_uts = 101;
+        $siswaBidangStudi->nilai_pas = 101;
+        $siswaBidangStudi->nilai_akhir = 101;
+        if ($siswaBidangStudi->save()) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal dihapus!']);

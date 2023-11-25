@@ -34,7 +34,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header bg-gradient-green">
-                        <h3 class="card-title">Rapor Siswa @if (isset($kelas_aktif)) {{ $kelas_aktif->nama_kelas }} @endif </h3>
+                        <h3 class="card-title">Rapor Siswa @if (isset($kelas_aktif)) {{ $kelas_aktif->kelas->nama_kelas .  ' ' . $kelas_aktif->nama_sub_kelas }} @endif</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -74,8 +74,8 @@
                                 <tr>
                                     <td>{{ $s->nama_siswa }}</td>
                                     <td>{{ $s->nisn }}</td>
-                                    <td>{{ $s->kelas->nama_kelas }}</td>
-                                    <td>{{ $s->kelas->guru->nama_guru }}</td>
+                                    <td>{{ $s->sub_kelas->kelas->nama_kelas . ' ' . $s->sub_kelas->nama_sub_kelas }}</td>
+                                    <td>{{ $s->sub_kelas->guru->nama_guru }}</td>
                                     <td>
                                         <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail"
                                             class="btn btn-block btn-primary">Detail</a>

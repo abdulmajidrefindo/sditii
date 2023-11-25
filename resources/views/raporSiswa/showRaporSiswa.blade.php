@@ -61,7 +61,7 @@
                                     <label for="kelas_siswa" class="col-sm-4 col-form-label">Kelas</label>
                                     <div class="col-sm-8">
                                         <div class="form-control form-control-border" id="kelas_siswa">
-                                            {{ $data_siswa->kelas->nama_kelas }}
+                                            {{ $data_siswa->sub_kelas->kelas->nama_kelas . ' ' . $data_siswa->sub_kelas->nama_sub_kelas }}
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +161,7 @@
                                         <td>{{ $n->ilman_waa_ruuhan->pencapaian }}</td>
                                         <td>{{ $n->jilid }}</td>
                                         <td>{{ $n->halaman }}</td>
-                                        <td>{{ $n->penilaian_deskripsi->deskripsi }} / {{ $n->penilaian_deskripsi->keterangan }}</td>
+                                        <td>{{ $n->penilaian_huruf_angka->nilai_angka }} / {{ $n->penilaian_huruf_angka->nilai_huruf }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -197,8 +197,8 @@
                                     <tr>
                                         <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                         <td>{{ $n->mapel->nama_mapel }}</td>
-                                        <td class="text-center">{{ $n->nilai_akhir }}</td>
-                                        <td class="text-center">{{ $n->nilai_huruf }}</td>
+                                        <td class="text-center">{{ $n->akhir->nilai_angka }}</td>
+                                        <td class="text-center">{{ $n->akhir->nilai_huruf }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

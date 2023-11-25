@@ -37,7 +37,7 @@ class SiswaIlmanWaaRuuhanController extends Controller
             $kelas_id = 1;
         }
 
-        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
+        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('sub_kelas_id', $kelas_id);
         })->get();
 
