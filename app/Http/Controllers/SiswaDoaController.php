@@ -37,12 +37,12 @@ class SiswaDoaController extends Controller
         $periode = Periode::where('status','aktif')->first();
 
         if ($kelas_id == null) {
-            $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id', $periode->id)->get();
-        } else {
-            $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
-                $query->where('sub_kelas_id', $kelas_id);
-            })->get();
+            $kelas_id = 1;
         }
+
+        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
+            $query->where('sub_kelas_id', $kelas_id);
+        })->get();
 
         $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) {
             $result = [];

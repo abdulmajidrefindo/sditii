@@ -5,7 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Models\Kelas;
 use App\Models\SubKelas;
+
+use App\Models\Tahfidz1;
 use App\Models\SiswaTahfidz;
+use App\Models\Doa1;
+use App\Models\SiswaDoa;
+use App\Models\Hadist1;
+use App\Models\SiswaHadist;
+use App\Models\IbadahHarian1;
+use App\Models\SiswaIbadahHarian;
+use App\Models\IlmanWaaRuuhan;
+use App\Models\SiswaIlmanWaaRuuhan;
+use App\Models\Mapel;
+use App\Models\SiswaBidangStudi;
+use App\Models\Periode;
+
 use App\Http\Requests\StoreGuruRequest;
 use App\Http\Requests\UpdateGuruRequest;
 use Yajra\DataTables\DataTables;
@@ -82,6 +96,108 @@ class SiswaController extends Controller
             'orangtua_wali' => $request->get('orangtua_wali'),
             'sub_kelas_id' => $request->get('kelas')
         ]);
+
+        $kelas_id = SubKelas::find($request->get('kelas'))->kelas_id;
+
+        //Add siswa to SiswaTahfidz
+        $tahfidz = Tahfidz1::where('kelas_id', $kelas_id)->get();
+        if ($tahfidz != null) {
+            foreach ($tahfidz as $key => $value) {
+                SiswaTahfidz::create([
+                    'siswa_id' => $siswa->id,
+                    'tahfidz_1_id' => $value->id,
+                    'profil_sekolah_id' => 1,
+                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'rapor_siswa_id' => 1,
+                    'penilaian_huruf_angka_id' => 101,
+                ]);
+            }
+        }
+
+        //Add siswa to SiswaDoa
+        $doa = Doa1::where('kelas_id', $kelas_id)->get();
+        if ($doa != null) {
+            foreach ($doa as $key => $value) {
+                SiswaDoa::create([
+                    'siswa_id' => $siswa->id,
+                    'doa_1_id' => $value->id,
+                    'profil_sekolah_id' => 1,
+                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'rapor_siswa_id' => 1,
+                    'penilaian_huruf_angka_id' => 101,
+                ]);
+            }
+        }
+
+        //Add siswa to SiswaHadist
+        $hadist = Hadist1::where('kelas_id', $kelas_id)->get();
+        if ($hadist != null) {
+            foreach ($hadist as $key => $value) {
+                SiswaHadist::create([
+                    'siswa_id' => $siswa->id,
+                    'hadist_1_id' => $value->id,
+                    'profil_sekolah_id' => 1,
+                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'rapor_siswa_id' => 1,
+                    'penilaian_huruf_angka_id' => 101,
+                ]);
+            }
+        }
+
+        //Add siswa to SiswaIbadahHarian
+        $ibadah_harian = IbadahHarian1::where('kelas_id', $kelas_id)->get();
+        if ($ibadah_harian != null) {
+            foreach ($ibadah_harian as $key => $value) {
+                SiswaIbadahHarian::create([
+                    'siswa_id' => $siswa->id,
+                    'ibadah_harian_1_id' => $value->id,
+                    'profil_sekolah_id' => 1,
+                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'rapor_siswa_id' => 1,
+                    'penilaian_deskripsi_id' => 5,
+                ]);
+            }
+        }
+
+        //Add siswa to SiswaIlmanWaaRuuhan
+        $ilman_waa_ruuhan = IlmanWaaRuuhan::where('kelas_id', $kelas_id)->get();
+        if ($ilman_waa_ruuhan != null) {
+            foreach ($ilman_waa_ruuhan as $key => $value) {
+                SiswaIlmanWaaRuuhan::create([
+                    'siswa_id' => $siswa->id,
+                    'ilman_waa_ruuhan_id' => $value->id,
+                    'profil_sekolah_id' => 1,
+                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'rapor_siswa_id' => 1,
+                    'penilaian_huruf_angka_id' => 101,
+                    'jilid' => 0,
+                    'halaman' => 0,
+                ]);
+            }
+        }
+
+        //Add siswa to SiswaBidangStudi
+        $mapel = Mapel::where('kelas_id', $kelas_id)->get();
+        if ($mapel != null) {
+            foreach ($mapel as $key => $value) {
+                SiswaBidangStudi::create([
+                    'siswa_id' => $siswa->id,
+                    'mapel_id' => $value->id,
+                    'profil_sekolah_id' => 1,
+                    'nilai_uh_1' => 101,
+                    'nilai_uh_2' => 101,
+                    'nilai_uh_3' => 101,
+                    'nilai_uh_4' => 101,
+                    'nilai_tugas_1' => 101,
+                    'nilai_tugas_2' => 101,
+                    'nilai_uts' => 101,
+                    'nilai_uas' => 101,
+                    'nilai_akhir' => 101,
+                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'rapor_siswa_id' => 1,
+                ]);
+            }
+        }
 
         if ($siswa) {
             return response()->json(['success' => 'Data berhasil disimpan!']);
