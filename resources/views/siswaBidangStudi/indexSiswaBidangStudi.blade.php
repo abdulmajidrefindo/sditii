@@ -70,18 +70,25 @@
                                                 <label for="kelas">Pilih Kelas</label>
                                                 <select class="custom-select" name="kelas_id" id="kelas_id">
                                                     <option selected disabled>-Kelas-</option>
-                                                    @foreach ($data_kelas as $k)
-                                                        <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                                    @foreach ($data_sub_kelas as $k)
+                                                        <option value={{ $k->id }} @if($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
+                                                            {{ $k->nama_kelas }}</option>
                                                     @endforeach
                                                 </select>
 
                                                 <label for="mapel">Pilih Mata Pelajaran</label>
                                                 <div class="input-group">
                                                     <select class="custom-select" name="mapel_id" id="mapel_id">
+                                                        
+                                                    @if($kelas_aktif !== null)
+                                                        @foreach ($data_mapel as $m)
+                                                            <option value={{ $m->id }} @if($siswa_bs[0]->mapel->id == $m->id) selected @endif>
+                                                                {{ $m->nama_mapel }}</option>
+                                                        @endforeach
+                                                    @else
                                                         <option selected disabled>-Pilih Kelas Terlebih Dulu-</option>
-                                                        {{-- @foreach ($data_mapel as $m)
-                                                        <option value={{ $m->id }}>{{ $m->nama_mapel }}</option>
-                                                    @endforeach --}}
+                                                    @endif
+
                                                     </select>
                                                     <div class="input-group-append">
                                                         <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
@@ -96,7 +103,7 @@
                                             <tr>
                                                 <th>Nama</th>
                                                 <th>NISN</th>
-                                                <th>Kelas</th>
+                                                <th>Bidang</th>
                                                 <th>Ulangan Harian 1</th>
                                                 <th>Ulangan Harian 2</th>
                                                 <th>Ulangan Harian 3</th>
@@ -113,7 +120,7 @@
                                             <tr>
                                                 <td>{{ $n->siswa->nama_siswa }}</td>
                                                 <td>{{ $n->siswa->nisn }}</td>
-                                                <td>{{ $n->siswa->kelas->nama_kelas }}</td>
+                                                <td>{{ $n->mapel->nama_mapel }}</td>
                                                 <td>
                                                     @if ($n->uh_1->nilai_angka == null)
                                                         <span class="badge badge-danger">Kosong</span>
@@ -588,10 +595,9 @@
         $(document).ready(function() {
             $('select[name="kelas_id"]').on('change', function() {
                 let kelas_id = $(this).val();
-                console.log(kelas_id);
                 if (kelas_id) {
                     jQuery.ajax({
-                        url: '/bidangStudi/getKelasMapel/' + kelas_id,
+                        url: '/bidangStudi/getSubKelasMapel/' + kelas_id,
                         type: "GET",
                         dataType: "json",
                         success: function(data) {

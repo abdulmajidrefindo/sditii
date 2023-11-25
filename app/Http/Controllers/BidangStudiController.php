@@ -6,6 +6,8 @@ use App\Models\Mapel;
 use App\Models\SiswaBidangStudi;
 use App\Models\Siswa;
 use App\Models\Periode;
+use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Http\Requests\StoreBidangStudiRequest;
 use App\Http\Requests\UpdateBidangStudiRequest;
 
@@ -98,8 +100,10 @@ class BidangStudiController extends Controller
             $processed++;
         }
 
+        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
+
         // Add siswaDoa with nilai 0 for all siswa in kelas_id
-        $siswas = Siswa::where('kelas_id', $kelas_id)->get(); 
+        $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
         foreach ($siswas as $siswa) {
             foreach ($new_bidang_studi_id as $value) {
                 $siswaDoa = new SiswaBidangStudi;

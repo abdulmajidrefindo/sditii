@@ -191,7 +191,7 @@ class SiswaController extends Controller
                     'nilai_tugas_1' => 101,
                     'nilai_tugas_2' => 101,
                     'nilai_uts' => 101,
-                    'nilai_uas' => 101,
+                    'nilai_pas' => 101,
                     'nilai_akhir' => 101,
                     'periode_id' => Periode::where('status', 'aktif')->first()->id,
                     'rapor_siswa_id' => 1,

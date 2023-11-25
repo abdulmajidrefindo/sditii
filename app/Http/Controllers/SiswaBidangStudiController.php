@@ -10,6 +10,7 @@ use App\Models\SiswaBidangStudi;
 use App\Models\Mapel;
 use App\Models\Siswa;
 use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Models\Guru;
 use App\Models\Periode;
 
@@ -31,19 +32,37 @@ class SiswaBidangStudiController extends Controller
      */
     public function index(Request $request)
     {
-        $data_mapel=Mapel::all();
+        
         $data_kelas=Kelas::all()->except(Kelas::all()->last()->id);
+
+        $data_sub_kelas = SubKelas::with('kelas')->get();
+        foreach ($data_sub_kelas as $key => $value) {
+            $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
+        }
+
         $data_guru = Guru::all();
         $mapel=$request->mapel_id;
-        $kelas=$request->kelas_id;
+
+        $kelas_id=$request->kelas_id;
+
         $periode = Periode::where('status','aktif')->first();
-        $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas) {
-            $query->where('kelas_id', $kelas);
+        $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
+            $query->where('sub_kelas_id', $kelas_id);
         })->get();
+
+        $kelas_aktif = null;
+        $data_mapel= null;
+        if ($kelas_id != null) {
+            $kelas_aktif = SubKelas::with('kelas')->where('id', $kelas_id)->first();
+            $data_mapel=Mapel::where('kelas_id',$kelas_aktif->kelas->id)->where('periode_id',$periode->id)->get();
+        }
+
         return view('/siswaBidangStudi/indexSiswaBidangStudi', 
         [
             'data_mapel'=>$data_mapel,
             'data_kelas'=>$data_kelas,
+            'kelas_aktif'=>$kelas_aktif,
+            'data_sub_kelas'=>$data_sub_kelas,
             'siswa_bs'=>$siswa_bs,
             'data_guru'=>$data_guru,
         ]);
@@ -53,6 +72,13 @@ class SiswaBidangStudiController extends Controller
 
     public function kelas_mapel($kelas_id){
         $semester = Periode::where('status','aktif')->first();
+        $mapel = Mapel::where('kelas_id',$kelas_id)->where('periode_id',$semester->id)->get();
+        return response()->json($mapel);
+    }
+
+    public function sub_kelas_mapel($sub_kelas_id){
+        $semester = Periode::where('status','aktif')->first();
+        $kelas_id = SubKelas::with('kelas')->where('id', $sub_kelas_id)->first()->kelas_id;
         $mapel = Mapel::where('kelas_id',$kelas_id)->where('periode_id',$semester->id)->get();
         return response()->json($mapel);
     }
