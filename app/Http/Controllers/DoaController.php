@@ -100,10 +100,10 @@ class DoaController extends Controller
             $processed++;
         }
 
-        $sub_kelasid = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
+        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
 
         // Add siswaDoa with nilai 0 for all siswa in kelas_id
-        $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelasid)->get();
+        $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
         foreach ($siswas as $siswa) {
             foreach ($new_doa_id as $value) {
                 $siswaDoa = new SiswaDoa;

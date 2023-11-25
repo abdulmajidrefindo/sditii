@@ -36,6 +36,7 @@ class SiswaDoaController extends Controller
         $data_guru = Guru::all();
         $periode = Periode::where('status','aktif')->first();
 
+        
         if ($kelas_id == null) {
             $kelas_id = 1;
         }
@@ -55,7 +56,7 @@ class SiswaDoaController extends Controller
             return $result;
         });
 
-        $kelas_aktif = null;
+        
         if ($kelas_id != null) {
             $kelas_aktif = SubKelas::with('kelas')->where('id', $kelas_id)->first();
         }
