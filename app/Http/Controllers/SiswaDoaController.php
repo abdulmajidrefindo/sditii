@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SiswaDoa;
 use App\Models\Doa1;
 use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Models\Guru;
 use App\Models\Periode;
 use App\Http\Requests\StoreSiswaDoaRequest;
@@ -26,12 +27,23 @@ class SiswaDoaController extends Controller
     {
         // Main page
         $kelas_id = $request->kelas_id;
-        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        $data_sub_kelas = SubKelas::with('kelas')->get();
+        $data_kelas = Kelas::all()->except(7);
+        //add sub_kelas.nama_kelas by kelas.nama_kelas + sub_kelas.nama_sub_kelas
+        foreach ($data_sub_kelas as $key => $value) {
+            $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
+        }
         $data_guru = Guru::all();
         $periode = Periode::where('status','aktif')->first();
-        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
-            $query->where('kelas_id', $kelas_id);
-        })->get();
+
+        if ($kelas_id == null) {
+            $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id', $periode->id)->get();
+        } else {
+            $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
+                $query->where('sub_kelas_id', $kelas_id);
+            })->get();
+        }
+
         $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) {
             $result = [];
             $result['siswa_id'] = $item[0]->siswa_id;
@@ -43,11 +55,18 @@ class SiswaDoaController extends Controller
             return $result;
         });
 
+        $kelas_aktif = null;
+        if ($kelas_id != null) {
+            $kelas_aktif = SubKelas::with('kelas')->where('id', $kelas_id)->first();
+        }
+
         return view('/siswaDoa/indexSiswaDoa', 
         [
             'siswa_d'=>$modified_siswa_d,
             'data_kelas'=>$data_kelas,
+            'data_sub_kelas'=>$data_sub_kelas,
             'data_guru'=>$data_guru,
+            'kelas_aktif'=>$kelas_aktif,
         ]);
         
         //return response()->json($modified_siswa_d);
