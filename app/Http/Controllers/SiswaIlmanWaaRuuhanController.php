@@ -84,7 +84,7 @@ class SiswaIlmanWaaRuuhanController extends Controller
      */
     public function show(SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
     {
-        $siswaIlmanWaaRuuhan = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->where('id',$siswaIlmanWaaRuuhan->id)->first();
+        $siswaIlmanWaaRuuhan = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_huruf_angka')->where('id',$siswaIlmanWaaRuuhan->id)->first();
         $penilaian_deskripsi = PenilaianDeskripsi::all();
         return view('/siswaIWR/showSiswaIWR', 
         [
@@ -115,12 +115,12 @@ class SiswaIlmanWaaRuuhanController extends Controller
     {
         $messages = [];
         $validator_rules = [];
-        $nilai_fields = ['ilman_waa_ruuhan_jilid', 'ilman_waa_ruuhan_halaman'];
+        $nilai_fields = ['ilman_waa_ruuhan_jilid', 'ilman_waa_ruuhan_halaman', 'ilman_waa_ruuhan_nilai'];
     
         foreach ($nilai_fields as $field) {
             $messages[$field.'.integer'] = 'Nilai harus berupa angka.';
             $messages[$field.'.min'] = 'Nilai tidak boleh kurang dari 0.';
-            $messages[$field.'.max'] = 'Nilai tidak boleh lebih dari 10.';
+            $messages[$field.'.max'] = 'Nilai tidak boleh lebih dari 100.';
             $validator_rules[$field] = 'integer|min:0|max:100';
         }
     
@@ -134,7 +134,7 @@ class SiswaIlmanWaaRuuhanController extends Controller
         //$ilman_waa_ruuhan = IlmanWaaRuuhan::where('jilid',$request->ilman_waa_ruuhan_jilid)->where('halaman',$request->ilman_waa_ruuhan_halaman)->first();
         $siswaIlmanWaaRuuhan->jilid = $request->ilman_waa_ruuhan_jilid;
         $siswaIlmanWaaRuuhan->halaman = $request->ilman_waa_ruuhan_halaman;
-        $siswaIlmanWaaRuuhan->penilaian_deskripsi_id = $request->ilman_waa_ruuhan_nilai;
+        $siswaIlmanWaaRuuhan->penilaian_huruf_angka_id = $request->ilman_waa_ruuhan_nilai;
     
         if ($siswaIlmanWaaRuuhan->save()) {
             return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
