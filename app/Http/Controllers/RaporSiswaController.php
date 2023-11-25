@@ -33,15 +33,26 @@ class RaporSiswaController extends Controller
     //             'data_kelas'=>$data_kelas,
     //         ]);
     // }
-    public function index()
+    public function index(Request $request)
     {
         // $data_kelas = Kelas::all();
         // $kelas = $request->kelas_id;
-        $data_siswa = Siswa::all();
+        $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
+        $kelas=$request->kelas_id;
+        $kelas_aktif = null;
+        if($kelas){
+            $data_siswa = Siswa::all()->where('kelas_id', $kelas);
+            $kelas_aktif = Kelas::where('id', $kelas)->first();
+        }else{
+            $data_siswa = Siswa::all();
+        }
         return view('/raporSiswa/indexRaporSiswa', 
         [
             // 'data_kelas'=>$data_kelas,
             'data_siswa'=>$data_siswa,
+            'data_kelas'=>$data_kelas,
+            'kelas_aktif'=>$kelas_aktif
+
         ]);
     }
 

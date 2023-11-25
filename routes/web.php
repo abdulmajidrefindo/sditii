@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::get('/bidangStudi/getKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'kelas_mapel']);
     Route::get('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator');
+    Route::post('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator');
     Route::get('/raporSiswa/{id}/print', [RaporSiswaController::class, 'print'])->middleware('role:Wali Kelas,Administrator');
     Route::get('/raporSiswa/{id}/detail', [RaporSiswaController::class, 'detail'])->middleware('role:Wali Kelas,Administrator');
     // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
