@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Hadist1;
 use App\Models\SiswaHadist;
 use App\Models\Siswa;
+use App\Models\Periode;
 use App\Http\Requests\StoreHadistRequest;
 use App\Http\Requests\UpdateHadistRequest;
 
@@ -41,7 +42,7 @@ class HadistController extends Controller
     public function store(Request $request)
     {
         //kelas_hadist_tambah,tambah_hadist_1,tambah_hadist_2,tambah_hadist_guru_1,tambah_hadist_guru_2 etc
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         //validation
         $fields = [];
         $fields[] = 'kelas_hadist_tambah';
@@ -88,6 +89,7 @@ class HadistController extends Controller
             $hadist->kelas_id = $kelas_id;
             $hadist->nama_nilai = $value;
             $hadist->guru_id = $new_hadist_guru[$key];
+            $hadist->periode_id = $semester;
             if ($hadist->save()) {
                 $berhasil++;
                 $new_hadist_id[] = $hadist->id;
@@ -103,7 +105,7 @@ class HadistController extends Controller
                 $siswaHadist->siswa_id = $siswa->id;
                 $siswaHadist->hadist_1_id = $value;
                 $siswaHadist->profil_sekolah_id = 1;
-                $siswaHadist->periode_id = 1;
+                $siswaHadist->periode_id = Periode::where('status', 'aktif')->first()->id;
                 $siswaHadist->rapor_siswa_id = 1;
                 $siswaHadist->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 if ($siswaHadist->save()) {

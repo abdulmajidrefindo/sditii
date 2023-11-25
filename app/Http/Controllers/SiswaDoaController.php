@@ -6,6 +6,7 @@ use App\Models\SiswaDoa;
 use App\Models\Doa1;
 use App\Models\Kelas;
 use App\Models\Guru;
+use App\Models\Periode;
 use App\Http\Requests\StoreSiswaDoaRequest;
 use App\Http\Requests\UpdateSiwaDoaRequest;
 
@@ -27,7 +28,8 @@ class SiswaDoaController extends Controller
         $kelas_id = $request->kelas_id;
         $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         $data_guru = Guru::all();
-        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->whereHas('siswa', function ($query) use ($kelas_id) {
+        $periode = Periode::where('status','aktif')->first();
+        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
         $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) {
@@ -52,7 +54,8 @@ class SiswaDoaController extends Controller
     }
 
     public function kelas_doa($kelas_id){
-        $data_doa = Doa1::where('kelas_id', $kelas_id)->get();
+        $semester = Periode::where('status','aktif')->first();
+        $data_doa = Doa1::where('kelas_id', $kelas_id)->where('periode_id', $semester->id)->get();
         return response()->json($data_doa);
     }
 

@@ -6,6 +6,7 @@ use App\Models\SiswaHadist;
 use App\Models\Hadist1;
 use App\Models\Kelas;
 use App\Models\Guru;
+use App\Models\Periode;
 use App\Http\Requests\StoreSiswaHadistRequest;
 use App\Http\Requests\UpdateSiswaHadistRequest;
 
@@ -24,7 +25,8 @@ class SiswaHadistController extends Controller
         $kelas_id = $request->kelas_id;
         $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         $data_guru = Guru::all();
-        $siswa_h = SiswaHadist::with('siswa','hadist_1','penilaian_huruf_angka')->whereHas('siswa', function ($query) use ($kelas_id) {
+        $periode = Periode::where('status','aktif')->first();
+        $siswa_h = SiswaHadist::with('siswa','hadist_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
         $modified_siswa_h = $siswa_h->groupBy(['siswa_id'])->map(function ($item) {
@@ -52,7 +54,8 @@ class SiswaHadistController extends Controller
     }
 
     public function kelas_hadist($kelas_id){
-        $data_hadist = Hadist1::where('kelas_id', $kelas_id)->get();
+        $semester = Periode::where('status','aktif')->first();
+        $data_hadist = Hadist1::where('kelas_id', $kelas_id)->where('periode_id', $semester->id)->get();
         return response()->json($data_hadist);
     }
 

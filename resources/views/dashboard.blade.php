@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Data Siswa')
+@section('title', 'Dashboard')
 
 @section('content_header')
 
@@ -32,7 +32,7 @@
     <div class="container-fluid">
 
         <div class="row">
-            <div class="callout callout-danger col-12">
+            <div class="callout callout-success col-12">
                 <h5><b>SDIT Irsyadul 'Ibad 2</b></h5>
                 <p> Tahun Pelajaran {{ $periode->tahun_ajaran }} Semester @if ($periode->semester == 1)
                         Ganjil @else Genap @endif</p>
@@ -95,9 +95,9 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="card card-default">
-                    <div class="card-header">
+                    <div class="card-header bg-gradient-green">
                         <h3 class="card-title">
                             <i class="fas fa-bullhorn"></i>
                             Pengumuman
@@ -111,7 +111,7 @@
 
                                     @foreach ($pengumuman as $tanggal => $items)
                                         <div class="time-label">
-                                            <span class="bg-red">{{ $tanggal }}</span>
+                                            <span class="bg-success">{{ $tanggal }}</span>
                                         </div>
                                         @foreach ($items as $item)
                                             <div>
@@ -141,5 +141,69 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="card card-default">
+                    <div class="card-header bg-gradient-green">
+                        <h3 class="card-title">
+                            <i class="fas fa-building"></i>
+                            Profil Sekolah
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Nama Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-control form-control-border">
+                                            {{ $profil->nama_sekolah }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Alamat Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-control form-control-border">
+                                            {{ $profil->alamat_sekolah }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Email Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-control form-control-border">
+                                            {{ $profil->email_sekolah }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Kontak Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-control form-control-border">
+                                            {{ $profil->kontak_sekolah }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Website Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-control form-control-border">
+                                            {{ $profil->website_sekolah }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     @stop

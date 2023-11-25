@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\SiswaIlmanWaaRuuhan;
 use App\Models\IlmanWaaRuuhan;
 use App\Models\Kelas;
+use App\Models\Periode;
+use App\Models\PenilaianDeskripsi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreSiswaIlmanWaaRuuhanRequest;
@@ -21,7 +23,8 @@ class SiswaIlmanWaaRuuhanController extends Controller
     {
         $kelas_id = $request->kelas_id;
         $kelas = Kelas::all()->except(Kelas::all()->last()->id);
-        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->whereHas('siswa', function ($query) use ($kelas_id) {
+        $periode = Periode::where('status','aktif')->first();
+        $siswa_i = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('kelas_id', $kelas_id);
         })->get();
         return view('/siswaIWR/indexSiswaIWR', 
@@ -61,9 +64,11 @@ class SiswaIlmanWaaRuuhanController extends Controller
     public function show(SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
     {
         $siswaIlmanWaaRuuhan = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_deskripsi')->where('id',$siswaIlmanWaaRuuhan->id)->first();
+        $penilaian_deskripsi = PenilaianDeskripsi::all();
         return view('/siswaIWR/showSiswaIWR', 
         [
-            'siswaIlmanWaaRuuhan'=>$siswaIlmanWaaRuuhan
+            'siswaIlmanWaaRuuhan'=>$siswaIlmanWaaRuuhan,
+            'penilaian_deskripsi'=>$penilaian_deskripsi
         ]);
     }
 
@@ -95,7 +100,7 @@ class SiswaIlmanWaaRuuhanController extends Controller
             $messages[$field.'.integer'] = 'Nilai harus berupa angka.';
             $messages[$field.'.min'] = 'Nilai tidak boleh kurang dari 0.';
             $messages[$field.'.max'] = 'Nilai tidak boleh lebih dari 10.';
-            $validator_rules[$field] = 'integer|min:0|max:10';
+            $validator_rules[$field] = 'integer|min:0|max:100';
         }
     
         $validator = Validator::make($request->all(), $validator_rules, $messages);
@@ -105,14 +110,18 @@ class SiswaIlmanWaaRuuhanController extends Controller
         }
 
         //where jilid and halaman
-        $ilman_waa_ruuhan = IlmanWaaRuuhan::where('jilid',$request->ilman_waa_ruuhan_jilid)->where('halaman',$request->ilman_waa_ruuhan_halaman)->first();
-        $siswaIlmanWaaRuuhan->ilman_waa_ruuhan_id = $ilman_waa_ruuhan->id;
+        //$ilman_waa_ruuhan = IlmanWaaRuuhan::where('jilid',$request->ilman_waa_ruuhan_jilid)->where('halaman',$request->ilman_waa_ruuhan_halaman)->first();
+        $siswaIlmanWaaRuuhan->jilid = $request->ilman_waa_ruuhan_jilid;
+        $siswaIlmanWaaRuuhan->halaman = $request->ilman_waa_ruuhan_halaman;
+        $siswaIlmanWaaRuuhan->penilaian_deskripsi_id = $request->ilman_waa_ruuhan_nilai;
     
         if ($siswaIlmanWaaRuuhan->save()) {
             return response()->json(['success' => 'Data berhasil diupdate!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal diupdate!']);
         }
+
+        //return response()->json($request->all());
     }
 
     /**
@@ -123,7 +132,13 @@ class SiswaIlmanWaaRuuhanController extends Controller
      */
     public function destroy(SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
     {
-        if ($siswaIlmanWaaRuuhan->delete()) {
+
+        $siswaIlmanWaaRuuhan = SiswaIlmanWaaRuuhan::find($siswaIlmanWaaRuuhan->id);
+        $siswaIlmanWaaRuuhan->jilid = '0';
+        $siswaIlmanWaaRuuhan->halaman = '0';
+        $siswaIlmanWaaRuuhan->penilaian_deskripsi_id = 5;
+
+        if ($siswaIlmanWaaRuuhan->save()) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
         } else {
             return response()->json(['error' => 'Data gagal dihapus!']);

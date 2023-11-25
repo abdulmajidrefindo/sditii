@@ -64,7 +64,7 @@
                                     </label>
                                     <div class="input-group">
                                         <input id="ilman_waa_ruuhan_jilid" name="ilman_waa_ruuhan_jilid"
-                                            value="{{ old('ilman_waa_ruuhan_jilid', $siswaIlmanWaaRuuhan->ilman_waa_ruuhan->jilid) }}"
+                                            value="{{ old('ilman_waa_ruuhan_jilid', $siswaIlmanWaaRuuhan->jilid) }}"
                                             class="form-control @error('ilman_waa_ruuhan_jilid') is-invalid @enderror" disabled>
                                         @error('ilman_waa_ruuhan_jilid')
                                             <span class="invalid-feedback" role="alert">
@@ -80,7 +80,7 @@
                                     </label>
                                     <div class="input-group">
                                         <input id="ilman_waa_ruuhan_halaman" name="ilman_waa_ruuhan_halaman"
-                                            value="{{ old('ilman_waa_ruuhan_halaman', $siswaIlmanWaaRuuhan->ilman_waa_ruuhan->halaman) }}"
+                                            value="{{ old('ilman_waa_ruuhan_halaman', $siswaIlmanWaaRuuhan->halaman) }}"
                                             class="form-control @error('ilman_waa_ruuhan_halaman') is-invalid @enderror" disabled>
                                         @error('ilman_waa_ruuhan_halaman')
                                             <span class="invalid-feedback" role="alert">
@@ -95,9 +95,15 @@
                                         Nilai
                                     </label>
                                     <div class="input-group">
-                                        <input id="ilman_waa_ruuhan_nilai" name="ilman_waa_ruuhan_nilai"
-                                            value="{{ old('ilman_waa_ruuhan_nilai', $siswaIlmanWaaRuuhan->ilman_waa_ruuhan_id) }}"
+                                        <select id="ilman_waa_ruuhan_nilai" name="ilman_waa_ruuhan_nilai"
                                             class="form-control @error('ilman_waa_ruuhan_nilai') is-invalid @enderror" disabled>
+                                            @foreach ($penilaian_deskripsi as $deskripsi)
+                                                <option value="{{ $deskripsi->id }}"
+                                                    {{ old('ilman_waa_ruuhan_nilai', $siswaIlmanWaaRuuhan->penilaian_deskripsi->keterangan) == $deskripsi->keterangan ? 'selected' : '' }}>
+                                                    {{ $deskripsi->keterangan }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                         @error('ilman_waa_ruuhan_nilai')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -141,8 +147,10 @@
                 $('#simpan').hide();
                 $('#batal').hide();
                 $('input').prop('disabled', true);
+                $('select').prop('disabled', true);
                 var ilman_waa_ruuhan_jilid = $('#ilman_waa_ruuhan_jilid').val();
                 var ilman_waa_ruuhan_halaman = $('#ilman_waa_ruuhan_halaman').val();
+                var ilman_waa_ruuhan_nilai = $('#ilman_waa_ruuhan_nilai').val();
 
                 $.ajax({
                     url: "{{ route('siswaIlmanWaaRuuhan.update', $siswaIlmanWaaRuuhan->id) }}",
@@ -150,6 +158,7 @@
                     data: {
                         ilman_waa_ruuhan_jilid: ilman_waa_ruuhan_jilid,
                         ilman_waa_ruuhan_halaman: ilman_waa_ruuhan_halaman,
+                        ilman_waa_ruuhan_nilai: ilman_waa_ruuhan_nilai,
                     },
                     success: function(data) {
                         Swal.fire({
@@ -202,6 +211,7 @@
                 $('#simpan').show();
                 $('#batal').show();
                 $('input:not(#nisn, #nama_siswa, #ilman_waa_ruuhan_nilai)').prop('disabled', false);
+                $('select').prop('disabled', false);
 
             });
 
@@ -210,6 +220,7 @@
                 $('#simpan').hide();
                 $('#batal').hide();
                 $('input').prop('disabled', true);
+                $('select').prop('disabled', true);
             });
         });
     </script>

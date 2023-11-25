@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tahfidz1;
 use App\Models\SiswaTahfidz;
 use App\Models\Siswa;
+use App\Models\Periode;
 use App\Http\Requests\StoreTahfidzRequest;
 use App\Http\Requests\UpdateTahfidzRequest;
 
@@ -42,7 +43,7 @@ class TahfidzController extends Controller
     public function store(Request $request)
     {
         //kelas_tahfidz_tambah,tambah_tahfidz_1,tambah_tahfidz_2,tambah_tahfidz_guru_1,tambah_tahfidz_guru_2 etc
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         //validation
         $fields = [];
         $fields[] = 'kelas_tahfidz_tambah';
@@ -89,6 +90,7 @@ class TahfidzController extends Controller
             $tahfidz->kelas_id = $kelas_id;
             $tahfidz->nama_nilai = $value;
             $tahfidz->guru_id = $new_tahfidz_guru[$key];
+            $tahfidz->periode_id = $semester;
             if ($tahfidz->save()) {
                 $berhasil++;
                 $new_tahfidz_id[] = $tahfidz->id;
@@ -104,7 +106,7 @@ class TahfidzController extends Controller
                 $siswaTahfidz->siswa_id = $siswa->id;
                 $siswaTahfidz->tahfidz_1_id = $value;
                 $siswaTahfidz->profil_sekolah_id = 1;
-                $siswaTahfidz->periode_id = 1;
+                $siswaTahfidz->periode_id = Periode::where('status', 'aktif')->first()->id;
                 $siswaTahfidz->rapor_siswa_id = 1;
                 $siswaTahfidz->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 if ($siswaTahfidz->save()) {

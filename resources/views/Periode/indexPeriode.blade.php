@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-secondary card-tabs">
-                    <div class="card-header p-0 pt-0">
+                    <div class="card-header p-0 pt-0 bg-gradient-green">
                         <ul class="nav nav-tabs" id="periodeTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-periode-table" data-toggle="tab"
@@ -61,6 +61,7 @@
                                             <th>No</th>
                                             <th>Tahun</th>
                                             <th>Semester</th>
+                                            <th>Status</th>
                                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                                 <th>Aksi</th>
                                             @endif
@@ -117,7 +118,7 @@
 
                                                         {{-- Simpan --}}
                                                         <x-adminlte-button type="submit"
-                                                            class="btn bg-purple col-12 simpan" icon="fas fa fa-fw fa-save"
+                                                            class="btn bg-gradient-green col-12 simpan" icon="fas fa fa-fw fa-save"
                                                             label="Simpan Data" />
                                                     </form>
                                                 </div>
@@ -214,6 +215,12 @@
                     {
                         data: 'semester',
                         name: 'semester'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        sClass: 'text-center',
+                        width: '10%'
                     },
                     @if (Auth::user()->role->contains('role', 'Administrator'))
                         {

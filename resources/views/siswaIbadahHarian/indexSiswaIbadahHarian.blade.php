@@ -33,24 +33,24 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-secondary card-tabs">
-                    <div class="card-header p-0 pt-0">
+                    <div class="card-header p-0 pt-0 bg-gradient-green">
                         <ul class="nav nav-tabs" id="ibadahHarianTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-ibadah-harian-table" data-toggle="tab"
                                     href="#content-tab-ibadah-harian-table" role="tab" aria-controls="content-tab-ibadah-harian-table"
-                                    aria-selected="true">Tabel IbadahHarian</a>
+                                    aria-selected="true">Tabel Ibadah Harian</a>
                             </li>
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tab-ibadah-harian-add" data-toggle="tab"
                                         href="#content-tab-ibadah-harian-add" role="tab" aria-controls="content-tab-ibadah-harian-add"
-                                        aria-selected="false">Atur Penilaian IbadahHarian</a>
+                                        aria-selected="false">Atur Penilaian Ibadah Harian</a>
                                 </li>
 
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-ibadah-harian-add" data-toggle="tab"
                                         href="#content-tambah-ibadah-harian-add" role="tab"
-                                        aria-controls="content-tambah-ibadah-harian-add" aria-selected="false">Tambah IbadahHarian</a>
+                                        aria-controls="content-tambah-ibadah-harian-add" aria-selected="false">Tambah Ibadah Harian</a>
                                 </li>
                             @endif
                         </ul>
@@ -73,7 +73,7 @@
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append">
-                                                        <x-adminlte-button type="submit" class="btn bg-purple d-inline"
+                                                        <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
                                                             icon="fas fa fa-fw fa-save" label="Pilih" />
                                                     </div>
                                                 </div>
@@ -174,7 +174,7 @@
                                                     <div id="tambah_ibadah_harian_button">
                                                         {{-- <x-adminlte-button type="button" id="tambah_ibadah_harian" class="btn-outline-secondary col-12 tambah_ibadah_harian" icon="fas fa fa-fw fa-plus" label="Tambah IbadahHarian"/> --}}
                                                         <x-adminlte-button type="submit"
-                                                            class="btn bg-purple col-12 simpan"
+                                                            class="btn bg-gradient-green col-12 simpan"
                                                             icon="fas fa fa-fw fa-save" label="Simpan Data" />
                                                         <br>
                                                     </div>
@@ -279,7 +279,7 @@
                                                 </div>
 
                                                 <hr>
-                                                <x-adminlte-button type="submit" class="btn bg-purple col-12 simpan"
+                                                <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan"
                                                     icon="fas fa fa-fw fa-save" label="Simpan Data" />
 
                                             </div>

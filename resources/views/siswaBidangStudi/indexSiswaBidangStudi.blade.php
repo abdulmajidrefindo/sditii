@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-secondary card-tabs">
-                    <div class="card-header p-0 pt-0">
+                    <div class="card-header p-0 pt-0 bg-gradient-green">
                         <ul class="nav nav-tabs" id="bidangStudiTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-bidang-studi-table" data-toggle="tab"
@@ -84,7 +84,7 @@
                                                     @endforeach --}}
                                                     </select>
                                                     <div class="input-group-append">
-                                                        <x-adminlte-button type="submit" class="btn bg-purple d-inline"
+                                                        <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
                                                             icon="fas fa fa-fw fa-save" label="Pilih" />
                                                     </div>
                                                 </div>
@@ -231,7 +231,7 @@
                                                         <div id="tambah_bidang_studi_button">
                                                             {{-- <x-adminlte-button type="button" id="tambah_bidang_studi" class="btn-outline-secondary col-12 tambah_bidang_studi" icon="fas fa fa-fw fa-plus" label="Tambah Doa"/> --}}
                                                             <x-adminlte-button type="submit"
-                                                                class="btn bg-purple col-12 simpan"
+                                                                class="btn bg-gradient-green col-12 simpan"
                                                                 icon="fas fa fa-fw fa-save" label="Simpan Data" />
                                                             <br>
                                                         </div>
@@ -328,7 +328,7 @@
                                                     {{-- Simpan --}}
                                                 </div>
                                                 <hr>
-                                                <x-adminlte-button type="submit" class="btn bg-purple col-12 simpan"
+                                                <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan"
                                                     icon="fas fa fa-fw fa-save" label="Simpan Data" />
                                             </div>
                                         </div>

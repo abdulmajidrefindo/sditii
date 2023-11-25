@@ -22,6 +22,7 @@ class DashboardController extends Controller
         $siswa = Siswa::count();
         $kelas = Kelas::count();
         $pengumuman = Pengumuman::all();
+        $profil = ProfilSekolah::first();
 
         //Group pengumuman by date sort by date
         $pengumuman = $pengumuman->groupBy(function ($item) {
@@ -44,6 +45,6 @@ class DashboardController extends Controller
         //     'pengumuman' => $pengumuman
         // ]);
 
-        return view('dashboard', compact('user', 'guru', 'siswa', 'kelas', 'periode', 'pengumuman'));
+        return view('dashboard', compact('user', 'guru', 'siswa', 'kelas', 'periode', 'pengumuman', 'profil'));
     }
 }

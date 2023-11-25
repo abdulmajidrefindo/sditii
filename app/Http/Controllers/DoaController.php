@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Doa1;
 use App\Models\SiswaDoa;
 use App\Models\Siswa;
+use App\Models\Periode;
 use App\Http\Requests\StoreDoaRequest;
 use App\Http\Requests\UpdateDoaRequest;
 
@@ -41,6 +42,7 @@ class DoaController extends Controller
     public function store(Request $request)
     {
         //kelas_doa_tambah,tambah_doa_1,tambah_doa_2,tambah_doa_guru_1,tambah_doa_guru_2 etc
+        $semester = Periode::where('status', 'aktif')->first()->id;
 
         //validation
         $fields = [];
@@ -88,6 +90,7 @@ class DoaController extends Controller
             $doa->kelas_id = $kelas_id;
             $doa->nama_nilai = $value;
             $doa->guru_id = $new_doa_guru[$key];
+            $doa->periode_id = $semester;
             if ($doa->save()) {
                 $berhasil++;
                 $new_doa_id[] = $doa->id;
@@ -103,7 +106,7 @@ class DoaController extends Controller
                 $siswaDoa->siswa_id = $siswa->id;
                 $siswaDoa->doa_1_id = $value;
                 $siswaDoa->profil_sekolah_id = 1;
-                $siswaDoa->periode_id = 1;
+                $siswaDoa->periode_id = Periode::where('status', 'aktif')->first()->id;
                 $siswaDoa->rapor_siswa_id = 1;
                 $siswaDoa->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 if ($siswaDoa->save()) {

@@ -77,7 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/raporSiswa/{id}/detail', [RaporSiswaController::class, 'detail'])->middleware('role:Wali Kelas,Administrator');
     // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
     
-    Route::resource('/dataProfilSekolah', ProfilSekolahController::class);
+    Route::resource('/profilSekolah', ProfilSekolahController::class);
     Route::resource('/dataPengumuman', PengumumanController::class);
     
     

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Mapel;
 use App\Models\SiswaBidangStudi;
 use App\Models\Siswa;
+use App\Models\Periode;
 use App\Http\Requests\StoreBidangStudiRequest;
 use App\Http\Requests\UpdateBidangStudiRequest;
+
 
 use Illuminate\Http\Request;
 
@@ -41,7 +43,7 @@ class BidangStudiController extends Controller
     public function store(Request $request)
     {
         //kelas_bidang_studi_tambah,tambah_bidang_studi_1,tambah_bidang_studi_2,tambah_bidang_studi_guru_1,tambah_bidang_studi_guru_2 etc
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         //validation
         $fields = [];
         $fields[] = 'kelas_bidang_studi_tambah';
@@ -88,6 +90,7 @@ class BidangStudiController extends Controller
             $bidang_studi->kelas_id = $kelas_id;
             $bidang_studi->nama_mapel = $value;
             $bidang_studi->guru_id = $new_bidang_studi_guru[$key];
+            $bidang_studi->periode_id = $semester;
             if ($bidang_studi->save()) {
                 $berhasil++;
                 $new_bidang_studi_id[] = $bidang_studi->id;
@@ -103,7 +106,7 @@ class BidangStudiController extends Controller
                 $siswaDoa->siswa_id = $siswa->id;
                 $siswaDoa->mapel_id = $value;
                 $siswaDoa->profil_sekolah_id = 1;
-                $siswaDoa->periode_id = 1;
+                $siswaDoa->periode_id = Periode::where('status', 'aktif')->first()->id;
                 $siswaDoa->rapor_siswa_id = 1;
                 $siswaDoa->nilai_uh_1 = 101;
                 $siswaDoa->nilai_uh_2 = 101;

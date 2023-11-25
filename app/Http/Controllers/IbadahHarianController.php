@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\IbadahHarian1;
 use App\Models\SiswaIbadahHarian;
 use App\Models\Siswa;
+use App\Models\Periode;
 use App\Http\Requests\StoreIbadahHarianRequest;
 use App\Http\Requests\UpdateIbadahHarianRequest;
 
@@ -41,7 +42,7 @@ class IbadahHarianController extends Controller
     public function store(Request $request)
     {
         //kelas_ibadah_harian_tambah,tambah_ibadah_harian_1,tambah_ibadah_harian_2,tambah_ibadah_harian_guru_1,tambah_ibadah_harian_guru_2 etc
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         //validation
         $fields = [];
         $fields[] = 'kelas_ibadah_harian_tambah';
@@ -88,6 +89,7 @@ class IbadahHarianController extends Controller
             $ibadah_harian->kelas_id = $kelas_id;
             $ibadah_harian->nama_kriteria = $value;
             $ibadah_harian->guru_id = $new_ibadah_harian_guru[$key];
+            $ibadah_harian->periode_id = $semester;
             if ($ibadah_harian->save()) {
                 $berhasil++;
                 $new_ibadah_harian_id[] = $ibadah_harian->id;
@@ -103,7 +105,7 @@ class IbadahHarianController extends Controller
                 $siswaTahfidz->siswa_id = $siswa->id;
                 $siswaTahfidz->ibadah_harian_1_id = $value;
                 $siswaTahfidz->profil_sekolah_id = 1;
-                $siswaTahfidz->periode_id = 1;
+                $siswaTahfidz->periode_id = Periode::where('status', 'aktif')->first()->id;
                 $siswaTahfidz->rapor_siswa_id = 1;
                 $siswaTahfidz->penilaian_deskripsi_id = 5;
                 if ($siswaTahfidz->save()) {

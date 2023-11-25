@@ -18,8 +18,8 @@
 <link rel="stylesheet" href="vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @stop
 @section('content')
-<div class="card card-secondary card-tabs">
-  <div class="card-header p-0 pt-0">
+<div class="card card-tabs card-secondary">
+  <div class="card-header card-secondary p-0 pt-0 bg-gradient-green">
     {{-- tab control --}}
     <ul class="nav nav-tabs" id="kategori-tabs" role="tablist">
       <li class="nav-item">
@@ -126,7 +126,7 @@
                         </div>
                         @enderror
                       </div>
-                      <x-adminlte-button type="submit" class="btn bg-purple col-12 simpan" icon="fas fa fa-fw fa-save" label="Simpan Data"/>
+                      <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan" icon="fas fa fa-fw fa-save" label="Simpan Data"/>
                       {{-- <x-adminlte-button id="simpan" class="btn bg-purple col-12 simpan" type="submit" label="Simpan Data"
                       icon="fas fa fa-fw fa-save" hidden /> --}}
                     </form>

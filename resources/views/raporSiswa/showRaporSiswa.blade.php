@@ -93,39 +93,39 @@
     
                                 <div class="form-group row">
                                     <label for="tahun_ajaran_siswa" class="col-sm-3 col-form-label pl-4">Keterangan</label>
-                                    <div class="col-sm-4">
-                                        <div class="form-control form-control-border border-width-0">
+                                    <div class="col-sm-4 border-right">
+                                        <div class="pt-2">
                                             A+ (91-100) <br>
                                         </div>
-                                        <div class="form-control form-control-border border-width-0">
-                                            A  (86-90) <br>
+                                        <div class="pt-3">
+                                            A &nbsp; (86-90) <br>
                                         </div>
-                                        <div class="form-control form-control-border border-width-0">
+                                        <div class="pt-3">
                                             B+ (81-85) <br>
                                         </div>
-                                        <div class="form-control form-control-border border-width-0">
-                                            B  (76-80) <br>
+                                        <div class="pt-3">
+                                            B &nbsp; (76-80) <br>
                                         </div>
-                                        <div class="form-control form-control-border border-width-0">
+                                        <div class="pt-3">
                                             B- (71-75) <br>
                                         </div>
-                                        <div class="form-control form-control-border border-width-0">
+                                        <div class="pt-3">
                                             C+ (66-70) <br>
                                         </div>
                                         
                                     </div>
 
-                                    <div class="col-sm-5">
-                                        <div class="form-control form-control-border border-width-0">
+                                    <div class="col-sm-5 pl-4">
+                                        <div class="pt-2">
                                             BT : Belum Terlihat <br>
                                         </div>
-                                        <div class="form-control form-control-border border-width-0">
+                                        <div class="pt-3">
                                             MT : Mulai Terlihat <br>
                                         </div>
-                                        <div class="form-control form-control-border border-width-0">
+                                        <div class="pt-3">
                                             MB : Mulai Berkembang <br>
                                         </div>
-                                        <div class="form-control form-control-border border-width-0">
+                                        <div class="pt-3">
                                             MK : Menjadi Kebiasaan <br>
                                         </div>
                                     </div>
@@ -159,8 +159,8 @@
                                 @foreach ($data_iwr as $n)
                                     <tr>
                                         <td>{{ $n->ilman_waa_ruuhan->pencapaian }}</td>
-                                        <td>{{ $n->ilman_waa_ruuhan->jilid }}</td>
-                                        <td>{{ $n->ilman_waa_ruuhan->halaman }}</td>
+                                        <td>{{ $n->jilid }}</td>
+                                        <td>{{ $n->halaman }}</td>
                                         <td>{{ $n->penilaian_deskripsi->deskripsi }} / {{ $n->penilaian_deskripsi->keterangan }}</td>
                                     </tr>
                                 @endforeach
@@ -183,7 +183,7 @@
                         <table class="table table-bordered table-sm">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" class="align-middle text-center" width= "10px">No</th>
+                                    <th rowspan="2" class="align-middle text-center pr-4" style="width: 10px">No</th>
                                     <th rowspan="2" class="align-middle text-center">Mata Pelajaran</th>
                                     <th colspan="2" class="text-center">Nilai Prestasi</th>
                                 </tr>
@@ -195,7 +195,7 @@
                             <tbody>
                                 @foreach ($data_mapel as $n)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                         <td>{{ $n->mapel->nama_mapel }}</td>
                                         <td class="text-center">{{ $n->nilai_akhir }}</td>
                                         <td class="text-center">{{ $n->nilai_huruf }}</td>
@@ -221,7 +221,7 @@
                         <table class="table table-bordered table-sm">
                             <thead>
                                 <tr>
-                                    <th class="text-center" width= "10px">No</th>
+                                    <th class="text-center pr-4" width= "10px">No</th>
                                     <th class="text-center" width="300px">Kriteria</th>
                                     <th class="text-center">Nilai</th>
                                 </tr>
@@ -229,7 +229,7 @@
                             <tbody>
                                 @foreach ($data_ih as $n)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                         <td>{{ $n->ibadah_harian_1->nama_kriteria }}</td>
                                         <td class="text-center">{{ $n->penilaian_deskripsi->deskripsi }}</td>
                                     </tr>
@@ -248,7 +248,7 @@
                         <table class="table table-bordered table-sm">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" class="align-middle text-center" width= "10px">No</th>
+                                    <th rowspan="2" class="align-middle text-center pr-4" width= "10px">No</th>
                                     <th rowspan="2" class="align-middle text-center" width="300px">Nama</th>
                                     <th colspan="2" class="text-center">Nilai</th>
                                 </tr>
@@ -260,7 +260,7 @@
                             <tbody>
                                 @foreach ($data_t as $n)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                         <td>{{ $n->tahfidz_1->nama_nilai }}</td>
                                         <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_angka }}</td>
                                         <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_huruf }}</td>
@@ -281,7 +281,7 @@
                         <table class="table table-bordered table-sm">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" class="align-middle text-center" width= "10px">No</th>
+                                    <th rowspan="2" class="align-middle text-center pr-4" width= "10px">No</th>
                                     <th rowspan="2" class="align-middle text-center" width="300px">Nama</th>
                                     <th colspan="2" class="text-center">Nilai</th>
                                 </tr>
@@ -293,7 +293,7 @@
                             <tbody>
                                 @foreach ($data_h as $n)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                         <td>{{ $n->hadist_1->nama_nilai }}</td>
                                         <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_angka }}</td>
                                         <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_huruf }}</td>
@@ -312,7 +312,7 @@
                         <table class="table table-bordered table-sm">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" class="align-middle text-center" width= "10px">No</th>
+                                    <th rowspan="2" class="align-middle text-center pr-4" width= "10px">No</th>
                                     <th rowspan="2" class="align-middle text-center" width="300px">Nama</th>
                                     <th colspan="2" class="text-center">Nilai</th>
                                 </tr>
@@ -324,7 +324,7 @@
                             <tbody>
                                 @foreach ($data_d as $n)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                         <td>{{ $n->doa_1->nama_nilai }}</td>
                                         <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_angka }}</td>
                                         <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_huruf }}</td>

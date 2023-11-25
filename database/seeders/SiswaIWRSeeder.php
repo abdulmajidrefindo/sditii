@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use App\Models\Siswa;
 use App\Models\IlmanWaaRuuhan;
 use App\Models\PenilaianDeskripsi;
+use App\Models\PenilaianHurufAngka;
+
 
 class SiswaIWRSeeder extends Seeder
 {
@@ -26,11 +28,13 @@ class SiswaIWRSeeder extends Seeder
             {
                 DB::table('siswa_ilman_waa_ruuhans')->insert([
                     'siswa_id' => $i,
-                    'ilman_waa_ruuhan_id' => mt_rand(1,100),
+                    'ilman_waa_ruuhan_id' => 1,
                     'penilaian_deskripsi_id' => PenilaianDeskripsi::all()->random()->id,
                     'profil_sekolah_id' => 1,
                     'periode_id' => 1,
-                    'rapor_siswa_id' => 1
+                    'rapor_siswa_id' => 1,
+                    'jilid' => rand(1, 5),
+                    'halaman' => rand(1, 10),
                 ]);
             }
         }

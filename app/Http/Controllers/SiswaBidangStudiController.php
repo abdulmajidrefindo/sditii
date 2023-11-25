@@ -11,6 +11,7 @@ use App\Models\Mapel;
 use App\Models\Siswa;
 use App\Models\Kelas;
 use App\Models\Guru;
+use App\Models\Periode;
 
 class SiswaBidangStudiController extends Controller
 {
@@ -35,7 +36,8 @@ class SiswaBidangStudiController extends Controller
         $data_guru = Guru::all();
         $mapel=$request->mapel_id;
         $kelas=$request->kelas_id;
-        $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->whereHas('siswa', function ($query) use ($kelas) {
+        $periode = Periode::where('status','aktif')->first();
+        $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas) {
             $query->where('kelas_id', $kelas);
         })->get();
         return view('/siswaBidangStudi/indexSiswaBidangStudi', 
@@ -50,7 +52,8 @@ class SiswaBidangStudiController extends Controller
     }
 
     public function kelas_mapel($kelas_id){
-        $mapel = Mapel::where('kelas_id',$kelas_id)->get();
+        $semester = Periode::where('status','aktif')->first();
+        $mapel = Mapel::where('kelas_id',$kelas_id)->where('periode_id',$semester->id)->get();
         return response()->json($mapel);
     }
 

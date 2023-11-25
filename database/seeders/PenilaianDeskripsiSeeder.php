@@ -33,5 +33,9 @@ class PenilaianDeskripsiSeeder extends Seeder
             'deskripsi' => 'MK',
             'keterangan' => 'Menjadi Kebiasaan'
         ]);
+        DB::table('penilaian_deskripsis')->insert([
+            'deskripsi' => 'K',
+            'keterangan' => 'Kosong'
+        ]);
     }
 }
