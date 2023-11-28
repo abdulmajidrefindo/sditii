@@ -351,7 +351,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "DELETE",
-                        url: "{{ route('dataGuru.index') }}" + "/" + id,
+                        url: "{{ route('dataGuru.destroy', '') }}" + "/" + id,
                         success: function(response) {
                             if (response.success != null) {
                                 $('#example1').DataTable().ajax.reload();
@@ -371,12 +371,12 @@
                             } else {
                                 Swal.fire({
                                     title: 'Gagal!',
-                                    text: 'Data Gagal Dihapus',
+                                    text: response.error,
                                     icon: 'error',
                                     iconColor: '#fff',
-                                    toast: true,
+                                    toast: false,
                                     background: '#f8bb86',
-                                    position: 'center-end',
+                                    position: 'center',
                                     showConfirmButton: false,
                                     timer: 3000,
                                     timerProgressBar: true,

@@ -13,6 +13,13 @@ use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Utilities\Request;
 use App\Http\Controllers\Controller;
 
+use App\Models\Hadist1;
+use App\Models\Doa1;
+use App\Models\Tahfidz1;
+use App\Models\Mapel;
+use App\Models\IlmanWaaRuuhan;
+use App\Models\IbadahHarian1;
+
 
 
 class GuruController extends Controller
@@ -183,12 +190,46 @@ class GuruController extends Controller
         }
     }
 
-    public function destroy(Guru $guru)
+    public function destroy(Guru $dataGuru)
     {
-        $guru->delete();
-        //return response()->json('Berhasil Dihapur');
-
-        return response()->json(['success' => 'Data berhasil dihapus!']);
+        // if guru is wali kelas and others course have guru id, then fail 
+        $kelas = SubKelas::all()->where('guru_id',$dataGuru->id)->first();
+        $mapel = Mapel::all()->where('guru_id',$dataGuru->id)->first();
+        $tahfidz = Tahfidz1::all()->where('guru_id',$dataGuru->id)->first();
+        $doa = Doa1::all()->where('guru_id',$dataGuru->id)->first();
+        $hadist = Hadist1::all()->where('guru_id',$dataGuru->id)->first();
+        $ibadah_harian = IbadahHarian1::all()->where('guru_id',$dataGuru->id)->first();
+        $ilman_waa_ruuhan = IlmanWaaRuuhan::all()->where('guru_id',$dataGuru->id)->first();
+        if ($mapel != null || $tahfidz != null || $doa != null || $hadist != null || $ibadah_harian != null || $ilman_waa_ruuhan != null) {
+            $pelajaran = "";
+            if ($mapel != null) {
+                $pelajaran .= "Bidang Studi, ";
+            }
+            if ($tahfidz != null) {
+                $pelajaran .= "Tahfidz, ";
+            }
+            if ($doa != null) {
+                $pelajaran .= "Doa, ";
+            }
+            if ($hadist != null) {
+                $pelajaran .= "Hadist, ";
+            }
+            if ($ibadah_harian != null) {
+                $pelajaran .= "Ibadah Harian, ";
+            }
+            if ($ilman_waa_ruuhan != null) {
+                $pelajaran .= "Ilman Waa Ruuhan, ";
+            }
+            return response()->json(['error' => 'Guru masih mengajar di ' . $pelajaran . '. Silahkan atur atau hapus data terkait terlebih dahulu.']);
+        }
+        elseif ($kelas != null) {
+            return response()->json(['error' => 'Guru masih menjadi wali kelas! Silahkan atur atau hapus data terkait terlebih dahulu.']);
+        }
+        else{
+            $user_id = $dataGuru->user_id;
+            $dataGuru->delete();
+            return response()->json(['success' => 'Data berhasil dihapus!']);
+        }
     }
 
     public function getTable(Request $request){
