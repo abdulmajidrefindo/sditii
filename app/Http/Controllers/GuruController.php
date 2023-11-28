@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\Kelas;
+use App\Models\SubKelas;
 use App\Models\User;
 use App\Http\Requests\StoreGuruRequest;
 use App\Http\Requests\UpdateGuruRequest;
@@ -23,7 +24,10 @@ class GuruController extends Controller
     public function index()
     {
         $guru = Guru::all();
-        $kelas = Kelas::all();
+        $kelas = SubKelas::all();
+        foreach ($kelas as $k => $v) {
+            $v->nama_kelas = $v->kelas->nama_kelas . " " . $v->nama_sub_kelas;
+        }
         $user = User::all();
         return view('/dataGuru/indexDataGuru',
         [
@@ -41,9 +45,21 @@ class GuruController extends Controller
     public function show(Guru $dataGuru)
     {
         $guru_id = $dataGuru->id;
-        $kelas = Kelas::all();
+        $kelas = SubKelas::all();
+        foreach ($kelas as $k => $v) {
+            $v->nama_kelas = $v->kelas->nama_kelas . " " . $v->nama_sub_kelas;
+        }
+        
         $guru = Guru::all()->where('id',$guru_id)->first();
-        $guru_kelas = Kelas::all()->where('guru_id',$guru_id)->first();
+        $guru_kelas = SubKelas::all()->where('guru_id',$guru_id)->first();
+        if ($guru_kelas==null) {
+            $guru_kelas = new SubKelas();
+            $guru_kelas->nama_kelas = "Bukan Wali Kelas";
+            $guru_kelas->id = 0;
+        }
+        else{
+            $guru_kelas->nama_kelas = $guru_kelas->kelas->nama_kelas . " " . $guru_kelas->nama_sub_kelas;
+        }
         // $guru_kelas_id = $kelas->id->where('guru_id',$guru_id)->first();
         return view('dataGuru/showGuru',
         [
@@ -78,12 +94,13 @@ class GuruController extends Controller
 
         $new_guru_id = $guru->id;
         $selected_kelas = $request->kelas;
-        $target_kelas = Kelas::all()->where('id',$selected_kelas)->first();
         if ($selected_kelas==0) {
             #do nothing
         }
         else{
+            $target_kelas = SubKelas::all()->where('id',$selected_kelas)->first();
             $target_kelas->guru_id = $new_guru_id;
+            $target_kelas->save();
         }
 
         if ($guru){

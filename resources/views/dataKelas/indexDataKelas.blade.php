@@ -60,8 +60,9 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Guru</th>
-                                <th>NIP</th>
+                                <th>Kelas</th>
+                                <th>Sub Kelas</th>
+                                <th>Wali Kelas</th>
                                 {{-- <th>Peran</th> --}}
                                 @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <th>Aksi</th>
@@ -92,52 +93,7 @@
                                         <form id="form_tambah_guru">
                                             @csrf
                                             <div class="form-group">
-                                                <label for="user" class="form-label">User</label>
-                                                <select class="form-control @error('user') is-invalid @enderror"
-                                                    id="user" name="user" data-placeholder="-pilih user-"
-                                                    style="width: 100%;">
-                                                    <option selected disabled>-pilih user-</option>
-                                                    @foreach ($user as $u)
-                                                        <option value={{ $u->id }}>{{ $u->name }}</option>
-                                                    @endforeach
-                                                        
-                                                </select>
-                                                @error('role_id')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-
-                                                <div class="form-group">
-                                                    <label for="nip" class="form-label"
-                                                        style="margin-top: 15px">NIP</label>
-                                                    <input type="nip"
-                                                        class="form-control @error('nip') is-invalid @enderror"
-                                                        name="nip" id="nip" placeholder="-masukkan NIP guru-">
-                                                    @error('nip')
-                                                        <div class="invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="kelas" class="form-label">Kelas Perwalian</label>
-                                                    <select class="form-control @error('kelas') is-invalid @enderror"
-                                                        id="kelas" name="kelas"
-                                                        data-placeholder="-pilih kelas perwalian-" style="width: 100%;">
-                                                        <option selected disabled>-pilih kelas perwalian-</option>
-                                                        @foreach ($kelas as $k)
-                                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
-                                                        @endforeach
-                                                            <option value="0">Bukan Wali Kelas</option>
-                                                    </select>
-                                                    @error('role_id')
-                                                        <div class="invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
-                                                </div>
+                                                
 
                                                 <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan"
                                                     icon="fas fa fa-fw fa-save" label="Simpan Data" />
@@ -215,7 +171,7 @@
                 serverSide: true,
                 width: '100%',
                 ajax: {
-                    url: "{{ route('guru.getTable') }}",
+                    url: "{{ route('kelas.getTable') }}",
                     type: 'GET',
                 },
                 columns: [{
@@ -225,12 +181,16 @@
                         width: '5%'
                     },
                     {
-                        data: 'nama_guru',
-                        name: 'nama_guru'
+                        data: 'kelas.nama_kelas',
+                        name: 'kelas.nama_kelas'
                     },
                     {
-                        data: 'nip',
-                        name: 'nip'
+                        data: 'nama_sub_kelas',
+                        name: 'nama_sub_kelas'
+                    },
+                    {
+                        data: 'guru.nama_guru',
+                        name: 'guru.nama_guru',
                     },
                     @if (Auth::user()->role->contains('role', 'Administrator'))
                     {

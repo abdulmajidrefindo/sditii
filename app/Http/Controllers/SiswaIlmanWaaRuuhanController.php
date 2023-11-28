@@ -158,6 +158,7 @@ class SiswaIlmanWaaRuuhanController extends Controller
         $siswaIlmanWaaRuuhan->jilid = '0';
         $siswaIlmanWaaRuuhan->halaman = '0';
         $siswaIlmanWaaRuuhan->penilaian_deskripsi_id = 5;
+        $siswaIlmanWaaRuuhan->penilaian_huruf_angka_id = 101;
 
         if ($siswaIlmanWaaRuuhan->save()) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
