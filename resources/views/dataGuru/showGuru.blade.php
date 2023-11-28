@@ -68,25 +68,10 @@
                                 class="form-control" disabled>
                             </div>
                         </div>
-                        
-                        <div class="form-group col-md-12" id="kelas_before">
-                            <label for="kelas_before" class="text-lightdark">
-                                Kelas Perwalian
-                            </label>
-                            <div class="input-group">
-                                <input id="kelas_before" name="kelas_before" 
-                                @if ($guru_kelas===null)
-                                value="" 
-                                @else
-                                value="{{ $guru_kelas->nama_kelas }}" 
-                                @endif
-                                class="form-control" disabled>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group col-md-12" id="kelas" hidden>
+
+                        {{-- <div class="form-group col-md-12" id="kelas">
                             <label for="kelas" class="form-label">Kelas Perwalian</label>
-                            <select class="form-control @error('kelas') is-invalid @enderror" id="kelas" name="kelas" data-placeholder="-pilih kelas perwalian-" style="width: 100%;">
+                            <select class="form-control @error('kelas') is-invalid @enderror" id="kelas" name="kelas" data-placeholder="-pilih kelas perwalian-" style="width: 100%;" disabled>
                                 <option selected disabled>-pilih kelas perwalian-</option>
                                 @foreach ($kelas as $k)
                                 <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
@@ -98,7 +83,7 @@
                                 {{ $message }}
                             </div>
                             @enderror
-                        </div>
+                        </div> --}}
                         
                         <x-adminlte-input name="created_at" type="text" value="{{ $guru->created_at }}"
                             label="Waktu Ditambahkan" fgroup-class="col-md-12" disabled>
@@ -132,33 +117,6 @@
             </div>
         </div>
     </div>
-    {{-- <div class="col-12 col-sm-12 col-md-8">
-        <div class="card card-dark">
-            <div class="card-header border-transparent" role="button" data-card-widget="collapse">
-                <h3 class="card-title">Daftar Transaksi {{ $pemasok->nama_pemasok }}</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <table id="tabel-transaksi" class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tanggal Transaksi</th>
-                            <th>Total Harga</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div> --}}
 </div>  
 @stop
 
@@ -182,23 +140,25 @@
         $('#edit').click(function() {
             $('#nama_guru').prop('disabled', false);
             $('#nip').prop('disabled', false);
-            $('#kelas_before').prop('disabled', true);
-            $('#kelas_before').prop('hidden', true);
-            $('#kelas').prop('disabled', false);
-            $('#kelas').prop('hidden', false);
+            $('select[name="kelas"]').prop('disabled', false);
             $('#simpan').prop('hidden', false);
             $('#edit').prop('hidden', true);
         });
         
         $('#simpan').click(function() {
             //ajax update data
+
+            //let kelas = $('select[name="kelas"]').val();
+            let nama_guru = $('#nama_guru').val();
+            let nip = $('#nip').val();
+
             $.ajax({
                 url: "{{ route('dataGuru.update', $guru->id) }}",
                 type: 'PUT',
                 data: {
-                    nama_guru: $('#nama_guru').val(),
-                    nip: $('#nip').val(),
-                    kelas: $('#kelas').val(),
+                    nama_guru: nama_guru,
+                    nip: nip,
+                    //kelas: kelas,
                 },
                 success: function(data) {
                     $('#nama_guru').prop('disabled', true);

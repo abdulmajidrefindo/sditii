@@ -62,6 +62,7 @@
                                 <th>No</th>
                                 <th>Nama Guru</th>
                                 <th>NIP</th>
+                                <th>Kelas Perwalian</th>
                                 {{-- <th>Peran</th> --}}
                                 @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <th>Aksi</th>
@@ -121,7 +122,7 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="form-group">
+                                                {{-- <div class="form-group">
                                                     <label for="kelas" class="form-label">Kelas Perwalian</label>
                                                     <select class="form-control @error('kelas') is-invalid @enderror"
                                                         id="kelas" name="kelas"
@@ -138,7 +139,7 @@
                                                             {{ $message }}
                                                         </div>
                                                     @enderror
-                                                </div>
+                                                </div> --}}
 
                                                 <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan"
                                                     icon="fas fa fa-fw fa-save" label="Simpan Data" />
@@ -233,6 +234,10 @@
                         data: 'nip',
                         name: 'nip'
                     },
+                    {
+                        data: 'kelas',
+                        name: 'kelas'
+                    },
                     @if (Auth::user()->role->contains('role', 'Administrator'))
                     {
                         data: 'action',
@@ -264,7 +269,7 @@
                 let user = $('#user').val();
                 let user_name = $('#user_name').val();
                 let nip = $('#nip').val();
-                let kelas = $('#kelas').val();
+                //let kelas = $('#kelas').val();
                 $.ajax({
                     type: "POST",
                     url: "{{ route('dataGuru.store') }}",
@@ -272,7 +277,7 @@
                         user: user,
                         user_name: user_name,
                         nip: nip,
-                        kelas: kelas,
+                        //kelas: kelas,
                     },
                     dataType: "JSON",
                     success: function(response) {

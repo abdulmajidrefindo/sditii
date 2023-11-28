@@ -347,14 +347,14 @@ return [
             'icon' => 'fas fa-fw fa-briefcase',
         ],
         [
-            'text' => 'Data Kelas',
-            'url'  => '/dataKelas',
-            'icon' => 'fas fa-fw fa-school',
-        ],
-        [
             'text' => 'Data Guru',
             'url'  => '/dataGuru',
             'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Data Kelas',
+            'url'  => '/dataKelas',
+            'icon' => 'fas fa-fw fa-school',
         ],
         [
             'text' => 'Data Siswa',

@@ -76,13 +76,19 @@ class GuruController extends Controller
         $validator=$request->validate([
             'user'=>'required',
             'nip'=>'required|unique:gurus,nip',
-            'kelas'=>'required'
+            //'kelas'=>'required'
         ],
         [
             'user.required'=>'User harus dipilih',
             'nip.required'=>'NIP harus diisi',
-            'kelas.required'=>'Kelas harus diisi'
+            //'kelas.required'=>'Kelas harus diisi'
         ]);
+
+        //break if validation fails
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->all()]);
+        }
+        
         $selected_user_id = $request->user;
         $selected_user = User::all()->where('id',$selected_user_id)->first();
         $selected_user_name = $selected_user->name;
@@ -95,18 +101,30 @@ class GuruController extends Controller
 
         $new_guru_id = $guru->id;
         $selected_kelas = $request->kelas;
-        if ($selected_kelas==0) {
-            #do nothing
-        }
-        else{
-            $target_kelas = SubKelas::all()->where('id',$selected_kelas)->first();
-            $target_kelas->guru_id = $new_guru_id;
-            $target_kelas->save();
 
-            $role = UserRoles::where('user_id', $selected_user_id)->first();
-            $role->role_id = 2; //wali kelas
-            $role->save();
-        }
+        // if ($selected_kelas==0) {
+        //     #do nothing
+        // }
+        // else{
+        //     $target_kelas = SubKelas::all()->where('id',$selected_kelas)->first();
+        //     if($target_kelas->guru_id != null){
+        //         $old_guru_id = $target_kelas->guru_id;
+        //         $old_guru = Guru::all()->where('id',$old_guru_id)->first();
+        //         $old_guru_user_role = UserRoles::all()->where('user_id',$old_guru->user_id)->first();
+        //         $old_guru_user_role->role_id = 3; //guru
+        //         $old_guru_user_role->save();
+
+                
+        //     }
+        //     $target_kelas->guru_id = $new_guru_id;
+        //     $target_kelas->save();
+        //     $new_guru_user_role = UserRoles::all()->where('user_id',$selected_user_id)->first();
+        //     $new_guru_user_role->role_id = 2; //wali kelas
+        //     $new_guru_user_role->save();
+            
+        // }
+
+
 
         if ($guru){
             return response()->json(['success' => 'Data berhasil disimpan!']);
@@ -116,61 +134,52 @@ class GuruController extends Controller
         }
     }
     
-    public function update(User $dataUser, UpdateGuruRequest $request)
+    public function update(Guru $dataGuru, UpdateGuruRequest $request)
     {
         $validator=$request->validate([
-            'name'=>'required',
-            'email'=>'email',
-            // 'user_name'=>'required|unique:user,user_name',
-            // 'user_name'=>'unique:user,user_name',
-            // 'role_id'=>'required',
+            'nama_guru'=>'required',
+            'nip'=>'required|unique:gurus,nip,'.$dataGuru->id,
+            //'kelas'=>'required'
         ],
         [
-            'name.required'=>'Nama harus diisi',
-            'email.email'=>'Isi dengan format email',
-            // 'user_name.required'=>'Username harus diisi',
-            // 'user_name.unique'=>'Username sudah digunakan',
-            // 'role_id.required'=>'Peran harus diisi'
+            'nama_guru.required'=>'Nama Guru harus diisi',
+            'nip.required'=>'NIP harus diisi',
+            //'kelas.required'=>'Kelas harus diisi'
         ]);
-        // $p=$request->get('password');
-        // $securep=bcrypt($p);
-        $dataUser->updated([
-            'name'=>$request->get('name'),
-            'email'=>$request->get('email'),
-            // 'user_name'=>$request->get('user_name'),
-            // 'password'=>$securep,
-            // 'updated_at'=>now()
-        ]);
-        // $user->update($request->only(['name', 'email', 'user_name']));
-        // $id = $user->id;
         
-        // $deletedUserRole = UserRoles::where('user_id', $id)->get();
-        // $deletedUserRole->delete();
-        
-        // $userRoles=UserRoles::create([
-        //     'user_id'=>$id,
-        //     'role_id'=>$request->get('role_id'),
-        //     'created_at'=>now()
-        // ]);
-        
-        // $userRoles->create([
-        //     'user_id'=>$id,
-        //     'role_id'=>$request->get('role_id')
-        // ]);
-        if ($dataUser) {
-            return response()->json(['success' => 'Data berhasil diupdate!']);
-            // if($userRoles){
-            //     return response()->json(['success' => 'Data berhasil diupdate!']);
-            // }
-            // else {
-            //     return response()->json(['success' => 'Data berhasil diupdate!']);
-            // }
-        }
-        // else if ($userRoles) {
-        //     return response()->json(['success' => 'Peran berhasil diupdate!']);
+        // $selected_user_id = $request->user;
+        // $selected_user = User::all()->where('id',$selected_user_id)->first();
+        // $selected_user_name = $selected_user->name;
+        $dataGuru->nama_guru = $request->get('nama_guru');
+        $dataGuru->nip = $request->get('nip');
+        $dataGuru->updated_at = now();
+        $dataGuru->save();
+
+        // $selected_kelas = $request->kelas;
+        // if ($selected_kelas==0) {
+        //     $old_guru_user_role = UserRoles::all()->where('user_id',$dataGuru->user_id)->first();
+        //     $old_guru_user_role->role_id = 3; //guru
+        //     $old_guru_user_role->save();  
+
+        //     $target_kelas = SubKelas::all()->where('guru_id',$dataGuru->id)->first();
+        //     $target_kelas->guru_id = NUll;
+        //     $target_kelas->save();
+
         // }
-        else{
-            return response()->json(['error' => 'Data gagal diupdate!']);
+        // else{
+        //     $target_kelas = SubKelas::all()->where('id',$selected_kelas)->first();
+        //     $target_kelas->guru_id = $dataGuru->id;
+        //     $target_kelas->save();
+        //     $new_guru_user_role = UserRoles::all()->where('user_id',$dataGuru->user_id)->first();
+        //     $new_guru_user_role->role_id = 2; //wali kelas
+        //     $new_guru_user_role->save();
+        // }
+
+        if ($dataGuru){
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        }
+        else {
+            return response()->json(['error' => 'Data gagal disimpan!']);
         }
     }
 
@@ -188,7 +197,7 @@ class GuruController extends Controller
             // $role = Role::all();
             // $concat = $user->concat($userRole)->concat($role);
             // $data = $concat->all();
-            $guru = Guru::all();
+            $guru = Guru::with('sub_kelas')->get();
             return DataTables::of($guru)
             // ->addIndexColumn()
             ->addColumn('action', function ($row) {
@@ -198,7 +207,33 @@ class GuruController extends Controller
                 
                 return $btn;
             })
-            ->rawColumns(['action'])
+            //edit nip column if null
+            ->editColumn('nip', function ($row) {
+                if ($row->nip == null) {
+                    return '<span class="badge badge-danger">Belum diatur, silahkan perbarui</span>';
+                }
+                else{
+                    return $row->nip;
+                }
+            })
+            ->addColumn('kelas', function ($row) {
+                if ($row->sub_kelas) {
+                    $kelas = "";
+                    foreach ($row->sub_kelas as $k => $v) {
+                        $v->nama_kelas = $v->kelas->nama_kelas . " " . $v->nama_sub_kelas;
+                        $kelas .= $v->nama_kelas . ", ";
+                    }
+                    if ($kelas == "") {
+                        return '<span class="badge badge-danger">Bukan Wali Kelas</span>';
+                    }
+                    else{
+                        return $kelas;
+                    }
+                } else {
+                    return '<span class="badge badge-danger">Bukan Wali Kelas</span>';
+                }
+            })
+            ->rawColumns(['action', 'nip', 'kelas'])
             ->make(true);
         }
     }

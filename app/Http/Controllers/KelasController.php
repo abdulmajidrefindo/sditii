@@ -157,12 +157,14 @@ class KelasController extends Controller
 
         if($request->wali_kelas != $kelas->guru_id){
             if ($kelas->guru_id != null) {
+                //update role user lama
                 $user_id_guru = Guru::where('id', $kelas->guru_id)->first()->user_id;
                 $role = UserRoles::where('user_id', $user_id_guru)->first();
                 $role->role_id = 3; //guru
                 $role->save();
             }
             if ($request->wali_kelas != 0) {
+                //update role user baru
                 $user_id_guru = Guru::where('id', $request->wali_kelas)->first()->user_id;
                 $role = UserRoles::where('user_id', $user_id_guru)->first();
                 $role->role_id = 2; //wali kelas

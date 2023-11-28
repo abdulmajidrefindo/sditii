@@ -56,7 +56,7 @@ class UserController extends Controller
     {
         $validator=$request->validate([
             'name'=>'required',
-            'email'=>'email',
+            'email'=>'email|unique:user,email',
             'user_name'=>'required|unique:user,user_name',
             'password'=>'required',
             'role_id'=>'required',
@@ -64,6 +64,7 @@ class UserController extends Controller
         [
             'name.required'=>'Nama harus diisi',
             'email.email'=>'Isi dengan format email',
+            'email.unique'=>'Email sudah digunakan',
             'user_name.required'=>'Username harus diisi',
             'user_name.unique'=>'Username sudah digunakan',
             'password.required'=>'Password harus diisi',
