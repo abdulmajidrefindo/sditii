@@ -6,6 +6,7 @@ use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\SubKelas;
 use App\Models\User;
+use App\Models\UserRoles;
 use App\Http\Requests\StoreGuruRequest;
 use App\Http\Requests\UpdateGuruRequest;
 use Yajra\DataTables\DataTables;
@@ -101,6 +102,10 @@ class GuruController extends Controller
             $target_kelas = SubKelas::all()->where('id',$selected_kelas)->first();
             $target_kelas->guru_id = $new_guru_id;
             $target_kelas->save();
+
+            $role = UserRoles::where('user_id', $selected_user_id)->first();
+            $role->role_id = 2; //wali kelas
+            $role->save();
         }
 
         if ($guru){

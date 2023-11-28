@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kelas;
 use App\Models\SubKelas;
 use App\Models\User;
+use App\Models\UserRoles;
 use App\Models\Guru;
 use App\Http\Requests\StoreKelasRequest;
 use App\Http\Requests\UpdateKelasRequest;
@@ -71,7 +72,17 @@ class KelasController extends Controller
         $kelas = new SubKelas();
         $kelas->nama_sub_kelas = $request->nama_sub_kelas;
         $kelas->kelas_id = $request->kelas;
+
+        if ($request->wali_kelas != 0) {
+            $user_id_guru = Guru::where('id', $request->wali_kelas)->first()->user_id;
+            $role = UserRoles::where('user_id', $user_id_guru)->first();
+            $role->role_id = 2; //wali kelas
+            $role->save();
+        }
+
         $kelas->guru_id = $request->wali_kelas == 0 ? null : $request->wali_kelas;
+
+        
 
         $kelas->save();
         
@@ -143,7 +154,24 @@ class KelasController extends Controller
         $kelas = SubKelas::find($kelas->id);
         $kelas->nama_sub_kelas = $request->nama_sub_kelas;
         $kelas->kelas_id = $request->kelas;
+
+        if($request->wali_kelas != $kelas->guru_id){
+            if ($kelas->guru_id != null) {
+                $user_id_guru = Guru::where('id', $kelas->guru_id)->first()->user_id;
+                $role = UserRoles::where('user_id', $user_id_guru)->first();
+                $role->role_id = 3; //guru
+                $role->save();
+            }
+            if ($request->wali_kelas != 0) {
+                $user_id_guru = Guru::where('id', $request->wali_kelas)->first()->user_id;
+                $role = UserRoles::where('user_id', $user_id_guru)->first();
+                $role->role_id = 2; //wali kelas
+                $role->save();
+            }
+        }
+
         $kelas->guru_id = $request->wali_kelas == 0 ? null : $request->wali_kelas;
+
         $kelas->save();
         
 
@@ -164,6 +192,10 @@ class KelasController extends Controller
     {
         //return fail if Integrity constraint violation
         try {
+            $user_id_guru = Guru::where('id', $kelas->guru_id)->first()->user_id;
+            $role = UserRoles::where('user_id', $user_id_guru)->first();
+            $role->role_id = 3; //guru
+            $role->save();
             $kelas->delete();
             return response()->json(['success' => 'Data berhasil dihapus!']);
         } catch (\Throwable $th) {
