@@ -342,7 +342,7 @@
             let id = $(this).attr('data-id');
             Swal.fire({
                 title: 'Apakah anda yakin?',
-                text: "Data yang dihapus tak dapat dikembalikan!",
+                text: "Semua data yang berkaitan akan ikut terhapus dan tak dapat dikembalikan!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -353,7 +353,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "DELETE",
-                        url: "{{ route('dataGuru.index') }}" + "/" + id,
+                        url: "{{ route('dataKelas.destroy', '') }}" + '/' + id,
                         success: function(response) {
                             if (response.success != null) {
                                 $('#example1').DataTable().ajax.reload();
@@ -364,7 +364,7 @@
                                     iconColor: '#fff',
                                     color: '#fff',
                                     toast: true,
-                                    background: '#8D72E1',
+                                    background: '#00FF00',
                                     position: 'top',
                                     showConfirmButton: false,
                                     timer: 3000,
@@ -372,13 +372,12 @@
                                 });
                             } else {
                                 Swal.fire({
-                                    title: 'Gagal!',
-                                    text: 'Data Gagal Dihapus',
+                                    title: 'Data Gagal Dihapus!',
+                                    text: ' Kelas masih memiliki siswa! Hapus atau pindahkan siswa terlebih dahulu!',
                                     icon: 'error',
                                     iconColor: '#fff',
-                                    toast: true,
                                     background: '#f8bb86',
-                                    position: 'center-end',
+                                    position: 'center',
                                     showConfirmButton: false,
                                     timer: 3000,
                                     timerProgressBar: true,

@@ -41,7 +41,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/dataUser', UserController::class)->middleware('role:Wali Kelas,Administrator');
     Route::resource('/dataGuru', GuruController::class);
-    Route::resource('/dataKelas', KelasController::class);
+    Route::resource('/dataKelas', KelasController::class)->parameters([
+        'dataKelas' => 'kelas'
+    ]);
     Route::resource('/dataSiswa', SiswaController::class);
     Route::post('/dataSiswaKelas', [SiswaController::class, 'index']);
     Route::resource('/dataPeriode', PeriodeController::class);

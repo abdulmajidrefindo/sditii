@@ -10,7 +10,7 @@ use App\Http\Requests\StoreKelasRequest;
 use App\Http\Requests\UpdateKelasRequest;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Utilities\Request;
-
+use Illuminate\Validation\Rule;
 class KelasController extends Controller
 {
     /**
@@ -54,7 +54,9 @@ class KelasController extends Controller
     {
         $validator = $request->validate([
             'kelas' => 'required',
-            'nama_sub_kelas' => 'required|max:255|unique:sub_kelas,nama_sub_kelas',
+            'nama_sub_kelas' => ['required', 'max:255', Rule::unique('sub_kelas')->where(function ($query) use ($request) {
+                return $query->where('kelas_id', $request->kelas);
+            })],
             'wali_kelas' => 'required',
         ],
         [
@@ -87,9 +89,19 @@ class KelasController extends Controller
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function show(Kelas $kelas)
+    public function show(SubKelas $kelas)
     {
-        //
+            
+            $sub_kelas = SubKelas::with('kelas', 'guru')->where('id', $kelas->id)->first();
+            $data_kelas = Kelas::all()->except(7);
+            $guru = Guru::all();
+
+            return view('dataKelas/showKelas',
+            [
+                'kelas'=>$sub_kelas,
+                'data_kelas'=>$data_kelas,
+                'data_guru'=>$guru
+            ]);
     }
 
     /**
@@ -110,9 +122,36 @@ class KelasController extends Controller
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateKelasRequest $request, Kelas $kelas)
+    public function update(UpdateKelasRequest $request, SubKelas $kelas)
     {
-        //
+        $validator = $request->validate([
+            'kelas' => 'required',
+            'nama_sub_kelas' => ['required', 'max:255', Rule::unique('sub_kelas')->where(function ($query) use ($request) {
+                return $query->where('kelas_id', $request->kelas);
+            })->ignore($kelas->id)],
+            'wali_kelas' => 'required',
+        ],
+        [
+            'kelas.required' => 'Kelas harus diisi',
+            'nama_sub_kelas.required' => 'Nama Sub Kelas harus diisi',
+            'nama_sub_kelas.max' => 'Nama Sub Kelas maksimal 255 karakter',
+            'nama_sub_kelas.unique' => 'Nama Sub Kelas sudah ada',
+            'wali_kelas.required' => 'Wali Kelas harus diisi',
+        ]);
+
+
+        $kelas = SubKelas::find($kelas->id);
+        $kelas->nama_sub_kelas = $request->nama_sub_kelas;
+        $kelas->kelas_id = $request->kelas;
+        $kelas->guru_id = $request->wali_kelas == 0 ? null : $request->wali_kelas;
+        $kelas->save();
+        
+
+        if ($kelas) {
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return response()->json(['error' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -121,9 +160,15 @@ class KelasController extends Controller
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kelas $kelas)
+    public function destroy(SubKelas $kelas)
     {
-        //
+        //return fail if Integrity constraint violation
+        try {
+            $kelas->delete();
+            return response()->json(['success' => 'Data berhasil dihapus!']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 
     /**
@@ -139,7 +184,7 @@ class KelasController extends Controller
             return DataTables::of($guru)
             // ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $btn = '<a href="'. route('dataKelas.show', $row) .'" data-toggle="tooltip"  data-id="' . $row . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $btn = '<a href="'. route('dataKelas.show', $row->id) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                 // $btn = '<a action="{{ url('/') }}/editGuru" method="post" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="btn btn-sm btn-primary mx-1 shadow edit"><i class="fas fa-sm fa-fw fa-edit"></i> Edit</a>';
                 $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 
