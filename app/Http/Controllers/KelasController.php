@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Models\SubKelas;
+use App\Models\User;
+use App\Models\Guru;
 use App\Http\Requests\StoreKelasRequest;
 use App\Http\Requests\UpdateKelasRequest;
 use Yajra\DataTables\DataTables;
@@ -19,9 +21,13 @@ class KelasController extends Controller
     public function index()
     {
         $kelas = SubKelas::with('kelas')->get();
+        $data_kelas = Kelas::all()->except(7);
+        $data_guru = Guru::all();
         return view('/dataKelas/indexDataKelas',
         [
             'kelas'=>$kelas,
+            'data_kelas'=>$data_kelas,
+            'data_guru'=>$data_guru
         ]);
         // return response()->json([
         //     'kelas' => $kelas,
@@ -46,7 +52,33 @@ class KelasController extends Controller
      */
     public function store(StoreKelasRequest $request)
     {
-        //
+        $validator = $request->validate([
+            'kelas' => 'required',
+            'nama_sub_kelas' => 'required|max:255|unique:sub_kelas,nama_sub_kelas',
+            'wali_kelas' => 'required',
+        ],
+        [
+            'kelas.required' => 'Kelas harus diisi',
+            'nama_sub_kelas.required' => 'Nama Sub Kelas harus diisi',
+            'nama_sub_kelas.max' => 'Nama Sub Kelas maksimal 255 karakter',
+            'nama_sub_kelas.unique' => 'Nama Sub Kelas sudah ada',
+            'wali_kelas.required' => 'Wali Kelas harus diisi',
+        ]);
+
+
+        $kelas = new SubKelas();
+        $kelas->nama_sub_kelas = $request->nama_sub_kelas;
+        $kelas->kelas_id = $request->kelas;
+        $kelas->guru_id = $request->wali_kelas == 0 ? null : $request->wali_kelas;
+
+        $kelas->save();
+        
+
+        if ($kelas) {
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } else {
+            return response()->json(['error' => 'Data gagal disimpan!']);
+        }
     }
 
     /**

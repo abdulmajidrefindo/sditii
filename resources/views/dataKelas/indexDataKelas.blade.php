@@ -34,18 +34,18 @@
             {{-- tab control --}}
             <ul class="nav nav-tabs" id="kategori-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="controller-tab-guru-table" data-toggle="pill"
-                        href="#content-tab-guru-table" role="tab" aria-controls="content-tab-guru-table"
+                    <a class="nav-link active" id="controller-tab-kelas-table" data-toggle="pill"
+                        href="#content-tab-kelas-table" role="tab" aria-controls="content-tab-kelas-table"
                         aria-selected="true">
                         <i class="fas fa-xs fa-table fa-fw"></i>
                         Daftar Guru</a>
                 </li>
                 @if (Auth::user()->role->contains('role', 'Administrator'))
                     <li class="nav-item">
-                        <a class="nav-link" id="controller-tab-guru-add" data-toggle="pill" href="#content-tab-guru-add"
-                            role="tab" aria-controls="content-tab-guru-add" aria-selected="false">
+                        <a class="nav-link" id="controller-tab-kelas-add" data-toggle="pill" href="#content-tab-kelas-add"
+                            role="tab" aria-controls="content-tab-kelas-add" aria-selected="false">
                             <i class="fas fa-xs fa-plus fa-fw"></i>
-                            Tambah Guru</a>
+                            Tambah Kelas</a>
                     </li>
                 @endif
             </ul>
@@ -54,8 +54,8 @@
         <div class="card-body">
             {{-- tab daftar --}}
             <div class="tab-content" id="guruTabContent">
-                <div class="tab-pane active show" id="content-tab-guru-table" role="tabpanel"
-                    aria-labelledby="controller-tab-guru-table">
+                <div class="tab-pane active show" id="content-tab-kelas-table" role="tabpanel"
+                    aria-labelledby="controller-tab-kelas-table">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -65,7 +65,7 @@
                                 <th>Wali Kelas</th>
                                 {{-- <th>Peran</th> --}}
                                 @if (Auth::user()->role->contains('role', 'Administrator'))
-                                <th>Aksi</th>
+                                    <th>Aksi</th>
                                 @endif
                             </tr>
                         </thead>
@@ -84,19 +84,67 @@
                 {{-- /tab daftar --}}
                 @if (Auth::user()->role->contains('role', 'Administrator'))
                     {{-- tab tambah --}}
-                    <div class="tab-pane fade" id="content-tab-guru-add" role="tabpanel"
-                        aria-labelledby="controller-tab-guru-add">
+                    <div class="tab-pane fade" id="content-tab-kelas-add" role="tabpanel"
+                        aria-labelledby="controller-tab-kelas-add">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="bs-stepper-content">
-                                        <form id="form_tambah_guru">
+                                        <form id="form_tambah_kelas">
                                             @csrf
-                                            <div class="form-group">
-                                                
 
-                                                <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan"
-                                                    icon="fas fa fa-fw fa-save" label="Simpan Data" />
+                                            <div class="form-group">
+                                                <label for="kelas" class="form-label">Kelas Perwalian</label>
+                                                <select class="form-control @error('kelas') is-invalid @enderror"
+                                                    id="kelas" name="kelas" data-placeholder="-pilih kelas perwalian-"
+                                                    style="width: 100%;">
+                                                    <option selected disabled>-Pilih Kelas Perwalian-</option>
+                                                    @foreach ($data_kelas as $k)
+                                                        <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('role_id')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nama_sub_kelas" class="form-label">Nama Sub Kelas</label>
+                                                <input type="text"
+                                                    class="form-control @error('nama_sub_kelas') is-invalid @enderror"
+                                                    id="nama_sub_kelas" name="nama_sub_kelas"
+                                                    placeholder="Masukkan nama sub kelas"
+                                                    value="{{ old('nama_sub_kelas') }}" required>
+                                                @error('nama_sub_kelas')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="wali_kelas" class="form-label">Wali Kelas</label>
+                                                <select class="form-control @error('wali_kelas') is-invalid @enderror"
+                                                    id="wali_kelas" name="wali_kelas" data-placeholder="-pilih guru-"
+                                                    style="width: 100%;">
+                                                    <option selected disabled>-Pilih Guru-</option>
+                                                    <option value="0"><span class="text-red">---Belum Ada---</span></option>
+                                                    @foreach ($data_guru as $g)
+                                                        <option value={{ $g->id }}>{{ $g->nama_guru }}</option>
+                                                    @endforeach
+                                                        
+                                                </select>
+                                                @error('wali_kelas')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+
+                                            <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan"
+                                                icon="fas fa fa-fw fa-save" label="Simpan Data" />
                                         </form>
                                     </div>
                                 </div>
@@ -150,9 +198,9 @@
         });
 
         function resetForm() {
-            $('#form_tambah_guru').reset();
-            $('#form_tambah_guru').find('.is-invalid').removeClass('is-invalid');
-            $('#form_tambah_guru').find('.error').remove();
+            $('#form_tambah_kelas').reset();
+            $('#form_tambah_kelas').find('.is-invalid').removeClass('is-invalid');
+            $('#form_tambah_kelas').find('.error').remove();
         }
     </script>
     <script>
@@ -193,14 +241,14 @@
                         name: 'guru.nama_guru',
                     },
                     @if (Auth::user()->role->contains('role', 'Administrator'))
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                        sClass: 'text-center',
-                        width: '25%',
-                    }
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false,
+                            sClass: 'text-center',
+                            width: '25%',
+                        }
                     @endif
                 ]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
@@ -215,29 +263,29 @@
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
             });
-            $('#controller-tab-guru-add').on('click', function() {
-                $('#form_tambah_guru')[0].reset();
+            $('#controller-tab-kelas-add').on('click', function() {
+                $('#form_tambah_kelas')[0].reset();
             });
-            $('#form_tambah_guru').on('submit', function(e) {
+            $('#form_tambah_kelas').on('submit', function(e) {
                 e.preventDefault();
-                let user = $('#user').val();
-                let user_name = $('#user_name').val();
-                let nip = $('#nip').val();
                 let kelas = $('#kelas').val();
+                let nama_sub_kelas = $('#nama_sub_kelas').val();
+                let wali_kelas = $('#wali_kelas').val();
+
+
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('dataGuru.store') }}",
+                    url: "{{ route('dataKelas.store') }}",
                     data: {
-                        user: user,
-                        user_name: user_name,
-                        nip: nip,
                         kelas: kelas,
+                        nama_sub_kelas: nama_sub_kelas,
+                        wali_kelas: wali_kelas,
                     },
                     dataType: "JSON",
                     success: function(response) {
                         // if (response.success) {
                         $('#example1').DataTable().ajax.reload();
-                        $('#form_tambah_guru')[0].reset();
+                        $('#form_tambah_kelas')[0].reset();
                         Swal.fire({
                             title: 'Berhasil',
                             text: 'Data berhasil disimpan!',
@@ -254,9 +302,9 @@
                     error: function(err) {
 
                         if (err.status == 422) {
-                            $('#form_tambah_guru').find(".is-invalid").removeClass(
+                            $('#form_tambah_kelas').find(".is-invalid").removeClass(
                                 "is-invalid");
-                            $('#form_tambah_guru').find('.error').remove();
+                            $('#form_tambah_kelas').find('.error').remove();
 
                             //send error to adminlte form
                             $.each(err.responseJSON.errors, function(i, error) {

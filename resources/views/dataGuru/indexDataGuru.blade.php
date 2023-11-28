@@ -127,10 +127,11 @@
                                                         id="kelas" name="kelas"
                                                         data-placeholder="-pilih kelas perwalian-" style="width: 100%;">
                                                         <option selected disabled>-pilih kelas perwalian-</option>
+                                                        <option value="0">Bukan Wali Kelas</option>
                                                         @foreach ($kelas as $k)
                                                             <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
                                                         @endforeach
-                                                            <option value="0">Bukan Wali Kelas</option>
+                                                            
                                                     </select>
                                                     @error('role_id')
                                                         <div class="invalid-feedback">
