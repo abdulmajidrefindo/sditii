@@ -21,6 +21,7 @@ use App\Http\Controllers\HadistController;
 use App\Http\Controllers\TahfidzController;
 use App\Http\Controllers\IbadahHarianController;
 use App\Http\Controllers\BidangStudiController;
+use App\Http\Controllers\IlmanWaaRuuhanController;
 
 use App\Http\Controllers\DashboardController;
 
@@ -99,7 +100,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('/siswaBidangStudi', SiswaBidangStudiController::class);
     Route::resource('/siswaIlmanWaaRuuhan', SiswaIlmanWaaRuuhanController::class);
 
-    Route::post('/data_doa_update', [DoaController::class, 'update'])->name('data_doa.update');
+    Route::resource('/dataDoa', DoaController::class);
+    Route::get('/getTableDataDoa', [DoaController::class, 'getTable'])->name('dataDoa.getTable');
+    Route::resource('/dataHadist', HadistController::class);
+    Route::resource('/dataTahfidz', TahfidzController::class);
+    Route::resource('/dataIbadahHarian', IbadahHarianController::class);
+    Route::resource('/dataBidangStudi', BidangStudiController::class);
+    Route::resource('/dataIlmanWaaRuuhan', IlmanWaaRuuhanController::class);
+
+    Route::post('/data_doa_update', [DoaController::class, 'update_data_doa'])->name('data_doa.update');
     Route::post('/data_doa_tambah', [DoaController::class, 'store'])->name('data_doa.store');
 
     Route::post('/data_hadist_update', [HadistController::class, 'update'])->name('data_hadist.update');

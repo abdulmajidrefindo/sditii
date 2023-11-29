@@ -405,38 +405,85 @@ return [
                 ],
             ],
         ],*/
-        ['header' => 'INPUT NILAI'],
+
+        ['header' => 'DATA AKADEMIK'],
+
         [
-            'text'       => 'Ilman Waa Ruuhan',
-            'icon_color' => 'red',
-            'url'        => '/iwr',
+            'text'    => 'Mata Pelajaran',
+            'icon'    => 'fas fa-fw fa-book',
+            'submenu' => [
+                [
+                    'text'       => 'Ilman Waa Ruuhan',
+                    'icon_color' => 'red',
+                    'url'        => '/dataIlmanWaaRuuhan',
+                ],
+                [
+                    'text'       => 'Bidang Studi',
+                    'icon_color' => 'yellow',
+                    'url'        => '/dataBidangStudi',
+                ],
+                [
+                    'text'       => 'Ibadah Harian',
+                    'icon_color' => 'cyan',
+                    'url'        => '/dataIbadahHarian',
+                ],
+                [
+                    'text'       => 'Tahfidz',
+                    'icon_color' => 'orange',
+                    'url'        => '/dataTahfidz',
+                ],
+                [
+                    'text'       => 'Hadist',
+                    'icon_color' => 'blue',
+                    'url'        => '/dataHadist',
+                ],
+                [
+                    'text'       => 'Doa',
+                    'icon_color' => 'green',
+                    'url'        => '/dataDoa',
+                ],
+            ],
+        ],
+
+        [
+            'text'    => 'Input Nilai',
+            'icon'    => 'fas fa-fw fa-book',
+            'submenu' => [
+                [
+                    'text'       => 'Ilman Waa Ruuhan',
+                    'icon_color' => 'red',
+                    'url'        => '/iwr',
+                ],
+                [
+                    'text'       => 'Bidang Studi',
+                    'icon_color' => 'yellow',
+                    'url'        => '/bidangStudi',
+                ],
+                [
+                    'text'       => 'Ibadah Harian',
+                    'icon_color' => 'cyan',
+                    'url'        => '/ibadahHarian',
+                ],
+                [
+                    'text'       => 'Tahfidz',
+                    'icon_color' => 'orange',
+                    'url'        => '/tahfidz',
+                ],
+                [
+                    'text'       => 'Hadist',
+                    'icon_color' => 'blue',
+                    'url'        => '/hadist',
+                ],
+                [
+                    'text'       => 'Doa',
+                    'icon_color' => 'green',
+                    'url'        => '/doa',
+                ],
+            ],
         ],
         [
-            'text'       => 'Bidang Studi',
-            'icon_color' => 'yellow',
-            'url'        => '/bidangStudi',
+            'header' => 'HASIL RAPOR',
         ],
-        [
-            'text'       => 'Ibadah Harian',
-            'icon_color' => 'cyan',
-            'url'        => '/ibadahHarian',
-        ],
-        [
-            'text'       => 'Tahfidz',
-            'icon_color' => 'orange',
-            'url'        => '/tahfidz',
-        ],
-        [
-            'text'       => 'Hadist',
-            'icon_color' => 'blue',
-            'url'        => '/hadist',
-        ],
-        [
-            'text'       => 'Doa',
-            'icon_color' => 'green',
-            'url'        => '/doa',
-        ],
-        ['header' => 'HASIL RAPOR'],
         [
             'text' => 'Rapor Siswa',
             'url'  => '/raporSiswa',

@@ -7,11 +7,16 @@ use App\Models\SiswaDoa;
 use App\Models\Siswa;
 use App\Models\Periode;
 use App\Models\Kelas;
+use App\Models\Guru;
 use App\Models\SubKelas;
 use App\Http\Requests\StoreDoaRequest;
 use App\Http\Requests\UpdateDoaRequest;
 
-use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Utilities\Request;
+
+
+use Illuminate\Validation\Rule;
 
 class DoaController extends Controller
 {
@@ -20,9 +25,24 @@ class DoaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data_guru = Guru::all();
+        $periode = Periode::where('status','aktif')->first();
+        
+        $data_kelas = Kelas::all()->except(7);
+
+        $kelas_id = $request->kelas_id;
+        if ($kelas_id == null) {
+            $siswa = Doa1::where('periode_id', $periode->id)->get();
+        } else {
+            $siswa = Doa1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
+        }
+
+        
+
+        return view('dataDoa.indexDoa', compact('siswa', 'data_kelas', 'kelas_id', 'data_guru'));
+        
     }
 
     /**
@@ -133,9 +153,14 @@ class DoaController extends Controller
      * @param  \App\Models\Doa  $doa
      * @return \Illuminate\Http\Response
      */
-    public function show(Doa $doa)
+    public function show(Doa1 $dataDoa)
     {
-        //
+        $data_doa = Doa1::with('kelas','periode','guru')->where('id', $dataDoa->id)->first();
+        $data_kelas = Kelas::all()->except(7);
+        $data_guru = Guru::all();
+        $data_periode = Periode::all();
+        return view('dataDoa.showDoa', compact('data_doa', 'data_kelas', 'data_guru', 'data_periode'));
+        //return response()->json($data_doa);
     }
 
     /**
@@ -149,14 +174,67 @@ class DoaController extends Controller
         //
     }
 
+    public function update(Doa1 $dataDoa, UpdateDoaRequest $request)
+    {
+
+        $validator_rules = [];
+        if ($dataDoa->kelas_id != $request->kelas_id) {
+            $validator_rules['nama_nilai'] = 'required|unique:doas_1,nama_nilai,' . $dataDoa->id . ',id,kelas_id,' . $request->kelas_id;
+        }
+        else {
+            //if nama_nilai is not changed and kelas_id is not changed
+            $validator_rules['nama_nilai'] = 'required|unique:doas_1,nama_nilai,' . $dataDoa->id;
+        }
+        $validator_rules['guru_id'] = 'required';
+        $validator_rules['kelas_id'] = 'required';
+
+        $messages = [];
+        $messages['nama_nilai.required'] = 'Nama nilai tidak boleh kosong!';
+        $messages['nama_nilai.unique'] = 'Nama nilai sudah ada di kelas ini!';
+        $messages['guru_id.required'] = 'Guru tidak boleh kosong!';
+        $messages['kelas_id.required'] = 'Kelas tidak boleh kosong!';
+
+        $request->validate($validator_rules, $messages);
+
+        $dataDoa->nama_nilai = $request->nama_nilai;
+        $dataDoa->guru_id = $request->guru_id;
+        
+        if($dataDoa->kelas_id != $request->kelas_id){
+            $dataDoa->kelas_id = $request->kelas_id;
+            $siswa_doa = SiswaDoa::where('doa_1_id', $dataDoa->id)->get();
+            foreach ($siswa_doa as $value) {
+                $value->delete();
+            }
+            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->pluck('id')->toArray();
+            $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
+            foreach ($siswas as $siswa) {
+                $siswaDoa = new SiswaDoa;
+                $siswaDoa->siswa_id = $siswa->id;
+                $siswaDoa->doa_1_id = $dataDoa->id;
+                $siswaDoa->profil_sekolah_id = 1;
+                $siswaDoa->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaDoa->rapor_siswa_id = 1;
+                $siswaDoa->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
+                $siswaDoa->save();
+            }
+        }
+
+        try {
+            $dataDoa->save();
+            return response()->json(['success' => 'Data berhasil disimpan!', 'status' => '200']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Data gagal disimpan!']);
+        }
+    }
+
     /**
-     * Update the specified resource in storage.
+     * Update data doa dari halaman siswaDoa
      *
      * @param  \App\Http\Requests\UpdateDoaRequest  $request
      * @param  \App\Models\Doa  $doa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update_data_doa(Request $request)
     {
         //return response()->json($request->all());
         $doa_fields = [];
@@ -201,8 +279,38 @@ class DoaController extends Controller
      * @param  \App\Models\Doa  $doa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Doa $doa)
+    public function destroy(Doa1 $dataDoa)
     {
-        //
+        try {
+            $dataDoa->delete();
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
+
+    public function getTable(Request $request){
+        if ($request->ajax()) {
+
+            if ($request->kelas_id == null) {
+                $data = Doa1::with('kelas','periode','guru')->get();
+            } else {
+                $data = Doa1::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->get();
+            }
+            
+            return DataTables::of($data)
+            ->addColumn('action', function ($row) {
+                $btn = '<a href="'. route('dataDoa.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
+                
+                return $btn;
+            })
+            ->editColumn('periode', function ($row) {
+                return 'Semester '. $row->periode->semester.' ('.$row->periode->tahun_ajaran.')';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+    }
+
 }
