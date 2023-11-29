@@ -7,12 +7,14 @@ use App\Models\SiswaBidangStudi;
 use App\Models\Siswa;
 use App\Models\Periode;
 use App\Models\Kelas;
+use App\Models\Guru;
 use App\Models\SubKelas;
 use App\Http\Requests\StoreBidangStudiRequest;
 use App\Http\Requests\UpdateBidangStudiRequest;
 
 
-use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Utilities\Request;
 
 class BidangStudiController extends Controller
 {
@@ -21,9 +23,24 @@ class BidangStudiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data_guru = Guru::all();
+        $periode = Periode::where('status','aktif')->first();
+        
+        $data_kelas = Kelas::all()->except(7);
+
+        $kelas_id = $request->kelas_id;
+        if ($kelas_id == null) {
+            $siswa = Mapel::where('periode_id', $periode->id)->get();
+        } else {
+            $siswa = Mapel::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
+        }
+
+        
+
+        return view('dataBidangStudi.indexBidangStudi', compact('siswa', 'data_kelas', 'kelas_id', 'data_guru'));
+        
     }
 
     /**
@@ -163,7 +180,7 @@ class BidangStudiController extends Controller
      * @param  \App\Models\BidangStudi  $bidangStudi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update_data_bidang_studi(Request $request)
     {
         //return response()->json($request->all());
         $bidang_studi_fields = [];
@@ -229,4 +246,30 @@ class BidangStudiController extends Controller
     {
         //
     }
+
+
+    public function getTable(Request $request){
+        if ($request->ajax()) {
+
+            if ($request->kelas_id == null) {
+                $data = Mapel::with('kelas','periode','guru')->get();
+            } else {
+                $data = Mapel::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->get();
+            }
+            
+            return DataTables::of($data)
+            ->addColumn('action', function ($row) {
+                $btn = '<a href="'. route('dataBidangStudi.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
+                
+                return $btn;
+            })
+            ->editColumn('periode', function ($row) {
+                return 'Semester '. $row->periode->semester.' ('.$row->periode->tahun_ajaran.')';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+    }
+
 }

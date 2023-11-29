@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dataIbadahHarian', IbadahHarianController::class);
     Route::get('/getTableDataIbadahHarian', [IbadahHarianController::class, 'getTable'])->name('dataIbadahHarian.getTable');
     Route::resource('/dataBidangStudi', BidangStudiController::class);
+    Route::get('/getTableDataBidangStudi', [BidangStudiController::class, 'getTable'])->name('dataBidangStudi.getTable');
     Route::resource('/dataIlmanWaaRuuhan', IlmanWaaRuuhanController::class);
 
     Route::post('/data_doa_update', [DoaController::class, 'update_data_doa'])->name('data_doa.update');
@@ -123,7 +124,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/data_ibadah_harian_update', [IbadahHarianController::class, 'update_data_ibadah_harian'])->name('data_ibadah_harian.update');
     Route::post('/data_ibadah_harian_tambah', [IbadahHarianController::class, 'store'])->name('data_ibadah_harian.store');
 
-    Route::post('/data_bidang_studi_update', [BidangStudiController::class, 'update'])->name('data_bidang_studi.update');
+    Route::post('/data_bidang_studi_update', [BidangStudiController::class, 'update_data_bidang_studi'])->name('data_bidang_studi.update');
     Route::post('/data_bidang_studi_tambah', [BidangStudiController::class, 'store'])->name('data_bidang_studi.store');
     
     
