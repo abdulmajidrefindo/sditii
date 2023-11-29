@@ -20,7 +20,7 @@
         <div class="col-12 col-sm-12 col-md-6">
             <div class="card card-dark">
                 <div class="card-header border-transparent">
-                    <h3 class="card-title">Detail Hadist </h3>
+                    <h3 class="card-title">Detail Tahfidz </h3>
                     <div class="card-tools">
                         <!-- button to edit page-->
 
@@ -36,13 +36,13 @@
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <form id="form_hadist">
+                            <form id="form_tahfidz">
                                 <div class="form-group col-md-12">
                                     <label class="text-lightdark">
                                         ID
                                     </label>
                                     <div class="input-group">
-                                        <input id="id" name="id" value="{{ $data_hadist->id }}"
+                                        <input id="id" name="id" value="{{ $data_tahfidz->id }}"
                                             class="form-control" disabled>
                                     </div>
                                 </div>
@@ -52,7 +52,7 @@
                                         Periode
                                     </label>
                                     <div class="input-group">
-                                        <input id="periode" name="periode" value="{{ $data_hadist->periode->semester == 1 ? 'Ganjil' : 'Genap' }} - {{ $data_hadist->periode->tahun_ajaran }}"
+                                        <input id="periode" name="periode" value="{{ $data_tahfidz->periode->semester == 1 ? 'Ganjil' : 'Genap' }} - {{ $data_tahfidz->periode->tahun_ajaran }}"
                                             class="form-control" disabled>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                         Nama Nilai
                                     </label>
                                     <div class="input-group">
-                                        <input id="nama_nilai" name="nama_nilai" value="{{ $data_hadist->nama_nilai }}"
+                                        <input id="nama_nilai" name="nama_nilai" value="{{ $data_tahfidz->nama_nilai }}"
                                             class="form-control" disabled>
                                     </div>
                                 </div>
@@ -73,7 +73,7 @@
                                         id="kelas_id">
                                         <option selected disabled>-Kelas-</option>
                                         @foreach ($data_kelas as $k)
-                                            <option value={{ $k->id }} {{ $k->id == $data_hadist->kelas_id ? 'selected' : '' }}>
+                                            <option value={{ $k->id }} {{ $k->id == $data_tahfidz->kelas_id ? 'selected' : '' }}>
                                                 {{ $k->nama_kelas }}
                                             </option>
                                         @endforeach
@@ -91,7 +91,7 @@
                                         id="guru_id">
                                         <option selected disabled>-Guru-</option>
                                         @foreach ($data_guru as $g)
-                                            <option value={{ $g->id }} {{ $g->id == $data_hadist->guru_id ? 'selected' : '' }}>
+                                            <option value={{ $g->id }} {{ $g->id == $data_tahfidz->guru_id ? 'selected' : '' }}>
                                                 {{ $g->nama_guru }}
                                             </option>
                                         @endforeach
@@ -134,7 +134,7 @@
             $('input').prop('disabled', true);
             $('select').prop('disabled', true);
 
-            $('#form_hadist').on('submit', function(e) {
+            $('#form_tahfidz').on('submit', function(e) {
                 e.preventDefault();
                 var $form = $(this); 
                 $('#edit').show();
@@ -149,7 +149,7 @@
                 $('select').prop('disabled', true);
                 //var data = $form.serialize();
                 $.ajax({
-                    url: "{{ route('dataHadist.update', $data_hadist->id) }}",
+                    url: "{{ route('dataTahfidz.update', $data_tahfidz->id) }}",
                     type: "PUT",
                     data: {
                         nama_nilai: nama_nilai,
@@ -167,9 +167,9 @@
                     },
                     error: function(err) {
                         if (err.status == 422) {
-                            $('#form_hadist').find('.is-invalid').removeClass(
+                            $('#form_tahfidz').find('.is-invalid').removeClass(
                                 'is-invalid');
-                            $('#form_hadist').find('.error').remove();
+                            $('#form_tahfidz').find('.error').remove();
 
                             //send error to adminlte form
                             $.each(err.responseJSON.error, function(i, error) {

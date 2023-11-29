@@ -150,9 +150,14 @@ class TahfidzController extends Controller
      * @param  \App\Models\Tahfidz  $tahfidz
      * @return \Illuminate\Http\Response
      */
-    public function show(Tahfidz $tahfidz)
+    public function show(Tahfidz1 $dataTahfidz)
     {
-        //
+        $data_tahfidz = Tahfidz1::with('kelas','periode','guru')->where('id', $dataTahfidz->id)->first();
+        $data_kelas = Kelas::all()->except(7);
+        $data_guru = Guru::all();
+        $data_periode = Periode::all();
+        return view('dataTahfidz.showTahfidz', compact('data_tahfidz', 'data_kelas', 'data_guru', 'data_periode'));
+        //return response()->json($data_tahfidz);
     }
 
     /**
@@ -164,6 +169,61 @@ class TahfidzController extends Controller
     public function edit(Tahfidz $tahfidz)
     {
         //
+    }
+
+    public function update(Tahfidz1 $dataTahfidz, UpdateTahfidzRequest $request)
+    {
+
+        $validator_rules = [];
+        if ($dataTahfidz->kelas_id != $request->kelas_id) {
+            $validator_rules['nama_nilai'] = 'required|unique:tahfidzs_1,nama_nilai,' . $dataTahfidz->id . ',id,kelas_id,' . $request->kelas_id;
+        }
+        elseif ($dataTahfidz->nama_nilai != $request->nama_nilai) {
+            $validator_rules['nama_nilai'] = 'required|unique:tahfidzs_1,nama_nilai,' . $dataTahfidz->id;
+        }
+        else {
+            $validator_rules['nama_nilai'] = 'required';
+        }
+        $validator_rules['guru_id'] = 'required';
+        $validator_rules['kelas_id'] = 'required';
+
+        $messages = [];
+        $messages['nama_nilai.required'] = 'Nama nilai tidak boleh kosong!';
+        $messages['nama_nilai.unique'] = 'Nama nilai sudah ada di kelas ini!';
+        $messages['guru_id.required'] = 'Guru tidak boleh kosong!';
+        $messages['kelas_id.required'] = 'Kelas tidak boleh kosong!';
+
+        $request->validate($validator_rules, $messages);
+
+        $dataTahfidz->nama_nilai = $request->nama_nilai;
+        $dataTahfidz->guru_id = $request->guru_id;
+        
+        if($dataTahfidz->kelas_id != $request->kelas_id){
+            $dataTahfidz->kelas_id = $request->kelas_id;
+            $siswa_tahfidz = SiswaTahfidz::where('tahfidz_1_id', $dataTahfidz->id)->get();
+            foreach ($siswa_tahfidz as $value) {
+                $value->delete();
+            }
+            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->pluck('id')->toArray();
+            $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
+            foreach ($siswas as $siswa) {
+                $siswaTahfidz = new SiswaTahfidz;
+                $siswaTahfidz->siswa_id = $siswa->id;
+                $siswaTahfidz->tahfidz_1_id = $dataTahfidz->id;
+                $siswaTahfidz->profil_sekolah_id = 1;
+                $siswaTahfidz->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaTahfidz->rapor_siswa_id = 1;
+                $siswaTahfidz->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
+                $siswaTahfidz->save();
+            }
+        }
+
+        try {
+            $dataTahfidz->save();
+            return response()->json(['success' => 'Data berhasil disimpan!', 'status' => '200']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Data gagal disimpan!']);
+        }
     }
 
     /**
@@ -218,9 +278,14 @@ class TahfidzController extends Controller
      * @param  \App\Models\Tahfidz  $tahfidz
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tahfidz $tahfidz)
+    public function destroy(Tahfidz1 $dataTahfidz)
     {
-        //
+        try {
+            $dataTahfidz->delete();
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 
     public function getTable(Request $request){
