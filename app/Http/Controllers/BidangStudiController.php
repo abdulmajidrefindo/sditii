@@ -137,6 +137,7 @@ class BidangStudiController extends Controller
                 $siswaBidangStudi->nilai_tugas_2 = 101;
                 $siswaBidangStudi->nilai_uts = 101;
                 $siswaBidangStudi->nilai_pas = 101;
+                $siswaBidangStudi->nilai_akhir = 101;
                 if ($siswaBidangStudi->save()) {
                     $berhasil++;
                 }
@@ -227,6 +228,7 @@ class BidangStudiController extends Controller
                 $siswaBidangStudi->nilai_tugas_2 = 101;
                 $siswaBidangStudi->nilai_uts = 101;
                 $siswaBidangStudi->nilai_pas = 101;
+                $siswaBidangStudi->nilai_akhir = 101;
                 $siswaBidangStudi->save();
             }
         }
