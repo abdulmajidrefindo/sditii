@@ -7,11 +7,13 @@ use App\Models\SiswaIbadahHarian;
 use App\Models\Siswa;
 use App\Models\Periode;
 use App\Models\Kelas;
+use App\Models\Guru;
 use App\Models\SubKelas;
 use App\Http\Requests\StoreIbadahHarianRequest;
 use App\Http\Requests\UpdateIbadahHarianRequest;
 
-use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Utilities\Request;
 
 class IbadahHarianController extends Controller
 {
@@ -20,9 +22,24 @@ class IbadahHarianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data_guru = Guru::all();
+        $periode = Periode::where('status','aktif')->first();
+        
+        $data_kelas = Kelas::all()->except(7);
+
+        $kelas_id = $request->kelas_id;
+        if ($kelas_id == null) {
+            $siswa = IbadahHarian1::where('periode_id', $periode->id)->get();
+        } else {
+            $siswa = IbadahHarian1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
+        }
+
+        
+
+        return view('dataIbadahHarian.indexIbadahHarian', compact('siswa', 'data_kelas', 'kelas_id', 'data_guru'));
+        
     }
 
     /**
@@ -101,18 +118,18 @@ class IbadahHarianController extends Controller
 
         $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
 
-        // Add siswaTahfidz with nilai 0 for all siswa in kelas_id
+        // Add siswaIbadahHarian with nilai 0 for all siswa in kelas_id
         $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
         foreach ($siswas as $siswa) {
             foreach ($new_ibadah_harian_id as $value) {
-                $siswaTahfidz = new SiswaIbadahHarian;
-                $siswaTahfidz->siswa_id = $siswa->id;
-                $siswaTahfidz->ibadah_harian_1_id = $value;
-                $siswaTahfidz->profil_sekolah_id = 1;
-                $siswaTahfidz->periode_id = Periode::where('status', 'aktif')->first()->id;
-                $siswaTahfidz->rapor_siswa_id = 1;
-                $siswaTahfidz->penilaian_deskripsi_id = 5;
-                if ($siswaTahfidz->save()) {
+                $siswaIbadahHarian = new SiswaIbadahHarian;
+                $siswaIbadahHarian->siswa_id = $siswa->id;
+                $siswaIbadahHarian->ibadah_harian_1_id = $value;
+                $siswaIbadahHarian->profil_sekolah_id = 1;
+                $siswaIbadahHarian->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaIbadahHarian->rapor_siswa_id = 1;
+                $siswaIbadahHarian->penilaian_deskripsi_id = 5;
+                if ($siswaIbadahHarian->save()) {
                     $berhasil++;
                 }
                 $processed++;
@@ -165,7 +182,7 @@ class IbadahHarianController extends Controller
             }
         }
 
-        // Update Tahfidz if containt ibadah_harian_(id) and delete if containt delete_(id)
+        // Update IbadahHarian if containt ibadah_harian_(id) and delete if containt delete_(id)
         $berhasil = 0;
         $processed = 0;
         foreach ($ibadah_harian_fields as $field => $value) {
@@ -203,5 +220,29 @@ class IbadahHarianController extends Controller
     public function destroy(IbadahHarian $ibadahHarian)
     {
         //
+    }
+
+    public function getTable(Request $request){
+        if ($request->ajax()) {
+
+            if ($request->kelas_id == null) {
+                $data = IbadahHarian1::with('kelas','periode','guru')->get();
+            } else {
+                $data = IbadahHarian1::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->get();
+            }
+            
+            return DataTables::of($data)
+            ->addColumn('action', function ($row) {
+                $btn = '<a href="'. route('dataTahfidz.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
+                
+                return $btn;
+            })
+            ->editColumn('periode', function ($row) {
+                return 'Semester '. $row->periode->semester.' ('.$row->periode->tahun_ajaran.')';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
     }
 }

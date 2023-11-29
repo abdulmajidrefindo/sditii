@@ -107,6 +107,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dataTahfidz', TahfidzController::class);
     Route::get('/getTableDataTahfidz', [TahfidzController::class, 'getTable'])->name('dataTahfidz.getTable');
     Route::resource('/dataIbadahHarian', IbadahHarianController::class);
+    Route::get('/getTableDataIbadahHarian', [IbadahHarianController::class, 'getTable'])->name('dataIbadahHarian.getTable');
     Route::resource('/dataBidangStudi', BidangStudiController::class);
     Route::resource('/dataIlmanWaaRuuhan', IlmanWaaRuuhanController::class);
 
@@ -119,7 +120,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/data_tahfidz_update', [TahfidzController::class, 'update_data_tahfidz'])->name('data_tahfidz.update');
     Route::post('/data_tahfidz_tambah', [TahfidzController::class, 'store'])->name('data_tahfidz.store');
 
-    Route::post('/data_ibadah_harian_update', [IbadahHarianController::class, 'update'])->name('data_ibadah_harian.update');
+    Route::post('/data_ibadah_harian_update', [IbadahHarianController::class, 'update_data_ibadah_harian'])->name('data_ibadah_harian.update');
     Route::post('/data_ibadah_harian_tambah', [IbadahHarianController::class, 'store'])->name('data_ibadah_harian.store');
 
     Route::post('/data_bidang_studi_update', [BidangStudiController::class, 'update'])->name('data_bidang_studi.update');
