@@ -111,6 +111,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dataBidangStudi', BidangStudiController::class);
     Route::get('/getTableDataBidangStudi', [BidangStudiController::class, 'getTable'])->name('dataBidangStudi.getTable');
     Route::resource('/dataIlmanWaaRuuhan', IlmanWaaRuuhanController::class);
+    Route::get('/getTableDataIlmanWaaRuuhan', [IlmanWaaRuuhanController::class, 'getTable'])->name('dataIlmanWaaRuuhan.getTable');
 
     Route::post('/data_doa_update', [DoaController::class, 'update_data_doa'])->name('data_doa.update');
     Route::post('/data_doa_tambah', [DoaController::class, 'store'])->name('data_doa.store');

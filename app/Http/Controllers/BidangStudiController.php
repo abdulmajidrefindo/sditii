@@ -194,8 +194,8 @@ class BidangStudiController extends Controller
         $validator_rules['kelas_id'] = 'required';
 
         $messages = [];
-        $messages['nama_mapel.required'] = 'Nama nilai tidak boleh kosong!';
-        $messages['nama_mapel.unique'] = 'Nama nilai sudah ada di kelas ini!';
+        $messages['nama_mapel.required'] = 'Nama bidang studi tidak boleh kosong!';
+        $messages['nama_mapel.unique'] = 'Nama bidang studi sudah ada di kelas ini!';
         $messages['guru_id.required'] = 'Guru tidak boleh kosong!';
         $messages['kelas_id.required'] = 'Kelas tidak boleh kosong!';
 
