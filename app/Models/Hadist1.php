@@ -15,6 +15,7 @@ class Hadist1 extends Model
         'nama_nilai',
         'guru_id',
         'kelas_id',
+        'periode_id',
     ];
 
     public function siswa_hadist()
@@ -28,6 +29,11 @@ class Hadist1 extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class);
+    }
+
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
     }
 
     public function delete()

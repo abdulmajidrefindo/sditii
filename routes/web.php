@@ -103,6 +103,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dataDoa', DoaController::class);
     Route::get('/getTableDataDoa', [DoaController::class, 'getTable'])->name('dataDoa.getTable');
     Route::resource('/dataHadist', HadistController::class);
+    Route::get('/getTableDataHadist', [HadistController::class, 'getTable'])->name('dataHadist.getTable');
     Route::resource('/dataTahfidz', TahfidzController::class);
     Route::resource('/dataIbadahHarian', IbadahHarianController::class);
     Route::resource('/dataBidangStudi', BidangStudiController::class);
@@ -111,7 +112,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/data_doa_update', [DoaController::class, 'update_data_doa'])->name('data_doa.update');
     Route::post('/data_doa_tambah', [DoaController::class, 'store'])->name('data_doa.store');
 
-    Route::post('/data_hadist_update', [HadistController::class, 'update'])->name('data_hadist.update');
+    Route::post('/data_hadist_update', [HadistController::class, 'update_data_hadist'])->name('data_hadist.update');
     Route::post('/data_hadist_tambah', [HadistController::class, 'store'])->name('data_hadist.store');
 
     Route::post('/data_tahfidz_update', [TahfidzController::class, 'update'])->name('data_tahfidz.update');

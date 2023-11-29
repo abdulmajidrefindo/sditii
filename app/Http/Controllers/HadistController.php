@@ -7,11 +7,13 @@ use App\Models\SiswaHadist;
 use App\Models\Siswa;
 use App\Models\Periode;
 use App\Models\Kelas;
+use App\Models\Guru;
 use App\Models\SubKelas;
 use App\Http\Requests\StoreHadistRequest;
 use App\Http\Requests\UpdateHadistRequest;
 
-use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Utilities\Request;
 
 class HadistController extends Controller
 {
@@ -20,9 +22,24 @@ class HadistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data_guru = Guru::all();
+        $periode = Periode::where('status','aktif')->first();
+        
+        $data_kelas = Kelas::all()->except(7);
+
+        $kelas_id = $request->kelas_id;
+        if ($kelas_id == null) {
+            $siswa = Hadist1::where('periode_id', $periode->id)->get();
+        } else {
+            $siswa = Hadist1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
+        }
+
+        
+
+        return view('dataHadist.indexHadist', compact('siswa', 'data_kelas', 'kelas_id', 'data_guru'));
+        
     }
 
     /**
@@ -204,4 +221,29 @@ class HadistController extends Controller
     {
         //
     }
+
+    public function getTable(Request $request){
+        if ($request->ajax()) {
+
+            if ($request->kelas_id == null) {
+                $data = Hadist1::with('kelas','periode','guru')->get();
+            } else {
+                $data = Hadist1::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->get();
+            }
+            
+            return DataTables::of($data)
+            ->addColumn('action', function ($row) {
+                $btn = '<a href="'. route('dataHadist.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
+                
+                return $btn;
+            })
+            ->editColumn('periode', function ($row) {
+                return 'Semester '. $row->periode->semester.' ('.$row->periode->tahun_ajaran.')';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+    }
+
 }
