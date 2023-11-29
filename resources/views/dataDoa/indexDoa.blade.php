@@ -522,9 +522,9 @@
 <script>
     //delete via ajax with sweet alert
     $(document).on('click', '.delete', function() {
-        let siswa_id = $(this).attr('data-id');
-        let url = '{{ route('dataDoa.destroy', ':siswa_id') }}';
-        url = url.replace(':siswa_id', siswa_id);
+        let doa_id = $(this).attr('data-id');
+        let url = '{{ route('dataDoa.destroy', ':doa_id') }}';
+        url = url.replace(':doa_id', doa_id);
         Swal.fire({
             title: 'Apakah anda yakin?',
             text: "Semua data nilai siswa akan dihapus!",

@@ -181,9 +181,11 @@ class DoaController extends Controller
         if ($dataDoa->kelas_id != $request->kelas_id) {
             $validator_rules['nama_nilai'] = 'required|unique:doas_1,nama_nilai,' . $dataDoa->id . ',id,kelas_id,' . $request->kelas_id;
         }
-        else {
-            //if nama_nilai is not changed and kelas_id is not changed
+        elseif ($dataDoa->nama_nilai != $request->nama_nilai) {
             $validator_rules['nama_nilai'] = 'required|unique:doas_1,nama_nilai,' . $dataDoa->id;
+        }
+        else {
+            $validator_rules['nama_nilai'] = 'required';
         }
         $validator_rules['guru_id'] = 'required';
         $validator_rules['kelas_id'] = 'required';

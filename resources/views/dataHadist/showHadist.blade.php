@@ -145,7 +145,8 @@
                 let nama_nilai = $('#nama_nilai').val();
                 let kelas_id = $('#kelas_id').val();
                 let guru_id = $('#guru_id').val();
-
+                $('input').prop('disabled', true);
+                $('select').prop('disabled', true);
                 //var data = $form.serialize();
                 $.ajax({
                     url: "{{ route('dataHadist.update', $data_hadist->id) }}",
@@ -162,8 +163,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        $('input').prop('disabled', true);
-                        $('select').prop('disabled', true);
+                        
                     },
                     error: function(err) {
                         if (err.status == 422) {
