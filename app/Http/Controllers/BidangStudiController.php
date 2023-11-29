@@ -242,9 +242,14 @@ class BidangStudiController extends Controller
      * @param  \App\Models\BidangStudi  $bidangStudi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BidangStudi $bidangStudi)
+    public function destroy(Mapel $dataBidangStudi)
     {
-        //
+        try {
+            $dataBidangStudi->delete();
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Data gagal dihapus!']);
+        }
     }
 
 
