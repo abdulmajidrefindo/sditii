@@ -347,6 +347,11 @@ return [
             'icon' => 'fas fa-fw fa-briefcase',
         ],
         [
+            'text' => 'Data Tahun Pelajaran',
+            'url'  => 'dataPeriode',
+            'icon' => 'fas fa-fw fa-table',
+        ],
+        [
             'text' => 'Data Guru',
             'url'  => '/dataGuru',
             'icon' => 'fas fa-fw fa-user',
@@ -360,11 +365,6 @@ return [
             'text' => 'Data Siswa',
             'url'  => '/dataSiswa',
             'icon' => 'fas fa-fw fa-users',
-        ],
-        [
-            'text' => 'Data Tahun Pelajaran',
-            'url'  => 'dataPeriode',
-            'icon' => 'fas fa-fw fa-table',
         ],
 
         /*[
