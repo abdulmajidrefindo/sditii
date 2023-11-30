@@ -116,7 +116,7 @@ class IbadahHarianController extends Controller
             $processed++;
         }
 
-        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
+        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
 
         // Add siswaIbadahHarian with nilai 0 for all siswa in kelas_id
         $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
@@ -126,7 +126,7 @@ class IbadahHarianController extends Controller
                 $siswaIbadahHarian->siswa_id = $siswa->id;
                 $siswaIbadahHarian->ibadah_harian_1_id = $value;
                 $siswaIbadahHarian->profil_sekolah_id = 1;
-                $siswaIbadahHarian->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaIbadahHarian->periode_id = $semester;
                 $siswaIbadahHarian->rapor_siswa_id = 1;
                 $siswaIbadahHarian->penilaian_deskripsi_id = 5;
                 if ($siswaIbadahHarian->save()) {
@@ -172,6 +172,7 @@ class IbadahHarianController extends Controller
 
     public function update(IbadahHarian1 $dataIbadahHarian, UpdateIbadahHarianRequest $request)
     {
+        $semester = Periode::where('status', 'aktif')->first()->id;
         $validator_rules = [];
         if ($dataIbadahHarian->kelas_id != $request->kelas_id) {
             $validator_rules['nama_kriteria'] = 'required|unique:ibadah_harians_1,nama_kriteria,' . $dataIbadahHarian->id . ',id,kelas_id,' . $request->kelas_id;
@@ -202,14 +203,14 @@ class IbadahHarianController extends Controller
             foreach ($siswa_ibadah_harian as $value) {
                 $value->delete();
             }
-            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->pluck('id')->toArray();
+            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
             $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
             foreach ($siswas as $siswa) {
                 $siswaIbadahHarian = new SiswaIbadahHarian;
                 $siswaIbadahHarian->siswa_id = $siswa->id;
                 $siswaIbadahHarian->ibadah_harian_1_id = $dataIbadahHarian->id;
                 $siswaIbadahHarian->profil_sekolah_id = 1;
-                $siswaIbadahHarian->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaIbadahHarian->periode_id = $semester;
                 $siswaIbadahHarian->rapor_siswa_id = 1;
                 $siswaIbadahHarian->penilaian_deskripsi_id = 5; // Nilai -Kosong-
                 $siswaIbadahHarian->save();
