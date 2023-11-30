@@ -117,7 +117,7 @@ class BidangStudiController extends Controller
             $processed++;
         }
 
-        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
+        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
 
         // Add siswaBidangStudi with nilai 0 for all siswa in kelas_id
         $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
@@ -127,7 +127,7 @@ class BidangStudiController extends Controller
                 $siswaBidangStudi->siswa_id = $siswa->id;
                 $siswaBidangStudi->mapel_id = $value;
                 $siswaBidangStudi->profil_sekolah_id = 1;
-                $siswaBidangStudi->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaBidangStudi->periode_id = $semester;
                 $siswaBidangStudi->rapor_siswa_id = 1;
                 $siswaBidangStudi->nilai_uh_1 = 101;
                 $siswaBidangStudi->nilai_uh_2 = 101;
@@ -181,6 +181,7 @@ class BidangStudiController extends Controller
 
     public function update(Mapel $dataBidangStudi, UpdateBidangStudiRequest $request)
     {
+        $semester = Periode::where('status', 'aktif')->first()->id;
         $validator_rules = [];
         if ($dataBidangStudi->kelas_id != $request->kelas_id) {
             $validator_rules['nama_mapel'] = 'required|unique:mapels,nama_mapel,' . $dataBidangStudi->id . ',id,kelas_id,' . $request->kelas_id;
@@ -211,14 +212,14 @@ class BidangStudiController extends Controller
             foreach ($siswa_bidang_studi as $value) {
                 $value->delete();
             }
-            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->pluck('id')->toArray();
+            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
             $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
             foreach ($siswas as $siswa) {
                 $siswaBidangStudi = new SiswaBidangStudi;
                 $siswaBidangStudi->siswa_id = $siswa->id;
                 $siswaBidangStudi->mapel_id = $dataBidangStudi->id;
                 $siswaBidangStudi->profil_sekolah_id = 1;
-                $siswaBidangStudi->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaBidangStudi->periode_id = $semester;
                 $siswaBidangStudi->rapor_siswa_id = 1;
                 $siswaBidangStudi->nilai_uh_1 = 101;
                 $siswaBidangStudi->nilai_uh_2 = 101;
