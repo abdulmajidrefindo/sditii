@@ -117,7 +117,7 @@ class TahfidzController extends Controller
             $processed++;
         }
 
-        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
+        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
 
         // Add siswaTahfidz with nilai 0 for all siswa in kelas_id
         $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
@@ -127,7 +127,7 @@ class TahfidzController extends Controller
                 $siswaTahfidz->siswa_id = $siswa->id;
                 $siswaTahfidz->tahfidz_1_id = $value;
                 $siswaTahfidz->profil_sekolah_id = 1;
-                $siswaTahfidz->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaTahfidz->periode_id = $semester;
                 $siswaTahfidz->rapor_siswa_id = 1;
                 $siswaTahfidz->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 if ($siswaTahfidz->save()) {
@@ -173,7 +173,7 @@ class TahfidzController extends Controller
 
     public function update(Tahfidz1 $dataTahfidz, UpdateTahfidzRequest $request)
     {
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         $validator_rules = [];
         if ($dataTahfidz->kelas_id != $request->kelas_id) {
             $validator_rules['nama_nilai'] = 'required|unique:tahfidzs_1,nama_nilai,' . $dataTahfidz->id . ',id,kelas_id,' . $request->kelas_id;
@@ -204,14 +204,14 @@ class TahfidzController extends Controller
             foreach ($siswa_tahfidz as $value) {
                 $value->delete();
             }
-            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->pluck('id')->toArray();
+            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
             $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
             foreach ($siswas as $siswa) {
                 $siswaTahfidz = new SiswaTahfidz;
                 $siswaTahfidz->siswa_id = $siswa->id;
                 $siswaTahfidz->tahfidz_1_id = $dataTahfidz->id;
                 $siswaTahfidz->profil_sekolah_id = 1;
-                $siswaTahfidz->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaTahfidz->periode_id = $semester;
                 $siswaTahfidz->rapor_siswa_id = 1;
                 $siswaTahfidz->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 $siswaTahfidz->save();
