@@ -288,11 +288,11 @@ class IbadahHarianController extends Controller
 
     public function getTable(Request $request){
         if ($request->ajax()) {
-
+            $periode = Periode::where('status','aktif')->first();
             if ($request->kelas_id == null) {
-                $data = IbadahHarian1::with('kelas','periode','guru')->get();
+                $data = IbadahHarian1::with('kelas','periode','guru')->where('periode_id',$periode->id)->get();
             } else {
-                $data = IbadahHarian1::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->get();
+                $data = IbadahHarian1::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->where('periode_id',$periode->id)->get();
             }
             
             return DataTables::of($data)

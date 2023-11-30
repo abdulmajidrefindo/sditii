@@ -39,7 +39,6 @@ class DoaController extends Controller
             $siswa = Doa1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
         }
 
-        
 
         return view('dataDoa.indexDoa', compact('siswa', 'data_kelas', 'kelas_id', 'data_guru'));
         
@@ -294,10 +293,12 @@ class DoaController extends Controller
     public function getTable(Request $request){
         if ($request->ajax()) {
 
+            $periode = Periode::where('status','aktif')->first();
+
             if ($request->kelas_id == null) {
-                $data = Doa1::with('kelas','periode','guru')->get();
+                $data = Doa1::with('kelas','periode','guru')->where('periode_id', $periode->id)->get();
             } else {
-                $data = Doa1::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->get();
+                $data = Doa1::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->where('periode_id', $periode->id)->get();
             }
             
             return DataTables::of($data)

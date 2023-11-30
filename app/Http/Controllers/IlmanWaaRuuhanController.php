@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\IlmanWaaRuuhan;
 use App\Models\Kelas;
 use App\Models\Guru;
+use App\Models\Periode;
 
 use App\Http\Requests\StoreIlmanWaaRuuhanRequest;
 use App\Http\Requests\UpdateIlmanWaaRuuhanRequest;
@@ -25,10 +26,11 @@ class IlmanWaaRuuhanController extends Controller
         $data_kelas = Kelas::all()->except(7);
 
         $kelas_id = $request->kelas_id;
+        $periode = Periode::where('status','aktif')->first();
         if ($kelas_id == null) {
-            $siswa = IlmanWaaRuuhan::all();
+            $siswa = IlmanWaaRuuhan::where('periode_id',$periode->id)->get();
         } else {
-            $siswa = IlmanWaaRuuhan::where('kelas_id', $kelas_id)->get();
+            $siswa = IlmanWaaRuuhan::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         }
 
         
@@ -129,11 +131,11 @@ class IlmanWaaRuuhanController extends Controller
 
     public function getTable(Request $request){
         if ($request->ajax()) {
-
+            $periode = Periode::where('status','aktif')->first();
             if ($request->kelas_id == null) {
-                $data = IlmanWaaRuuhan::with('kelas','guru')->get();
+                $data = IlmanWaaRuuhan::with('kelas','guru')->where('periode_id',$periode->id)->get();
             } else {
-                $data = IlmanWaaRuuhan::with('kelas','guru')->where('kelas_id', $request->kelas_id)->get();
+                $data = IlmanWaaRuuhan::with('kelas','guru')->where('kelas_id', $request->kelas_id)->where('periode_id',$periode->id)->get();
             }
             
             return DataTables::of($data)

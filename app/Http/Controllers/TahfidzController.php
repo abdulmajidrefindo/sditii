@@ -290,11 +290,11 @@ class TahfidzController extends Controller
 
     public function getTable(Request $request){
         if ($request->ajax()) {
-
+            $periode = Periode::where('status','aktif')->first();
             if ($request->kelas_id == null) {
-                $data = Tahfidz1::with('kelas','periode','guru')->get();
+                $data = Tahfidz1::with('kelas','periode','guru')->where('periode_id',$periode->id)->get();
             } else {
-                $data = Tahfidz1::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->get();
+                $data = Tahfidz1::with('kelas','periode','guru')->where('kelas_id', $request->kelas_id)->where('periode_id',$periode->id)->get();
             }
             
             return DataTables::of($data)
