@@ -23,15 +23,16 @@ class SiswaHadistController extends Controller
      */
     public function index(Request  $request)
     {
+        
+        $periode = Periode::where('status','aktif')->first();
         $kelas_id = $request->kelas_id;
-        $data_sub_kelas = SubKelas::with('kelas')->get();
+        $data_sub_kelas = SubKelas::with('kelas')->where('periode_id', $periode->id)->get();
         foreach ($data_sub_kelas as $key => $value) {
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
         }
 
         $data_kelas = Kelas::all()->except(Kelas::all()->last()->id);
         $data_guru = Guru::all();
-        $periode = Periode::where('status','aktif')->first();
 
         if ($kelas_id == null) {
             $kelas_id = 1;

@@ -116,7 +116,7 @@ class HadistController extends Controller
             $processed++;
         }
 
-        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
+        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
 
         // Add siswaHadist with nilai 0 for all siswa in kelas_id
         $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get(); 
@@ -126,7 +126,7 @@ class HadistController extends Controller
                 $siswaHadist->siswa_id = $siswa->id;
                 $siswaHadist->hadist_1_id = $value;
                 $siswaHadist->profil_sekolah_id = 1;
-                $siswaHadist->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaHadist->periode_id = $semester;
                 $siswaHadist->rapor_siswa_id = 1;
                 $siswaHadist->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 if ($siswaHadist->save()) {
@@ -172,7 +172,7 @@ class HadistController extends Controller
 
     public function update(Hadist1 $dataHadist, UpdateHadistRequest $request)
     {
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         $validator_rules = [];
         if ($dataHadist->kelas_id != $request->kelas_id) {
             $validator_rules['nama_nilai'] = 'required|unique:hadists_1,nama_nilai,' . $dataHadist->id . ',id,kelas_id,' . $request->kelas_id;
@@ -203,14 +203,14 @@ class HadistController extends Controller
             foreach ($siswa_hadist as $value) {
                 $value->delete();
             }
-            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->pluck('id')->toArray();
+            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
             $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
             foreach ($siswas as $siswa) {
                 $siswaHadist = new SiswaHadist;
                 $siswaHadist->siswa_id = $siswa->id;
                 $siswaHadist->hadist_1_id = $dataHadist->id;
                 $siswaHadist->profil_sekolah_id = 1;
-                $siswaHadist->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaHadist->periode_id = $semester;
                 $siswaHadist->rapor_siswa_id = 1;
                 $siswaHadist->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 $siswaHadist->save();
