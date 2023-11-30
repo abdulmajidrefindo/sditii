@@ -24,6 +24,7 @@ class SiswaFactory extends Factory
             'orangtua_wali'=>$this->faker->name(),
             'rapor_siswa_id'=>1,
             'sub_kelas_id'=>SubKelas::all()->random()->id,
+            'periode_id'=>1,
         ];
     }
 }

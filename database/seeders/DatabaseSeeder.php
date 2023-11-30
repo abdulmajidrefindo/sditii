@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         Guru::factory(10)->create();
         $this->call([
             RaporSiswaSeeder::class,
+            PeriodeSeeder::class,
             KelasSeeder::class
         ]);
 
@@ -34,7 +35,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             UserRolesSeeder::class,
             PengumumanSeeder::class,
-            PeriodeSeeder::class,
+            
             ProfilSekolahSeeder::class,
             PenilaianDeskripsiSeeder::class,
             PenilaianHurufAngkaSeeder::class,
