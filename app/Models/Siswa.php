@@ -16,10 +16,10 @@ class Siswa extends Model
         'nisn',
         'nama_siswa',
         'orangtua_wali',
-        'kelas_id',
         'created_at',
         'updated_at',
-        'sub_kelas_id'
+        'sub_kelas_id',
+        'periode_id',
     ];
 
 
@@ -33,6 +33,13 @@ class Siswa extends Model
     {
         return $this->belongsTo(RaporSiswa::class);
     }
+
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
+    }
+
+    
 
     // Bidang Studi siswa
     public function siswa_bidang_studi()

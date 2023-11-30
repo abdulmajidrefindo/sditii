@@ -24,6 +24,11 @@ class SubKelas extends Model
         return $this->belongsTo(Guru::class);
     }
 
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
+    }
+
     public function siswa()
     {
         return $this->hasMany(Siswa::class);
