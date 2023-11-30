@@ -25,16 +25,17 @@ class SiswaDoaController extends Controller
      */
     public function index(Request $request)
     {
+        
+        $periode = Periode::where('status','aktif')->first();
         // Main page
         $kelas_id = $request->kelas_id;
-        $data_sub_kelas = SubKelas::with('kelas')->get();
+        $data_sub_kelas = SubKelas::with('kelas')->where('periode_id', $periode->id)->get();
         $data_kelas = Kelas::all()->except(7);
         //add sub_kelas.nama_kelas by kelas.nama_kelas + sub_kelas.nama_sub_kelas
         foreach ($data_sub_kelas as $key => $value) {
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
         }
         $data_guru = Guru::all();
-        $periode = Periode::where('status','aktif')->first();
 
         if ($kelas_id == null) {
             $kelas_id = 1;

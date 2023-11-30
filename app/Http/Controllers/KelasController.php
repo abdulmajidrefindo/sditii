@@ -7,6 +7,7 @@ use App\Models\SubKelas;
 use App\Models\User;
 use App\Models\UserRoles;
 use App\Models\Guru;
+use App\Models\Periode;
 use App\Http\Requests\StoreKelasRequest;
 use App\Http\Requests\UpdateKelasRequest;
 use Yajra\DataTables\DataTables;
@@ -21,7 +22,8 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $kelas = SubKelas::with('kelas')->get();
+        $periode = Periode::where('status','aktif')->first();
+        $kelas = SubKelas::with('kelas')->where('periode_id',$periode->id)->get();
         $data_kelas = Kelas::all()->except(7);
         $data_guru = Guru::all();
         return view('/dataKelas/indexDataKelas',
@@ -53,6 +55,7 @@ class KelasController extends Controller
      */
     public function store(StoreKelasRequest $request)
     {
+        $periode = Periode::where('status','aktif')->first();
         $validator = $request->validate([
             'kelas' => 'required',
             'nama_sub_kelas' => ['required', 'max:255', Rule::unique('sub_kelas')->where(function ($query) use ($request) {
@@ -72,6 +75,7 @@ class KelasController extends Controller
         $kelas = new SubKelas();
         $kelas->nama_sub_kelas = $request->nama_sub_kelas;
         $kelas->kelas_id = $request->kelas;
+        $kelas->periode_id = $periode->id;
 
         if ($request->wali_kelas != 0) {
             $user_id_guru = Guru::where('id', $request->wali_kelas)->first()->user_id;
@@ -214,7 +218,8 @@ class KelasController extends Controller
             // $role = Role::all();
             // $concat = $user->concat($userRole)->concat($role);
             // $data = $concat->all();
-            $guru = SubKelas::with('kelas', 'guru')->get();
+            $periode = Periode::where('status','aktif')->first();
+            $guru = SubKelas::with('kelas', 'guru')->where('periode_id',$periode->id)->get();
             return DataTables::of($guru)
             // ->addIndexColumn()
             ->addColumn('action', function ($row) {

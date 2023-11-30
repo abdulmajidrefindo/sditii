@@ -119,7 +119,7 @@ class DoaController extends Controller
             $processed++;
         }
 
-        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->pluck('id')->toArray();
+        $sub_kelas_id = SubKelas::where('kelas_id', $kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
 
         // Add siswaDoa with nilai 0 for all siswa in kelas_id
         $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
@@ -129,7 +129,7 @@ class DoaController extends Controller
                 $siswaDoa->siswa_id = $siswa->id;
                 $siswaDoa->doa_1_id = $value;
                 $siswaDoa->profil_sekolah_id = 1;
-                $siswaDoa->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaDoa->periode_id = $semester;
                 $siswaDoa->rapor_siswa_id = 1;
                 $siswaDoa->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 if ($siswaDoa->save()) {
@@ -175,7 +175,7 @@ class DoaController extends Controller
 
     public function update(Doa1 $dataDoa, UpdateDoaRequest $request)
     {
-
+        $semester = Periode::where('status', 'aktif')->first()->id;
         $validator_rules = [];
         if ($dataDoa->kelas_id != $request->kelas_id) {
             $validator_rules['nama_nilai'] = 'required|unique:doas_1,nama_nilai,' . $dataDoa->id . ',id,kelas_id,' . $request->kelas_id;
@@ -206,14 +206,14 @@ class DoaController extends Controller
             foreach ($siswa_doa as $value) {
                 $value->delete();
             }
-            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->pluck('id')->toArray();
+            $sub_kelas_id = SubKelas::where('kelas_id', $request->kelas_id)->where('periode_id', $semester)->pluck('id')->toArray();
             $siswas = Siswa::whereIn('sub_kelas_id', $sub_kelas_id)->get();
             foreach ($siswas as $siswa) {
                 $siswaDoa = new SiswaDoa;
                 $siswaDoa->siswa_id = $siswa->id;
                 $siswaDoa->doa_1_id = $dataDoa->id;
                 $siswaDoa->profil_sekolah_id = 1;
-                $siswaDoa->periode_id = Periode::where('status', 'aktif')->first()->id;
+                $siswaDoa->periode_id = $semester;
                 $siswaDoa->rapor_siswa_id = 1;
                 $siswaDoa->penilaian_huruf_angka_id = 101; // Nilai -Kosong-
                 $siswaDoa->save();
