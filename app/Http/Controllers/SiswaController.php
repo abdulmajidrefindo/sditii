@@ -35,7 +35,8 @@ class SiswaController extends Controller
      */
     public function index(Request $request)
     {
-        $kelas = SubKelas::with('kelas')->get();
+        $periode = Periode::where('status','aktif')->first();
+        $kelas = SubKelas::with('kelas')->where('periode_id',$periode->id)->get();
         //add sub_kelas.nama_kelas by kelas.nama_kelas + sub_kelas.nama_sub_kelas
         foreach ($kelas as $key => $value) {
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
@@ -43,7 +44,7 @@ class SiswaController extends Controller
 
         $kelas_id = $request->kelas_id;
         if ($kelas_id == null) {
-            $siswa = Siswa::all();
+            $siswa = Siswa::where('periode_id',$periode->id)->get();
         } else {
             $siswa = Siswa::where('sub_kelas_id', $kelas_id)->get();
         }
@@ -76,6 +77,7 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
+        $periode = Periode::where('status','aktif')->first();
         $validator=$request->validate([
             'nisn'=>'required|unique:siswas,nisn',
             'nama_siswa'=>'required',
@@ -94,7 +96,8 @@ class SiswaController extends Controller
             'nisn' => $request->get('nisn'),
             'nama_siswa' => $request->get('nama_siswa'),
             'orangtua_wali' => $request->get('orangtua_wali'),
-            'sub_kelas_id' => $request->get('kelas')
+            'sub_kelas_id' => $request->get('kelas'),
+            'periode_id' => $periode->id
         ]);
 
         $kelas_id = SubKelas::find($request->get('kelas'))->kelas_id;
@@ -107,7 +110,7 @@ class SiswaController extends Controller
                     'siswa_id' => $siswa->id,
                     'tahfidz_1_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_huruf_angka_id' => 101,
                 ]);
@@ -122,7 +125,7 @@ class SiswaController extends Controller
                     'siswa_id' => $siswa->id,
                     'doa_1_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_huruf_angka_id' => 101,
                 ]);
@@ -137,7 +140,7 @@ class SiswaController extends Controller
                     'siswa_id' => $siswa->id,
                     'hadist_1_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_huruf_angka_id' => 101,
                 ]);
@@ -152,7 +155,7 @@ class SiswaController extends Controller
                     'siswa_id' => $siswa->id,
                     'ibadah_harian_1_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_deskripsi_id' => 5,
                 ]);
@@ -167,7 +170,7 @@ class SiswaController extends Controller
                     'siswa_id' => $siswa->id,
                     'ilman_waa_ruuhan_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_huruf_angka_id' => 101,
                     'penilaian_deskripsi_id' => 5,
@@ -194,7 +197,7 @@ class SiswaController extends Controller
                     'nilai_uts' => 101,
                     'nilai_pas' => 101,
                     'nilai_akhir' => 101,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                 ]);
             }
@@ -241,6 +244,7 @@ class SiswaController extends Controller
      */
     public function update(Siswa $dataSiswa, Request $request)
     {
+        $periode = Periode::where('status','aktif')->first();
         $validator=$request->validate([
             'nisn'=>'required',
             'nama_siswa'=>'required',
@@ -273,7 +277,7 @@ class SiswaController extends Controller
                         'siswa_id' => $siswa->id,
                         'tahfidz_1_id' => $value->id,
                         'profil_sekolah_id' => 1,
-                        'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                        'periode_id' => $periode->id,
                         'rapor_siswa_id' => 1,
                         'penilaian_huruf_angka_id' => 101,
                     ]);
@@ -295,7 +299,7 @@ class SiswaController extends Controller
                         'siswa_id' => $siswa->id,
                         'doa_1_id' => $value->id,
                         'profil_sekolah_id' => 1,
-                        'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                        'periode_id' => $periode->id,
                         'rapor_siswa_id' => 1,
                         'penilaian_huruf_angka_id' => 101,
                     ]);
@@ -317,7 +321,7 @@ class SiswaController extends Controller
                         'siswa_id' => $siswa->id,
                         'hadist_1_id' => $value->id,
                         'profil_sekolah_id' => 1,
-                        'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                        'periode_id' => $periode->id,
                         'rapor_siswa_id' => 1,
                         'penilaian_huruf_angka_id' => 101,
                     ]);
@@ -339,7 +343,7 @@ class SiswaController extends Controller
                         'siswa_id' => $siswa->id,
                         'ibadah_harian_1_id' => $value->id,
                         'profil_sekolah_id' => 1,
-                        'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                        'periode_id' => $periode->id,
                         'rapor_siswa_id' => 1,
                         'penilaian_deskripsi_id' => 5,
                     ]);
@@ -361,7 +365,7 @@ class SiswaController extends Controller
                         'siswa_id' => $siswa->id,
                         'ilman_waa_ruuhan_id' => $value->id,
                         'profil_sekolah_id' => 1,
-                        'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                        'periode_id' => $periode->id,
                         'rapor_siswa_id' => 1,
                         'penilaian_huruf_angka_id' => 101,
                         'penilaian_deskripsi_id' => 5,
@@ -395,7 +399,7 @@ class SiswaController extends Controller
                         'nilai_uts' => 101,
                         'nilai_pas' => 101,
                         'nilai_akhir' => 101,
-                        'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                        'periode_id' => $periode->id,
                         'rapor_siswa_id' => 1,
                     ]);
                 }
