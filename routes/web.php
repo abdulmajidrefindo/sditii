@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::post('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::get('/tahfidz/getKelasTahfidz/{kelas_id}', [SiswaTahfidzController::class, 'kelas_tahfidz']);
+    Route::get('/tahfidz/export_excel/{sub_kelas_id}', [SiswaTahfidzController::class, 'export_excel'])->name('tahfidz.export_excel');
 
     Route::get('/hadist', [SiswaHadistController::class, 'index']);
     Route::post('/hadist', [SiswaHadistController::class, 'index']);
