@@ -14,6 +14,10 @@ use App\Http\Requests\UpdateSiwaDoaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+//export excel
+use App\Exports\SiswaDoaExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 
 class SiswaDoaController extends Controller
@@ -203,6 +207,21 @@ public function update(Request $request, $siswa_id)
         } else {
             return response()->json(['error' => 'Data gagal dihapus!']);
         }
+    }
+
+    public function export_excel($sub_kelas_id)
+    {
+        $sub_kelas = SubKelas::with('kelas')->where('id', $sub_kelas_id)->first();
+        $kelas = $sub_kelas->kelas->nama_kelas;
+        $nama_sub_kelas = $sub_kelas->nama_sub_kelas;
+        $periode = Periode::where('status','aktif')->first();
+        $ganjil_genap = $periode->semester  == 1 ? 'ganjil' : 'genap';
+        $tahun_ajaran = $periode->tahun_ajaran;
+        //clean tahun ajaran remove '/'
+        $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
+        $nama_file = 'Nilai Doa ' . $kelas . ' ' . $nama_sub_kelas . ' Semester ' . $ganjil_genap . ' ' . $tahun_ajaran . '.xlsx';
+
+        return Excel::download(new SiswaDoaExport($sub_kelas_id), $nama_file);
     }
 
     //get siswaDoa table for ajax and delete via sweetalert

@@ -73,6 +73,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/doa', [SiswaDoaController::class, 'index']);
     Route::post('/doa', [SiswaDoaController::class, 'index']);
     Route::get('/doa/getKelasDoa/{kelas_id}', [SiswaDoaController::class, 'kelas_doa']);
+    //Route::get('/doa/export_excel', [SiswaDoaController::class, 'export_excel'])->name('doa.export_excel');
+    Route::get('/doa/export_excel/{sub_kelas_id}', [SiswaDoaController::class, 'export_excel'])->name('doa.export_excel');
+    
     Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::post('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
