@@ -38,7 +38,8 @@ class RaporSiswaController extends Controller
     {
         // $data_kelas = Kelas::all();
         // $kelas = $request->kelas_id;
-        $data_kelas = SubKelas::with('kelas')->get();
+        $periode = Periode::where('status','aktif')->first();
+        $data_kelas = SubKelas::with('kelas')->where('periode_id', $periode->id)->get();
         foreach ($data_kelas as $key => $value) {
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
         }

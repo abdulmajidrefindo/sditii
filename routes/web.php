@@ -127,6 +127,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/data_bidang_studi_update', [BidangStudiController::class, 'update_data_bidang_studi'])->name('data_bidang_studi.update');
     Route::post('/data_bidang_studi_tambah', [BidangStudiController::class, 'store'])->name('data_bidang_studi.store');
+
+    Route::post('/data_iwr_update', [IlmanWaaRuuhanController::class, 'update_data_iwr'])->name('data_iwr.update');
+    Route::post('/data_iwr_tambah', [IlmanWaaRuuhanController::class, 'store'])->name('data_iwr.store');
+
     
     
     Route::get('/tes', function () {
