@@ -216,7 +216,7 @@ public function update(Request $request, $siswa_id)
         $nama_sub_kelas = $sub_kelas->nama_sub_kelas;
         $wali_kelas = $sub_kelas->guru->nama_guru;
         $periode = Periode::where('status','aktif')->first();
-        $semester = $periode->semester  == 1 ? 'ganjil' : 'genap';
+        $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
         $tahun_ajaran = $periode->tahun_ajaran;
         //clean tahun ajaran remove '/'
         $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
