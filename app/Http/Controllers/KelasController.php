@@ -58,8 +58,9 @@ class KelasController extends Controller
         $periode = Periode::where('status','aktif')->first();
         $validator = $request->validate([
             'kelas' => 'required',
-            'nama_sub_kelas' => ['required', 'max:255', Rule::unique('sub_kelas')->where(function ($query) use ($request) {
-                return $query->where('kelas_id', $request->kelas);
+            'nama_sub_kelas' => ['required', 'max:255', Rule::unique('sub_kelas')->where(function ($query) use ($request, $periode) {
+                return $query->where('kelas_id', $request->kelas)
+                             ->where('periode_id', $periode->id);
             })],
             'wali_kelas' => 'required',
         ],
