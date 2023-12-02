@@ -209,9 +209,14 @@ class IlmanWaaRuuhanController extends Controller
      * @param  \App\Models\IlmanWaaRuuhan  $ilmanWaaRuuhan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(IlmanWaaRuuhan $ilmanWaaRuuhan)
+    public function destroy(IlmanWaaRuuhan $dataIlmanWaaRuuhan)
     {
-        //
+        try {
+            $dataIlmanWaaRuuhan->delete();
+            return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Data gagal dihapus!', 'status' => '500']);
+        }
     }
 
     public function getTable(Request $request){
@@ -226,7 +231,7 @@ class IlmanWaaRuuhanController extends Controller
             return DataTables::of($data)
             ->addColumn('action', function ($row) {
                 $btn = '<a href="'. route('dataIlmanWaaRuuhan.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
-                // $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
+                $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 
                 return $btn;
             })

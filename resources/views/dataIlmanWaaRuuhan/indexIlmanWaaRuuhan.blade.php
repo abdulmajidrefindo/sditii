@@ -478,39 +478,58 @@
 </script>
 
 <script>
-    $(document).on('click', '.delete-iwr', function() {
-        //get the parent div
-        var parent = $(this).parent().parent();
-        //get the parent name
-        var parent_input = parent.find('input');
+    //delete via ajax with sweet alert
+    $(document).on('click', '.delete', function() {
         let iwr_id = $(this).attr('data-id');
-        //disable the input by add disabled-form class
-        parent_input.addClass('disabled-form');
-        //change the input name
-        parent_input.attr('name', 'delete_' + iwr_id);
-        // change the button to cancel
-        $(this).html('Batal');
-        $(this).removeClass('delete-iwr');
-        $(this).addClass('cancel-delete-iwr');
-        $(this).removeClass('bg-red');
-        $(this).addClass('bg-secondary');
-    });
-
-    $(document).on('click', '.cancel-delete-iwr', function() {
-        //get the parent div
-        var parent = $(this).parent().parent();
-        //get the parent name
-        var parent_input = parent.find('input');
-        let iwr_id = $(this).attr('data-id');
-        //enable the input
-        parent_input.removeClass('disabled-form');
-        //change the input name
-        parent_input.attr('name', 'iwr_' + iwr_id);
-        // change the button to cancel
-        $(this).html('Hapus');
-        $(this).removeClass('cancel-delete-iwr');
-        $(this).addClass('delete-iwr');
-        $(this).addClass('bg-red');
+        let url = '{{ route('dataIlmanWaaRuuhan.destroy', ':iwr_id') }}';
+        url = url.replace(':iwr_id', iwr_id);
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Semua data nilai siswa akan dihapus!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            // confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Ya, hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    data: {
+                        method: '_DELETE',
+                        submit: true,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.status == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: response.message,
+                            }).then(function() {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: response.error,
+                            });
+                        }
+                    },
+                    error: function(response) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: response.error,
+                        });
+                    }
+                });
+            }
+        });
     });
 </script>
 @stop

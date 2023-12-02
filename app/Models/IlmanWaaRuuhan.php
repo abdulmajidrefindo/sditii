@@ -34,4 +34,10 @@ class IlmanWaaRuuhan extends Model
     {
         return $this->belongsTo(Periode::class);
     }
+
+    public function delete()
+    {
+        $this->siswa_iwr()->delete();
+        return parent::delete();
+    }
 }
