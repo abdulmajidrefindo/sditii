@@ -62,6 +62,7 @@
                                 <th>No</th>
                                 <th>Nama Guru</th>
                                 <th>NIP</th>
+                                <th>Kelas Perwalian</th>
                                 {{-- <th>Peran</th> --}}
                                 @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <th>Aksi</th>
@@ -100,6 +101,7 @@
                                                     @foreach ($user as $u)
                                                         <option value={{ $u->id }}>{{ $u->name }}</option>
                                                     @endforeach
+                                                        
                                                 </select>
                                                 @error('role_id')
                                                     <div class="invalid-feedback">
@@ -120,22 +122,24 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="form-group">
+                                                {{-- <div class="form-group">
                                                     <label for="kelas" class="form-label">Kelas Perwalian</label>
                                                     <select class="form-control @error('kelas') is-invalid @enderror"
                                                         id="kelas" name="kelas"
                                                         data-placeholder="-pilih kelas perwalian-" style="width: 100%;">
                                                         <option selected disabled>-pilih kelas perwalian-</option>
+                                                        <option value="0">Bukan Wali Kelas</option>
                                                         @foreach ($kelas as $k)
                                                             <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
                                                         @endforeach
+                                                            
                                                     </select>
                                                     @error('role_id')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
                                                         </div>
                                                     @enderror
-                                                </div>
+                                                </div> --}}
 
                                                 <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan"
                                                     icon="fas fa fa-fw fa-save" label="Simpan Data" />
@@ -230,6 +234,10 @@
                         data: 'nip',
                         name: 'nip'
                     },
+                    {
+                        data: 'kelas',
+                        name: 'kelas'
+                    },
                     @if (Auth::user()->role->contains('role', 'Administrator'))
                     {
                         data: 'action',
@@ -261,7 +269,7 @@
                 let user = $('#user').val();
                 let user_name = $('#user_name').val();
                 let nip = $('#nip').val();
-                let kelas = $('#kelas').val();
+                //let kelas = $('#kelas').val();
                 $.ajax({
                     type: "POST",
                     url: "{{ route('dataGuru.store') }}",
@@ -269,7 +277,7 @@
                         user: user,
                         user_name: user_name,
                         nip: nip,
-                        kelas: kelas,
+                        //kelas: kelas,
                     },
                     dataType: "JSON",
                     success: function(response) {
@@ -343,7 +351,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "DELETE",
-                        url: "{{ route('dataGuru.index') }}" + "/" + id,
+                        url: "{{ route('dataGuru.destroy', '') }}" + "/" + id,
                         success: function(response) {
                             if (response.success != null) {
                                 $('#example1').DataTable().ajax.reload();
@@ -363,12 +371,12 @@
                             } else {
                                 Swal.fire({
                                     title: 'Gagal!',
-                                    text: 'Data Gagal Dihapus',
+                                    text: response.error,
                                     icon: 'error',
                                     iconColor: '#fff',
-                                    toast: true,
+                                    toast: false,
                                     background: '#f8bb86',
-                                    position: 'center-end',
+                                    position: 'center',
                                     showConfirmButton: false,
                                     timer: 3000,
                                     timerProgressBar: true,

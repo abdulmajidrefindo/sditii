@@ -33,9 +33,10 @@ class SiswaBidangStudiController extends Controller
     public function index(Request $request)
     {
         
+        $periode = Periode::where('status','aktif')->first();
         $data_kelas=Kelas::all()->except(Kelas::all()->last()->id);
 
-        $data_sub_kelas = SubKelas::with('kelas')->get();
+        $data_sub_kelas = SubKelas::with('kelas')->where('periode_id', $periode->id)->get();
         foreach ($data_sub_kelas as $key => $value) {
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
         }
@@ -45,7 +46,6 @@ class SiswaBidangStudiController extends Controller
 
         $kelas_id=$request->kelas_id;
 
-        $periode = Periode::where('status','aktif')->first();
         $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel)->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($kelas_id) {
             $query->where('sub_kelas_id', $kelas_id);
         })->get();

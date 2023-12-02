@@ -35,7 +35,8 @@ class SiswaController extends Controller
      */
     public function index(Request $request)
     {
-        $kelas = SubKelas::with('kelas')->get();
+        $periode = Periode::where('status','aktif')->first();
+        $kelas = SubKelas::with('kelas')->where('periode_id',$periode->id)->get();
         //add sub_kelas.nama_kelas by kelas.nama_kelas + sub_kelas.nama_sub_kelas
         foreach ($kelas as $key => $value) {
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
@@ -43,7 +44,7 @@ class SiswaController extends Controller
 
         $kelas_id = $request->kelas_id;
         if ($kelas_id == null) {
-            $siswa = Siswa::all();
+            $siswa = Siswa::where('periode_id',$periode->id)->get();
         } else {
             $siswa = Siswa::where('sub_kelas_id', $kelas_id)->get();
         }
@@ -76,6 +77,7 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
+        $periode = Periode::where('status','aktif')->first();
         $validator=$request->validate([
             'nisn'=>'required|unique:siswas,nisn',
             'nama_siswa'=>'required',
@@ -94,20 +96,21 @@ class SiswaController extends Controller
             'nisn' => $request->get('nisn'),
             'nama_siswa' => $request->get('nama_siswa'),
             'orangtua_wali' => $request->get('orangtua_wali'),
-            'sub_kelas_id' => $request->get('kelas')
+            'sub_kelas_id' => $request->get('kelas'),
+            'periode_id' => $periode->id
         ]);
 
         $kelas_id = SubKelas::find($request->get('kelas'))->kelas_id;
 
         //Add siswa to SiswaTahfidz
-        $tahfidz = Tahfidz1::where('kelas_id', $kelas_id)->get();
+        $tahfidz = Tahfidz1::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($tahfidz != null) {
             foreach ($tahfidz as $key => $value) {
                 SiswaTahfidz::create([
                     'siswa_id' => $siswa->id,
                     'tahfidz_1_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_huruf_angka_id' => 101,
                 ]);
@@ -115,14 +118,14 @@ class SiswaController extends Controller
         }
 
         //Add siswa to SiswaDoa
-        $doa = Doa1::where('kelas_id', $kelas_id)->get();
+        $doa = Doa1::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($doa != null) {
             foreach ($doa as $key => $value) {
                 SiswaDoa::create([
                     'siswa_id' => $siswa->id,
                     'doa_1_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_huruf_angka_id' => 101,
                 ]);
@@ -130,14 +133,14 @@ class SiswaController extends Controller
         }
 
         //Add siswa to SiswaHadist
-        $hadist = Hadist1::where('kelas_id', $kelas_id)->get();
+        $hadist = Hadist1::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($hadist != null) {
             foreach ($hadist as $key => $value) {
                 SiswaHadist::create([
                     'siswa_id' => $siswa->id,
                     'hadist_1_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_huruf_angka_id' => 101,
                 ]);
@@ -145,14 +148,14 @@ class SiswaController extends Controller
         }
 
         //Add siswa to SiswaIbadahHarian
-        $ibadah_harian = IbadahHarian1::where('kelas_id', $kelas_id)->get();
+        $ibadah_harian = IbadahHarian1::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($ibadah_harian != null) {
             foreach ($ibadah_harian as $key => $value) {
                 SiswaIbadahHarian::create([
                     'siswa_id' => $siswa->id,
                     'ibadah_harian_1_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_deskripsi_id' => 5,
                 ]);
@@ -160,14 +163,14 @@ class SiswaController extends Controller
         }
 
         //Add siswa to SiswaIlmanWaaRuuhan
-        $ilman_waa_ruuhan = IlmanWaaRuuhan::where('kelas_id', $kelas_id)->get();
+        $ilman_waa_ruuhan = IlmanWaaRuuhan::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($ilman_waa_ruuhan != null) {
             foreach ($ilman_waa_ruuhan as $key => $value) {
                 SiswaIlmanWaaRuuhan::create([
                     'siswa_id' => $siswa->id,
                     'ilman_waa_ruuhan_id' => $value->id,
                     'profil_sekolah_id' => 1,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                     'penilaian_huruf_angka_id' => 101,
                     'penilaian_deskripsi_id' => 5,
@@ -178,7 +181,7 @@ class SiswaController extends Controller
         }
 
         //Add siswa to SiswaBidangStudi
-        $mapel = Mapel::where('kelas_id', $kelas_id)->get();
+        $mapel = Mapel::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($mapel != null) {
             foreach ($mapel as $key => $value) {
                 SiswaBidangStudi::create([
@@ -194,7 +197,7 @@ class SiswaController extends Controller
                     'nilai_uts' => 101,
                     'nilai_pas' => 101,
                     'nilai_akhir' => 101,
-                    'periode_id' => Periode::where('status', 'aktif')->first()->id,
+                    'periode_id' => $periode->id,
                     'rapor_siswa_id' => 1,
                 ]);
             }
@@ -213,7 +216,11 @@ class SiswaController extends Controller
     public function show(Siswa $dataSiswa)
     {
         $siswa = Siswa::find($dataSiswa->id);
-        $kelas = Kelas::all();
+        $kelas = SubKelas::with('kelas')->get();
+        //add sub_kelas.nama_kelas by kelas.nama_kelas + sub_kelas.nama_sub_kelas
+        foreach ($kelas as $key => $value) {
+            $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
+        }
         return view('dataSiswa.showSiswa',
         [
             'siswa'=>$siswa,
@@ -237,6 +244,7 @@ class SiswaController extends Controller
      */
     public function update(Siswa $dataSiswa, Request $request)
     {
+        $periode = Periode::where('status','aktif')->first();
         $validator=$request->validate([
             'nisn'=>'required',
             'nama_siswa'=>'required',
@@ -250,13 +258,163 @@ class SiswaController extends Controller
             'kelas.required'=>'Kelas tidak boleh kosong!'
         ]);
 
-        $siswa = Siswa::find($dataSiswa->id);
+        $sub_kelas = SubKelas::find($request->get('kelas'));
+        $siswa = Siswa::with('sub_kelas')->find($dataSiswa->id);
+
+        if($sub_kelas->kelas_id != $siswa->sub_kelas->kelas_id){
+            //Remove siswa from old SiswaTahfidz
+            $tahfidz = Tahfidz1::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
+            if ($tahfidz != null) {
+                foreach ($tahfidz as $key => $value) {
+                    SiswaTahfidz::where('siswa_id', $siswa->id)->where('tahfidz_1_id', $value->id)->delete();
+                }
+            }
+            //add siswa to new SiswaTahfidz
+            $tahfidz = Tahfidz1::where('kelas_id', $sub_kelas->kelas_id)->get();
+            if ($tahfidz != null) {
+                foreach ($tahfidz as $key => $value) {
+                    SiswaTahfidz::create([
+                        'siswa_id' => $siswa->id,
+                        'tahfidz_1_id' => $value->id,
+                        'profil_sekolah_id' => 1,
+                        'periode_id' => $periode->id,
+                        'rapor_siswa_id' => 1,
+                        'penilaian_huruf_angka_id' => 101,
+                    ]);
+                }
+            }
+
+            //Remove siswa from old SiswaDoa
+            $doa = Doa1::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
+            if ($doa != null) {
+                foreach ($doa as $key => $value) {
+                    SiswaDoa::where('siswa_id', $siswa->id)->where('doa_1_id', $value->id)->delete();
+                }
+            }
+            //add siswa to new SiswaDoa
+            $doa = Doa1::where('kelas_id', $sub_kelas->kelas_id)->get();
+            if ($doa != null) {
+                foreach ($doa as $key => $value) {
+                    SiswaDoa::create([
+                        'siswa_id' => $siswa->id,
+                        'doa_1_id' => $value->id,
+                        'profil_sekolah_id' => 1,
+                        'periode_id' => $periode->id,
+                        'rapor_siswa_id' => 1,
+                        'penilaian_huruf_angka_id' => 101,
+                    ]);
+                }
+            }
+
+            //Remove siswa from old SiswaHadist
+            $hadist = Hadist1::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
+            if ($hadist != null) {
+                foreach ($hadist as $key => $value) {
+                    SiswaHadist::where('siswa_id', $siswa->id)->where('hadist_1_id', $value->id)->delete();
+                }
+            }
+            //add siswa to new SiswaHadist
+            $hadist = Hadist1::where('kelas_id', $sub_kelas->kelas_id)->get();
+            if ($hadist != null) {
+                foreach ($hadist as $key => $value) {
+                    SiswaHadist::create([
+                        'siswa_id' => $siswa->id,
+                        'hadist_1_id' => $value->id,
+                        'profil_sekolah_id' => 1,
+                        'periode_id' => $periode->id,
+                        'rapor_siswa_id' => 1,
+                        'penilaian_huruf_angka_id' => 101,
+                    ]);
+                }
+            }
+
+            //Remove siswa from old SiswaIbadahHarian
+            $ibadah_harian = IbadahHarian1::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
+            if ($ibadah_harian != null) {
+                foreach ($ibadah_harian as $key => $value) {
+                    SiswaIbadahHarian::where('siswa_id', $siswa->id)->where('ibadah_harian_1_id', $value->id)->delete();
+                }
+            }
+            //add siswa to new SiswaIbadahHarian
+            $ibadah_harian = IbadahHarian1::where('kelas_id', $sub_kelas->kelas_id)->get();
+            if ($ibadah_harian != null) {
+                foreach ($ibadah_harian as $key => $value) {
+                    SiswaIbadahHarian::create([
+                        'siswa_id' => $siswa->id,
+                        'ibadah_harian_1_id' => $value->id,
+                        'profil_sekolah_id' => 1,
+                        'periode_id' => $periode->id,
+                        'rapor_siswa_id' => 1,
+                        'penilaian_deskripsi_id' => 5,
+                    ]);
+                }
+            }
+
+            //Remove siswa from old SiswaIlmanWaaRuuhan
+            $ilman_waa_ruuhan = IlmanWaaRuuhan::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
+            if ($ilman_waa_ruuhan != null) {
+                foreach ($ilman_waa_ruuhan as $key => $value) {
+                    SiswaIlmanWaaRuuhan::where('siswa_id', $siswa->id)->where('ilman_waa_ruuhan_id', $value->id)->delete();
+                }
+            }
+            //add siswa to new SiswaIlmanWaaRuuhan
+            $ilman_waa_ruuhan = IlmanWaaRuuhan::where('kelas_id', $sub_kelas->kelas_id)->get();
+            if ($ilman_waa_ruuhan != null) {
+                foreach ($ilman_waa_ruuhan as $key => $value) {
+                    SiswaIlmanWaaRuuhan::create([
+                        'siswa_id' => $siswa->id,
+                        'ilman_waa_ruuhan_id' => $value->id,
+                        'profil_sekolah_id' => 1,
+                        'periode_id' => $periode->id,
+                        'rapor_siswa_id' => 1,
+                        'penilaian_huruf_angka_id' => 101,
+                        'penilaian_deskripsi_id' => 5,
+                        'jilid' => 0,
+                        'halaman' => 0,
+                    ]);
+                }
+            }
+
+            //Remove siswa from old SiswaBidangStudi
+            $mapel = Mapel::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
+            if ($mapel != null) {
+                foreach ($mapel as $key => $value) {
+                    SiswaBidangStudi::where('siswa_id', $siswa->id)->where('mapel_id', $value->id)->delete();
+                }
+            }
+            //add siswa to new SiswaBidangStudi
+            $mapel = Mapel::where('kelas_id', $sub_kelas->kelas_id)->get();
+            if ($mapel != null) {
+                foreach ($mapel as $key => $value) {
+                    SiswaBidangStudi::create([
+                        'siswa_id' => $siswa->id,
+                        'mapel_id' => $value->id,
+                        'profil_sekolah_id' => 1,
+                        'nilai_uh_1' => 101,
+                        'nilai_uh_2' => 101,
+                        'nilai_uh_3' => 101,
+                        'nilai_uh_4' => 101,
+                        'nilai_tugas_1' => 101,
+                        'nilai_tugas_2' => 101,
+                        'nilai_uts' => 101,
+                        'nilai_pas' => 101,
+                        'nilai_akhir' => 101,
+                        'periode_id' => $periode->id,
+                        'rapor_siswa_id' => 1,
+                    ]);
+                }
+            }
+        }
+
+
         $siswa->update([
             'nisn' => $request->get('nisn'),
             'nama_siswa' => $request->get('nama_siswa'),
             'orangtua_wali' => $request->get('orangtua_wali'),
-            'kelas_id' => $request->get('kelas')
+            'sub_kelas_id' => $request->get('kelas')
         ]);
+
+
 
         if ($siswa) {
             return response()->json(['success' => 'Data berhasil diupdate!']);
@@ -277,11 +435,11 @@ class SiswaController extends Controller
     
     public function getTable(Request $request){
         if ($request->ajax()) {
-
+            $periode = Periode::where('status','aktif')->first();
             if ($request->kelas_id == null) {
-                $data = Siswa::with('sub_kelas')->get();
+                $data = Siswa::with('sub_kelas')->where('periode_id',$periode->id)->get();
             } else {
-                $data = Siswa::with('sub_kelas')->where('sub_kelas_id', $request->kelas_id)->get();
+                $data = Siswa::with('sub_kelas')->where('sub_kelas_id', $request->kelas_id)->where('periode_id',$periode->id)->get();
             }
             // siswa with kelas
             //$data = Siswa::with('kelas')->get();

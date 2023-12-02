@@ -347,19 +347,24 @@ return [
             'icon' => 'fas fa-fw fa-briefcase',
         ],
         [
+            'text' => 'Data Tahun Pelajaran',
+            'url'  => 'dataPeriode',
+            'icon' => 'fas fa-fw fa-table',
+        ],
+        [
             'text' => 'Data Guru',
             'url'  => '/dataGuru',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
+            'text' => 'Data Kelas',
+            'url'  => '/dataKelas',
+            'icon' => 'fas fa-fw fa-school',
+        ],
+        [
             'text' => 'Data Siswa',
             'url'  => '/dataSiswa',
             'icon' => 'fas fa-fw fa-users',
-        ],
-        [
-            'text' => 'Data Tahun Pelajaran',
-            'url'  => 'dataPeriode',
-            'icon' => 'fas fa-fw fa-table',
         ],
 
         /*[
@@ -400,38 +405,85 @@ return [
                 ],
             ],
         ],*/
-        ['header' => 'INPUT NILAI'],
+
+        ['header' => 'DATA AKADEMIK'],
+
         [
-            'text'       => 'Ilman Waa Ruuhan',
-            'icon_color' => 'red',
-            'url'        => '/iwr',
+            'text'    => 'Mata Pelajaran',
+            'icon'    => 'fas fa-fw fa-book',
+            'submenu' => [
+                [
+                    'text'       => 'Ilman Waa Ruuhan',
+                    'icon_color' => 'red',
+                    'url'        => '/dataIlmanWaaRuuhan',
+                ],
+                [
+                    'text'       => 'Bidang Studi',
+                    'icon_color' => 'yellow',
+                    'url'        => '/dataBidangStudi',
+                ],
+                [
+                    'text'       => 'Ibadah Harian',
+                    'icon_color' => 'cyan',
+                    'url'        => '/dataIbadahHarian',
+                ],
+                [
+                    'text'       => 'Tahfidz',
+                    'icon_color' => 'orange',
+                    'url'        => '/dataTahfidz',
+                ],
+                [
+                    'text'       => 'Hadist',
+                    'icon_color' => 'blue',
+                    'url'        => '/dataHadist',
+                ],
+                [
+                    'text'       => 'Doa',
+                    'icon_color' => 'green',
+                    'url'        => '/dataDoa',
+                ],
+            ],
+        ],
+
+        [
+            'text'    => 'Input Nilai',
+            'icon'    => 'fas fa-fw fa-book',
+            'submenu' => [
+                [
+                    'text'       => 'Ilman Waa Ruuhan',
+                    'icon_color' => 'red',
+                    'url'        => '/iwr',
+                ],
+                [
+                    'text'       => 'Bidang Studi',
+                    'icon_color' => 'yellow',
+                    'url'        => '/bidangStudi',
+                ],
+                [
+                    'text'       => 'Ibadah Harian',
+                    'icon_color' => 'cyan',
+                    'url'        => '/ibadahHarian',
+                ],
+                [
+                    'text'       => 'Tahfidz',
+                    'icon_color' => 'orange',
+                    'url'        => '/tahfidz',
+                ],
+                [
+                    'text'       => 'Hadist',
+                    'icon_color' => 'blue',
+                    'url'        => '/hadist',
+                ],
+                [
+                    'text'       => 'Doa',
+                    'icon_color' => 'green',
+                    'url'        => '/doa',
+                ],
+            ],
         ],
         [
-            'text'       => 'Bidang Studi',
-            'icon_color' => 'yellow',
-            'url'        => '/bidangStudi',
+            'header' => 'HASIL RAPOR',
         ],
-        [
-            'text'       => 'Ibadah Harian',
-            'icon_color' => 'cyan',
-            'url'        => '/ibadahHarian',
-        ],
-        [
-            'text'       => 'Tahfidz',
-            'icon_color' => 'orange',
-            'url'        => '/tahfidz',
-        ],
-        [
-            'text'       => 'Hadist',
-            'icon_color' => 'blue',
-            'url'        => '/hadist',
-        ],
-        [
-            'text'       => 'Doa',
-            'icon_color' => 'green',
-            'url'        => '/doa',
-        ],
-        ['header' => 'HASIL RAPOR'],
         [
             'text' => 'Rapor Siswa',
             'url'  => '/raporSiswa',

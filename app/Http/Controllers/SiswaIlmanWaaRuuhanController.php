@@ -22,14 +22,15 @@ class SiswaIlmanWaaRuuhanController extends Controller
      */
     public function index(Request $request)
     {
+        $periode = Periode::where('status','aktif')->first();
         $kelas = Kelas::all()->except(Kelas::all()->last()->id);
         
-        $data_sub_kelas = SubKelas::with('kelas')->get();
+        $data_sub_kelas = SubKelas::with('kelas')->where('periode_id', $periode->id)->get();
         foreach ($data_sub_kelas as $key => $value) {
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
         }
 
-        $periode = Periode::where('status','aktif')->first();
+        
 
         
         $kelas_id = $request->kelas_id;
@@ -158,6 +159,7 @@ class SiswaIlmanWaaRuuhanController extends Controller
         $siswaIlmanWaaRuuhan->jilid = '0';
         $siswaIlmanWaaRuuhan->halaman = '0';
         $siswaIlmanWaaRuuhan->penilaian_deskripsi_id = 5;
+        $siswaIlmanWaaRuuhan->penilaian_huruf_angka_id = 101;
 
         if ($siswaIlmanWaaRuuhan->save()) {
             return response()->json(['success' => 'Data berhasil dihapus!', 'status' => '200']);

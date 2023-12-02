@@ -12,6 +12,8 @@ class SubKelas extends Model
     protected $table = "sub_kelas";
     protected $guarded = ['id'];
     public $timestamps = true;
+    //set primary key
+    protected $primaryKey = 'id';
 
     public function kelas(){
         return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
@@ -20,5 +22,25 @@ class SubKelas extends Model
     public function guru()
     {
         return $this->belongsTo(Guru::class);
+    }
+
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
+    }
+
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class);
+    }
+
+    
+    // on delete
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($sub_kelas) {
+            $sub_kelas->siswa()->delete();
+        });
     }
 }

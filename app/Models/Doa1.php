@@ -16,6 +16,7 @@ class Doa1 extends Model
         'nama_nilai',
         'guru_id',
         'kelas_id',
+        'periode_id'
     ];
 
     public function siswa_doa()
@@ -32,6 +33,13 @@ class Doa1 extends Model
     {
         return $this->belongsTo(Kelas::class);
     }
+
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
+    }
+
+
 
     //on delete
     public function delete()

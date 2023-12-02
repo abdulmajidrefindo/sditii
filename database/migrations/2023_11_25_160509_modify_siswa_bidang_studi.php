@@ -30,8 +30,12 @@ return new class extends Migration
         Schema::table('siswa_bidang_studis', function (Blueprint $table) {
             
             $table->dropForeign(['nilai_akhir']);
-            $table->dropColumn('nilai_akhir');
-            $table->integer('nilai_akhir');
+            
+        });
+
+        // change the column type back to integer
+        Schema::table('siswa_bidang_studis', function (Blueprint $table) {
+            $table->integer('nilai_akhir')->change();
         });
     }
 };

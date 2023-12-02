@@ -38,6 +38,7 @@ class IWRSeeder extends Seeder
                     'kelas_id' => $j,
                     'created_at' => now(),
                     'updated_at' => now(),
+                    'periode_id' => '1',
                 ]);
             }
         }

@@ -25,4 +25,19 @@ class IlmanWaaRuuhan extends Model
     {
         return $this->belongsTo(Guru::class);
     }
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
+
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
+    }
+
+    public function delete()
+    {
+        $this->siswa_iwr()->delete();
+        return parent::delete();
+    }
 }
