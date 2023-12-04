@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
+    Route::get('/bidangStudi/export_excel/{sub_kelas_id}', [SiswaBidangStudiController::class, 'export_excel'])->name('bidangStudi.export_excel');
     Route::get('/bidangStudi/getKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'kelas_mapel']);
     Route::get('/bidangStudi/getSubKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'sub_kelas_mapel']);
     Route::get('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator');
