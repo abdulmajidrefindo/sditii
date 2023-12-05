@@ -31,7 +31,7 @@
     </tr>
     <thead style="background-color: #b7d8dc; border: 2px solid black;">
         <tr>
-            <th rowspan="2" style="width: 50px; text-align: center; vertical-align: middle;">No</th>
+            <th rowspan="2" style="width: 50px; text-align: center; vertical-align: middle;">ID</th>
             <th rowspan="2" style="width: 150px; text-align: center; vertical-align: middle;">Nama Siswa</th>
             <th rowspan="2" style="width: 100px; text-align: center; vertical-align: middle;">NISN</th>
             <th colspan="{{ $column_length }}" style="text-align: center; width: 100px; vertical-align: middle;">Ibadah Harian</th>
