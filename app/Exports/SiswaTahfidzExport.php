@@ -120,6 +120,9 @@ class SiswaTahfidzExport implements FromView, WithStyles
         $validation->setShowErrorMessage(true);
         $validation->setErrorTitle('Input Salah');
         $validation->setError('Nilai harus berupa angka antara 0-100');
+        $validation->setShowInputMessage(true);
+        $validation->setPromptTitle('Atur Penilaian');
+        $validation->setPrompt('Masukkan nilai antara 0-100');
         $sheet->setDataValidation($validationRange, $validation);
 
         //A2-A6 Auto width cell

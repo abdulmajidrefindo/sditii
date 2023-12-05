@@ -127,7 +127,7 @@
                                         <div class="col-md-6">
                                             <div class="card">
                                                 <div class="card-header bg-gradient-green">
-                                                    <h3 class="card-title">Export Data Ibadah Harian</h3>
+                                                    <h3 class="card-title">Export Data Ilman Waa Ruuhan</h3>
                                                 </div>
                                                 <div class="card-body">
                                                     <form action="{{ url('/') }}/iwr/export_excel" method="post">
