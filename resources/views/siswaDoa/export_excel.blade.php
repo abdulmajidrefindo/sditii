@@ -39,7 +39,7 @@
         <tr>
             @foreach ($siswa_d as $siswa)
                 @foreach ($siswa as $key => $value)
-                    @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
+                    @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn' && $key !== 'nilai_id')
                         <th style="width: 100px;">{{ $key }}</th>
                     @endif
                 @endforeach
@@ -54,7 +54,7 @@
             <td>{{ $siswa['nama_siswa'] }}</td>
             <td>{{ $siswa['nisn'] }}</td>
             @foreach ($siswa as $key => $value)
-                @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
+                @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn' && $key !== 'nilai_id')
                     <td>
                         @if ($value == null)
                             0
@@ -68,6 +68,12 @@
     @endforeach
 </tbody>
 <tfoot>
+    <tr>
+        <th colspan = "3" style="text-align: center;">ID Nilai</th>
+        @foreach ($nilai_id as $id)
+            <th style="text-align: center;">{{ $id }}</th>
+        @endforeach
+    </tr>
     <tr>
         <th></th>
     </tr>
