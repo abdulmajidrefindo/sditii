@@ -172,8 +172,9 @@ class SiswaIlmanWaaRuuhanController extends Controller
         }
     }
 
-    public function export_excel($sub_kelas_id)
+    public function export_excel(Request $request)
     {
+        $sub_kelas_id = $request->sub_kelas_id;
         $sub_kelas = SubKelas::with('kelas','guru')->where('id', $sub_kelas_id)->first();
         $kelas = $sub_kelas->kelas->nama_kelas;
         $nama_sub_kelas = $sub_kelas->nama_sub_kelas;
