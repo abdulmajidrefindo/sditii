@@ -80,6 +80,8 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::post('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
+    Route::get('/iwr/export_excel/{sub_kelas_id}', [SiswaIlmanWaaRuuhanController::class, 'export_excel'])->name('iwr.export_excel');
+
     Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::get('/bidangStudi/export_excel/{sub_kelas_id}', [SiswaBidangStudiController::class, 'export_excel'])->name('bidangStudi.export_excel');

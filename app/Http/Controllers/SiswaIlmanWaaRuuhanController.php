@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreSiswaIlmanWaaRuuhanRequest;
 use App\Http\Requests\UpdateSiswaIlmanWaaRuuhanRequest;
 
+//export excel
+use App\Exports\SiswaIlmanWaaRuuhanExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class SiswaIlmanWaaRuuhanController extends Controller
 {
     /**
@@ -167,4 +171,34 @@ class SiswaIlmanWaaRuuhanController extends Controller
             return response()->json(['error' => 'Data gagal dihapus!']);
         }
     }
+
+    public function export_excel($sub_kelas_id)
+    {
+        $sub_kelas = SubKelas::with('kelas','guru')->where('id', $sub_kelas_id)->first();
+        $kelas = $sub_kelas->kelas->nama_kelas;
+        $nama_sub_kelas = $sub_kelas->nama_sub_kelas;
+        $wali_kelas = $sub_kelas->guru->nama_guru;
+        $periode = Periode::where('status','aktif')->first();
+        $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
+        $tahun_ajaran = $periode->tahun_ajaran;
+        //clean tahun ajaran remove '/'
+        $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
+        $nama_file = 'Nilai Ilman Waa Ruuhan ' . $kelas . ' ' . $nama_sub_kelas . ' Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
+
+        $kode = "FileNilaiIlmanWaaRuuhan";
+        $file_identifier = encrypt($kode);
+
+        $informasi = [
+            'judul' => 'REKAP NILAI ILMAN WAA RUUHAN SDIT IRSYADUL \'IBAD',
+            'nama_kelas' => $kelas . ' ' . $nama_sub_kelas,
+            'wali_kelas' => $wali_kelas,
+            'tahun_ajaran' => $tahun_ajaran,
+            'semester' => $semester,
+            'tanggal' => date('d-m-Y'),
+            'file_identifier' => $file_identifier,
+        ];
+
+        return Excel::download(new SiswaIlmanWaaRuuhanExport($sub_kelas_id, $informasi), $nama_file);
+    }
+
 }
