@@ -50,6 +50,7 @@
                                     href="#content-tab-doa-table" role="tab" aria-controls="content-tab-doa-table"
                                     aria-selected="true">Tabel Doa</a>
                             </li>
+
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tab-doa-add" data-toggle="tab"
@@ -63,6 +64,13 @@
                                         aria-selected="false">Tambah Doa</a>
                                 </li>
                             @endif
+
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="controller-tab-doa-export-import" data-toggle="tab"
+                                    href="#content-tab-doa-export-import" role="tab" aria-controls="content-tab-doa-export-import"
+                                    aria-selected="false">Export/Import Doa</a>
+                            </li>
+
                         </ul>
                     </div>
                     <div class="card-body">
@@ -305,6 +313,43 @@
                             </div>
                             {{-- Tab add content end --}}
                         @endif
+
+                        {{-- Tab export-import content --}}
+                        <div class="tab-pane fade" id="content-tab-doa-export-import" role="tabpanel"
+                                aria-labelledby="controller-tab-doa-export-import">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-header bg-gradient-green">
+                                                    <h3 class="card-title">Export Data Doa</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <form action="{{ url('/') }}/doa/export_excel" method="post">
+                                                        @csrf
+                                                        <label for="kelas">Pilih Kelas</label>
+                                                        <div class="input-group">
+                                                            <select class="custom-select" name="sub_kelas_id" id="sub_kelas_id">
+                                                                <option selected disabled>-Kelas-</option>
+                                                                @foreach ($data_sub_kelas as $k)
+                                                                    <option value={{ $k->id }}>
+                                                                        {{ $k->nama_kelas }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <div class="input-group-append">
+                                                                <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
+                                                                    icon="fas fa fa-fw fa-save" label="Export" />
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            {{-- Tab export-import content end --}}
 
                     </div>
                 </div>
