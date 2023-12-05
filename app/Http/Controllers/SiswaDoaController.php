@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 //export excel
 use App\Exports\SiswaDoaExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SiswaDoaImport;
 
 
 
@@ -237,6 +238,12 @@ public function update(Request $request, $siswa_id)
         ];
 
         return Excel::download(new SiswaDoaExport($sub_kelas_id, $informasi), $nama_file);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file');
+        $kode = "FileNilaiDoa";
     }
 
     //get siswaDoa table for ajax and delete via sweetalert
