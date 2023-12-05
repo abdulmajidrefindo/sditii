@@ -204,8 +204,9 @@ class SiswaTahfidzController extends Controller
         }
     }
 
-    public function export_excel($sub_kelas_id)
+    public function export_excel(Request $request)
     {
+        $sub_kelas_id = $request->sub_kelas_id;
         $sub_kelas = SubKelas::with('kelas','guru')->where('id', $sub_kelas_id)->first();
         $kelas = $sub_kelas->kelas->nama_kelas;
         $nama_sub_kelas = $sub_kelas->nama_sub_kelas;
@@ -221,7 +222,7 @@ class SiswaTahfidzController extends Controller
         $file_identifier = encrypt($kode);
 
         $informasi = [
-            'judul' => 'REKAP NILAI HADIST SDIT IRSYADUL \'IBAD',
+            'judul' => 'REKAP NILAI TAHFIDZ SDIT IRSYADUL \'IBAD',
             'nama_kelas' => $kelas . ' ' . $nama_sub_kelas,
             'wali_kelas' => $wali_kelas,
             'tahun_ajaran' => $tahun_ajaran,
