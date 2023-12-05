@@ -409,7 +409,7 @@ return [
         ['header' => 'DATA AKADEMIK'],
 
         [
-            'text'    => 'Mata Pelajaran',
+            'text'    => 'Data Mata Pelajaran',
             'icon'    => 'fas fa-fw fa-book',
             'submenu' => [
                 [
@@ -446,7 +446,7 @@ return [
         ],
 
         [
-            'text'    => 'Input Nilai',
+            'text'    => 'Nilai Mata Pelajaran',
             'icon'    => 'fas fa-fw fa-book',
             'submenu' => [
                 [

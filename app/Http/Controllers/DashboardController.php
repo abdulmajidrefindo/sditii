@@ -10,6 +10,7 @@ use App\Models\Siswa;
 use App\Models\Periode;
 use App\Models\ProfilSekolah;
 use App\Models\Kelas;
+use App\Models\SubKelas;
 
 use App\Models\Pengumuman;
 
@@ -17,10 +18,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $periode = Periode::where('status', 'aktif')->first();
         $user = User::count();
         $guru = Guru::count();
-        $siswa = Siswa::count();
-        $kelas = Kelas::count();
+        $siswa = Siswa::where('periode_id', $periode->id)->count();
+        $kelas = SubKelas::where('periode_id', $periode->id)->count();
         $pengumuman = Pengumuman::all();
         $profil = ProfilSekolah::first();
 
