@@ -62,14 +62,17 @@ class SiswaIbadahHarianExport implements FromView, WithStyles
         })->get();
 
         
-
-        $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) {
+        $nilai_id = [];
+        $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) use (&$nilai_id) {
             $result = [];
             $result['siswa_id'] = $item[0]->siswa_id;
             $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
             $result['nisn'] = $item[0]->siswa->nisn;
             foreach ($item as $ibadah_harian_siswa) {
                 $result[$ibadah_harian_siswa->ibadah_harian_1->nama_kriteria] = $ibadah_harian_siswa->penilaian_deskripsi->deskripsi;
+                if (!in_array($ibadah_harian_siswa->ibadah_harian_1->id, $nilai_id)) {
+                    array_push($nilai_id, $ibadah_harian_siswa->ibadah_harian_1->id);
+                }
             }
             return $result;
         });
@@ -86,6 +89,7 @@ class SiswaIbadahHarianExport implements FromView, WithStyles
             'tanggal' => $this->tanggal,
             'file_identifier' => $this->file_identifier,
             'column_length' => $this->column_length,
+            'nilai_id' => $nilai_id,
         ]);
     }
 
@@ -100,14 +104,15 @@ class SiswaIbadahHarianExport implements FromView, WithStyles
         $sheet->getStyle('D10:' . $this->getColumnIndex($this->column_length + 3) .'10')->getAlignment()->setVertical('center');
         $sheet->getStyle('D10:' . $this->getColumnIndex($this->column_length + 3) .'10')->getAlignment()->setShrinkToFit(true);
         $sheet->getStyle('A9:' . $this->getColumnIndex($this->column_length + 3) .'10')->getFont()->setBold(true);
-
+        // Set Last Row to Bold
+        $sheet->getStyle('A' . ($this->row_lenght + 11) . ':' . $this->getColumnIndex($this->column_length + 3) . ($this->row_lenght + 11))->getFont()->setBold(true);
+        // Add border to range
+        $sheet->getStyle('A9:' . $this->getColumnIndex($this->column_length + 3) . $this->row_lenght + 11)->getBorders()->getAllBorders()->setBorderStyle('thin');
+        
         // Enable worksheet protection
         $sheet->getParent()->getActiveSheet()->getProtection()->setSheet(true);
         //Unprotect nilai cell
         $sheet->getStyle('D11:' . $this->getColumnIndex($this->column_length + 3) . $this->row_lenght + 10)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
-
-        // Add border to range
-        $sheet->getStyle('A9:' . $this->getColumnIndex($this->column_length + 3) . $this->row_lenght + 10)->getBorders()->getAllBorders()->setBorderStyle('thin');
 
         //Set D11 to getColumnIndex($this->column_length + 3) . ($this->row_lenght + 10) as dropdown list
         

@@ -114,6 +114,12 @@
 </tbody>
 <tfoot>
     <tr>
+        <th colspan = "3" style="text-align: center;">ID Nilai</th>
+            <th colspan={{ $column_length }} style="text-align: center;">
+                {{ $nilai_id }}
+            </th>
+    </tr>
+    <tr>
         <th></th>
     </tr>
     <tr>

@@ -67,8 +67,9 @@
 
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="controller-tab-doa-export-import" data-toggle="tab"
-                                    href="#content-tab-doa-export-import" role="tab" aria-controls="content-tab-doa-export-import"
-                                    aria-selected="false">Export/Import Doa</a>
+                                    href="#content-tab-doa-export-import" role="tab"
+                                    aria-controls="content-tab-doa-export-import" aria-selected="false">Export/Import
+                                    Doa</a>
                             </li>
 
                         </ul>
@@ -87,12 +88,14 @@
                                                     <select class="custom-select" name="kelas_id" id="kelas_id">
                                                         <option selected disabled>-Kelas-</option>
                                                         @foreach ($data_sub_kelas as $k)
-                                                            <option value={{ $k->id }} @if($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
+                                                            <option value={{ $k->id }}
+                                                                @if ($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
                                                                 {{ $k->nama_kelas }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append">
-                                                        <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
+                                                        <x-adminlte-button type="submit"
+                                                            class="btn bg-gradient-green d-inline"
                                                             icon="fas fa fa-fw fa-save" label="Pilih" />
                                                     </div>
                                                 </div>
@@ -126,10 +129,11 @@
                                             <td>{{ $siswa['nisn'] }}</td>
                                             @foreach ($siswa as $key => $value)
                                                 @if ($key !== 'siswa_id' && $key !== 'nama_siswa' && $key !== 'kelas' && $key !== 'nisn')
-                                                    <td>@if ($value == null)
-                                                        <span class="badge badge-danger">Kosong</span>
-                                                    @else
-                                                        {{ $value }}
+                                                    <td>
+                                                        @if ($value == null)
+                                                            <span class="badge badge-danger">Kosong</span>
+                                                        @else
+                                                            {{ $value }}
                                                         @endif
                                                     </td>
                                                 @endif
@@ -164,7 +168,8 @@
                                                     {{-- Input Kelas --}}
                                                     <div class="form-group">
                                                         <label for="kelas">Pilih Kelas</label>
-                                                        <select class="custom-select" name="kelas_doa" id="kelas_doa">
+                                                        <select class="custom-select" name="kelas_doa"
+                                                            id="kelas_doa">
                                                             <option selected>-Kelas-</option>
                                                             @foreach ($data_kelas as $k)
                                                                 <option value={{ $k->id }}>{{ $k->nama_kelas }}
@@ -283,14 +288,14 @@
                                                     <div id="tambah_doa_button">
 
                                                         <x-adminlte-button type="button" id="kurang_doa"
-                                                        class="btn bg-red col-12 kurang_doa"
-                                                        icon="fas fa fa-fw fa-minus" label="Hapus Doa"/>
+                                                            class="btn bg-red col-12 kurang_doa"
+                                                            icon="fas fa fa-fw fa-minus" label="Hapus Doa" />
 
                                                         <x-adminlte-button type="button" id="tambah_doa"
                                                             class="btn-outline-secondary col-12 tambah_doa"
                                                             icon="fas fa fa-fw fa-plus" label="Tambah Doa" />
-                                                            
-                                                        
+
+
 
                                                     </div>
                                                     {{-- Simpan --}}
@@ -298,13 +303,13 @@
 
                                                 <hr>
                                                 <x-adminlte-button type="submit"
-                                            class="btn bg-gradient-green col-12 simpan"
-                                            icon="fas fa fa-fw fa-save" label="Simpan Data" />
+                                                    class="btn bg-gradient-green col-12 simpan"
+                                                    icon="fas fa fa-fw fa-save" label="Simpan Data" />
 
                                             </div>
-                                            
-                                            
-                                        
+
+
+
 
                                         </div>
                                     </form>
@@ -316,40 +321,72 @@
 
                         {{-- Tab export-import content --}}
                         <div class="tab-pane fade" id="content-tab-doa-export-import" role="tabpanel"
-                                aria-labelledby="controller-tab-doa-export-import">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="card">
-                                                <div class="card-header bg-gradient-green">
-                                                    <h3 class="card-title">Export Data Doa</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <form action="{{ url('/') }}/doa/export_excel" method="post">
-                                                        @csrf
-                                                        <label for="kelas">Pilih Kelas</label>
+                            aria-labelledby="controller-tab-doa-export-import">
+                            <div class="card-body">
+                                <div class="row">
+                                    {{-- Export --}}
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header bg-gradient-green">
+                                                <h3 class="card-title">Export Data Doa</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="{{ url('/') }}/doa/export_excel" method="post">
+                                                    @csrf
+                                                    <label for="kelas">Pilih Kelas</label>
+                                                    <div class="input-group">
+                                                        <select class="custom-select" name="sub_kelas_id"
+                                                            id="sub_kelas_id">
+                                                            <option selected disabled>-Kelas-</option>
+                                                            @foreach ($data_sub_kelas as $k)
+                                                                <option value={{ $k->id }}>
+                                                                    {{ $k->nama_kelas }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="input-group-append">
+                                                            <x-adminlte-button type="submit"
+                                                                class="btn bg-gradient-green d-inline"
+                                                                icon="fas fa fa-fw fa-save" label="Export" />
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- Import --}}
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header bg-gradient-green">
+                                                <h3 class="card-title">Import Data Doa</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="{{ url('/') }}/doa/import_excel" method="post">
+                                                    @csrf
+                                                    
+                                                        <label for="input_file_nilai">Upload File Nilai Doa (Excel)</label>
                                                         <div class="input-group">
-                                                            <select class="custom-select" name="sub_kelas_id" id="sub_kelas_id">
-                                                                <option selected disabled>-Kelas-</option>
-                                                                @foreach ($data_sub_kelas as $k)
-                                                                    <option value={{ $k->id }}>
-                                                                        {{ $k->nama_kelas }}</option>
-                                                                @endforeach
-                                                            </select>
+                                                            <div class="custom-file">
+                                                                <input type="file" class="custom-file-input"
+                                                                    id="input_file_nilai">
+                                                                <label class="custom-file-label"
+                                                                    for="input_file_nilai">Pilih File</label>
+                                                            </div>
                                                             <div class="input-group-append">
-                                                                <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
-                                                                    icon="fas fa fa-fw fa-save" label="Export" />
+                                                                <x-adminlte-button type="submit"
+                                                                class="btn bg-gradient-green d-inline"
+                                                                icon="fas fa fa-fw fa-save" label="Import" />
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                </div>
+                                                    
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                            {{-- Tab export-import content end --}}
+
+                        </div>
+                        {{-- Tab export-import content end --}}
 
                     </div>
                 </div>
@@ -402,7 +439,7 @@
 </script>
 
 <script>
-//tambah doa
+    //tambah doa
     $(document).ready(function() {
         $('#kurang_doa').hide();
         var i = 1;
@@ -418,7 +455,8 @@
                 i +
                 '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div><div class="form-group"><label for="tambah_doa_' +
                 i +
-                '">Tambah Doa</label><input type="text" class="form-control" name="tambah_doa_' + i +
+                '">Tambah Doa</label><input type="text" class="form-control" name="tambah_doa_' +
+                i +
                 '" id="tambah_doa_' + i +
                 '" placeholder="Masukkan Doa">@error("tambah_doa_' + i +
                 '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div></div>'
@@ -488,7 +526,7 @@
                                 'is-invalid');
                             $('#form_tambah_doa input').removeClass(
                                 'is-invalid');
-                            
+
                             $.each(errors.responseJSON.errors, function(key, value) {
                                 $('#form_tambah_doa #' + key).addClass(
                                     'is-invalid');

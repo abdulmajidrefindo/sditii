@@ -69,6 +69,12 @@
 </tbody>
 <tfoot>
     <tr>
+        <th colspan = "3" style="text-align: center;">ID Nilai</th>
+        @foreach ($nilai_id as $id)
+            <th style="text-align: center;">{{ $id }}</th>
+        @endforeach
+    </tr>
+    <tr>
         <th></th>
     </tr>
     <tr>
