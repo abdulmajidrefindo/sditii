@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use App\Models\Doa1;
-use App\Models\SiswaDoa;
+use App\Mpdels\IlmanWaaRuuhan;
+use App\Models\SiswaIlmanWaaRuuhan;
 use App\Models\Periode;
 use App\Models\SubKelas;
 
@@ -16,10 +16,10 @@ use PhpOffice\PhpSpreadsheet\Style\Protection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 
-class SiswaDoaExport implements FromView, WithStyles
+class SiswaIlmanWaaRuuhanExport implements FromView, WithStyles
 {
     /**
-    * @return \Illuminate\Support\Collection
+    * @return \Illuminate\Support\View
     */
 
     private $row_lenght, $column_length;
@@ -32,7 +32,6 @@ class SiswaDoaExport implements FromView, WithStyles
     private $tanggal;
     private $file_identifier;
 
-
     public function __construct($sub_kelas_id, $informasi)
     {
         $this->sub_kelas_id = $sub_kelas_id;
@@ -43,6 +42,7 @@ class SiswaDoaExport implements FromView, WithStyles
         $this->semester = $informasi['semester'];
         $this->tanggal = $informasi['tanggal'];
         $this->file_identifier = $informasi['file_identifier'];
+        $this->nama_mapel = "Ilman Waa Ruuhan";
     }
 
     public function view(): View
@@ -50,31 +50,16 @@ class SiswaDoaExport implements FromView, WithStyles
         $periode = Periode::where('status','aktif')->first();
         $sub_kelas_id = $this->sub_kelas_id;
         $kelas_id = SubKelas::where('id', $sub_kelas_id)->first()->kelas_id;
-        $data_doa = Doa1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
-        $column_length = count($data_doa);
-        $this->column_length = $column_length;
+        $this->column_length = 3;
 
-        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
+        $siswa_iwr = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
             $query->where('sub_kelas_id', $sub_kelas_id);
         })->get();
 
-        
+        $this->row_lenght = count($siswa_iwr);
 
-        $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) {
-            $result = [];
-            $result['siswa_id'] = $item[0]->siswa_id;
-            $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
-            $result['nisn'] = $item[0]->siswa->nisn;
-            foreach ($item as $doa_siswa) {
-                $result[$doa_siswa->doa_1->nama_nilai] = $doa_siswa->penilaian_huruf_angka->nilai_angka;
-            }
-            return $result;
-        });
-
-        $this->row_lenght = count($modified_siswa_d);
-
-        return view('siswaDoa.export_excel', [
-            'siswa_d' => $modified_siswa_d,
+        return view('siswaIWR.export_excel', [
+            'siswa_iwr' => $siswa_iwr,
             'judul' => $this->judul,
             'nama_kelas' => $this->nama_kelas,
             'wali_kelas' => $this->wali_kelas,
@@ -83,10 +68,10 @@ class SiswaDoaExport implements FromView, WithStyles
             'tanggal' => $this->tanggal,
             'file_identifier' => $this->file_identifier,
             'column_length' => $this->column_length,
+            'nama_mapel' => $this->nama_mapel,
         ]);
     }
 
-    //style overflow column
     public function styles(Worksheet $sheet)
     {
 

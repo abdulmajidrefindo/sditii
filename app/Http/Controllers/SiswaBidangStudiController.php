@@ -14,6 +14,11 @@ use App\Models\SubKelas;
 use App\Models\Guru;
 use App\Models\Periode;
 
+
+//export excel
+use App\Exports\SiswaBidangStudiExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class SiswaBidangStudiController extends Controller
 {
     public function choose(){
@@ -203,4 +208,35 @@ class SiswaBidangStudiController extends Controller
             return response()->json(['error' => 'Data gagal dihapus!']);
         }
     }
+
+    public function export_excel(Request $request)
+    {
+        $sub_kelas_id = $request->sub_kelas_id;
+        $sub_kelas = SubKelas::with('kelas','guru')->where('id', $sub_kelas_id)->first();
+        $kelas = $sub_kelas->kelas->nama_kelas;
+        $nama_sub_kelas = $sub_kelas->nama_sub_kelas;
+        $wali_kelas = $sub_kelas->guru->nama_guru;
+        $periode = Periode::where('status','aktif')->first();
+        $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
+        $tahun_ajaran = $periode->tahun_ajaran;
+        //clean tahun ajaran remove '/'
+        $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
+        $nama_file = 'Nilai Bidang Studi ' . $kelas . ' ' . $nama_sub_kelas . ' Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
+
+        $kode = "FileNilaiBidangStudi";
+        $file_identifier = encrypt($kode);
+
+        $informasi = [
+            'judul' => 'REKAP NILAI BIDANG STUDI SDIT IRSYADUL \'IBAD',
+            'nama_kelas' => $kelas . ' ' . $nama_sub_kelas,
+            'wali_kelas' => $wali_kelas,
+            'tahun_ajaran' => $tahun_ajaran,
+            'semester' => $semester,
+            'tanggal' => date('d-m-Y'),
+            'file_identifier' => $file_identifier,
+        ];
+
+        return Excel::download(new SiswaBidangStudiExport($sub_kelas_id, $informasi), $nama_file);
+    }
+
 }

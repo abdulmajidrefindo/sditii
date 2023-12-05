@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use App\Models\Doa1;
-use App\Models\SiswaDoa;
+use App\Models\Tahfidz1;
+use App\Models\SiswaTahfidz;
 use App\Models\Periode;
 use App\Models\SubKelas;
 
@@ -16,9 +16,9 @@ use PhpOffice\PhpSpreadsheet\Style\Protection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 
-class SiswaDoaExport implements FromView, WithStyles
+class SiswaTahfidzExport implements FromView, WithStyles
 {
-    /**
+   /**
     * @return \Illuminate\Support\Collection
     */
 
@@ -50,11 +50,11 @@ class SiswaDoaExport implements FromView, WithStyles
         $periode = Periode::where('status','aktif')->first();
         $sub_kelas_id = $this->sub_kelas_id;
         $kelas_id = SubKelas::where('id', $sub_kelas_id)->first()->kelas_id;
-        $data_doa = Doa1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
-        $column_length = count($data_doa);
+        $data_tahfidz = Tahfidz1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
+        $column_length = count($data_tahfidz);
         $this->column_length = $column_length;
 
-        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
+        $siswa_d = SiswaTahfidz::with('siswa','tahfidz_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
             $query->where('sub_kelas_id', $sub_kelas_id);
         })->get();
 
@@ -65,15 +65,15 @@ class SiswaDoaExport implements FromView, WithStyles
             $result['siswa_id'] = $item[0]->siswa_id;
             $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
             $result['nisn'] = $item[0]->siswa->nisn;
-            foreach ($item as $doa_siswa) {
-                $result[$doa_siswa->doa_1->nama_nilai] = $doa_siswa->penilaian_huruf_angka->nilai_angka;
+            foreach ($item as $tahfidz_siswa) {
+                $result[$tahfidz_siswa->tahfidz_1->nama_nilai] = $tahfidz_siswa->penilaian_huruf_angka->nilai_angka;
             }
             return $result;
         });
 
         $this->row_lenght = count($modified_siswa_d);
 
-        return view('siswaDoa.export_excel', [
+        return view('siswaTahfidz.export_excel', [
             'siswa_d' => $modified_siswa_d,
             'judul' => $this->judul,
             'nama_kelas' => $this->nama_kelas,

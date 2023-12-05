@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use App\Models\Doa1;
-use App\Models\SiswaDoa;
+use App\Models\IbadahHarian1;
+use App\Models\SiswaIbadahHarian;
 use App\Models\Periode;
 use App\Models\SubKelas;
 
@@ -12,11 +12,14 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithStyles;
 
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
+
 use PhpOffice\PhpSpreadsheet\Style\Protection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 
-class SiswaDoaExport implements FromView, WithStyles
+class SiswaIbadahHarianExport implements FromView, WithStyles
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -50,11 +53,11 @@ class SiswaDoaExport implements FromView, WithStyles
         $periode = Periode::where('status','aktif')->first();
         $sub_kelas_id = $this->sub_kelas_id;
         $kelas_id = SubKelas::where('id', $sub_kelas_id)->first()->kelas_id;
-        $data_doa = Doa1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
-        $column_length = count($data_doa);
+        $data_ibadah_harian = IbadahHarian1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
+        $column_length = count($data_ibadah_harian);
         $this->column_length = $column_length;
 
-        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
+        $siswa_d = SiswaIbadahHarian::with('siswa','ibadah_harian_1','penilaian_deskripsi')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
             $query->where('sub_kelas_id', $sub_kelas_id);
         })->get();
 
@@ -65,15 +68,15 @@ class SiswaDoaExport implements FromView, WithStyles
             $result['siswa_id'] = $item[0]->siswa_id;
             $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
             $result['nisn'] = $item[0]->siswa->nisn;
-            foreach ($item as $doa_siswa) {
-                $result[$doa_siswa->doa_1->nama_nilai] = $doa_siswa->penilaian_huruf_angka->nilai_angka;
+            foreach ($item as $ibadah_harian_siswa) {
+                $result[$ibadah_harian_siswa->ibadah_harian_1->nama_kriteria] = $ibadah_harian_siswa->penilaian_deskripsi->deskripsi;
             }
             return $result;
         });
 
         $this->row_lenght = count($modified_siswa_d);
 
-        return view('siswaDoa.export_excel', [
+        return view('siswaIbadahHarian.export_excel', [
             'siswa_d' => $modified_siswa_d,
             'judul' => $this->judul,
             'nama_kelas' => $this->nama_kelas,
@@ -106,24 +109,27 @@ class SiswaDoaExport implements FromView, WithStyles
         // Add border to range
         $sheet->getStyle('A9:' . $this->getColumnIndex($this->column_length + 3) . $this->row_lenght + 10)->getBorders()->getAllBorders()->setBorderStyle('thin');
 
+        //Set D11 to getColumnIndex($this->column_length + 3) . ($this->row_lenght + 10) as dropdown list
+        
+
         //validation rule for nilai cell as integer between 0-100 and not empty only
         $startCell = 'D11'; // Starting cell for validation
         $endCell = $this->getColumnIndex($this->column_length + 3) . ($this->row_lenght + 10); // Ending cell for validation
         $validationRange = $startCell . ':' . $endCell;
         $validation = $sheet->getCell($startCell)->getDataValidation();
-        $validation->setType(DataValidation::TYPE_WHOLE);
-        $validation->setOperator(DataValidation::OPERATOR_BETWEEN);
-        $validation->setAllowBlank(false); 
-        $validation->setFormula1(0);
-        $validation->setFormula2(100);
-        $validation->setErrorStyle(DataValidation::STYLE_STOP);
-        $validation->setShowErrorMessage(true);
-        $validation->setErrorTitle('Input Salah');
-        $validation->setError('Nilai harus berupa angka antara 0-100');
+        $validation->setType(DataValidation::TYPE_LIST);
+        $validation->setAllowBlank(false);
         $validation->setShowInputMessage(true);
-        $validation->setPromptTitle('Atur Penilaian');
-        $validation->setPrompt('Masukkan nilai antara 0-100');
+        $validation->setShowErrorMessage(true);
+        $validation->setShowDropDown(true);
+        $validation->setErrorTitle('Nilai tidak valid');
+        $validation->setError('Nilai harus dipilih dari daftar BT, MT, MB, MK, K');
+        $validation->setPromptTitle('Pilih nilai');
+        $validation->setPrompt('Pilih nilai dari daftar.'.PHP_EOL.'BT = Belum Terlihat'.PHP_EOL.'MT = Mulai Terlihat'.PHP_EOL.'MB = Mulai Berkembang'.PHP_EOL.'MK = Menjadi Kebiasaan'.PHP_EOL.'K = Kosong');
+        $validation->setFormula1('"BT,MT,MB,MK,K"');
         $sheet->setDataValidation($validationRange, $validation);
+
+        
 
         //A2-A6 Auto width cell
         $sheet->getColumnDimension('A')->setAutoSize(true);
@@ -134,4 +140,6 @@ class SiswaDoaExport implements FromView, WithStyles
     {
         return \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index);
     }
+
+
 }

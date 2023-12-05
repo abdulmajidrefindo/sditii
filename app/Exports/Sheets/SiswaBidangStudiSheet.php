@@ -1,26 +1,22 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\Sheets;
 
-use App\Models\Doa1;
-use App\Models\SiswaDoa;
-use App\Models\Periode;
-use App\Models\SubKelas;
+use App\Models\SiswaBidangStudi;
 
 use Illuminate\Contracts\View\View;
 
+
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
 use PhpOffice\PhpSpreadsheet\Style\Protection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 
-class SiswaDoaExport implements FromView, WithStyles
+class SiswaBidangStudiSheet implements FromView, WithTitle, WithStyles
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
 
     private $row_lenght, $column_length;
     private $sub_kelas_id;
@@ -32,10 +28,10 @@ class SiswaDoaExport implements FromView, WithStyles
     private $tanggal;
     private $file_identifier;
 
+    private $mapel_id;
 
-    public function __construct($sub_kelas_id, $informasi)
+    public function __construct($sub_kelas_id, $informasi, $mapel_id)
     {
-        $this->sub_kelas_id = $sub_kelas_id;
         $this->judul = $informasi['judul'];
         $this->nama_kelas = $informasi['nama_kelas'];
         $this->wali_kelas = $informasi['wali_kelas'];
@@ -43,38 +39,25 @@ class SiswaDoaExport implements FromView, WithStyles
         $this->semester = $informasi['semester'];
         $this->tanggal = $informasi['tanggal'];
         $this->file_identifier = $informasi['file_identifier'];
+        $this->nama_mapel = $informasi['nama_mapel'];
+        $this->sub_kelas_id = $sub_kelas_id;
+        $this->mapel_id = $mapel_id;
+
+        $this->column_length = 8;
     }
 
     public function view(): View
     {
-        $periode = Periode::where('status','aktif')->first();
         $sub_kelas_id = $this->sub_kelas_id;
-        $kelas_id = SubKelas::where('id', $sub_kelas_id)->first()->kelas_id;
-        $data_doa = Doa1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
-        $column_length = count($data_doa);
-        $this->column_length = $column_length;
-
-        $siswa_d = SiswaDoa::with('siswa','doa_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
+        $mapel_id = $this->mapel_id;
+        $siswa_bs = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('mapel_id',$mapel_id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
             $query->where('sub_kelas_id', $sub_kelas_id);
         })->get();
 
-        
+        $this->row_lenght = count($siswa_bs);
 
-        $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) {
-            $result = [];
-            $result['siswa_id'] = $item[0]->siswa_id;
-            $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
-            $result['nisn'] = $item[0]->siswa->nisn;
-            foreach ($item as $doa_siswa) {
-                $result[$doa_siswa->doa_1->nama_nilai] = $doa_siswa->penilaian_huruf_angka->nilai_angka;
-            }
-            return $result;
-        });
-
-        $this->row_lenght = count($modified_siswa_d);
-
-        return view('siswaDoa.export_excel', [
-            'siswa_d' => $modified_siswa_d,
+        return view('siswaBidangStudi.export_excel', [
+            'siswa_bs' => $siswa_bs,
             'judul' => $this->judul,
             'nama_kelas' => $this->nama_kelas,
             'wali_kelas' => $this->wali_kelas,
@@ -82,11 +65,16 @@ class SiswaDoaExport implements FromView, WithStyles
             'semester' => $this->semester,
             'tanggal' => $this->tanggal,
             'file_identifier' => $this->file_identifier,
+            'nama_mapel' => $this->nama_mapel,
             'column_length' => $this->column_length,
         ]);
     }
 
-    //style overflow column
+    public function title(): string
+    {
+        return $this->nama_mapel;
+    }
+
     public function styles(Worksheet $sheet)
     {
 
@@ -96,7 +84,8 @@ class SiswaDoaExport implements FromView, WithStyles
         $sheet->getStyle('D10:' . $this->getColumnIndex($this->column_length + 3) .'10')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('D10:' . $this->getColumnIndex($this->column_length + 3) .'10')->getAlignment()->setVertical('center');
         $sheet->getStyle('D10:' . $this->getColumnIndex($this->column_length + 3) .'10')->getAlignment()->setShrinkToFit(true);
-        $sheet->getStyle('A9:' . $this->getColumnIndex($this->column_length + 3) .'10')->getFont()->setBold(true);
+        //Bold cell
+        $sheet->getStyle('A9:' . $this->getColumnIndex($this->column_length + 3) . '10')->getFont()->setBold(true);
 
         // Enable worksheet protection
         $sheet->getParent()->getActiveSheet()->getProtection()->setSheet(true);
@@ -134,4 +123,5 @@ class SiswaDoaExport implements FromView, WithStyles
     {
         return \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index);
     }
+
 }
