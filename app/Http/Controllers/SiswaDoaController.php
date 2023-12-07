@@ -242,8 +242,20 @@ public function update(Request $request, $siswa_id)
 
     public function import_excel(Request $request)
     {
-        $file = $request->file('file');
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
         $kode = "FileNilaiDoa";
+        $import = new SiswaDoaImport($kode);
+        Excel::import($import, $file);
+
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
+        
     }
 
     //get siswaDoa table for ajax and delete via sweetalert

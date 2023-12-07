@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="vendor/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="vendor/adminlte/dist/css/adminlte.min.css">
+
+
+
     {{-- <link rel="stylesheet" href="dist/css/styleIndex.css"> --}}
 
     {{-- <div class="row mb-2">
@@ -360,24 +363,23 @@
                                                 <h3 class="card-title">Import Data Doa</h3>
                                             </div>
                                             <div class="card-body">
-                                                <form action="{{ url('/') }}/doa/import_excel" method="post">
+                                                <form action="{{ url('/') }}/doa/import_excel" method="post"
+                                                    enctype="multipart/form-data">
                                                     @csrf
-                                                    
-                                                        <label for="input_file_nilai">Upload File Nilai Doa (Excel)</label>
-                                                        <div class="input-group">
-                                                            <div class="custom-file">
-                                                                <input type="file" class="custom-file-input"
-                                                                    id="input_file_nilai">
-                                                                <label class="custom-file-label"
-                                                                    for="input_file_nilai">Pilih File</label>
+
+                                                    <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
+                                                        placeholder="Choose a file..." label="Pilih File Excel"
+                                                        fgroup-class="col-md-12">
+                                                        <x-slot name="appendSlot">
+                                                            <x-adminlte-button label="Upload" type="submit"  class="btn bg-gradient-green" 
+                                                                />
+                                                        </x-slot>
+                                                        <x-slot name="prependSlot">
+                                                            <div class="input-group-text bg-gradient-green">
+                                                                <i class="fas fa-upload"></i>
                                                             </div>
-                                                            <div class="input-group-append">
-                                                                <x-adminlte-button type="submit"
-                                                                class="btn bg-gradient-green d-inline"
-                                                                icon="fas fa fa-fw fa-save" label="Import" />
-                                                            </div>
-                                                        </div>
-                                                    
+                                                        </x-slot>
+                                                    </x-adminlte-input-file>
                                                 </form>
                                             </div>
                                         </div>
@@ -748,6 +750,57 @@
                 });
             }
         });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Listen for changes in the file input, and update the text
+        // inside the span next to it accordingly
+        $('#file_nilai_excel').on('change', function() {
+            // Get the name of the file
+            var fileName = $(this).val().split('\\').pop();
+
+            //get the file extension
+            var fileExtension = ['xls', 'xlsx'];
+            if ($.inArray(fileName.split('.').pop().toLowerCase(), fileExtension) ==
+                -1) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'File harus berupa excel!',
+                });
+                $('#file_nilai_excel').val('');
+                $('#file_nilai_excel').next().text('Pilih File');
+            } else {
+                //replace the "Choose a file" label
+                $(this).next().text(fileName);
+            }
+        });
+        
+    });
+</script>
+
+<script>
+    //if theres upload_error, show sweet alert
+    $(document).ready(function() {
+        var upload_error = {!! json_encode(session('upload_error')) !!};
+        if (upload_error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: upload_error,
+            });
+        }
+
+        var upload_success = {!! json_encode(session('upload_success')) !!};
+        if (upload_success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: upload_success,
+            });
+        }
     });
 </script>
 
