@@ -37,14 +37,15 @@
                         <ul class="nav nav-tabs" id="tahfidzTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-tahfidz-table" data-toggle="tab"
-                                    href="#content-tab-tahfidz-table" role="tab" aria-controls="content-tab-tahfidz-table"
-                                    aria-selected="true">Tabel Tahfidz</a>
+                                    href="#content-tab-tahfidz-table" role="tab"
+                                    aria-controls="content-tab-tahfidz-table" aria-selected="true">Tabel Tahfidz</a>
                             </li>
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tab-tahfidz-add" data-toggle="tab"
-                                        href="#content-tab-tahfidz-add" role="tab" aria-controls="content-tab-tahfidz-add"
-                                        aria-selected="false">Atur Penilaian Tahfidz</a>
+                                        href="#content-tab-tahfidz-add" role="tab"
+                                        aria-controls="content-tab-tahfidz-add" aria-selected="false">Atur Penilaian
+                                        Tahfidz</a>
                                 </li>
 
                                 <li class="nav-item" role="presentation">
@@ -56,8 +57,9 @@
 
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="controller-tab-tahfidz-export-import" data-toggle="tab"
-                                    href="#content-tab-tahfidz-export-import" role="tab" aria-controls="content-tab-tahfidz-export-import"
-                                    aria-selected="false">Export/Import Tahfidz</a>
+                                    href="#content-tab-tahfidz-export-import" role="tab"
+                                    aria-controls="content-tab-tahfidz-export-import" aria-selected="false">Export/Import
+                                    Tahfidz</a>
                             </li>
 
                         </ul>
@@ -76,12 +78,14 @@
                                                     <select class="custom-select" name="kelas_id" id="kelas_id">
                                                         <option selected disabled>-Kelas-</option>
                                                         @foreach ($data_sub_kelas as $k)
-                                                            <option value={{ $k->id }} @if($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
+                                                            <option value={{ $k->id }}
+                                                                @if ($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
                                                                 {{ $k->nama_kelas }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append">
-                                                        <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
+                                                        <x-adminlte-button type="submit"
+                                                            class="btn bg-gradient-green d-inline"
                                                             icon="fas fa fa-fw fa-save" label="Pilih" />
                                                     </div>
                                                 </div>
@@ -287,7 +291,8 @@
                                                 </div>
 
                                                 <hr>
-                                                <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan"
+                                                <x-adminlte-button type="submit"
+                                                    class="btn bg-gradient-green col-12 simpan"
                                                     icon="fas fa fa-fw fa-save" label="Simpan Data" />
 
                                             </div>
@@ -305,20 +310,24 @@
 
                         {{-- Tab export-import content --}}
                         <div class="tab-pane fade" id="content-tab-tahfidz-export-import" role="tabpanel"
-                                aria-labelledby="controller-tab-tahfidz-export-import">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="card">
-                                                <div class="card-header bg-gradient-green">
-                                                    <h3 class="card-title">Export Data Tahfidz</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <form action="{{ url('/') }}/tahfidz/export_excel" method="post">
-                                                        @csrf
+                            aria-labelledby="controller-tab-tahfidz-export-import">
+                            <div class="card-body">
+                                <div class="row">
+                                    {{-- Import Data Tahfidz --}}
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header bg-gradient-green">
+                                                <h3 class="card-title">Export Data Tahfidz</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="{{ url('/') }}/tahfidz/export_excel"
+                                                    method="post">
+                                                    @csrf
+                                                    <div class="form-group">
                                                         <label for="kelas">Pilih Kelas</label>
                                                         <div class="input-group">
-                                                            <select class="custom-select" name="sub_kelas_id" id="sub_kelas_id">
+                                                            <select class="custom-select" name="sub_kelas_id"
+                                                                id="sub_kelas_id">
                                                                 <option selected disabled>-Kelas-</option>
                                                                 @foreach ($data_sub_kelas as $k)
                                                                     <option value={{ $k->id }}>
@@ -326,19 +335,52 @@
                                                                 @endforeach
                                                             </select>
                                                             <div class="input-group-append">
-                                                                <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
+                                                                <x-adminlte-button type="submit"
+                                                                    class="btn bg-gradient-green d-inline"
                                                                     icon="fas fa fa-fw fa-save" label="Export" />
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    {{-- Export Data Tahfidz End --}}
 
+                                    {{-- Import Data Tahfidz --}}
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header bg-gradient-green">
+                                                <h3 class="card-title">Import Data Tahfidz</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="{{ url('/') }}/tahfidz/import_excel"
+                                                    method="post" enctype="multipart/form-data">
+                                                    @csrf
+
+                                                    <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
+                                                        placeholder="Choose a file..." label="Pilih File Excel"
+                                                        fgroup-class="col-md-12">
+                                                        <x-slot name="appendSlot">
+                                                            <x-adminlte-button label="Upload" type="submit"
+                                                                class="btn bg-gradient-green" />
+                                                        </x-slot>
+                                                        <x-slot name="prependSlot">
+                                                            <div class="input-group-text bg-gradient-green">
+                                                                <i class="fas fa-upload"></i>
+                                                            </div>
+                                                        </x-slot>
+                                                    </x-adminlte-input-file>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- End Import Data Tahfidz --}}
+                                </div>
                             </div>
-                            {{-- Tab export-import content end --}}
+
+                        </div>
+                        {{-- Tab export-import content end --}}
 
                     </div>
                 </div>
@@ -392,39 +434,40 @@
 
 <script>
     //tambah tahfidz
-        $(document).ready(function() {
-            $('#kurang_tahfidz').hide();
-            var i = 1;
-            $('#tambah_tahfidz').click(function() {
-                i++;
-                $('#tambah_tahfidz_tambah').append(
-                    '<hr id="garis' + i +
-                    '"> <div id="form_tambah_tahfidz_' + i +
-                    '"><div class="form-group"><label for="tambah_tahfidz_guru_' + i +
-                    '">Pilih Guru</label><select class="custom-select" name="tambah_tahfidz_guru_' + i +
-                    '" id="tambah_tahfidz_guru_' + i +
-                    '"><option selected disabled>-Guru-</option>@foreach ($data_guru as $g)<option value={{ $g->id }}>{{ $g->nama_guru }}</option>@endforeach</select>@error("tambah_tahfidz_guru_' +
+    $(document).ready(function() {
+        $('#kurang_tahfidz').hide();
+        var i = 1;
+        $('#tambah_tahfidz').click(function() {
+            i++;
+            $('#tambah_tahfidz_tambah').append(
+                '<hr id="garis' + i +
+                '"> <div id="form_tambah_tahfidz_' + i +
+                '"><div class="form-group"><label for="tambah_tahfidz_guru_' + i +
+                '">Pilih Guru</label><select class="custom-select" name="tambah_tahfidz_guru_' + i +
+                '" id="tambah_tahfidz_guru_' + i +
+                '"><option selected disabled>-Guru-</option>@foreach ($data_guru as $g)<option value={{ $g->id }}>{{ $g->nama_guru }}</option>@endforeach</select>@error("tambah_tahfidz_guru_' +
                     i +
                     '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div><div class="form-group"><label for="tambah_tahfidz_' +
-                    i +
-                    '">Tambah Tahfidz</label><input type="text" class="form-control" name="tambah_tahfidz_' + i +
-                    '" id="tambah_tahfidz_' + i +
-                    '" placeholder="Masukkan Tahfidz">@error("tambah_tahfidz_' + i +
+                i +
+                '">Tambah Tahfidz</label><input type="text" class="form-control" name="tambah_tahfidz_' +
+                i +
+                '" id="tambah_tahfidz_' + i +
+                '" placeholder="Masukkan Tahfidz">@error("tambah_tahfidz_' + i +
                     '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div></div>'
-                );
-                $('#kurang_tahfidz').show();
-            });
-    
-            $('#kurang_tahfidz').click(function() {
-                $('#garis' + i).remove();
-                $('#form_tambah_tahfidz_' + i).remove();
-                i--;
-                if (i == 1) {
-                    $('#kurang_tahfidz').hide();
-                }
-            });
+            );
+            $('#kurang_tahfidz').show();
         });
-    </script>
+
+        $('#kurang_tahfidz').click(function() {
+            $('#garis' + i).remove();
+            $('#form_tambah_tahfidz_' + i).remove();
+            i--;
+            if (i == 1) {
+                $('#kurang_tahfidz').hide();
+            }
+        });
+    });
+</script>
 
 <script>
     //aler on form_tambah_tahfidz submit
@@ -698,6 +741,59 @@
                 });
             }
         });
+    });
+</script>
+
+{{-- Logika Berkaitan Dengan Import --}}
+
+<script>
+    $(document).ready(function() {
+        // Listen for changes in the file input, and update the text
+        // inside the span next to it accordingly
+        $('#file_nilai_excel').on('change', function() {
+            // Get the name of the file
+            var fileName = $(this).val().split('\\').pop();
+
+            //get the file extension
+            var fileExtension = ['xls', 'xlsx'];
+            if ($.inArray(fileName.split('.').pop().toLowerCase(), fileExtension) ==
+                -1) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'File harus berupa excel!',
+                });
+                $('#file_nilai_excel').val('');
+                $('#file_nilai_excel').next().text('Pilih File');
+            } else {
+                //replace the "Choose a file" label
+                $(this).next().text(fileName);
+            }
+        });
+
+    });
+</script>
+
+<script>
+    //if theres upload_error, show sweet alert
+    $(document).ready(function() {
+        var upload_error = {!! json_encode(session('upload_error')) !!};
+        if (upload_error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: upload_error,
+            });
+        }
+
+        var upload_success = {!! json_encode(session('upload_success')) !!};
+        if (upload_success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: upload_success,
+            });
+        }
     });
 </script>
 

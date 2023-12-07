@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 //export excel
 use App\Exports\SiswaTahfidzExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SiswaTahfidzImport;
 
 class SiswaTahfidzController extends Controller
 {
@@ -232,5 +233,23 @@ class SiswaTahfidzController extends Controller
         ];
 
         return Excel::download(new SiswaTahfidzExport($sub_kelas_id, $informasi), $nama_file);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
+        $kode = "FileNilaiTahfidz";
+        $import = new SiswaTahfidzImport($kode);
+        Excel::import($import, $file);
+
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
+        
     }
 }
