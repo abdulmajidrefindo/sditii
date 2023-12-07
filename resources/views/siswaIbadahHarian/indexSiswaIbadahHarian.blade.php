@@ -675,7 +675,7 @@
             "responsive": true,
             "lengthChange": true,
             "autoWidth": false,
-            "buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
+            //"buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
             "paging": true,
             "searching": true,
             "ordering": true,

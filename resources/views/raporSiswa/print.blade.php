@@ -164,9 +164,19 @@
                             <td class="text-center pr-4">{{ $loop->iteration }}</td>
                             <td>{{ $n->mapel->nama_mapel }}</td>
                             <td class="text-center">{{ $n->akhir->nilai_angka }}</td>
-                            <td class="text-center">{{ $n->akhir->nilai_huruf }}</td>
+                            <td class="text-center">{{ $n->akhir->keterangan_angka }}</td>
                         </tr>
                     @endforeach
+                    <tr>
+                        <th colspan="2">Jumlah</th>
+                        <th class="text-center">{{ $jumlah }}</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Rata-rata</th>
+                        <th class="text-center">{{ $rata_rata }}</th>
+                        <th class="text-center"></th>
+                    </tr>
                 </tbody>
             </table>
 
