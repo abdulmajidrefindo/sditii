@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/ibadahHarian/getKelasIbadahHarian/{kelas_id}', [SiswaIbadahHarianController::class, 'kelas_ibadah_harian']);
     Route::get('/ibadahHarian/export_excel/{sub_kelas_id}', [SiswaIbadahHarianController::class, 'export_excel'])->name('ibadahHarian.export_excel');
     Route::post('/ibadahHarian/export_excel', [SiswaIbadahHarianController::class, 'export_excel'])->name('ibadahHarian.export_excel');
+    Route::post('/ibadahHarian/import_excel', [SiswaIbadahHarianController::class, 'import_excel'])->name('ibadahHarian.import_excel');
 
     Route::get('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::post('/tahfidz', [SiswaTahfidzController::class, 'index']);

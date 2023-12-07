@@ -37,26 +37,30 @@
                         <ul class="nav nav-tabs" id="ibadahHarianTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-ibadah-harian-table" data-toggle="tab"
-                                    href="#content-tab-ibadah-harian-table" role="tab" aria-controls="content-tab-ibadah-harian-table"
-                                    aria-selected="true">Tabel Ibadah Harian</a>
+                                    href="#content-tab-ibadah-harian-table" role="tab"
+                                    aria-controls="content-tab-ibadah-harian-table" aria-selected="true">Tabel Ibadah
+                                    Harian</a>
                             </li>
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tab-ibadah-harian-add" data-toggle="tab"
-                                        href="#content-tab-ibadah-harian-add" role="tab" aria-controls="content-tab-ibadah-harian-add"
-                                        aria-selected="false">Atur Penilaian Ibadah Harian</a>
+                                        href="#content-tab-ibadah-harian-add" role="tab"
+                                        aria-controls="content-tab-ibadah-harian-add" aria-selected="false">Atur Penilaian
+                                        Ibadah Harian</a>
                                 </li>
 
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-ibadah-harian-add" data-toggle="tab"
                                         href="#content-tambah-ibadah-harian-add" role="tab"
-                                        aria-controls="content-tambah-ibadah-harian-add" aria-selected="false">Tambah Ibadah Harian</a>
+                                        aria-controls="content-tambah-ibadah-harian-add" aria-selected="false">Tambah Ibadah
+                                        Harian</a>
                                 </li>
                             @endif
 
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="controller-tab-ibadah-harian-export-import" data-toggle="tab"
-                                    href="#content-tab-ibadah-harian-export-import" role="tab" aria-controls="content-tab-ibadah-harian-export-import"
+                                    href="#content-tab-ibadah-harian-export-import" role="tab"
+                                    aria-controls="content-tab-ibadah-harian-export-import"
                                     aria-selected="false">Export/Import Ibadah Harian</a>
                             </li>
 
@@ -76,12 +80,14 @@
                                                     <select class="custom-select" name="kelas_id" id="kelas_id">
                                                         <option selected disabled>-Kelas-</option>
                                                         @foreach ($data_sub_kelas as $k)
-                                                            <option value={{ $k->id }} @if($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
+                                                            <option value={{ $k->id }}
+                                                                @if ($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
                                                                 {{ $k->nama_kelas }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append">
-                                                        <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
+                                                        <x-adminlte-button type="submit"
+                                                            class="btn bg-gradient-green d-inline"
                                                             icon="fas fa fa-fw fa-save" label="Pilih" />
                                                     </div>
                                                 </div>
@@ -212,7 +218,8 @@
                                                     {{-- Input Kelas --}}
                                                     <div class="form-group">
                                                         <label for="kelas">Pilih Kelas</label>
-                                                        <select class="custom-select" name="kelas_ibadah_harian_tambah"
+                                                        <select class="custom-select"
+                                                            name="kelas_ibadah_harian_tambah"
                                                             id="kelas_ibadah_harian_tambah">
                                                             <option selected disabled>-Kelas-</option>
                                                             @foreach ($data_kelas as $k)
@@ -236,7 +243,8 @@
                                                     <div id="form_tambah_ibadah_harian_1">
                                                         <div class="form-group">
                                                             <label for="tambah_ibadah_harian_guru_1">Pilih Guru</label>
-                                                            <select class="custom-select" name="tambah_ibadah_harian_guru_1"
+                                                            <select class="custom-select"
+                                                                name="tambah_ibadah_harian_guru_1"
                                                                 id="tambah_ibadah_harian_guru_1">
                                                                 <option selected disabled>-Guru-</option>
                                                                 @foreach ($data_guru as $g)
@@ -253,9 +261,11 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label for="tambah_ibadah_harian_1">Tambah IbadahHarian</label>
+                                                            <label for="tambah_ibadah_harian_1">Tambah
+                                                                IbadahHarian</label>
                                                             <input type="text" class="form-control"
-                                                                name="tambah_ibadah_harian_1" id="tambah_ibadah_harian_1"
+                                                                name="tambah_ibadah_harian_1"
+                                                                id="tambah_ibadah_harian_1"
                                                                 placeholder="Masukkan IbadahHarian">
                                                             @error('tambah_ibadah_harian_1')
                                                                 <div class="invalid-feedback">
@@ -287,7 +297,8 @@
                                                 </div>
 
                                                 <hr>
-                                                <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan"
+                                                <x-adminlte-button type="submit"
+                                                    class="btn bg-gradient-green col-12 simpan"
                                                     icon="fas fa fa-fw fa-save" label="Simpan Data" />
 
                                             </div>
@@ -305,20 +316,24 @@
 
                         {{-- Tab export-import content --}}
                         <div class="tab-pane fade" id="content-tab-ibadah-harian-export-import" role="tabpanel"
-                                aria-labelledby="controller-tab-ibadah-harian-export-import">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="card">
-                                                <div class="card-header bg-gradient-green">
-                                                    <h3 class="card-title">Export Data Ibadah Harian</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <form action="{{ url('/') }}/ibadahHarian/export_excel" method="post">
-                                                        @csrf
+                            aria-labelledby="controller-tab-ibadah-harian-export-import">
+                            <div class="card-body">
+                                <div class="row">
+                                    {{-- Export Data Ibadah Harian --}}
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header bg-gradient-green">
+                                                <h3 class="card-title">Export Data Ibadah Harian</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="{{ url('/') }}/ibadahHarian/export_excel"
+                                                    method="post">
+                                                    @csrf
+                                                    <div class="form-group">
                                                         <label for="kelas">Pilih Kelas</label>
                                                         <div class="input-group">
-                                                            <select class="custom-select" name="sub_kelas_id" id="sub_kelas_id">
+                                                            <select class="custom-select" name="sub_kelas_id"
+                                                                id="sub_kelas_id">
                                                                 <option selected disabled>-Kelas-</option>
                                                                 @foreach ($data_sub_kelas as $k)
                                                                     <option value={{ $k->id }}>
@@ -326,19 +341,51 @@
                                                                 @endforeach
                                                             </select>
                                                             <div class="input-group-append">
-                                                                <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
+                                                                <x-adminlte-button type="submit"
+                                                                    class="btn bg-gradient-green d-inline"
                                                                     icon="fas fa fa-fw fa-save" label="Export" />
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    {{-- Export Data Ibadah Harian --}}
+                                    {{-- Import Data Ibadah Harian --}}
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header bg-gradient-green">
+                                                <h3 class="card-title">Import Data Ibadah Harian</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="{{ url('/') }}/ibadahHarian/import_excel" method="post"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
 
+                                                    <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
+                                                        placeholder="Choose a file..." label="Pilih File Excel"
+                                                        fgroup-class="col-md-12">
+                                                        <x-slot name="appendSlot">
+                                                            <x-adminlte-button label="Upload" type="submit"
+                                                                class="btn bg-gradient-green" />
+                                                        </x-slot>
+                                                        <x-slot name="prependSlot">
+                                                            <div class="input-group-text bg-gradient-green">
+                                                                <i class="fas fa-upload"></i>
+                                                            </div>
+                                                        </x-slot>
+                                                    </x-adminlte-input-file>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- End Import Data Ibadah Harian --}}
+                                </div>
                             </div>
-                            {{-- Tab export-import content end --}}
+
+                        </div>
+                        {{-- Tab export-import content end --}}
 
                     </div>
                 </div>
@@ -392,39 +439,41 @@
 
 <script>
     //tambah ibadah_harian
-        $(document).ready(function() {
-            $('#kurang_ibadah_harian').hide();
-            var i = 1;
-            $('#tambah_ibadah_harian').click(function() {
-                i++;
-                $('#tambah_ibadah_harian_tambah').append(
-                    '<hr id="garis' + i +
-                    '"> <div id="form_tambah_ibadah_harian_' + i +
-                    '"><div class="form-group"><label for="tambah_ibadah_harian_guru_' + i +
-                    '">Pilih Guru</label><select class="custom-select" name="tambah_ibadah_harian_guru_' + i +
-                    '" id="tambah_ibadah_harian_guru_' + i +
-                    '"><option selected disabled>-Guru-</option>@foreach ($data_guru as $g)<option value={{ $g->id }}>{{ $g->nama_guru }}</option>@endforeach</select>@error("tambah_ibadah_harian_guru_' +
+    $(document).ready(function() {
+        $('#kurang_ibadah_harian').hide();
+        var i = 1;
+        $('#tambah_ibadah_harian').click(function() {
+            i++;
+            $('#tambah_ibadah_harian_tambah').append(
+                '<hr id="garis' + i +
+                '"> <div id="form_tambah_ibadah_harian_' + i +
+                '"><div class="form-group"><label for="tambah_ibadah_harian_guru_' + i +
+                '">Pilih Guru</label><select class="custom-select" name="tambah_ibadah_harian_guru_' +
+                i +
+                '" id="tambah_ibadah_harian_guru_' + i +
+                '"><option selected disabled>-Guru-</option>@foreach ($data_guru as $g)<option value={{ $g->id }}>{{ $g->nama_guru }}</option>@endforeach</select>@error("tambah_ibadah_harian_guru_' +
                     i +
                     '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div><div class="form-group"><label for="tambah_ibadah_harian_' +
-                    i +
-                    '">Tambah IbadahHarian</label><input type="text" class="form-control" name="tambah_ibadah_harian_' + i +
-                    '" id="tambah_ibadah_harian_' + i +
-                    '" placeholder="Masukkan IbadahHarian">@error("tambah_ibadah_harian_' + i +
+                i +
+                '">Tambah IbadahHarian</label><input type="text" class="form-control" name="tambah_ibadah_harian_' +
+                i +
+                '" id="tambah_ibadah_harian_' + i +
+                '" placeholder="Masukkan IbadahHarian">@error("tambah_ibadah_harian_' + i +
                     '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div></div>'
-                );
-                $('#kurang_ibadah_harian').show();
-            });
-    
-            $('#kurang_ibadah_harian').click(function() {
-                $('#garis' + i).remove();
-                $('#form_tambah_ibadah_harian_' + i).remove();
-                i--;
-                if (i == 1) {
-                    $('#kurang_ibadah_harian').hide();
-                }
-            });
+            );
+            $('#kurang_ibadah_harian').show();
         });
-    </script>
+
+        $('#kurang_ibadah_harian').click(function() {
+            $('#garis' + i).remove();
+            $('#form_tambah_ibadah_harian_' + i).remove();
+            i--;
+            if (i == 1) {
+                $('#kurang_ibadah_harian').hide();
+            }
+        });
+    });
+</script>
 
 <script>
     //aler on form_tambah_ibadah_harian submit
@@ -481,11 +530,13 @@
                             $.each(errors.responseJSON.errors, function(key, value) {
                                 $('#form_tambah_ibadah_harian #' + key).addClass(
                                     'is-invalid');
-                                $('#form_tambah_ibadah_harian #' + key).parent().find(
-                                    '.invalid-feedback').remove();
-                                $('#form_tambah_ibadah_harian #' + key).parent().append(
-                                    '<div class="invalid-feedback">' +
-                                    value + '</div>');
+                                $('#form_tambah_ibadah_harian #' + key).parent()
+                                    .find(
+                                        '.invalid-feedback').remove();
+                                $('#form_tambah_ibadah_harian #' + key).parent()
+                                    .append(
+                                        '<div class="invalid-feedback">' +
+                                        value + '</div>');
                             });
                         }
                     }
@@ -515,7 +566,8 @@
                         $('#daftar_ibadah_harian').append(
                             '<div class="form-group input-group"><input type="text" class="form-control" name="ibadah_harian_' +
                             value.id + '" id="ibadah_harian_' + value.id +
-                            '" placeholder="Masukkan IbadahHarian" value="' + value
+                            '" placeholder="Masukkan IbadahHarian" value="' +
+                            value
                             .nama_kriteria +
                             '" ><div class="input-group-append"><button data-id="' +
                             value.id +
@@ -698,6 +750,59 @@
                 });
             }
         });
+    });
+</script>
+
+{{-- Logika Berkaitan Dengan Import --}}
+
+<script>
+    $(document).ready(function() {
+        // Listen for changes in the file input, and update the text
+        // inside the span next to it accordingly
+        $('#file_nilai_excel').on('change', function() {
+            // Get the name of the file
+            var fileName = $(this).val().split('\\').pop();
+
+            //get the file extension
+            var fileExtension = ['xls', 'xlsx'];
+            if ($.inArray(fileName.split('.').pop().toLowerCase(), fileExtension) ==
+                -1) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'File harus berupa excel!',
+                });
+                $('#file_nilai_excel').val('');
+                $('#file_nilai_excel').next().text('Pilih File');
+            } else {
+                //replace the "Choose a file" label
+                $(this).next().text(fileName);
+            }
+        });
+
+    });
+</script>
+
+<script>
+    //if theres upload_error, show sweet alert
+    $(document).ready(function() {
+        var upload_error = {!! json_encode(session('upload_error')) !!};
+        if (upload_error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: upload_error,
+            });
+        }
+
+        var upload_success = {!! json_encode(session('upload_success')) !!};
+        if (upload_success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: upload_success,
+            });
+        }
     });
 </script>
 

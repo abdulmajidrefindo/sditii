@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Validator;
 //export excel
 use App\Exports\SiswaIbadahHarianExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SiswaIbadahHarianImport;
 
 class SiswaIbadahHarianController extends Controller
 {
@@ -243,4 +244,23 @@ class SiswaIbadahHarianController extends Controller
 
         return Excel::download(new SiswaIbadahHarianExport($sub_kelas_id, $informasi), $nama_file);
     }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
+        $kode = "FileNilaiIbadahHarian";
+        $import = new SiswaIbadahHarianImport($kode);
+        Excel::import($import, $file);
+
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
+        
+    }
+
 }

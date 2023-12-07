@@ -4,13 +4,14 @@ namespace App\Imports;
 
 use Illuminate\Support\Collection;
 
-use App\Models\SiswaHadist;
+use App\Models\SiswaIbadahHarian;
+use App\Models\PenilaianDeskripsi;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithMappedCells;
 
-class SiswaHadistImport implements ToCollection
+class SiswaIbadahHarianImport implements ToCollection
 {
     /**
     * @param array $row
@@ -137,13 +138,13 @@ class SiswaHadistImport implements ToCollection
 
     public function updateOrCreate(array $condition, array $data)
     {
-        $model = SiswaHadist::where($condition)->first();
+        $model = SiswaIbadahHarian::where($condition)->first();
         if (!$model) {
-            //$model = new SiswaHadist();
+            //$model = new SiswaIbadahHarian();
             return;
         }
-        $nilai = $data['penilaian_huruf_angka_id'] == null || $data['penilaian_huruf_angka_id'] == 0 || $data['penilaian_huruf_angka_id'] == '' || $data['penilaian_huruf_angka_id'] == '0' ? 101 : $data['penilaian_huruf_angka_id'];
-        $model->penilaian_huruf_angka_id = $nilai;
+        $nilai = $this->PenilaianDeskripsiId($data['penilaian_deskripsi_id']); // Ambil ID penilaian_deskripsi berdasar keterangan.
+        $model->penilaian_deskripsi_id = $nilai;
         $model->save();
         return $model;
     }
@@ -157,11 +158,21 @@ class SiswaHadistImport implements ToCollection
             foreach ($nilai_id as $key => $id) {
                 $this->updateOrCreate([
                     'siswa_id' => $siswa_id,
-                    'hadist_1_id' => $id,
+                    'ibadah_harian_1_id' => $id,
                 ], [
-                    'penilaian_huruf_angka_id' => $value[$key+3], // Lompati 3 kolom pertama (ID, Nama, NISN) lalu ambil nilai berdasar index nilai_id.
+                    'penilaian_deskripsi_id' => $value[$key+3], // Lompati 3 kolom pertama (ID, Nama, NISN) lalu ambil nilai berdasar index nilai_id.
                 ]);
             }
+        }
+    }
+
+    public function PenilaianDeskripsiId($value)
+    {
+        try {
+            $penilaian_deskripsi_id = PenilaianDeskripsi::where('deskripsi', $value)->first()->id;
+            return $penilaian_deskripsi_id;
+        } catch (\Throwable $th) {
+            return 5;
         }
     }
 }

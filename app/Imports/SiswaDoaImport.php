@@ -32,7 +32,7 @@ class SiswaDoaImport implements ToCollection
             $file_identifier = $this->getKodeFile($rows);
             if ($file_identifier != $this->kode_file) {
                 $pesan = 'File tidak sesuai. File yang diupload: ' . $this->kode_file . '. 
-                File yang diimport: ' . $file_identifier;
+                File yang diharapkan: ' . $file_identifier;
                 $this->errorFlag = true;
                 $this->message = $this->convertCamelCaseToReadable($pesan);
             }
