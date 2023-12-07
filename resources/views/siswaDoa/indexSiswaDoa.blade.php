@@ -336,20 +336,22 @@
                                             <div class="card-body">
                                                 <form action="{{ url('/') }}/doa/export_excel" method="post">
                                                     @csrf
-                                                    <label for="kelas">Pilih Kelas</label>
-                                                    <div class="input-group">
-                                                        <select class="custom-select" name="sub_kelas_id"
-                                                            id="sub_kelas_id">
-                                                            <option selected disabled>-Kelas-</option>
-                                                            @foreach ($data_sub_kelas as $k)
-                                                                <option value={{ $k->id }}>
-                                                                    {{ $k->nama_kelas }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        <div class="input-group-append">
-                                                            <x-adminlte-button type="submit"
-                                                                class="btn bg-gradient-green d-inline"
-                                                                icon="fas fa fa-fw fa-save" label="Export" />
+                                                    <div class="form-group">
+                                                        <label for="kelas">Pilih Kelas</label>
+                                                        <div class="input-group">
+                                                            <select class="custom-select" name="sub_kelas_id"
+                                                                id="sub_kelas_id">
+                                                                <option selected disabled>-Kelas-</option>
+                                                                @foreach ($data_sub_kelas as $k)
+                                                                    <option value={{ $k->id }}>
+                                                                        {{ $k->nama_kelas }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <div class="input-group-append">
+                                                                <x-adminlte-button type="submit"
+                                                                    class="btn bg-gradient-green d-inline"
+                                                                    icon="fas fa fa-fw fa-save" label="Export" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -371,8 +373,8 @@
                                                         placeholder="Choose a file..." label="Pilih File Excel"
                                                         fgroup-class="col-md-12">
                                                         <x-slot name="appendSlot">
-                                                            <x-adminlte-button label="Upload" type="submit"  class="btn bg-gradient-green" 
-                                                                />
+                                                            <x-adminlte-button label="Upload" type="submit"
+                                                                class="btn bg-gradient-green" />
                                                         </x-slot>
                                                         <x-slot name="prependSlot">
                                                             <div class="input-group-text bg-gradient-green">
@@ -384,6 +386,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {{-- End Import --}}
                                 </div>
                             </div>
 
@@ -753,6 +756,8 @@
     });
 </script>
 
+{{-- Logika Berkaitan Dengan Import --}}
+
 <script>
     $(document).ready(function() {
         // Listen for changes in the file input, and update the text
@@ -777,7 +782,7 @@
                 $(this).next().text(fileName);
             }
         });
-        
+
     });
 </script>
 

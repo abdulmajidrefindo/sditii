@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/hadist/getKelasHadist/{kelas_id}', [SiswaHadistController::class, 'kelas_hadist']);
     Route::get('/hadist/export_excel/{sub_kelas_id}', [SiswaHadistController::class, 'export_excel'])->name('hadist.export_excel');
     Route::post('/hadist/export_excel', [SiswaHadistController::class, 'export_excel'])->name('hadist.export_excel');
+    Route::post('/hadist/import_excel', [SiswaHadistController::class, 'import_excel'])->name('hadist.import_excel');
 
     Route::get('/doa', [SiswaDoaController::class, 'index'])->name('doa.index');
     Route::post('/doa', [SiswaDoaController::class, 'index']);

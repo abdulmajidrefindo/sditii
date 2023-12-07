@@ -4,13 +4,13 @@ namespace App\Imports;
 
 use Illuminate\Support\Collection;
 
-use App\Models\SiswaDoa;
+use App\Models\SiswaHadist;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithMappedCells;
 
-class SiswaDoaImport implements ToCollection
+class SiswaHadistImport implements ToCollection
 {
     /**
     * @param array $row
@@ -137,9 +137,9 @@ class SiswaDoaImport implements ToCollection
 
     public function updateOrCreate(array $condition, array $data)
     {
-        $model = SiswaDoa::where($condition)->first();
+        $model = SiswaHadist::where($condition)->first();
         if (!$model) {
-            //$model = new SiswaDoa();
+            //$model = new SiswaHadist();
             return;
         }
         $nilai = $data['penilaian_huruf_angka_id'] == null || $data['penilaian_huruf_angka_id'] == 0 || $data['penilaian_huruf_angka_id'] == '' || $data['penilaian_huruf_angka_id'] == '0' ? 101 : $data['penilaian_huruf_angka_id'];
@@ -157,7 +157,7 @@ class SiswaDoaImport implements ToCollection
             foreach ($nilai_id as $key => $id) {
                 $this->updateOrCreate([
                     'siswa_id' => $siswa_id,
-                    'doa_1_id' => $id,
+                    'hadist_1_id' => $id,
                 ], [
                     'penilaian_huruf_angka_id' => $value[$key+3], // Lompati 3 kolom pertama (ID, Nama, NISN) lalu ambil nilai berdasar index nilai_id.
                 ]);

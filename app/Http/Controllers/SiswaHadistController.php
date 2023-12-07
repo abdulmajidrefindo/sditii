@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 //export excel
 use App\Exports\SiswaHadistExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SiswaHadistImport;
 
 class SiswaHadistController extends Controller
 {
@@ -234,6 +235,24 @@ class SiswaHadistController extends Controller
         ];
 
         return Excel::download(new SiswaHadistExport($sub_kelas_id, $informasi), $nama_file);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
+        $kode = "FileNilaiHadist";
+        $import = new SiswaHadistImport($kode);
+        Excel::import($import, $file);
+
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
+        
     }
 
 }
