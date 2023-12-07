@@ -172,6 +172,7 @@
             </div>
         </div>
 
+        @if($data_siswa->sub_kelas->kelas->id !== 6 && $data_siswa->sub_kelas->kelas->id !== 1)
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -208,6 +209,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <div class="row">
             <div class="col-6">

@@ -49,15 +49,18 @@ class RaporSiswaController extends Controller
             $data_siswa = Siswa::all()->where('sub_kelas_id', $kelas);
             $kelas_aktif = SubKelas::where('id', $kelas)->first();
         }else{
-            $data_siswa = Siswa::all();
+            $data_siswa = Siswa::where('periode_id', $periode->id)->get();
         }
+
+        $rapor_siswa = RaporSiswa::first();
         
         return view('/raporSiswa/indexRaporSiswa', 
         [
             // 'data_kelas'=>$data_kelas,
             'data_siswa'=>$data_siswa,
             'data_kelas'=>$data_kelas,
-            'kelas_aktif'=>$kelas_aktif
+            'kelas_aktif'=>$kelas_aktif,
+            'rapor_siswa'=>$rapor_siswa
 
         ]);
 
@@ -134,7 +137,12 @@ class RaporSiswaController extends Controller
      */
     public function update(UpdateRaporSiswaRequest $request, RaporSiswa $raporSiswa)
     {
-        //
+        try{
+            $raporSiswa->update($request->all());
+            return redirect()->route('raporSiswa.index')->with('rapor_berhasil', 'Data berhasil diubah');
+        }catch(\Exception $e){
+            return redirect()->route('raporSiswa.index')->with('rapor_gagal', 'Data gagal diubah');
+        }
     }
 
     /**
@@ -150,7 +158,7 @@ class RaporSiswaController extends Controller
 
     public function print($id)
     {
-        $data_siswa = Siswa::with('sub_kelas')->find($id);
+        $data_siswa = Siswa::with('sub_kelas','rapor_siswa')->find($id);
         $data_iwr = SiswaIlmanWaaRuuhan::with('ilman_waa_ruuhan')->where('siswa_id', $id)->get();
         $data_ih = SiswaIbadahHarian::with('ibadah_harian_1','penilaian_deskripsi')->where('siswa_id', $id)->get();
         $data_t = SiswaTahfidz::with('tahfidz_1','penilaian_huruf_angka')->where('siswa_id', $id)->get();

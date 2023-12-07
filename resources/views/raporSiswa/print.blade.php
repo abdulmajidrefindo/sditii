@@ -19,52 +19,54 @@
 
 </head>
 @php
-    date_default_timezone_set('Asia/Jakarta');
-    $hari = date('l');
-    $tgl = date('d');
-    $bulan = date('F');
-    $tahun = date('Y');
-    $jam = date('H:i:s');
-    $nama_hari = "";
-    if ($hari == "Sunday") {
-        $nama_hari = "Minggu";
-    } else if ($hari == "Monday") {
-        $nama_hari = "Senin";
-    } else if ($hari == "Tuesday") {
-        $nama_hari = "Selasa";
-    } else if ($hari == "Wednesday") {
-        $nama_hari = "Rabu";
-    } else if ($hari == "Thursday") {
-        $nama_hari = "Kamis";
-    } else if ($hari == "Friday") {
-        $nama_hari = "Jumat";
-    } else if ($hari == "Saturday") {
-        $nama_hari = "Sabtu";
-    }
-    if ($bulan == "January") {
-        $bulan = "Januari";
-    } else if ($bulan == "February") {
-        $bulan = "Februari";
-    } else if ($bulan == "March") {
-        $bulan = "Maret";
-    } else if ($bulan == "April") {
-        $bulan = "April";
-    } else if ($bulan == "May") {
-        $bulan = "Mei";
-    } else if ($bulan == "June") {
-        $bulan = "Juni";
-    } else if ($bulan == "July") {
-        $bulan = "Juli";
-    } else if ($bulan == "August") {
-        $bulan = "Agustus";
-    } else if ($bulan == "September") {
-        $bulan = "September";
-    } else if ($bulan == "October") {
-        $bulan = "Oktober";
-    } else if ($bulan == "November") {
-        $bulan = "November";
-    } else if ($bulan == "December") {
-        $bulan = "Desember";
+    function formatDate($date) {
+        $hari = date('l', strtotime($date));
+        $tgl = date('d', strtotime($date));
+        $bulan = date('F', strtotime($date));
+        $tahun = date('Y', strtotime($date));
+        $jam = date('H:i:s', strtotime($date));
+        $nama_hari = "";
+        if ($hari == "Sunday") {
+            $nama_hari = "Minggu";
+        } else if ($hari == "Monday") {
+            $nama_hari = "Senin";
+        } else if ($hari == "Tuesday") {
+            $nama_hari = "Selasa";
+        } else if ($hari == "Wednesday") {
+            $nama_hari = "Rabu";
+        } else if ($hari == "Thursday") {
+            $nama_hari = "Kamis";
+        } else if ($hari == "Friday") {
+            $nama_hari = "Jumat";
+        } else if ($hari == "Saturday") {
+            $nama_hari = "Sabtu";
+        }
+        if ($bulan == "January") {
+            $bulan = "Januari";
+        } else if ($bulan == "February") {
+            $bulan = "Februari";
+        } else if ($bulan == "March") {
+            $bulan = "Maret";
+        } else if ($bulan == "April") {
+            $bulan = "April";
+        } else if ($bulan == "May") {
+            $bulan = "Mei";
+        } else if ($bulan == "June") {
+            $bulan = "Juni";
+        } else if ($bulan == "July") {
+            $bulan = "Juli";
+        } else if ($bulan == "August") {
+            $bulan = "Agustus";
+        } else if ($bulan == "September") {
+            $bulan = "September";
+        } else if ($bulan == "October") {
+            $bulan = "Oktober";
+        } else if ($bulan == "November") {
+            $bulan = "November";
+        } else if ($bulan == "December") {
+            $bulan = "Desember";
+        }
+        return $nama_hari . ', ' . $tgl . ' ' . $bulan . ' ' . $tahun;
     }
 @endphp
 <body>
@@ -73,13 +75,12 @@
             <table class="header-khs" width="100%" border="0">
                 <tr>
                     <td align="center" width="100">
-                        <h1>MADRASAH DINIYAH TAKMILIYAH AWALIYAH (MDTA)</h1>
-                        <h1>IRSYADUL 'IBAD</h1>
+                        <h1>{{$profil_sekolah->nama_sekolah}}</h1>
                     </td>
                 </tr>
                 <tr>
                     <td align="center">
-                        <h3 align="center"><span style="font-weight: normal;">Jl. Raya Labuan Km. 4 Majasari-Pandeglang</span></h3>
+                        <h3 align="center"><span style="font-weight: normal;">{{$profil_sekolah->alamat_sekolah}}</span></h3>
                     </td>
             </table>
             <hr style="border-width: 2px; border-color: black; font-weight: bold;" />
@@ -348,11 +349,12 @@
                         <table class="table-keterangan" width="100%">
                             <tr>
                                 <td width="30%" style="vertical-align: top;">Diberikan di</td>
-                                <td width="70%">: {{ $profil_sekolah->alamat_sekolah }}</td>
+                                <td width="70%">: {{$data_siswa->rapor_siswa->tempat}}</td>
                             </tr>
                             <tr>
                                 <td>Tanggal</td>
-                                <td>: {{ $tgl }} {{ $bulan }} {{ $tahun }}</td>
+                                <td>: {{formatDate($data_siswa->rapor_siswa->tanggal)}}</td>
+                                {{-- <td>: {{formatDate(now('Asia/Jakarta'))}}</td> --}}
                             </tr>
                         </table>
                     </td>
