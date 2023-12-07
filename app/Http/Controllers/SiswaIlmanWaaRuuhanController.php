@@ -16,6 +16,7 @@ use App\Http\Requests\UpdateSiswaIlmanWaaRuuhanRequest;
 //export excel
 use App\Exports\SiswaIlmanWaaRuuhanExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SiswaIlmanWaaRuuhanImport;
 
 class SiswaIlmanWaaRuuhanController extends Controller
 {
@@ -200,6 +201,24 @@ class SiswaIlmanWaaRuuhanController extends Controller
         ];
 
         return Excel::download(new SiswaIlmanWaaRuuhanExport($sub_kelas_id, $informasi), $nama_file);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
+        $kode = "FileNilaiIlmanWaaRuuhan";
+        $import = new SiswaIlmanWaaRuuhanImport($kode);
+        Excel::import($import, $file);
+
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
+        
     }
 
 }

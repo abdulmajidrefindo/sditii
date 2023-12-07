@@ -31,8 +31,8 @@ class SiswaHadistImport implements ToCollection
         try {
             $file_identifier = $this->getKodeFile($rows);
             if ($file_identifier != $this->kode_file) {
-                $pesan = 'File tidak sesuai. File yang diupload: ' . $this->kode_file . '. 
-                File yang diharapkan: ' . $file_identifier;
+                $pesan = 'File tidak sesuai. File yang diharapkan: ' . $this->kode_file . '. 
+                File yang diupload: ' . $file_identifier;
                 $this->errorFlag = true;
                 $this->message = $this->convertCamelCaseToReadable($pesan);
             }

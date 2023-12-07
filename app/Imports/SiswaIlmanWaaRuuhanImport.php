@@ -4,13 +4,13 @@ namespace App\Imports;
 
 use Illuminate\Support\Collection;
 
-use App\Models\SiswaDoa;
+use App\Models\SiswaIlmanWaaRuuhan;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithMappedCells;
 
-class SiswaDoaImport implements ToCollection
+class SiswaIlmanWaaRuuhanImport implements ToCollection
 {
     /**
     * @param array $row
@@ -43,9 +43,12 @@ class SiswaDoaImport implements ToCollection
         }
         
         if (!$this->errorFlag) {
+            $nilai_id = [];
             try {
                 $this->saveData($rows);
                 $this->message = 'Data berhasil diimport.';
+                // array_push($nilai_id, $this->getNilaiId($rows));
+                // dd($nilai_id);
             } catch (\Throwable $th) {
                 $this->message = $th->getMessage();
                 $this->errorFlag = true;
@@ -110,6 +113,7 @@ class SiswaDoaImport implements ToCollection
         
         $nilai_id = $rows[$lastRow]->toArray(); // Nilai ID ada di baris terakhir dari table data
         $nilai_id = array_slice($nilai_id, 3); // Potong 3 kolom pertama (ID, Nama, NISN)
+        $nilai_id = array_filter($nilai_id);
 
         return $nilai_id;
     }
@@ -137,13 +141,14 @@ class SiswaDoaImport implements ToCollection
 
     public function updateOrCreate(array $condition, array $data)
     {
-        $model = SiswaDoa::where($condition)->first();
+        $model = SiswaIlmanWaaRuuhan::where($condition)->first();
         if (!$model) {
-            //$model = new SiswaDoa();
+            //$model = new SiswaIlmanWaaRuuhan();
             return;
         }
-        $nilai = $data['penilaian_huruf_angka_id'] == null || $data['penilaian_huruf_angka_id'] == 0 || $data['penilaian_huruf_angka_id'] == '' || $data['penilaian_huruf_angka_id'] == '0' ? 101 : $data['penilaian_huruf_angka_id'];
-        $model->penilaian_huruf_angka_id = $nilai;
+        foreach ($data as $key => $value) {
+            $model->$key = $this->penilaianHurufAngkaId($value);
+        }
         $model->save();
         return $model;
     }
@@ -153,15 +158,23 @@ class SiswaDoaImport implements ToCollection
         $data = $this->getData($rows);
 
         foreach ($data as $key => $value) {
-            $siswa_id = $value[0];
+            $id_data = $value[0];
             foreach ($nilai_id as $key => $id) {
                 $this->updateOrCreate([
-                    'siswa_id' => $siswa_id,
-                    'doa_1_id' => $id,
+                    'siswa_id' => $id_data,
+                    'ilman_waa_ruuhan_id' => $id,
                 ], [
-                    'penilaian_huruf_angka_id' => $value[$key+3], // Lompati 3 kolom pertama (ID, Nama, NISN) lalu ambil nilai berdasar index nilai_id.
+                    'jilid' => $value[3], // Kolom ke-4
+                    'halaman' => $value[4], // Kolom ke-5
+                    'penilaian_huruf_angka_id' => $value[5], // Kolom ke-6
                 ]);
             }
         }
+    }
+
+    public function penilaianHurufAngkaId($nilai)
+    {
+        $nilai = $nilai == null || $nilai == 0 || $nilai == '' || $nilai == '0' ? 101 : $nilai;
+        return $nilai;
     }
 }

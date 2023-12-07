@@ -45,7 +45,7 @@
 <tbody style="border: 2px solid black;">
     @foreach ($siswa_iwr as $siswa)
         <tr>
-            <td style="text-align: center;"> {{ $siswa->id}} </td>
+            <td style="text-align: center;"> {{ $siswa->siswa->id}} </td>
             <td>{{ $siswa->siswa->nama_siswa }}</td>
             <td>{{ $siswa->siswa->nisn }}</td>
             <td style="text-align: center;"> 
@@ -73,6 +73,12 @@
     @endforeach
 </tbody>
 <tfoot>
+    <tr>
+        <th colspan = "3" style="text-align: center;">ID Nilai</th>
+            <th colspan={{ $column_length }} style="text-align: center;">
+                {{ $nilai_id }}
+            </th>
+    </tr>
     <tr>
         <th></th>
     </tr>

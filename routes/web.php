@@ -90,6 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::get('/iwr/export_excel/{sub_kelas_id}', [SiswaIlmanWaaRuuhanController::class, 'export_excel'])->name('iwr.export_excel');
     Route::post('/iwr/export_excel', [SiswaIlmanWaaRuuhanController::class, 'export_excel'])->name('iwr.export_excel');
+    Route::post('/iwr/import_excel', [SiswaIlmanWaaRuuhanController::class, 'import_excel'])->name('iwr.import_excel');
 
     Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
