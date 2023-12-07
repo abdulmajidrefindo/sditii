@@ -95,6 +95,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::get('/bidangStudi/export_excel/{sub_kelas_id}', [SiswaBidangStudiController::class, 'export_excel'])->name('bidangStudi.export_excel');
     Route::post('/bidangStudi/export_excel', [SiswaBidangStudiController::class, 'export_excel'])->name('bidangStudi.export_excel');
+    Route::post('/bidangStudi/import_excel', [SiswaBidangStudiController::class, 'import_excel'])->name('bidangStudi.import_excel');
     Route::get('/bidangStudi/getKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'kelas_mapel']);
     Route::get('/bidangStudi/getSubKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'sub_kelas_mapel']);
 

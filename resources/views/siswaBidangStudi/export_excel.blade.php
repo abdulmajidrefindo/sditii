@@ -50,7 +50,7 @@
 <tbody style="border: 2px solid black;">
     @foreach ($siswa_bs as $siswa)
         <tr>
-            <td style="text-align: center;"> {{ $siswa->id}} </td>
+            <td style="text-align: center;"> {{ $siswa->siswa->id}} </td>
             <td>{{ $siswa->siswa->nama_siswa }}</td>
             <td>{{ $siswa->siswa->nisn }}</td>
             <td style="text-align: center;"> 

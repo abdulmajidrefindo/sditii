@@ -18,6 +18,7 @@ use App\Models\Periode;
 //export excel
 use App\Exports\SiswaBidangStudiExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SiswaBidangStudiImport;
 
 class SiswaBidangStudiController extends Controller
 {
@@ -237,6 +238,24 @@ class SiswaBidangStudiController extends Controller
         ];
 
         return Excel::download(new SiswaBidangStudiExport($sub_kelas_id, $informasi), $nama_file);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
+        $kode = "FileNilaiBidangStudi";
+        $import = new SiswaBidangStudiImport($kode);
+        Excel::import($import, $file);
+
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
+        
     }
 
 }
