@@ -94,7 +94,7 @@
                                                             <input type="text"
                                                                 class="form-control @error('tahun_ajaran') is-invalid @enderror"
                                                                 id="tahun_ajaran" name="tahun_ajaran"
-                                                                placeholder="Format: 2020/2021"
+                                                                placeholder="Format: 2020/2021">
                                                             @error('tahun_ajaran')
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}

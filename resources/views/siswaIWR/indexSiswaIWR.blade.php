@@ -64,12 +64,14 @@
                                                     <select class="custom-select" name="kelas_id" id="kelas_id">
                                                         <option selected disabled>-Kelas-</option>
                                                         @foreach ($data_sub_kelas as $k)
-                                                            <option value={{ $k->id }}  @if($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
+                                                            <option value={{ $k->id }}
+                                                                @if ($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
                                                                 {{ $k->nama_kelas }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group-append">
-                                                        <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
+                                                        <x-adminlte-button type="submit"
+                                                            class="btn bg-gradient-green d-inline"
                                                             icon="fas fa fa-fw fa-save" label="Pilih" />
                                                     </div>
                                                 </div>
@@ -77,46 +79,50 @@
                                         </div>
                                     </div>
                                 </div>
-                              <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Nama Siswa</th>
-                                        <th>NISN</th>
-                                        <th>Kelas</th>
-                                        <th>Pencapaian</th>
-                                        <th>Jilid</th>
-                                        <th>Halaman</th>
-                                        <th>Nilai</th>
-                                        <th>Pengajar</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                @foreach ($siswa_i as $s)
-                                <tr>
-                                    <td>{{ $s->siswa->nama_siswa }}</td>
-                                    <td>{{ $s->siswa->nisn }}</td>
-                                    <td>{{ $s->siswa->sub_kelas->kelas->nama_kelas . ' ' . $s->siswa->sub_kelas->nama_sub_kelas }}</td>
-                                    <td>{{ $s->ilman_waa_ruuhan->pencapaian }}</td>
-                                    <td>{{ $s->jilid }}</td>
-                                    <td>{{ $s->halaman }}</td>
-                                    <td>@if ($s->penilaian_huruf_angka->nilai_angka !== null)
-                                        {{ $s->penilaian_huruf_angka->nilai_angka }} / {{ $s->penilaian_huruf_angka->nilai_huruf }}
-                                        @else
-                                        <span class="badge badge-danger">Kosong</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $s->ilman_waa_ruuhan->guru->nama_guru }}</td>
-                                    <td>
-                                      <a href="{{ route('siswaIlmanWaaRuuhan.show', $s->id) }}"
-                                          class="btn btn-sm btn-success mx-1 shadow detail"><i
-                                              class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
-                                      <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{ $s->id }}"
-                                          data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i
-                                              class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
-                                  </td>
-                                </tr>
-                                @endforeach
-                              </table>
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama Siswa</th>
+                                            <th>NISN</th>
+                                            <th>Kelas</th>
+                                            <th>Pencapaian</th>
+                                            <th>Jilid</th>
+                                            <th>Halaman</th>
+                                            <th>Nilai</th>
+                                            <th>Pengajar</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach ($siswa_i as $s)
+                                        <tr>
+                                            <td>{{ $s->siswa->nama_siswa }}</td>
+                                            <td>{{ $s->siswa->nisn }}</td>
+                                            <td>{{ $s->siswa->sub_kelas->kelas->nama_kelas . ' ' . $s->siswa->sub_kelas->nama_sub_kelas }}
+                                            </td>
+                                            <td>{{ $s->ilman_waa_ruuhan->pencapaian }}</td>
+                                            <td>{{ $s->jilid }}</td>
+                                            <td>{{ $s->halaman }}</td>
+                                            <td>
+                                                @if ($s->penilaian_huruf_angka->nilai_angka !== null)
+                                                    {{ $s->penilaian_huruf_angka->nilai_angka }} /
+                                                    {{ $s->penilaian_huruf_angka->nilai_huruf }}
+                                                @else
+                                                    <span class="badge badge-danger">Kosong</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $s->ilman_waa_ruuhan->guru->nama_guru }}</td>
+                                            <td>
+                                                <a href="{{ route('siswaIlmanWaaRuuhan.show', $s->id) }}"
+                                                    class="btn btn-sm btn-success mx-1 shadow detail"><i
+                                                        class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                                                <a href="javascript:void(0)" data-toggle="tooltip"
+                                                    data-id="{{ $s->id }}" data-original-title="Delete"
+                                                    class="btn btn-sm btn-danger mx-1 shadow delete"><i
+                                                        class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
                             </div>
 
                             {{-- Tab export-import content --}}
@@ -124,6 +130,7 @@
                                 aria-labelledby="controller-tab-iwr-export-import">
                                 <div class="card-body">
                                     <div class="row">
+                                        {{-- Export Siswa IWR --}}
                                         <div class="col-md-6">
                                             <div class="card">
                                                 <div class="card-header bg-gradient-green">
@@ -132,26 +139,59 @@
                                                 <div class="card-body">
                                                     <form action="{{ url('/') }}/iwr/export_excel" method="post">
                                                         @csrf
-                                                        <label for="kelas">Pilih Kelas</label>
-                                                        <div class="input-group">
-                                                            <select class="custom-select" name="sub_kelas_id"
-                                                                id="sub_kelas_id">
-                                                                <option selected disabled>-Kelas-</option>
-                                                                @foreach ($data_sub_kelas as $k)
-                                                                    <option value={{ $k->id }}>
-                                                                        {{ $k->nama_kelas }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                            <div class="input-group-append">
-                                                                <x-adminlte-button type="submit"
-                                                                    class="btn bg-gradient-green d-inline"
-                                                                    icon="fas fa fa-fw fa-save" label="Export" />
+                                                        <div class="form-group">
+                                                            <label for="kelas">Pilih Kelas</label>
+                                                            <div class="input-group">
+                                                                <select class="custom-select" name="sub_kelas_id"
+                                                                    id="sub_kelas_id">
+                                                                    <option selected disabled>-Kelas-</option>
+                                                                    @foreach ($data_sub_kelas as $k)
+                                                                        <option value={{ $k->id }}>
+                                                                            {{ $k->nama_kelas }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <div class="input-group-append">
+                                                                    <x-adminlte-button type="submit"
+                                                                        class="btn bg-gradient-green d-inline"
+                                                                        icon="fas fa fa-fw fa-save" label="Export" />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
+                                        {{-- Export Siswa IWR end --}}
+
+                                        {{-- Import Siswa IWR --}}
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-header bg-gradient-green">
+                                                    <h3 class="card-title">Import Data Ilman Waa Ruuhan</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <form action="{{ url('/') }}/iwr/import_excel"
+                                                        method="post" enctype="multipart/form-data">
+                                                        @csrf
+
+                                                        <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
+                                                            placeholder="Choose a file..." label="Pilih File Excel"
+                                                            fgroup-class="col-md-12">
+                                                            <x-slot name="appendSlot">
+                                                                <x-adminlte-button label="Upload" type="submit"
+                                                                    class="btn bg-gradient-green" />
+                                                            </x-slot>
+                                                            <x-slot name="prependSlot">
+                                                                <div class="input-group-text bg-gradient-green">
+                                                                    <i class="fas fa-upload"></i>
+                                                                </div>
+                                                            </x-slot>
+                                                        </x-adminlte-input-file>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- Import Siswa IWR --}}
                                     </div>
                                 </div>
 
@@ -175,7 +215,8 @@
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables/jquery.dataTables.min.js') }}></script> --}}
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}></script> --}}
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}></script> --}}
-    <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}></script>
+    <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}>
+    </script>
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}></script> --}}
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}></script> --}}
     {{-- <script src={{ asset('public/AdminLTE-3.2.0/plugins/jszip/jszip.min.js') }}></script> --}}
@@ -200,7 +241,7 @@
                 "responsive": true,
                 "lengthChange": true,
                 "autoWidth": false,
-                "buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
+                //"buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
                 "paging": true,
                 "searching": true,
                 "ordering": true,
@@ -275,6 +316,59 @@
                     });
                 }
             });
+        });
+    </script>
+
+    {{-- Logika Berkaitan Dengan Import --}}
+
+    <script>
+        $(document).ready(function() {
+            // Listen for changes in the file input, and update the text
+            // inside the span next to it accordingly
+            $('#file_nilai_excel').on('change', function() {
+                // Get the name of the file
+                var fileName = $(this).val().split('\\').pop();
+
+                //get the file extension
+                var fileExtension = ['xls', 'xlsx'];
+                if ($.inArray(fileName.split('.').pop().toLowerCase(), fileExtension) ==
+                    -1) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'File harus berupa excel!',
+                    });
+                    $('#file_nilai_excel').val('');
+                    $('#file_nilai_excel').next().text('Pilih File');
+                } else {
+                    //replace the "Choose a file" label
+                    $(this).next().text(fileName);
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+        //if theres upload_error, show sweet alert
+        $(document).ready(function() {
+            var upload_error = {!! json_encode(session('upload_error')) !!};
+            if (upload_error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: upload_error,
+                });
+            }
+
+            var upload_success = {!! json_encode(session('upload_success')) !!};
+            if (upload_success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: upload_success,
+                });
+            }
         });
     </script>
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\Sheets;
 
-use App\Models\Tahfidz1;
-use App\Models\SiswaTahfidz;
+use App\Mpdels\IlmanWaaRuuhan;
+use App\Models\SiswaIlmanWaaRuuhan;
 use App\Models\Periode;
 use App\Models\SubKelas;
 
@@ -11,15 +11,16 @@ use Illuminate\Contracts\View\View;
 
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
 use PhpOffice\PhpSpreadsheet\Style\Protection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 
-class SiswaTahfidzExport implements FromView, WithStyles
+class SiswaIlmanWaaRuuhanSheet implements FromView, WithStyles, WithTitle
 {
-   /**
-    * @return \Illuminate\Support\Collection
+    /**
+    * @return \Illuminate\Support\View
     */
 
     private $row_lenght, $column_length;
@@ -32,8 +33,9 @@ class SiswaTahfidzExport implements FromView, WithStyles
     private $tanggal;
     private $file_identifier;
 
+    private $mapel_id;
 
-    public function __construct($sub_kelas_id, $informasi)
+    public function __construct($sub_kelas_id, $informasi, $mapel_id)
     {
         $this->sub_kelas_id = $sub_kelas_id;
         $this->judul = $informasi['judul'];
@@ -43,41 +45,26 @@ class SiswaTahfidzExport implements FromView, WithStyles
         $this->semester = $informasi['semester'];
         $this->tanggal = $informasi['tanggal'];
         $this->file_identifier = $informasi['file_identifier'];
+        $this->nama_mapel = $informasi['nama_mapel'];
+        $this->mapel_id = $mapel_id;
+
+        $this->column_length = 3;
     }
 
     public function view(): View
     {
-        $periode = Periode::where('status','aktif')->first();
+        
         $sub_kelas_id = $this->sub_kelas_id;
-        $kelas_id = SubKelas::where('id', $sub_kelas_id)->first()->kelas_id;
-        $data_tahfidz = Tahfidz1::where('kelas_id', $kelas_id)->where('periode_id', $periode->id)->get();
-        $column_length = count($data_tahfidz);
-        $this->column_length = $column_length;
+        $Ilman_waa_ruuhan_id = $this->mapel_id;
 
-        $siswa_d = SiswaTahfidz::with('siswa','tahfidz_1','penilaian_huruf_angka')->where('periode_id',$periode->id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
+        $siswa_iwr = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_huruf_angka')->where('ilman_waa_ruuhan_id',$Ilman_waa_ruuhan_id)->whereHas('siswa', function ($query) use ($sub_kelas_id) {
             $query->where('sub_kelas_id', $sub_kelas_id);
         })->get();
 
-        
-        $nilai_id = [];
-        $modified_siswa_d = $siswa_d->groupBy(['siswa_id'])->map(function ($item) use (&$nilai_id) {
-            $result = [];
-            $result['siswa_id'] = $item[0]->siswa_id;
-            $result['nama_siswa'] = $item[0]->siswa->nama_siswa;
-            $result['nisn'] = $item[0]->siswa->nisn;
-            foreach ($item as $tahfidz_siswa) {
-                $result[$tahfidz_siswa->tahfidz_1->nama_nilai] = $tahfidz_siswa->penilaian_huruf_angka->nilai_angka;
-                if (!in_array($tahfidz_siswa->tahfidz_1->id, $nilai_id)) {
-                    array_push($nilai_id, $tahfidz_siswa->tahfidz_1->id);
-                }
-            }
-            return $result;
-        });
+        $this->row_lenght = count($siswa_iwr);
 
-        $this->row_lenght = count($modified_siswa_d);
-
-        return view('siswaTahfidz.export_excel', [
-            'siswa_d' => $modified_siswa_d,
+        return view('siswaIWR.export_excel', [
+            'siswa_iwr' => $siswa_iwr,
             'judul' => $this->judul,
             'nama_kelas' => $this->nama_kelas,
             'wali_kelas' => $this->wali_kelas,
@@ -86,11 +73,16 @@ class SiswaTahfidzExport implements FromView, WithStyles
             'tanggal' => $this->tanggal,
             'file_identifier' => $this->file_identifier,
             'column_length' => $this->column_length,
-            'nilai_id' => $nilai_id,
+            'nama_mapel' => $this->nama_mapel,
+            'nilai_id' => $this->mapel_id,
         ]);
     }
 
-    //style overflow column
+    public function title(): string
+    {
+        return $this->nama_mapel;
+    }
+
     public function styles(Worksheet $sheet)
     {
 
@@ -103,13 +95,14 @@ class SiswaTahfidzExport implements FromView, WithStyles
         $sheet->getStyle('A9:' . $this->getColumnIndex($this->column_length + 3) .'10')->getFont()->setBold(true);
         // Set Last Row to Bold
         $sheet->getStyle('A' . ($this->row_lenght + 11) . ':' . $this->getColumnIndex($this->column_length + 3) . ($this->row_lenght + 11))->getFont()->setBold(true);
-        // Add border to range
-        $sheet->getStyle('A9:' . $this->getColumnIndex($this->column_length + 3) . $this->row_lenght + 11)->getBorders()->getAllBorders()->setBorderStyle('thin');
-
+        
         // Enable worksheet protection
         $sheet->getParent()->getActiveSheet()->getProtection()->setSheet(true);
         //Unprotect nilai cell
         $sheet->getStyle('D11:' . $this->getColumnIndex($this->column_length + 3) . $this->row_lenght + 10)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
+
+        // Add border to range
+        $sheet->getStyle('A9:' . $this->getColumnIndex($this->column_length + 3) . $this->row_lenght + 11)->getBorders()->getAllBorders()->setBorderStyle('thin');
 
         //validation rule for nilai cell as integer between 0-100 and not empty only
         $startCell = 'D11'; // Starting cell for validation

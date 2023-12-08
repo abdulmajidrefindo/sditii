@@ -63,39 +63,46 @@ Route::middleware('auth')->group(function () {
     Route::get('/ibadahHarian/getKelasIbadahHarian/{kelas_id}', [SiswaIbadahHarianController::class, 'kelas_ibadah_harian']);
     Route::get('/ibadahHarian/export_excel/{sub_kelas_id}', [SiswaIbadahHarianController::class, 'export_excel'])->name('ibadahHarian.export_excel');
     Route::post('/ibadahHarian/export_excel', [SiswaIbadahHarianController::class, 'export_excel'])->name('ibadahHarian.export_excel');
+    Route::post('/ibadahHarian/import_excel', [SiswaIbadahHarianController::class, 'import_excel'])->name('ibadahHarian.import_excel');
 
     Route::get('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::post('/tahfidz', [SiswaTahfidzController::class, 'index']);
     Route::get('/tahfidz/getKelasTahfidz/{kelas_id}', [SiswaTahfidzController::class, 'kelas_tahfidz']);
     Route::get('/tahfidz/export_excel/{sub_kelas_id}', [SiswaTahfidzController::class, 'export_excel'])->name('tahfidz.export_excel');
     Route::post('/tahfidz/export_excel', [SiswaTahfidzController::class, 'export_excel'])->name('tahfidz.export_excel');
+    Route::post('/tahfidz/import_excel', [SiswaTahfidzController::class, 'import_excel'])->name('tahfidz.import_excel');
 
     Route::get('/hadist', [SiswaHadistController::class, 'index']);
     Route::post('/hadist', [SiswaHadistController::class, 'index']);
     Route::get('/hadist/getKelasHadist/{kelas_id}', [SiswaHadistController::class, 'kelas_hadist']);
     Route::get('/hadist/export_excel/{sub_kelas_id}', [SiswaHadistController::class, 'export_excel'])->name('hadist.export_excel');
     Route::post('/hadist/export_excel', [SiswaHadistController::class, 'export_excel'])->name('hadist.export_excel');
+    Route::post('/hadist/import_excel', [SiswaHadistController::class, 'import_excel'])->name('hadist.import_excel');
 
-    Route::get('/doa', [SiswaDoaController::class, 'index']);
+    Route::get('/doa', [SiswaDoaController::class, 'index'])->name('doa.index');
     Route::post('/doa', [SiswaDoaController::class, 'index']);
     Route::get('/doa/getKelasDoa/{kelas_id}', [SiswaDoaController::class, 'kelas_doa']);
     Route::get('/doa/export_excel/{sub_kelas_id}', [SiswaDoaController::class, 'export_excel'])->name('doa.export_excel');
     Route::post('/doa/export_excel', [SiswaDoaController::class, 'export_excel'])->name('doa.export_excel');
+    Route::post('/doa/import_excel', [SiswaDoaController::class, 'import_excel'])->name('doa.import_excel');
     
     Route::get('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::post('/iwr', [SiswaIlmanWaaRuuhanController::class, 'index']);
     Route::get('/iwr/export_excel/{sub_kelas_id}', [SiswaIlmanWaaRuuhanController::class, 'export_excel'])->name('iwr.export_excel');
     Route::post('/iwr/export_excel', [SiswaIlmanWaaRuuhanController::class, 'export_excel'])->name('iwr.export_excel');
+    Route::post('/iwr/import_excel', [SiswaIlmanWaaRuuhanController::class, 'import_excel'])->name('iwr.import_excel');
 
     Route::get('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::post('/bidangStudi', [SiswaBidangStudiController::class, 'index']);
     Route::get('/bidangStudi/export_excel/{sub_kelas_id}', [SiswaBidangStudiController::class, 'export_excel'])->name('bidangStudi.export_excel');
     Route::post('/bidangStudi/export_excel', [SiswaBidangStudiController::class, 'export_excel'])->name('bidangStudi.export_excel');
+    Route::post('/bidangStudi/import_excel', [SiswaBidangStudiController::class, 'import_excel'])->name('bidangStudi.import_excel');
     Route::get('/bidangStudi/getKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'kelas_mapel']);
     Route::get('/bidangStudi/getSubKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'sub_kelas_mapel']);
 
     Route::get('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator');
     Route::post('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator');
+    Route::resource('/raporSiswa', RaporSiswaController::class)->middleware('role:Wali Kelas,Administrator');
     Route::get('/raporSiswa/{id}/print', [RaporSiswaController::class, 'print'])->middleware('role:Wali Kelas,Administrator');
     Route::get('/raporSiswa/{id}/detail', [RaporSiswaController::class, 'detail'])->middleware('role:Wali Kelas,Administrator');
     // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);

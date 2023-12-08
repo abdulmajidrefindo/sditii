@@ -49,15 +49,18 @@ class RaporSiswaController extends Controller
             $data_siswa = Siswa::all()->where('sub_kelas_id', $kelas);
             $kelas_aktif = SubKelas::where('id', $kelas)->first();
         }else{
-            $data_siswa = Siswa::all();
+            $data_siswa = Siswa::where('periode_id', $periode->id)->get();
         }
+
+        $rapor_siswa = RaporSiswa::first();
         
         return view('/raporSiswa/indexRaporSiswa', 
         [
             // 'data_kelas'=>$data_kelas,
             'data_siswa'=>$data_siswa,
             'data_kelas'=>$data_kelas,
-            'kelas_aktif'=>$kelas_aktif
+            'kelas_aktif'=>$kelas_aktif,
+            'rapor_siswa'=>$rapor_siswa
 
         ]);
 
@@ -134,7 +137,12 @@ class RaporSiswaController extends Controller
      */
     public function update(UpdateRaporSiswaRequest $request, RaporSiswa $raporSiswa)
     {
-        //
+        try{
+            $raporSiswa->update($request->all());
+            return redirect()->route('raporSiswa.index')->with('rapor_berhasil', 'Data berhasil diubah');
+        }catch(\Exception $e){
+            return redirect()->route('raporSiswa.index')->with('rapor_gagal', 'Data gagal diubah');
+        }
     }
 
     /**
@@ -150,7 +158,7 @@ class RaporSiswaController extends Controller
 
     public function print($id)
     {
-        $data_siswa = Siswa::with('sub_kelas')->find($id);
+        $data_siswa = Siswa::with('sub_kelas','rapor_siswa')->find($id);
         $data_iwr = SiswaIlmanWaaRuuhan::with('ilman_waa_ruuhan')->where('siswa_id', $id)->get();
         $data_ih = SiswaIbadahHarian::with('ibadah_harian_1','penilaian_deskripsi')->where('siswa_id', $id)->get();
         $data_t = SiswaTahfidz::with('tahfidz_1','penilaian_huruf_angka')->where('siswa_id', $id)->get();
@@ -158,6 +166,13 @@ class RaporSiswaController extends Controller
         $data_d = SiswaDoa::with('doa_1','penilaian_huruf_angka')->where('siswa_id', $id)->get();
         $data_mapel = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas','akhir')->where('siswa_id', $id)->get();
 
+        $jumlah_nilai_akhir = 0;
+        $count = 0;
+        foreach($data_mapel as $mapel){
+            $jumlah_nilai_akhir += $mapel->akhir->nilai_angka;
+            $count++;
+        }
+        $rata_rata = round($jumlah_nilai_akhir/$count, 2);
 
         $periode = Periode::where('status', 'aktif')->first();
         $profil_sekolah = ProfilSekolah::first();
@@ -173,7 +188,8 @@ class RaporSiswaController extends Controller
                 'data_d'=>$data_d,
                 'data_mapel'=>$data_mapel,
                 'periode'=>$periode,
-                'profil_sekolah'=>$profil_sekolah
+                'profil_sekolah'=>$profil_sekolah,
+                
             ]);
         }else {
             return view('/raporSiswa/print', 
@@ -186,7 +202,9 @@ class RaporSiswaController extends Controller
                 'data_d'=>$data_d,
                 'data_mapel'=>$data_mapel,
                 'periode'=>$periode,
-                'profil_sekolah'=>$profil_sekolah
+                'profil_sekolah'=>$profil_sekolah,
+                'rata_rata'=>$rata_rata,
+                'jumlah'=>$jumlah_nilai_akhir,
             ]);
         }
     }

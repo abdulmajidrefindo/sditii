@@ -32,68 +32,134 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-header bg-gradient-green">
-                        <h3 class="card-title">Rapor Siswa @if (isset($kelas_aktif)) {{ $kelas_aktif->kelas->nama_kelas .  ' ' . $kelas_aktif->nama_sub_kelas }} @endif</h3>
+                <div class="card card-secondary card-tabs">
+                    <div class="card-header p-0 pt-0 bg-gradient-green">
+                        {{-- tab control --}}
+                        <ul class="nav nav-tabs" id="kategori-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="controller-tab-rapor-table" data-toggle="pill"
+                                    href="#content-tab-rapor-table" role="tab" aria-controls="content-tab-rapor-table"
+                                    aria-selected="true">
+                                    <i class="fas fa-xs fa-table fa-fw"></i>
+                                    Rapor Siswa @if (isset($kelas_aktif))
+                                        {{ $kelas_aktif->kelas->nama_kelas . ' ' . $kelas_aktif->nama_sub_kelas }}
+                                    @endif
+                                </a>
+                            </li>
+                            @if (Auth::user()->role->contains('role', 'Administrator'))
+                                <li class="nav-item">
+                                    <a class="nav-link" id="controller-tab-rapor-atur" data-toggle="pill"
+                                        href="#content-tab-rapor-atur" role="tab" aria-controls="content-tab-rapor-atur"
+                                        aria-selected="false">
+                                        <i class="fas fa-xs fa-plus fa-fw"></i>
+                                        Atur Raport</a>
+                                </li>
+                            @endif
+                        </ul>
                     </div>
+
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <form action="{{ url('/') }}/raporSiswa" method="post">
-                                        @csrf
-                                        <label for="kelas">Pilih Kelas</label>
-                                        <div class="input-group">
-                                            <select class="custom-select" name="kelas_id" id="kelas_id">
-                                                <option selected disabled>-Kelas-</option>
-                                                @foreach ($data_kelas as $k)
-                                                    <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
-                                                @endforeach
-                                            </select>
-                                            <div class="input-group-append">
-                                                <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline"
-                                                    icon="fas fa fa-fw fa-save" label="Pilih" />
-                                            </div>
+                        <div class="tab-content" id="raporTabContent">
+                            <div class="tab-pane active show" id="content-tab-rapor-table" role="tabpanel"
+                                aria-labelledby="controller-tab-rapor-table">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <form action="{{ url('/') }}/raporSiswa" method="post">
+                                                @csrf
+                                                <label for="kelas">Pilih Kelas</label>
+                                                <div class="input-group">
+                                                    <select class="custom-select" name="kelas_id" id="kelas_id">
+                                                        <option selected disabled>-Kelas-</option>
+                                                        @foreach ($data_kelas as $k)
+                                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="input-group-append">
+                                                        <x-adminlte-button type="submit"
+                                                            class="btn bg-gradient-green d-inline"
+                                                            icon="fas fa fa-fw fa-save" label="Pilih" />
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </form>
+                                    </div>
+                                </div>
+                                <table id="example1" class="table table-bordered table-striped">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>NISN</th>
+                                            <th>Kelas</th>
+                                            <th>Wali Kelas</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach ($data_siswa as $s)
+                                        <tr>
+                                            <td>{{ $s->nama_siswa }}</td>
+                                            <td>{{ $s->nisn }}</td>
+                                            <td>{{ $s->sub_kelas->kelas->nama_kelas . ' ' . $s->sub_kelas->nama_sub_kelas }}
+                                            </td>
+                                            <td>{{ $s->sub_kelas->guru->nama_guru }}</td>
+                                            <td>
+                                                <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail"
+                                                    class="btn btn-block btn-primary">Detail</a>
+                                                <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/print"
+                                                    class="btn btn-block btn-primary">Print</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+
+                            <div class="tab-pane fade" id="content-tab-rapor-atur" role="tabpanel"
+                                aria-labelledby="controller-tab-rapor-atur">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="bs-stepper-content">
+                                            <form id="form_tambah_periode" method="POST" action="{{ url('/') }}/raporSiswa/{{ $rapor_siswa->id }}">
+                                                @method('PUT')
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="tempat">Tempat</label>
+                                                    <input type="text" class="form-control @error('tempat') is-invalid @enderror" id="tempat" name="tempat" placeholder="Tempat" value="{{ $rapor_siswa->tempat }}">
+                                                    @error('tempat')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="tanggal">Tanggal</label>
+                                                    <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" placeholder="Tanggal" value="{{ date('Y-m-d', strtotime($rapor_siswa->tanggal)) }}">
+                                                    @error('tanggal')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+
+                                                
+                                                
+
+                                                {{-- Simpan --}}
+                                                <x-adminlte-button type="submit"
+                                                    class="btn bg-gradient-green col-12 simpan" icon="fas fa fa-fw fa-save"
+                                                    label="Simpan Data" />
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <table id="example1" class="table table-bordered table-striped">
 
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>NISN</th>
-                                    <th>Kelas</th>
-                                    <th>Wali Kelas</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            @forelse ($data_siswa as $s)
-                                <tr>
-                                    <td>{{ $s->nama_siswa }}</td>
-                                    <td>{{ $s->nisn }}</td>
-                                    <td>{{ $s->sub_kelas->kelas->nama_kelas . ' ' . $s->sub_kelas->nama_sub_kelas }}</td>
-                                    <td>{{ $s->sub_kelas->guru->nama_guru }}</td>
-                                    <td>
-                                        <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail"
-                                            class="btn btn-block btn-primary">Detail</a>
-                                        <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/print"
-                                            class="btn btn-block btn-primary">Print</a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <td>-</td>
-                            @endforelse
-                        </table>
+                        </div>
+
+
+
                     </div>
-                    {{-- <div class="input-group input-group-sm">
-              <input type="text" class="form-control">
-              <span class="input-group-append">
-                <button type="button" class="btn btn-info btn-flat">Go!</button>
-              </span>
-            </div> --}}
                 </div>
             </div>
         </div>
@@ -136,26 +202,35 @@
                 "responsive": true,
                 "lengthChange": true,
                 "autoWidth": false,
-                "buttons": ['colvis'],
                 "paging": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
-        // $(function () {
-        //   $("#example1").DataTable({
-        //     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        //   }).buttons().container().appendTo('example1_wrapper .col-md-6:eq(0)');
-        //   $("#example1").DataTable({
-        //     "paging": false,
-        //     "lengthChange": true,
-        //     "searching": false,
-        //     "ordering": true,
-        //     "info": true,
-        //     "autoWidth": true,
-        //     "responsive": true,
-        //   });
-        // });
     </script>
+
+<script>
+    //if theres simpan_gagal, show sweet alert
+    $(document).ready(function() {
+        var simpan_gagal = {!! json_encode(session('rapor_gagal')) !!};
+        if (simpan_gagal) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: simpan_gagal,
+            });
+        }
+
+        var simpan_sukses = {!! json_encode(session('rapor_berhasil')) !!};
+        if (simpan_sukses) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: simpan_sukses,
+            });
+        }
+    });
+</script>
+
 @stop
