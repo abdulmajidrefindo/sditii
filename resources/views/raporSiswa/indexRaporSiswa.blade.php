@@ -93,7 +93,7 @@
                                             <th>NISN</th>
                                             <th>Kelas</th>
                                             <th>Wali Kelas</th>
-                                            <th>Aksi</th>
+                                            <th class="text-center" style="width: 15%">Aksi</th>
                                         </tr>
                                     </thead>
                                     @foreach ($data_siswa as $s)
@@ -103,11 +103,11 @@
                                             <td>{{ $s->sub_kelas->kelas->nama_kelas . ' ' . $s->sub_kelas->nama_sub_kelas }}
                                             </td>
                                             <td>{{ $s->sub_kelas->guru->nama_guru }}</td>
-                                            <td>
+                                            <td class="text-center">
                                                 <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail"
-                                                    class="btn btn-block btn-primary">Detail</a>
+                                                    class="btn btn-sm btn-success mx-1 shadow">Detail</a>
                                                 <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/print"
-                                                    class="btn btn-block btn-primary">Print</a>
+                                                    class="btn btn-sm btn-success mx-1 shadow">Print</a>
                                             </td>
                                         </tr>
                                     @endforeach
