@@ -14,6 +14,18 @@
     <!-- Select2 -->
     <link rel="stylesheet" href="vendor/select2/css/select2.min.css">
     <link rel="stylesheet" href="vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Nilai {{ $siswaIlmanWaaRuuhan->siswa->nama_siswa }}</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                {{ Breadcrumbs::render('siswaIlmanWaaRuuhan.show', $siswaIlmanWaaRuuhan) }}
+            </ol>
+        </div>
+    </div>
+
 @stop
 
 @section('content')

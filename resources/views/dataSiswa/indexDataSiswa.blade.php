@@ -16,16 +16,16 @@
     <link rel="stylesheet" href="vendor/adminlte/dist/css/adminlte.min.css">
     {{-- <link rel="stylesheet" href="dist/css/styleIndex.css"> --}}
 
-    {{-- <div class="row mb-2">
-  <div class="col-sm-6">
-    <h1 class="m-0">Data Siswa</h1>
-  </div>
-  <div class="col-sm-6"> --}}
-    {{-- <ol class="breadcrumb float-sm-right">
-      {{ Breadcrumbs::render('merek') }}
-    </ol> --}}
-    {{-- </div>
-    </div> --}}
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Data Siswa</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                {{ Breadcrumbs::render('dataSiswa') }}
+            </ol>
+        </div>
+    </div>
 @stop
 
 @section('content')

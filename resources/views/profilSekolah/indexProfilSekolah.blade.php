@@ -20,9 +20,9 @@
             <h1 class="m-0">Profil Sekolah</h1>
         </div>
         <div class="col-sm-6">
-            {{-- <ol class="breadcrumb float-sm-right">
-            {{ Breadcrumbs::render('merek') }}
-        </ol> --}}
+            <ol class="breadcrumb float-sm-right">
+                {{ Breadcrumbs::render('profilSekolah') }}
+            </ol>
         </div>
     </div>
 @stop
@@ -103,9 +103,10 @@
                                     <div class="form-group row">
                                         <label for="website_sekolah" class="col-sm-2 col-form-label">Website Sekolah</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control @error('website_sekolah') is-invalid @enderror" name="website_sekolah" id="website_sekolah"
-                                                placeholder="Website Sekolah" value="{{ $profil->website_sekolah }}"
-                                                readonly>
+                                            <input type="text"
+                                                class="form-control @error('website_sekolah') is-invalid @enderror"
+                                                name="website_sekolah" id="website_sekolah" placeholder="Website Sekolah"
+                                                value="{{ $profil->website_sekolah }}" readonly>
                                             @error('website_sekolah')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror

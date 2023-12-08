@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getTablePeriode', [PeriodeController::class, 'getTable'])->name('periode.getTable');
     Route::get('/getTableKelas', [KelasController::class, 'getTable'])->name('kelas.getTable');
     
-    Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
+    Route::get('/profilSekolah', [ProfilSekolahController::class, 'index'])->middleware('role:Administrator');
     Route::get('/pengumuman', [PengumumanController::class, 'index']);
 
     Route::get('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);

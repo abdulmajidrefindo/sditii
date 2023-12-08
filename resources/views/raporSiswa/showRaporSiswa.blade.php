@@ -16,16 +16,16 @@
     <link rel="stylesheet" href="vendor/adminlte/dist/css/adminlte.min.css">
     {{-- <link rel="stylesheet" href="dist/css/styleIndex.css"> --}}
 
-    {{-- <div class="row mb-2">
-  <div class="col-sm-6">
-    <h1 class="m-0">Rapor Siswa</h1>
-  </div>
-  <div class="col-sm-6">
-    {{-- <ol class="breadcrumb float-sm-right">
-      {{ Breadcrumbs::render('merek') }}
-    </ol> --}}
-    {{-- </div> --}}
-    {{-- </div>  --}}
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Rapor {{ $data_siswa->nama_siswa }}</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                {{ Breadcrumbs::render('raporSiswa.show', $data_siswa) }}
+            </ol>
+        </div>
+    </div>
 @stop
 
 @section('content')
@@ -199,7 +199,7 @@
                                         <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                         <td>{{ $n->mapel->nama_mapel }}</td>
                                         <td class="text-center">{{ $n->akhir->nilai_angka }}</td>
-                                        <td class="text-center">{{ $n->akhir->nilai_huruf }}</td>
+                                        <td class="text-center">{{ $n->akhir->keterangan_angka }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
