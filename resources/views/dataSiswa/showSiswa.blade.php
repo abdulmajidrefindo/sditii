@@ -17,7 +17,7 @@
 
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0">Data Siswa</h1>
+            <h1 class="m-0">Data Siswa {{ $siswa->nama_siswa }}</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -235,16 +235,30 @@
                         $('#empty-space').prop('hidden', false);
 
                         Swal.fire({
-                            icon: 'success',
                             title: 'Berhasil',
-                            text: 'Data berhasil diperbaharui',
+                            text: 'Data berhasil disimpan!',
+                            icon: 'success',
+                            // iconColor: '#fff',
+                            // toast: true,
+                            // background: '#45FFCA',
+                            position: 'top-center',
+                            showConfirmButton: true,
+                            timer: 3000,
+                            timerProgressBar: true,
                         });
                     },
                     error: function(data) {
                         Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: 'Data gagal diperbaharui',
+                            title: 'Gagal!',
+                                text: 'Data Gagal diperbaharui!',
+                                icon: 'error',
+                                // iconColor: '#fff',
+                                toast: true,
+                                // background: '#f8bb86',
+                                position: 'top-center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
                         });
                     }
                 });

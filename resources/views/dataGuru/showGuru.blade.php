@@ -19,7 +19,7 @@
 
 <div class="row mb-2">
     <div class="col-sm-6">
-        <h1 class="m-0">Data Guru</h1>
+        <h1 class="m-0">Data Guru {{ $guru->nama_guru }}</h1>
     </div>
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -30,25 +30,22 @@
 @stop
 @section('content')
 <div class="row">
-    <div class="col-12 col-sm-12 col-md-6">
+    <div class="col-12 col-sm-12 col-md-12">
         <div class="card card-dark">
             <div class="card-header border-transparent">
-                <h3 class="card-title">Detail Guru </h3>
+                <h3 class="card-title pt-1">Detail Guru </h3>
                 <div class="card-tools">
                     <!-- button to edit page-->
                     
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <a href="{{ route('dataGuru.index') }}" class="btn btn-sm btn-secondary float-right">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </a>
                 </div>
             </div>
             <div class="card-body">
                 
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6 border-right">
                         
                         <div class="form-group col-md-12">
                             <label class="text-lightdark">
@@ -100,7 +97,7 @@
                             label="Waktu Ditambahkan" fgroup-class="col-md-12" disabled>
                             
                             <x-slot name="prependSlot">
-                                <div class="input-group-text bg-purple">
+                                <div class="input-group-text bg-gradient-green">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                             </x-slot>
@@ -111,21 +108,31 @@
                             label="Waktu Diperbaharui" fgroup-class="col-md-12" disabled>
                             
                             <x-slot name="prependSlot">
-                                <div class="input-group-text bg-purple">
+                                <div class="input-group-text bg-gradient-green">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                             </x-slot>
                             
                         </x-adminlte-input>
                         
-                        <x-adminlte-button id="simpan" class="btn bg-purple col-12 simpan" type="submit" label="Simpan Data"
+                        <x-adminlte-button id="simpan" class="btn bg-gradient-green col-12 simpan" type="submit" label="Simpan Data"
                         icon="fas fa fa-fw fa-save" hidden />
                         
-                        <x-adminlte-button id="edit" class="btn bg-purple col-12 edit" type="submit" label="Edit Data"
+                        <x-adminlte-button id="edit" class="btn bg-gradient-green col-12 edit" type="submit" label="Edit Data"
                         icon="fas fa fa-fw fa-edit" />
                     </div>
                 </div>
             </div>
+
+            {{-- <div class="card-footer">
+                <div class="row">
+                    <div class="col-12">
+
+                        
+                    </div>
+                </div>
+            </div> --}}
+
         </div>
     </div>
 </div>  
