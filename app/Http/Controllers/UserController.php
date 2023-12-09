@@ -117,14 +117,14 @@ class UserController extends Controller
             'email'=>'email',
             // 'user_name'=>'required|unique:user,user_name',
             // 'user_name'=>'unique:user,user_name',
-            // 'role_id'=>'required',
+            'role'=>'required',
         ],
         [
             'name.required'=>'Nama harus diisi',
             'email.email'=>'Isi dengan format email',
             // 'user_name.required'=>'Username harus diisi',
             // 'user_name.unique'=>'Username sudah digunakan',
-            // 'role_id.required'=>'Peran harus diisi'
+            'role.required'=>'Peran harus diisi'
         ]);
         // $p=$request->get('password');
         // $securep=bcrypt($p);
@@ -168,16 +168,16 @@ class UserController extends Controller
 
     public function destroy(User $dataUser)
     {
-        $id = $dataUser->id;
-        $userRoles = UserRoles::where('user_id', $id)->first();
-        $userRoles->delete();
-        $dataUser->delete();
-        if ($dataUser) {
-            return response()->json(['success' => 'Data berhasil dihapus!']);
-        }
-        else{
-            return response()->json(['error' => 'Data gagal dihapus!']);
-        }
+        // $id = $dataUser->id;
+        // $userRoles = UserRoles::where('user_id', $id)->first();
+        // $userRoles->delete();
+        // $dataUser->delete();
+        // if ($dataUser) {
+        //     return response()->json(['success' => 'Data berhasil dihapus!']);
+        // }
+        // else{
+        //     return response()->json(['error' => 'Data gagal dihapus!']);
+        // }
     }
 
     public function getTable(Request $request){

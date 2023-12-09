@@ -277,7 +277,7 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
-                            text: 'Data gagal diperbaharui',
+                            text: 'Harap Isi Data Dengan Benar',
                         });
                     }
                 });

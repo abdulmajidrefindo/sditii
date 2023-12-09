@@ -42,8 +42,8 @@
                     </div>
                 </div>
                 <form id="form_periode">
-                <div class="card-body">
-                    
+                    <div class="card-body">
+
                         <div class="row">
                             <div class="col-sm-6 border-right">
 
@@ -122,42 +122,42 @@
 
                                 <x-adminlte-input name="created_at" type="text" value="{{ $dataPeriode->created_at }}"
                                     label="Waktu Ditambahkan" fgroup-class="col-md-12" disabled>
-    
+
                                     <x-slot name="prependSlot">
                                         <div class="input-group-text bg-gradient-green">
                                             <i class="fas fa-calendar-alt"></i>
                                         </div>
                                     </x-slot>
-    
+
                                 </x-adminlte-input>
-    
-                            <x-adminlte-input name="updated_at" type="text" value="{{ $dataPeriode->updated_at }}"
+
+                                <x-adminlte-input name="updated_at" type="text" value="{{ $dataPeriode->updated_at }}"
                                     label="Waktu Diperbaharui" fgroup-class="col-md-12" disabled>
-    
+
                                     <x-slot name="prependSlot">
                                         <div class="input-group-text bg-gradient-green">
                                             <i class="fas fa-calendar-alt"></i>
                                         </div>
                                     </x-slot>
-    
+
                                 </x-adminlte-input>
 
                             </div>
 
                         </div>
-                    
-                </div>
 
-                <div class="card-footer">
-                    <x-adminlte-button id="edit" class="btn bg-gradient-green edit" label="Edit Data"
-                                    icon="fas fa fa-fw fa-edit" />
-                                <x-adminlte-button id="simpan" class="btn bg-gradient-green simpan" type="submit"
-                                    label="Simpan Data" icon="fas fa fa-fw fa-save" hidden />
-                                <x-adminlte-button id="batal" class="btn bg-gradient-maroon cancel" label="Batal"
-                                    icon="fas fa fa-fw fa-times" hidden />
-                </div>
+                    </div>
 
-            </form>
+                    <div class="card-footer">
+                        <x-adminlte-button id="edit" class="btn bg-gradient-green edit" label="Edit Data"
+                            icon="fas fa fa-fw fa-edit" />
+                        <x-adminlte-button id="simpan" class="btn bg-gradient-green simpan" type="submit"
+                            label="Simpan Data" icon="fas fa fa-fw fa-save" hidden />
+                        <x-adminlte-button id="batal" class="btn bg-gradient-maroon cancel" label="Batal"
+                            icon="fas fa fa-fw fa-times" hidden />
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>
