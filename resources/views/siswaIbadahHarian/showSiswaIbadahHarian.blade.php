@@ -30,46 +30,24 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12 col-sm-12 col-md-6">
+        <div class="col-12 col-sm-12 col-md-12">
             <div class="card card-dark">
                 <div class="card-header border-transparent">
-                    <h3 class="card-title">Detail Ibadah Harian</h3>
+                    <h3 class="card-title pt-1">Detail Siswa</h3>
                     <div class="card-tools">
-                        <!-- button to edit page-->
-
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <a href="{{ route('siswaIbadahHarian.index') }}" class="btn btn-sm btn-secondary float-right">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </a>
                     </div>
                 </div>
+                
+                <form id="form_ibadah_harian">
                 <div class="card-body">
 
                     <div class="row">
-                        <div class="col-sm-12">
-                            <form id="form_ibadah_harian">
+                        <div class="col-sm-6 border-right">
 
-                                <div class="form-group col-md-12">
-                                    <label class="text-lightdark">
-                                        NISN
-                                    </label>
-                                    <div class="input-group">
-                                        <input id="nisn" name="nisn" value="{{ $siswaIbadahHarian[0]->siswa->nisn }}"
-                                            class="form-control" disabled>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-12">
-                                    <label class="text-lightdark">
-                                        Nama Siswa
-                                    </label>
-                                    <div class="input-group">
-                                        <input id="nama_siswa" name="nama_siswa"
-                                            value="{{ $siswaIbadahHarian[0]->siswa->nama_siswa }}" class="form-control" disabled>
-                                    </div>
-                                </div>
+                                
                                 @foreach ($siswaIbadahHarian as $siswa_ib)
                                         <div class="form-group col-md-12">
                                             <label for="ibadah_harian_{{ $siswa_ib->id }}" class="text-lightdark">
@@ -90,16 +68,51 @@
                                         </div>
                                 @endforeach
 
-                                <x-adminlte-button id="edit" class="btn bg-purple col-12 edit" label="Edit Data"
-                                    icon="fas fa fa-fw fa-edit" />
-                                <x-adminlte-button id="simpan" class="btn bg-purple col-12 simpan" type="submit"
-                                    label="Simpan Data" icon="fas fa fa-fw fa-save" />
-                                <x-adminlte-button id="batal" class="btn bg-red col-12 cancel" label="Batal"
-                                    icon="fas fa fa-fw fa-times" />
-                            </form>
+                               
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group col-md-12">
+                                <label class="text-lightdark">
+                                    Nama Siswa
+                                </label>
+                                <div class="input-group">
+                                    <input id="nama_siswa" name="nama_siswa"
+                                        value="{{ $siswaIbadahHarian[0]->siswa->nama_siswa }}" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="text-lightdark">
+                                    NISN
+                                </label>
+                                <div class="input-group">
+                                    <input id="nisn" name="nisn" value="{{ $siswaIbadahHarian[0]->siswa->nisn }}"
+                                        class="form-control" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label for="kelas" class="text-lightdark">
+                                    Kelas Siswa
+                                </label>
+                                <div class="input-group">
+                                    <input id="kelas" name="kelas" value="{{ $siswaIbadahHarian[0]->siswa->sub_kelas->kelas->nama_kelas }} {{ $siswaIbadahHarian[0]->siswa->sub_kelas->nama_sub_kelas }}"
+                                        class="form-control" disabled>
+                                </div>
+                            </div>
+
+                            
                         </div>
                     </div>
                 </div>
+                <div class="card-footer">
+                    <x-adminlte-button id="edit" class="btn bg-gradient-green edit" label="Edit Data"
+                                    icon="fas fa fa-fw fa-edit" />
+                                <x-adminlte-button id="simpan" class="btn bg-gradient-green simpan" type="submit"
+                                    label="Simpan Data" icon="fas fa fa-fw fa-save" />
+                                <x-adminlte-button id="batal" class="btn bg-gradient-maroon cancel" label="Batal"
+                                    icon="fas fa fa-fw fa-times" />
+                </div>
+            </form>
             </div>
         </div>
     </div>
@@ -182,7 +195,7 @@
                 $('#edit').hide();
                 $('#simpan').show();
                 $('#batal').show();
-                $('input:not(#nama_siswa, #nisn)').prop('disabled', false);
+                $('input:not(#nama_siswa, #nisn, #kelas)').prop('disabled', false);
                 $('select').prop('disabled', false);
 
             });
