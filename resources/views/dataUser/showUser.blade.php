@@ -107,8 +107,9 @@
                                 <select class="form-control @error('update_role') is-invalid @enderror" id="update_role"
                                     name="update_role" data-placeholder="-pilih peran pengguna-" style="width: 100%;">
                                     <option selected disabled>-pilih peran pengguna-</option>
-                                    <option value="1">Administrator</option>
-                                    <option value="3">Guru</option>
+                                    @foreach ($role as $role)
+                                        <option value="{{ $role->id }}">{{ $role->role }}</option>
+                                    @endforeach
                                 </select>
                                 @error('update_role')
                                     <div class="invalid-feedback">
@@ -264,20 +265,26 @@
                         var role = $('#update_role').val();
                         var roleText = $('#update_role option:selected').text();
                         $('#role').val(roleText);
-
-
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: 'Data berhasil diperbaharui',
-                        });
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: data.success,
+                            });
+                        }
+                        if (data.error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: data.error,
+                            });
+                        }
                     },
                     error: function(data) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
-                            text: 'Harap Isi Data Dengan Benar',
+                            text: data.error,
                         });
                     }
                 });

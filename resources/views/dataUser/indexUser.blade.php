@@ -62,7 +62,7 @@
                 <th>No</th>
                 <th>Nama</th>
                 <th>Username</th>
-                {{-- <th>Peran</th> --}}
+                <th>Peran</th>
                 @if (Auth::user()->role->contains('role', 'Administrator'))
                 <th>Aksi</th>
                 @endif
@@ -262,6 +262,10 @@
         data: 'user_name',
         name: 'user_name'
       },
+      {
+        data: 'role',
+        name: 'role'
+      },
       // only show this column if user is admin
       @if (Auth::user()->role->contains('role', 'Administrator'))
       {
@@ -394,7 +398,7 @@
                     $('#example1').DataTable().ajax.reload();
                     Swal.fire({
                       title: 'Berhasil!',
-                      text: 'Data Berhasil Dihapus',
+                      text: response.success,
                       icon: 'success',
                       iconColor: '#fff',
                       color: '#fff',
@@ -408,7 +412,7 @@
                   } else {
                     Swal.fire({
                       title: 'Gagal!',
-                      text: 'Data Gagal Dihapus',
+                      text: response.error,
                       icon: 'error',
                       iconColor: '#fff',
                       toast: true,
