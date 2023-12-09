@@ -34,11 +34,6 @@
                 <div class="card-header border-transparent">
                     <h3 class="card-title pt-1">Detail Doa </h3>
                     <div class="card-tools">
-                        <!-- button to edit page-->
-
-                        {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button> --}}
                         <a href="{{ route('dataDoa.index') }}" class="btn btn-sm btn-secondary float-right">
                             <i class="fas fa-arrow-left"></i> Kembali
                         </a>
