@@ -94,7 +94,7 @@
                                     @else
                                         <div class="custom-control custom-checkbox pt-2">
                                             <input class="custom-control-input" type="checkbox" id="status"
-                                                type="checkbox" value="aktif"
+                                                type="checkbox" value="aktif" name="status"
                                                 {{ $dataPeriode->status == 'aktif' ? 'checked' : '' }} disabled>
                                             <label for="status" class="custom-control-label">Atur Sebagai Semester
                                                 Aktif</label>
@@ -204,13 +204,14 @@
             $('#simpan').click(function() {
                 event.preventDefault();
                 //ajax update data
+                var status = $('#status').is(':checked') ? 'aktif' : 'tidak aktif';
                 $.ajax({
                     url: "{{ route('dataPeriode.update', $dataPeriode->id) }}",
                     type: 'PUT',
                     data: {
                         semester: $('#semester').val(),
                         tahun_ajaran: $('#tahun_ajaran').val(),
-                        status: $('#status').val(),
+                        status: status,
                     },
                     success: function(data) {
                         $('#semester').prop('disabled', true);
@@ -226,27 +227,36 @@
                             text: 'Data berhasil diperbaharui',
                         });
                     },
-                    error: function(data) {
-                        $('#form_periode').find('.is-invalid').removeClass(
-                            'is-invalid');
-                        $('#form_periode').find('.error').remove();
+                    error: function(err) {
+                        if (err.status == 422) {
+                            $('#form_periode').find('.is-invalid').removeClass(
+                                'is-invalid');
+                            $('#form_periode').find('.error').remove();
 
-                        //send error to adminlte form
-                        $.each(err.responseJSON.error, function(i, error) {
-                            var el = $(document).find('[name="' + i + '"]');
-                            if (el.hasClass('is-invalid')) {
-                                el.removeClass('is-invalid');
-                                el.next().remove();
-                            }
-                            el.addClass('is-invalid');
-                            el.after($('<span class="error invalid-feedback">' +
-                                error[0] + '</span>'));
-                        });
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: 'Data gagal diperbaharui',
-                        });
+                            //send error to adminlte form
+                            $.each(err.responseJSON.errors, function(i, error) {
+                                var el = $(document).find('[name="' + i + '"]');
+                                if (el.hasClass('is-invalid')) {
+                                    el.removeClass('is-invalid');
+                                    el.next().remove();
+                                }
+                                el.addClass('is-invalid');
+                                el.after($('<span class="error invalid-feedback">' +
+                                    error[0] + '</span>'));
+                            });
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: 'Mohon isi data dengan benar!',
+                                icon: 'error',
+                                iconColor: '#fff',
+                                toast: true,
+                                background: '#f8bb86',
+                                position: 'top-center',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            });
+                        }
 
                     }
                 });

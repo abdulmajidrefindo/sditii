@@ -9,6 +9,10 @@ use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Utilities\Request;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
 class PeriodeController extends Controller
 {
     /**
@@ -43,12 +47,19 @@ class PeriodeController extends Controller
 
         //validate
         $validator = $request->validate([
-            'tahun_ajaran' => ['required', 'regex:/^\d{4}\/\d{4}$/'],
+            'tahun_ajaran' => [ // Tahun ajaran harus unique berdasarkan semester
+                'required',
+                'regex:/^\d{4}\/\d{4}$/',
+                Rule::unique('periodes')->where(function ($query) use ($request) {
+                    return $query->where('semester', $request->get('semester'));
+                })->ignore($request->id)
+            ],
             'semester' => ['required', 'numeric', 'between:1,2']
         ],
         [
             'tahun_ajaran.required' => 'Tahun ajaran harus diisi!',
             'tahun_ajaran.regex' => 'Format tahun ajaran tidak sesuai!',
+            'tahun_ajaran.unique' => 'Tahun ajaran sudah ada untuk semester ini!',
             'semester.required' => 'Semester harus diisi!',
             'semester.numeric' => 'Semester harus berupa angka!',
             'semester.between' => 'Semester harus bernilai 1 atau 2!'
@@ -98,7 +109,13 @@ class PeriodeController extends Controller
     public function update(UpdatePeriodeRequest $request, Periode $dataPeriode)
     {
         $validator = $request->validate([
-            'tahun_ajaran' => ['required', 'regex:/^\d{4}\/\d{4}$/'],
+            'tahun_ajaran' => [ // Tahun ajaran harus unique berdasarkan semester
+                'required',
+                'regex:/^\d{4}\/\d{4}$/',
+                Rule::unique('periodes')->where(function ($query) use ($request) {
+                    return $query->where('semester', $request->get('semester'));
+                })->ignore($dataPeriode->id)
+            ],
             'semester' => ['required', 'numeric', 'between:1,2'],
             //status must aktif or tidak aktif
             'status' => ['required', 'string', 'max:255', 'in:aktif,tidak aktif']
@@ -106,6 +123,7 @@ class PeriodeController extends Controller
         [
             'tahun_ajaran.required' => 'Tahun ajaran harus diisi!',
             'tahun_ajaran.regex' => 'Format tahun ajaran tidak sesuai!',
+            'tahun_ajaran.unique' => 'Tahun ajaran sudah ada untuk semester ini!',
             'semester.required' => 'Semester harus diisi!',
             'semester.numeric' => 'Semester harus berupa angka!',
             'semester.between' => 'Semester harus bernilai 1 atau 2!',
@@ -114,13 +132,19 @@ class PeriodeController extends Controller
             'status.max' => 'Status maksimal 255 karakter!',
             'status.in' => 'Status harus aktif atau tidak aktif!'
         ]
-    );
+        );
+
+        //dd($request->all());
+
         $dataPeriode->tahun_ajaran = $request->get('tahun_ajaran');
         $dataPeriode->semester = $request->get('semester');
         $dataPeriode->status = $request->get('status');
         $dataPeriode->save();
         //set all status to tidak aktif
-        Periode::where('id', '!=', $dataPeriode->id)->update(['status' => 'tidak aktif']);
+        if ($dataPeriode->status == 'aktif') {
+            $periode = Periode::where('id', '!=', $dataPeriode->id)->update(['status' => 'tidak aktif']);
+        }
+
         if ($dataPeriode) {
 
             return response()->json(['success' => 'Data berhasil disimpan!']);
