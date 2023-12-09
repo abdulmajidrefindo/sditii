@@ -66,6 +66,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <form action="{{ url('/') }}/raporSiswa" method="post">
+                                                
                                                 @csrf
                                                 <label for="kelas">Pilih Kelas</label>
                                                 <div class="input-group">

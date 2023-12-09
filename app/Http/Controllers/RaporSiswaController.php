@@ -137,8 +137,14 @@ class RaporSiswaController extends Controller
      */
     public function update(UpdateRaporSiswaRequest $request, RaporSiswa $raporSiswa)
     {
+        
         try{
-            $raporSiswa->update($request->all());
+            $rapor_siswa = RaporSiswa::first();
+            $rapor_siswa->update([
+                'tempat'=>$request->tempat,
+                'tanggal'=>$request->tanggal,
+            ]);
+
             return redirect()->route('raporSiswa.index')->with('rapor_berhasil', 'Data berhasil diubah');
         }catch(\Exception $e){
             return redirect()->route('raporSiswa.index')->with('rapor_gagal', 'Data gagal diubah');
