@@ -147,7 +147,7 @@
                                     icon="fas fa fa-fw fa-edit" />
                                 <x-adminlte-button id="simpan" class="btn bg-gradient-green simpan" type="submit"
                                     label="Simpan Data" icon="fas fa fa-fw fa-save" />
-                                <x-adminlte-button id="batal" class="btn bg-red cancel" label="Batal"
+                                <x-adminlte-button id="batal" class="btn bg-gradient-maroon cancel" label="Batal"
                                     icon="fas fa fa-fw fa-times" />
                 </div>
                 

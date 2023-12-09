@@ -29,35 +29,23 @@
 @stop
 @section('content')
     <div class="row">
-        <div class="col-12 col-sm-12 col-md-6">
+        <div class="col-12 col-sm-12 col-md-12">
             <div class="card card-dark">
                 <div class="card-header border-transparent">
-                    <h3 class="card-title">Detail Ilman Waa Ruuhan </h3>
+                    <h3 class="card-title pt-1">Detail Ilman Waa Ruuhan </h3>
                     <div class="card-tools">
-                        <!-- button to edit page-->
-
-                        {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button> --}}
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <a href="{{ route('dataIlmanWaaRuuhan.index') }}" class="btn btn-sm btn-secondary float-right">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </a>
                     </div>
                 </div>
+                
+                <form id="form_ilman_waa_ruuhan">
                 <div class="card-body">
 
                     <div class="row">
-                        <div class="col-sm-12">
-                            <form id="form_ilman_waa_ruuhan">
-                                <div class="form-group col-md-12">
-                                    <label class="text-lightdark">
-                                        ID
-                                    </label>
-                                    <div class="input-group">
-                                        <input id="id" name="id" value="{{ $data_iwr->id }}"
-                                            class="form-control" disabled>
-                                    </div>
-                                </div>
+                        <div class="col-sm-6 border-right">
+                                
 
                                 <div class="form-group col-md-12">
                                     <label class="text-lightdark">
@@ -97,16 +85,54 @@
                                     @enderror
                                 </div>
 
-                                <x-adminlte-button id="edit" class="btn bg-purple col-12 edit" label="Edit Data"
-                                    icon="fas fa fa-fw fa-edit" />
-                                <x-adminlte-button id="simpan" class="btn bg-purple col-12 simpan" type="submit"
-                                    label="Simpan Data" icon="fas fa fa-fw fa-save" />
-                                <x-adminlte-button id="batal" class="btn bg-red col-12 cancel" label="Batal"
-                                    icon="fas fa fa-fw fa-times" />
-                            </form>
+                                
+                            
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group col-md-12">
+                                <label class="text-lightdark">
+                                    ID
+                                </label>
+                                <div class="input-group">
+                                    <input id="id" name="id" value="{{ $data_iwr->id }}"
+                                        class="form-control" disabled>
+                                </div>
+                            </div>
+
+                            <x-adminlte-input name="created_at" type="text" value="{{ $data_iwr->created_at }}"
+                                label="Waktu Ditambahkan" fgroup-class="col-md-12" disabled>
+
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text bg-gradient-green">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                </x-slot>
+
+                            </x-adminlte-input>
+
+                            <x-adminlte-input name="updated_at" type="text" value="{{ $data_iwr->updated_at }}"
+                                label="Waktu Diperbaharui" fgroup-class="col-md-12" disabled>
+
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text bg-gradient-green">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                </x-slot>
+
+                            </x-adminlte-input>
+
                         </div>
                     </div>
                 </div>
+                <div class="card-footer">
+                    <x-adminlte-button id="edit" class="btn bg-gradient-green  edit" label="Edit Data"
+                                    icon="fas fa fa-fw fa-edit" />
+                                <x-adminlte-button id="simpan" class="btn bg-gradient-green  simpan" type="submit"
+                                    label="Simpan Data" icon="fas fa fa-fw fa-save" />
+                                <x-adminlte-button id="batal" class="btn bg-gradient-maroon cancel" label="Batal"
+                                    icon="fas fa fa-fw fa-times" />
+                </div>
+            </form>
             </div>
         </div>
     </div>
@@ -194,7 +220,7 @@
                 $('#edit').hide();
                 $('#simpan').show();
                 $('#batal').show();
-                $('input:not(#id, #kelas)').prop('disabled', false);
+                $('input:not(#id, #kelas, #created_at, #updated_at)').prop('disabled', false);
                 $('select').prop('disabled', false);
 
             });
