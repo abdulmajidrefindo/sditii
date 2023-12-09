@@ -90,7 +90,7 @@
                                             <th>No</th>
                                             <th>Periode</th>
                                             <th>Kelas</th>
-                                            <th>Nama Nilai</th>
+                                            <th>Hadist</th>
                                             <th>Guru</th>
                                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                                 <th>Aksi</th>

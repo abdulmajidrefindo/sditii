@@ -54,7 +54,7 @@
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-iwr-add" data-toggle="tab"
                                         href="#content-tambah-iwr-add" role="tab" aria-controls="content-tambah-iwr-add"
-                                        aria-selected="false">Tambah Ilman Waa Ruuhan</a>
+                                        aria-selected="false">Tambah Pencapaian</a>
                                 </li>
                             @endif
                         </ul>
@@ -269,9 +269,9 @@
                 i +
                 '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div><div class="form-group"><label for="tambah_iwr_' +
                 i +
-                '">Tambah Bidang Studi</label><input type="text" class="form-control" name="tambah_iwr_' + i +
+                '">Tambah Pencapaian</label><input type="text" class="form-control" name="tambah_iwr_' + i +
                 '" id="tambah_iwr_' + i +
-                '" placeholder="Masukkan Bidang Studi">@error("tambah_iwr_' + i +
+                '" placeholder="Masukkan Pencapaian">@error("tambah_iwr_' + i +
                 '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div></div>'
             );
             $('#kurang_iwr').show();

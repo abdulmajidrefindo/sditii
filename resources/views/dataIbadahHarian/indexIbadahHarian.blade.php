@@ -54,7 +54,7 @@
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-ibadah-harian-add" data-toggle="tab"
                                         href="#content-tambah-ibadah-harian-add" role="tab" aria-controls="content-tambah-ibadah-harian-add"
-                                        aria-selected="false">Tambah Ibadah Harian</a>
+                                        aria-selected="false">Tambah Kriteria</a>
                                 </li>
                             @endif
                         </ul>
@@ -156,10 +156,10 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label for="tambah_ibadah_harian_1">Tambah Ibadah Harian</label>
+                                                            <label for="tambah_ibadah_harian_1">Tambah Kriteria</label>
                                                             <input type="text" class="form-control"
                                                                 name="tambah_ibadah_harian_1" id="tambah_ibadah_harian_1"
-                                                                placeholder="Masukkan Ibadah Harian">
+                                                                placeholder="Masukkan Kriteria">
                                                             @error('tambah_ibadah_harian_1')
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
@@ -177,11 +177,11 @@
 
                                                         <x-adminlte-button type="button" id="kurang_ibadah_harian"
                                                         class="btn bg-red col-12 kurang_ibadah_harian"
-                                                        icon="fas fa fa-fw fa-minus" label="Hapus Ibadah Harian"/>
+                                                        icon="fas fa fa-fw fa-minus" label="Hapus Kriteria"/>
 
                                                         <x-adminlte-button type="button" id="tambah_ibadah_harian"
                                                             class="btn-outline-secondary col-12 tambah_ibadah_harian"
-                                                            icon="fas fa fa-fw fa-plus" label="Tambah Ibadah Harian" />   
+                                                            icon="fas fa fa-fw fa-plus" label="Tambah Kriteria" />   
                                                         
 
                                                     </div>
@@ -273,9 +273,9 @@
                 i +
                 '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div><div class="form-group"><label for="tambah_ibadah_harian_' +
                 i +
-                '">Tambah Ibadah Harian</label><input type="text" class="form-control" name="tambah_ibadah_harian_' + i +
+                '">Tambah Kriteria</label><input type="text" class="form-control" name="tambah_ibadah_harian_' + i +
                 '" id="tambah_ibadah_harian_' + i +
-                '" placeholder="Masukkan Ibadah Harian">@error("tambah_ibadah_harian_' + i +
+                '" placeholder="Masukkan Kriteria">@error("tambah_ibadah_harian_' + i +
                 '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div></div>'
             );
             $('#kurang_ibadah_harian').show();

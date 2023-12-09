@@ -54,7 +54,7 @@
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-tahfidz-add" data-toggle="tab"
                                         href="#content-tambah-tahfidz-add" role="tab" aria-controls="content-tambah-tahfidz-add"
-                                        aria-selected="false">Tambah Tahfidz</a>
+                                        aria-selected="false">Tambah Surat</a>
                                 </li>
                             @endif
                         </ul>
@@ -90,7 +90,7 @@
                                             <th>No</th>
                                             <th>Periode</th>
                                             <th>Kelas</th>
-                                            <th>Nama Nilai</th>
+                                            <th>Surat</th>
                                             <th>Guru</th>
                                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                                 <th>Aksi</th>
@@ -156,10 +156,10 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label for="tambah_tahfidz_1">Tambah Tahfidz</label>
+                                                            <label for="tambah_tahfidz_1">Tambah Surat</label>
                                                             <input type="text" class="form-control"
                                                                 name="tambah_tahfidz_1" id="tambah_tahfidz_1"
-                                                                placeholder="Masukkan Tahfidz">
+                                                                placeholder="Masukkan Surat">
                                                             @error('tambah_tahfidz_1')
                                                                 <div class="invalid-feedback">
                                                                     {{ $message }}
@@ -177,11 +177,11 @@
 
                                                         <x-adminlte-button type="button" id="kurang_tahfidz"
                                                         class="btn bg-red col-12 kurang_tahfidz"
-                                                        icon="fas fa fa-fw fa-minus" label="Hapus Tahfidz"/>
+                                                        icon="fas fa fa-fw fa-minus" label="Hapus Surat"/>
 
                                                         <x-adminlte-button type="button" id="tambah_tahfidz"
                                                             class="btn-outline-secondary col-12 tambah_tahfidz"
-                                                            icon="fas fa fa-fw fa-plus" label="Tambah Tahfidz" />   
+                                                            icon="fas fa fa-fw fa-plus" label="Tambah Surat" />   
                                                         
 
                                                     </div>
@@ -273,9 +273,9 @@
                 i +
                 '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div><div class="form-group"><label for="tambah_tahfidz_' +
                 i +
-                '">Tambah Tahfidz</label><input type="text" class="form-control" name="tambah_tahfidz_' + i +
+                '">Tambah Surat</label><input type="text" class="form-control" name="tambah_tahfidz_' + i +
                 '" id="tambah_tahfidz_' + i +
-                '" placeholder="Masukkan Tahfidz">@error("tambah_tahfidz_' + i +
+                '" placeholder="Masukkan Surat">@error("tambah_tahfidz_' + i +
                 '")<div class="invalid-feedback">{{ $message }}</div>@enderror</div></div>'
             );
             $('#kurang_tahfidz').show();
