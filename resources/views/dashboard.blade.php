@@ -95,6 +95,7 @@
         </div>
 
         <div class="row">
+{{--             
             <div class="col-md-6">
                 <div class="card card-default">
                     <div class="card-header bg-gradient-green">
@@ -122,10 +123,7 @@
                                                     <div class="timeline-body">
                                                         {{ $item['isi'] }}
                                                     </div>
-                                                    {{-- <div class="timeline-footer">
-                                                        <a class="btn btn-primary btn-sm">Read more</a>
-                                                        <a class="btn btn-danger btn-sm">Delete</a>
-                                                    </div> --}}
+                                                    
                                                 </div>
                                             </div>
                                         @endforeach
@@ -140,9 +138,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card card-default">
                     <div class="card-header bg-gradient-green">
                         <h3 class="card-title">

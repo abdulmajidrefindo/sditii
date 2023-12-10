@@ -318,13 +318,13 @@ return [
             //'label'       => 4,
             'label_color' => 'success',
         ],
-        [
-            'text'        => 'Pengumuman',
-            'url'         => '/pengumuman',
-            'icon'        => 'fa fa-fw fa-exclamation-circle',
-            //'label'       => 4,
-            'label_color' => 'success',
-        ],
+        // [
+        //     'text'        => 'Pengumuman',
+        //     'url'         => '/pengumuman',
+        //     'icon'        => 'fa fa-fw fa-exclamation-circle',
+        //     //'label'       => 4,
+        //     'label_color' => 'success',
+        // ],
         ['header' => 'DATA MASTER'],
         /*[
             'text' => 'profile',
