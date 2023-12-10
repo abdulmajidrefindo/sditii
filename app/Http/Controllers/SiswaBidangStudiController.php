@@ -167,7 +167,9 @@ class SiswaBidangStudiController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        $nilai_akhir = ($request->nilai_uh_1 + $request->nilai_uh_2 + $request->nilai_uh_3 + $request->nilai_uh_4 + $request->nilai_tugas_1 + $request->nilai_tugas_2 + $request->nilai_uts + $request->nilai_pas)/8;
+        $rata_rata_uh = ($request->nilai_uh_1 + $request->nilai_uh_2 + $request->nilai_uh_3 + $request->nilai_uh_4)/4;
+        $rata_rata_tugas = ($request->nilai_tugas_1 + $request->nilai_tugas_2)/2;
+        $nilai_akhir = ($rata_rata_uh + $rata_rata_tugas + $request->nilai_uts + $request->nilai_pas)/4; 
         foreach ($request->all() as $key => $value) {
             $value = $value == 0 ? 101 : $value;
             $siswaBidangStudi->$key = $value;
