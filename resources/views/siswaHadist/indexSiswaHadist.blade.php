@@ -16,27 +16,27 @@
 <link rel="stylesheet" href="vendor/adminlte/dist/css/adminlte.min.css">
 {{-- <link rel="stylesheet" href="dist/css/styleIndex.css"> --}}
 
-{{-- <div class="row mb-2">
-    <div class="col-sm-6">
-        <h1 class="m-0">Data Guru</h1>
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Nilai Hadist Siswa</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                {{ Breadcrumbs::render('siswaHadist') }}
+            </ol>
+        </div>
     </div>
-    <div class="col-sm-6"> --}}
-        {{-- <ol class="breadcrumb float-sm-right">
-            {{ Breadcrumbs::render('merek') }}
-        </ol> --}}
-        {{-- </div>
-        </div> --}}
-        @stop
-        
-        @section('content')
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-secondary card-tabs">
-                        <div class="card-header p-0 pt-0 bg-gradient-green">
-                            <ul class="nav nav-tabs" id="hadistTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="controller-tab-hadist-table" data-toggle="tab"
+@stop
+
+@section('content')
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-secondary card-tabs">
+                    <div class="card-header p-0 pt-0 bg-gradient-green">
+                        <ul class="nav nav-tabs" id="hadistTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="controller-tab-hadist-table" data-toggle="tab"
                                     href="#content-tab-hadist-table" role="tab" aria-controls="content-tab-hadist-table"
                                     aria-selected="true">Nilai Siswa</a>
                                 </li>

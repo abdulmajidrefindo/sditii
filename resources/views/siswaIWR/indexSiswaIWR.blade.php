@@ -16,19 +16,19 @@
 <link rel="stylesheet" href="vendor/adminlte/dist/css/adminlte.min.css">
 {{-- <link rel="stylesheet" href="dist/css/styleIndex.css"> --}}
 
-{{-- <div class="row mb-2">
-    {{-- <div class="col-sm-6">
-        <h1 class="m-0">Ilman Waa Ruuhan</h1>
-    </div> --}}
-    {{-- <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-            {{ Breadcrumbs::render('merek') }}
-        </ol>
-    </div> --}}
-    {{-- </div> --}}
-    @stop
-    
-    @section('content')
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Nilai Ilman Waa Ruuhan</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                {{ Breadcrumbs::render('siswaIlmanWaaRuuhan') }}
+            </ol>
+        </div>
+    </div>
+@stop
+
+@section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">

@@ -16,16 +16,16 @@
     <link rel="stylesheet" href="vendor/adminlte/dist/css/adminlte.min.css">
     {{-- <link rel="stylesheet" href="dist/css/styleIndex.css"> --}}
 
-    {{-- <div class="row mb-2">
-  <div class="col-sm-6">
-    <h1 class="m-0">Rapor Siswa</h1>
-  </div>
-  <div class="col-sm-6">
-    {{-- <ol class="breadcrumb float-sm-right">
-      {{ Breadcrumbs::render('merek') }}
-    </ol> --}}
-    {{-- </div> --}}
-    {{-- </div>  --}}
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Rapor Siswa</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                {{ Breadcrumbs::render('raporSiswa') }}
+            </ol>
+        </div>
+    </div>
 @stop
 
 @section('content')
@@ -66,6 +66,7 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <form action="{{ url('/') }}/raporSiswa" method="post">
+                                                
                                                 @csrf
                                                 <label for="kelas">Pilih Kelas</label>
                                                 <div class="input-group">
@@ -93,7 +94,7 @@
                                             <th>NISN</th>
                                             <th>Kelas</th>
                                             <th>Wali Kelas</th>
-                                            <th>Aksi</th>
+                                            <th class="text-center" style="width: 15%">Aksi</th>
                                         </tr>
                                     </thead>
                                     @foreach ($data_siswa as $s)
@@ -103,11 +104,11 @@
                                             <td>{{ $s->sub_kelas->kelas->nama_kelas . ' ' . $s->sub_kelas->nama_sub_kelas }}
                                             </td>
                                             <td>{{ $s->sub_kelas->guru->nama_guru }}</td>
-                                            <td>
+                                            <td class="text-center">
                                                 <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail"
-                                                    class="btn btn-block btn-primary">Detail</a>
+                                                    class="btn btn-sm btn-success mx-1 shadow">Detail</a>
                                                 <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/print"
-                                                    class="btn btn-block btn-primary">Print</a>
+                                                    class="btn btn-sm btn-success mx-1 shadow">Print</a>
                                             </td>
                                         </tr>
                                     @endforeach

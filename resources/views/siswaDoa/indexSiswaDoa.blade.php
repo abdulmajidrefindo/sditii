@@ -17,39 +17,37 @@
 
 
 
-{{-- <link rel="stylesheet" href="dist/css/styleIndex.css"> --}}
-
-{{-- <div class="row mb-2">
-    <div class="col-sm-6">
-        <h1 class="m-0">Data Guru</h1>
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Nilai Doa Siswa</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                {{ Breadcrumbs::render('siswaDoa') }}
+            </ol>
+        </div>
     </div>
-    <div class="col-sm-6"> --}}
-        {{-- <ol class="breadcrumb float-sm-right">
-            {{ Breadcrumbs::render('merek') }}
-        </ol> --}}
-        {{-- </div>
-        </div> --}}
-        @stop
-        
-        
-        @section('content')
-        
-        <style>
-            /* Style for the disabled form, disable the form when the button is clicked */
-            .disabled-form {
-                background-color: #e9ecef;
-                pointer-events: none;
-            }
-        </style>
-        
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-secondary card-tabs">
-                        <div class="card-header p-0 pt-0 bg-gradient-green">
-                            <ul class="nav nav-tabs" id="doaTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="controller-tab-doa-table" data-toggle="tab"
+@stop
+
+
+@section('content')
+
+    <style>
+        /* Style for the disabled form, disable the form when the button is clicked */
+        .disabled-form {
+            background-color: #e9ecef;
+            pointer-events: none;
+        }
+    </style>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-secondary card-tabs">
+                    <div class="card-header p-0 pt-0 bg-gradient-green">
+                        <ul class="nav nav-tabs" id="doaTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="controller-tab-doa-table" data-toggle="tab"
                                     href="#content-tab-doa-table" role="tab" aria-controls="content-tab-doa-table"
                                     aria-selected="true">Nilai Siswa</a>
                                 </li>
