@@ -20,6 +20,7 @@ class Siswa extends Model
         'updated_at',
         'sub_kelas_id',
         'periode_id',
+        'rapor_siswa_id'
     ];
 
 

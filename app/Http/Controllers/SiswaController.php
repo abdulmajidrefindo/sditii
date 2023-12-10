@@ -91,13 +91,13 @@ class SiswaController extends Controller
             'orangtua_wali.required'=>'Nama orangtua/wali tidak boleh kosong!',
             'kelas.required'=>'Kelas tidak boleh kosong!'
         ]);
-
         $siswa = Siswa::create([
             'nisn' => $request->get('nisn'),
             'nama_siswa' => $request->get('nama_siswa'),
             'orangtua_wali' => $request->get('orangtua_wali'),
             'sub_kelas_id' => $request->get('kelas'),
-            'periode_id' => $periode->id
+            'rapor_siswa_id' => 1,
+            'periode_id' => $periode->id,
         ]);
 
         $kelas_id = SubKelas::find($request->get('kelas'))->kelas_id;
@@ -202,6 +202,7 @@ class SiswaController extends Controller
                 ]);
             }
         }
+        
 
         if ($siswa) {
             return response()->json(['success' => 'Data berhasil disimpan!']);
