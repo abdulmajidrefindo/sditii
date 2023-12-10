@@ -173,14 +173,14 @@ class SiswaBidangStudiImport implements ToCollection
                     'nilai_uts' => $value[9], // Kolom ke-10
                     'nilai_pas' => $value[10], // Kolom ke-11
                     'nilai_akhir' => $this->nilaiAkhir([
-                        $value[3], 
-                        $value[4], 
-                        $value[5], 
-                        $value[6], 
-                        $value[7], 
-                        $value[8], 
-                        $value[9], 
-                        $value[10],
+                        $value[3], // nilai_uh_1
+                        $value[4], // nilai_uh_2
+                        $value[5], // nilai_uh_3
+                        $value[6], // nilai_uh_4
+                        $value[7], // nilai_tugas_1
+                        $value[8], // nilai_tugas_2
+                        $value[9], // nilai_uts
+                        $value[10],// nilai_pas
                     ]),
                 ]);
             }
@@ -195,12 +195,13 @@ class SiswaBidangStudiImport implements ToCollection
 
     public function nilaiAkhir(array $data)
     {
-        $nilai_akhir = 0;
-        $jumlah_data = count($data);
-        foreach ($data as $key => $value) {
-            $nilai_akhir += $value;
-        }
-        $nilai_akhir = $nilai_akhir / $jumlah_data;
+        $nilai_uh = ($data[0] + $data[1] + $data[2] + $data[3]) / 4;
+        $nilai_tugas = ($data[4] + $data[5]) / 2;
+        $nilai_uts = $data[6];
+        $nilai_pas = $data[7];
+
+        $nilai_akhir = ($nilai_uh + $nilai_tugas + $nilai_uts + $nilai_pas) / 4;
+        $nilai_akhir = round($nilai_akhir, 0);
         return $nilai_akhir;
     }
 }
