@@ -75,12 +75,17 @@
             <table class="header-khs" width="100%" border="0">
                 <tr>
                     <td align="center" width="100">
+                        <h3>MADRASAH DINIYAH TAKMILIYAH AWALIYAH (MDTA)</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" width="100">
                         <h1>{{$profil_sekolah->nama_sekolah}}</h1>
                     </td>
                 </tr>
                 <tr>
                     <td align="center">
-                        <h3 align="center"><span style="font-weight: normal;">{{$profil_sekolah->alamat_sekolah}}</span></h3>
+                        <span style="font-weight: normal;">{{$profil_sekolah->alamat_sekolah}}</span>
                     </td>
             </table>
             <hr style="border-width: 2px; border-color: black; font-weight: bold;" />
