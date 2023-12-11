@@ -33,7 +33,7 @@
 
         <div class="row">
             <div class="callout callout-success col-12">
-                <h5><b>SDIT Irsyadul 'Ibad 2</b></h5>
+                <h5><b>E-Rapor MDTA SDIT Irsyadul 'Ibad 2 Pandeglang</b></h5>
                 <p> Tahun Pelajaran {{ $periode->tahun_ajaran }} Semester @if ($periode->semester == 1)
                         Ganjil @else Genap @endif</p>
             </div>
