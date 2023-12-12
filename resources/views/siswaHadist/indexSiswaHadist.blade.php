@@ -382,7 +382,7 @@
             <h5><i class="icon fas fa-info"></i>
                 Cara impor data nilai dari file excel:
             </h5>
-            1. Ekspor data nilai terlebih dahulu<br>2. Modifikasi file excel yang diekspor tersebut<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
+            1. Ekspor data nilai terlebih dahulu<br>2. Modifikasi file excel yang diekspor tersebut (hanya modifikasi nilai)<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
         </div>
     </div>
 </div>

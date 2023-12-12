@@ -20,44 +20,44 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-        ]);
-        User::factory(10)->create();
-        Guru::factory(10)->create();
-        $this->call([
+        // ]);
+        // User::factory(10)->create();
+        // Guru::factory(10)->create();
+        // $this->call([
             RaporSiswaSeeder::class,
             PeriodeSeeder::class,
             KelasSeeder::class
         ]);
 
-        Siswa::factory(160)->create();
+        // Siswa::factory(160)->create();
         
         $this->call([
             RolesSeeder::class,
             UserRolesSeeder::class,
-            PengumumanSeeder::class,
+        //     PengumumanSeeder::class,
             
             ProfilSekolahSeeder::class,
             PenilaianDeskripsiSeeder::class,
             PenilaianHurufAngkaSeeder::class,
             FormatRaporSeeder::class,
             
-            IWRSeeder::class,
-            SiswaIWRSeeder::class,
+        //     IWRSeeder::class,
+        //     SiswaIWRSeeder::class,
             
-            Tahfidz1Seeder::class,
-            SiswaTahfidzSeeder::class,
+        //     Tahfidz1Seeder::class,
+        //     SiswaTahfidzSeeder::class,
             
-            Doa1Seeder::class,
-            SiswaDoaSeeder::class,
+        //     Doa1Seeder::class,
+        //     SiswaDoaSeeder::class,
             
-            Hadist1Seeder::class,
-            SiswaHadistSeeder::class,
+        //     Hadist1Seeder::class,
+        //     SiswaHadistSeeder::class,
             
-            IbadahHarian1Seeder::class,
-            SiswaIbadahHarianSeeder::class,
+        //     IbadahHarian1Seeder::class,
+        //     SiswaIbadahHarianSeeder::class,
 
-            MapelSeeder::class,
-            SiswaBidangStudiSeeder::class,
+        //     MapelSeeder::class,
+        //     SiswaBidangStudiSeeder::class,
         ]);
     }
 }

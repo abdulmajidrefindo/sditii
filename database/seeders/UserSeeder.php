@@ -27,18 +27,9 @@ class UserSeeder extends Seeder
             'created_at'=>now()
         ]);
         DB::table('user')->insert([
-            'name' => 'Ibnu Sina',
-            'user_name' => 'ibnusina',
-            'email' => 'ibnusina@gmail.com',
-            'password' => bcrypt('12345'),
-            'email_verified_at' => now(),
-            'remember_token' => Str::random(10),
-            'created_at'=>now()
-        ]);
-        DB::table('user')->insert([
-            'name' => 'Tan Malaka',
-            'user_name' => 'tanmalaka',
-            'email' => 'tanmalaka@gmail.com',
+            'name' => 'My Admin',
+            'user_name' => 'myadmin',
+            'email' => 'myadmin@gmail.com',
             'password' => bcrypt('12345'),
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),

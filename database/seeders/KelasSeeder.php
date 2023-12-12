@@ -41,88 +41,88 @@ class KelasSeeder extends Seeder
             'nama_kelas' => 'Bukan Wali Kelas',
         ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'A',
-            'kelas_id' => '1',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'A',
+        //     'kelas_id' => '1',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'B',
-            'kelas_id' => '1',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'B',
+        //     'kelas_id' => '1',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'A',
-            'kelas_id' => '2',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'A',
+        //     'kelas_id' => '2',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'B',
-            'kelas_id' => '2',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'B',
+        //     'kelas_id' => '2',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'A',
-            'kelas_id' => '3',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'A',
+        //     'kelas_id' => '3',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'B',
-            'kelas_id' => '3',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'B',
+        //     'kelas_id' => '3',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'A',
-            'kelas_id' => '4',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'A',
+        //     'kelas_id' => '4',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'B',
-            'kelas_id' => '4',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'B',
+        //     'kelas_id' => '4',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'A',
-            'kelas_id' => '5',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'A',
+        //     'kelas_id' => '5',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'B',
-            'kelas_id' => '5',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'B',
+        //     'kelas_id' => '5',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'A',
-            'kelas_id' => '6',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'A',
+        //     'kelas_id' => '6',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
 
-        DB::table('sub_kelas')->insert([
-            'nama_sub_kelas' => 'B',
-            'kelas_id' => '6',
-            'guru_id' => Guru::all()->random()->id,
-            'periode_id' => '1',
-        ]);
+        // DB::table('sub_kelas')->insert([
+        //     'nama_sub_kelas' => 'B',
+        //     'kelas_id' => '6',
+        //     'guru_id' => Guru::all()->random()->id,
+        //     'periode_id' => '1',
+        // ]);
     }
 }
