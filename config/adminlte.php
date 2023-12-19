@@ -341,11 +341,11 @@ return [
             'url'  => '/dataUser',
             'icon' => 'fas fa-fw fa-key',
         ],
-        [
-            'text' => 'Profil Sekolah',
-            'url'  => '/profilSekolah',
-            'icon' => 'fas fa-fw fa-briefcase',
-        ],
+        // [
+        //     'text' => 'Profil Sekolah',
+        //     'url'  => '/profilSekolah',
+        //     'icon' => 'fas fa-fw fa-briefcase',
+        // ],
         [
             'text' => 'Data Tahun Pelajaran',
             'url'  => 'dataPeriode',

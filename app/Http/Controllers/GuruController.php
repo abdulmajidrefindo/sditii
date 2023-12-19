@@ -92,9 +92,9 @@ class GuruController extends Controller
         ]);
 
         //break if validation fails
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()->all()]);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(['error' => $validator->errors()->all()]);
+        // }
         
         $selected_user_id = $request->user;
         $selected_user = User::all()->where('id',$selected_user_id)->first();
