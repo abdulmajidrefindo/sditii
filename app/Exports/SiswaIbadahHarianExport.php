@@ -96,6 +96,9 @@ class SiswaIbadahHarianExport implements FromView, WithStyles
     //style overflow column
     public function styles(Worksheet $sheet)
     {
+
+        
+
         $sheet->getStyle('D10:' . $this->getColumnIndex($this->column_length + 3) .'10')->getAlignment()->setWrapText(true);
         $sheet->getStyle('D10:' . $this->getColumnIndex($this->column_length + 3) .'10')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('D10:' . $this->getColumnIndex($this->column_length + 3) .'10')->getAlignment()->setVertical('center');

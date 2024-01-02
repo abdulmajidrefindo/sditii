@@ -26,6 +26,7 @@ class Siswa extends Model
 
     public function sub_kelas()
     {
+        // return with kelas data
         return $this->belongsTo(SubKelas::class, 'sub_kelas_id', 'id')->with('kelas');
     }
 

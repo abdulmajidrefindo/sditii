@@ -45,18 +45,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dataKelas', KelasController::class)->parameters([
         'dataKelas' => 'kelas'
     ]);
+    Route::resource('/dataSiswa', SiswaController::class);
     Route::post('/dataSiswaKelas', [SiswaController::class, 'index']);
     Route::resource('/dataPeriode', PeriodeController::class);
-
+    
     Route::get('/getTableUser', [UserController::class, 'getTable'])->name('user.getTable');
     Route::get('/getTableGuru', [GuruController::class, 'getTable'])->name('guru.getTable');
+    Route::get('/getTableSiswa', [SiswaController::class, 'getTable'])->name('siswa.getTable');
     Route::get('/getTablePeriode', [PeriodeController::class, 'getTable'])->name('periode.getTable');
     Route::get('/getTableKelas', [KelasController::class, 'getTable'])->name('kelas.getTable');
-    
-    Route::resource('/dataSiswa', SiswaController::class);
-    Route::get('/getTableSiswa', [SiswaController::class, 'getTable'])->name('siswa.getTable');
-    Route::get('/siswa/export_excel/{sub_kelas_id}', [SiswaController::class, 'export_excel'])->name('siswa.export_excel');
-    Route::post('/siswa/export_excel', [SiswaController::class, 'export_excel'])->name('siswa.export_excel');
     
     Route::get('/profilSekolah', [ProfilSekolahController::class, 'index'])->middleware('role:Administrator');
     Route::get('/pengumuman', [PengumumanController::class, 'index']);
