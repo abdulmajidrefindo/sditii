@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('nisn')->unique();
             $table->string('nama_siswa');
-            $table->string('orangtua_wali');
+            $table->string('orangtua_wali')->nullable();
             $table->timestamps();
         });
     }
