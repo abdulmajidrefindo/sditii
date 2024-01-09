@@ -40,10 +40,15 @@ use App\Http\Controllers\DashboardController;
 
 Route::middleware('auth')->group(function () {
 
-    Route::resource('/dataGuru', GuruController::class);
     Route::resource('/dataKelas', KelasController::class)->parameters([
         'dataKelas' => 'kelas'
     ]);
+
+    Route::resource('/dataGuru', GuruController::class);
+    Route::get('/dataGuru/export_excel/{sub_kelas_id}', [GuruController::class, 'export_excel'])->name('guru.export_excel');
+    Route::post('/dataGuru/export_excel', [GuruController::class, 'export_excel'])->name('guru.export_excel');
+    Route::post('/dataGuru/import_excel', [GuruController::class, 'import_excel'])->name('guru.import_excel');
+    
     Route::resource('/dataUser', UserController::class)->middleware('role:Wali Kelas,Administrator');
     Route::get('/dataUser/export_excel/{sub_kelas_id}', [UserController::class, 'export_excel'])->name('user.export_excel');
     Route::post('/dataUser/export_excel', [UserController::class, 'export_excel'])->name('user.export_excel');

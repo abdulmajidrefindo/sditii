@@ -76,148 +76,127 @@
             @endif
           </tr>
         </thead>
-        </table>
-      </div>
-      {{-- /tab daftar --}}
-      {{-- tab tambah --}}
-      <div class="tab-pane fade" id="content-tab-user-add" role="tabpanel" aria-labelledby="controller-tab-user-add">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="bs-stepper-content">
-                <form id="form_tambah_user">
-                  @csrf
-                  <div class="form-group">
-                    <label for="name" class="form-label">Nama</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="-masukkan nama pengguna-">
-                    @error('name')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                  <div class="form-group">
-                    <label for="email" class="form-label">E-mail</label>
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="-masukkan nama pengguna-">
-                    @error('email')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                  <div class="form-group">
-                    <label for="user_name" class="form-label">Username</label>
-                    <input type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" id="user_name" placeholder="-masukkan username pengguna-">
-                    @error('user_name')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                  <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="-masukkan password pengguna-">
-                    @error('password')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                  <div class="form-group">
-                    <label for="role_id" class="form-label">Peran</label>
-                    <select class="form-control @error('role_id') is-invalid @enderror" id="role_id" name="role_id" data-placeholder="-pilih peran pengguna-" style="width: 100%;">
-                      <option selected disabled>-pilih peran pengguna-</option>
-                      <option value="1">Administrator</option>
-                      <option value="3">Guru</option>
-                    </select>
-                    @error('role_id')
-                    <div class="invalid-feedback">
-                      {{ $message }}
-                    </div>
-                    @enderror
-                  </div>
-                  <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan" icon="fas fa fa-fw fa-save" label="Simpan Data"/>
-                  {{-- <x-adminlte-button id="simpan" class="btn bg-purple col-12 simpan" type="submit" label="Simpan Data"
-                  icon="fas fa fa-fw fa-save" hidden /> --}}
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{-- /tab tambah --}}
-      {{-- Tab export-import content --}}
-      <div class="tab-pane fade" id="content-tab-user-export-import" role="tabpanel"
-      aria-labelledby="controller-tab-user-export-import">
+      </table>
+    </div>
+    {{-- /tab daftar --}}
+    {{-- tab tambah --}}
+    <div class="tab-pane fade" id="content-tab-user-add" role="tabpanel" aria-labelledby="controller-tab-user-add">
       <div class="card-body">
         <div class="row">
-          {{-- Export Data Ibadah Harian --}}
           <div class="col-md-6">
-            <div class="card">
-              <div class="card-header bg-gradient-green">
-                <h3 class="card-title">Ekspor Data User</h3>
-              </div>
-              <div class="card-body">
-                <form action="{{ url('/') }}/dataUser/export_excel"
-                method="post">
+            <div class="bs-stepper-content">
+              <form id="form_tambah_user">
                 @csrf
                 <div class="form-group">
-                  <label for="kelas">Ekspor File Excel</label><br>
-                  <x-adminlte-button style="width: 100%" type="submit" class="btn bg-gradient-green d-inline" icon="fas fa fa-fw fa-save" label="Ekspor" />
-                  {{-- <label for="kelas">Pilih Kelas</label>
-                  <div class="input-group">
-                    <select class="custom-select" name="sub_kelas_id"
-                    id="sub_kelas_id">
-                    <option selected disabled>-Kelas-</option>
-                    @foreach ($data_sub_kelas as $k)
-                    <option value={{ $k->id }}>
-                      {{ $k->nama_kelas }}</option>
-                      @endforeach
-                    </select>
-                    <div class="input-group-append">
-                      <x-adminlte-button type="submit"
-                      class="btn bg-gradient-green d-inline"
-                      icon="fas fa fa-fw fa-save" label="Ekspor" />
-                    </div>
-                  </div> --}}
+                  <label for="name" class="form-label">Nama</label>
+                  <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="-masukkan nama pengguna-">
+                  @error('name')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
                 </div>
+                <div class="form-group">
+                  <label for="email" class="form-label">E-mail</label>
+                  <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="-masukkan nama pengguna-">
+                  @error('email')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+                <div class="form-group">
+                  <label for="user_name" class="form-label">Username</label>
+                  <input type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" id="user_name" placeholder="-masukkan username pengguna-">
+                  @error('user_name')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+                <div class="form-group">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="-masukkan password pengguna-">
+                  @error('password')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+                <div class="form-group">
+                  <label for="role_id" class="form-label">Peran</label>
+                  <select class="form-control @error('role_id') is-invalid @enderror" id="role_id" name="role_id" data-placeholder="-pilih peran pengguna-" style="width: 100%;">
+                    <option selected disabled>-pilih peran pengguna-</option>
+                    <option value="1">Administrator</option>
+                    <option value="3">Guru</option>
+                  </select>
+                  @error('role_id')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+                <x-adminlte-button type="submit" class="btn bg-gradient-green col-12 simpan" icon="fas fa fa-fw fa-save" label="Simpan Data"/>
               </form>
             </div>
           </div>
         </div>
-        {{-- Export Data Ibadah Harian --}}
-        {{-- Import Data Ibadah Harian --}}
+      </div>
+    </div>
+    {{-- /tab tambah --}}
+    {{-- Tab export-import content --}}
+    <div class="tab-pane fade" id="content-tab-user-export-import" role="tabpanel"
+    aria-labelledby="controller-tab-user-export-import">
+    <div class="card-body">
+      <div class="row">
+        {{-- Export Data --}}
         <div class="col-md-6">
           <div class="card">
             <div class="card-header bg-gradient-green">
-              <h3 class="card-title">Impor Data Ibadah Harian</h3>
+              <h3 class="card-title">Ekspor Data User</h3>
             </div>
             <div class="card-body">
-              <form action="{{ url('/') }}/ibadahHarian/import_excel" method="post"
-              enctype="multipart/form-data">
+              <form action="{{ url('/') }}/dataUser/export_excel"
+              method="post">
               @csrf
-              
-              <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
-              placeholder="Pilih file..." label="Pilih File Excel"
-              fgroup-class="col-md-12">
-              <x-slot name="appendSlot">
-                <x-adminlte-button label="Impor" type="submit"
-                class="btn bg-gradient-green" />
-              </x-slot>
-              <x-slot name="prependSlot">
-                <div class="input-group-text bg-gradient-green">
-                  <i class="fas fa-upload"></i>
-                </div>
-              </x-slot>
-            </x-adminlte-input-file>
-          </form>
+              <div class="form-group">
+                <label for="kelas">Ekspor File Excel</label><br>
+                <x-adminlte-button style="width: 100%" type="submit" class="btn bg-gradient-green d-inline" icon="fas fa fa-fw fa-save" label="Ekspor" />
+              </div>
+            </form>
+          </div>
         </div>
       </div>
+      {{-- Export Data --}}
+      {{-- Import Data --}}
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-gradient-green">
+            <h3 class="card-title">Impor Data User</h3>
+          </div>
+          <div class="card-body">
+            <form action="{{ url('/') }}/ibadahHarian/import_excel" method="post"
+            enctype="multipart/form-data">
+            @csrf
+            
+            <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
+            placeholder="Pilih file..." label="Pilih File Excel"
+            fgroup-class="col-md-12">
+            <x-slot name="appendSlot">
+              <x-adminlte-button label="Impor" type="submit"
+              class="btn bg-gradient-green" />
+            </x-slot>
+            <x-slot name="prependSlot">
+              <div class="input-group-text bg-gradient-green">
+                <i class="fas fa-upload"></i>
+              </div>
+            </x-slot>
+          </x-adminlte-input-file>
+        </form>
+      </div>
     </div>
-    {{-- End Import Data Ibadah Harian --}}
   </div>
-</div>
-</div>
+  {{-- End Import Data --}}
 </div>
 <div class="modal fade" id="modal_update_user" tabindex="-1" role="dialog" aria-labelledby="updateModal"
 aria-hidden="true">

@@ -19,7 +19,7 @@ use Illuminate\Queue\Events\Looping;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 
-//export excel
+// excel
 use App\Exports\UserExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UserImport;

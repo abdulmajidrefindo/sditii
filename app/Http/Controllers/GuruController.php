@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
-use App\Models\Kelas;
 use App\Models\SubKelas;
 use App\Models\User;
-use App\Models\UserRoles;
 use App\Http\Requests\StoreGuruRequest;
 use App\Http\Requests\UpdateGuruRequest;
 use Yajra\DataTables\DataTables;
@@ -20,15 +18,13 @@ use App\Models\Mapel;
 use App\Models\IlmanWaaRuuhan;
 use App\Models\IbadahHarian1;
 
-
+// excel
+use App\Exports\GuruExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\GuruImport;
 
 class GuruController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $guru = Guru::all();
@@ -90,11 +86,6 @@ class GuruController extends Controller
             'nip.required'=>'NIP harus diisi',
             //'kelas.required'=>'Kelas harus diisi'
         ]);
-
-        //break if validation fails
-        // if ($validator->fails()) {
-        //     return response()->json(['error' => $validator->errors()->all()]);
-        // }
         
         $selected_user_id = $request->user;
         $selected_user = User::all()->where('id',$selected_user_id)->first();
@@ -108,31 +99,7 @@ class GuruController extends Controller
 
         $new_guru_id = $guru->id;
         $selected_kelas = $request->kelas;
-
-        // if ($selected_kelas==0) {
-        //     #do nothing
-        // }
-        // else{
-        //     $target_kelas = SubKelas::all()->where('id',$selected_kelas)->first();
-        //     if($target_kelas->guru_id != null){
-        //         $old_guru_id = $target_kelas->guru_id;
-        //         $old_guru = Guru::all()->where('id',$old_guru_id)->first();
-        //         $old_guru_user_role = UserRoles::all()->where('user_id',$old_guru->user_id)->first();
-        //         $old_guru_user_role->role_id = 3; //guru
-        //         $old_guru_user_role->save();
-
-                
-        //     }
-        //     $target_kelas->guru_id = $new_guru_id;
-        //     $target_kelas->save();
-        //     $new_guru_user_role = UserRoles::all()->where('user_id',$selected_user_id)->first();
-        //     $new_guru_user_role->role_id = 2; //wali kelas
-        //     $new_guru_user_role->save();
-            
-        // }
-
-
-
+        
         if ($guru){
             return response()->json(['success' => 'Data berhasil disimpan!']);
         }
@@ -153,34 +120,11 @@ class GuruController extends Controller
             'nip.required'=>'NIP harus diisi',
             //'kelas.required'=>'Kelas harus diisi'
         ]);
-        
-        // $selected_user_id = $request->user;
-        // $selected_user = User::all()->where('id',$selected_user_id)->first();
-        // $selected_user_name = $selected_user->name;
+
         $dataGuru->nama_guru = $request->get('nama_guru');
         $dataGuru->nip = $request->get('nip');
         $dataGuru->updated_at = now();
         $dataGuru->save();
-
-        // $selected_kelas = $request->kelas;
-        // if ($selected_kelas==0) {
-        //     $old_guru_user_role = UserRoles::all()->where('user_id',$dataGuru->user_id)->first();
-        //     $old_guru_user_role->role_id = 3; //guru
-        //     $old_guru_user_role->save();  
-
-        //     $target_kelas = SubKelas::all()->where('guru_id',$dataGuru->id)->first();
-        //     $target_kelas->guru_id = NUll;
-        //     $target_kelas->save();
-
-        // }
-        // else{
-        //     $target_kelas = SubKelas::all()->where('id',$selected_kelas)->first();
-        //     $target_kelas->guru_id = $dataGuru->id;
-        //     $target_kelas->save();
-        //     $new_guru_user_role = UserRoles::all()->where('user_id',$dataGuru->user_id)->first();
-        //     $new_guru_user_role->role_id = 2; //wali kelas
-        //     $new_guru_user_role->save();
-        // }
 
         if ($dataGuru){
             return response()->json(['success' => 'Data berhasil disimpan!']);
@@ -234,13 +178,8 @@ class GuruController extends Controller
 
     public function getTable(Request $request){
         if ($request->ajax()) {
-            // $userRole = UserRoles::all();
-            // $role = Role::all();
-            // $concat = $user->concat($userRole)->concat($role);
-            // $data = $concat->all();
             $guru = Guru::with('sub_kelas')->get();
             return DataTables::of($guru)
-            // ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn = '<a href="'. route('dataGuru.show', $row) .'" data-toggle="tooltip"  data-id="' . $row . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                 // $btn = '<a action="{{ url('/') }}/editGuru" method="post" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="btn btn-sm btn-primary mx-1 shadow edit"><i class="fas fa-sm fa-fw fa-edit"></i> Edit</a>';
@@ -277,5 +216,20 @@ class GuruController extends Controller
             ->rawColumns(['action', 'nip', 'kelas'])
             ->make(true);
         }
+    }
+
+    public function export_excel(Request $request)
+    {
+        $nama_file = 'Data Guru.xlsx';
+
+        $kode = "FileDataGuru";
+        $file_identifier = encrypt($kode);
+
+        $informasi = [
+            'judul' => 'REKAP DATA GURU E-RAPOR SDIT IRSYADUL \'IBAD 2',
+            'file_identifier' => $file_identifier,
+        ];
+
+        return Excel::download(new GuruExport($informasi), $nama_file);
     }
 }
