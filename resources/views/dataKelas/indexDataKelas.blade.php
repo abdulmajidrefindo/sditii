@@ -94,11 +94,11 @@
                                             @csrf
 
                                             <div class="form-group">
-                                                <label for="kelas" class="form-label">Kelas Perwalian</label>
+                                                <label for="kelas" class="form-label">Tingkat Kelas</label>
                                                 <select class="form-control @error('kelas') is-invalid @enderror"
-                                                    id="kelas" name="kelas" data-placeholder="-pilih kelas perwalian-"
+                                                    id="kelas" name="kelas" data-placeholder="-pilih tingkat kelas-"
                                                     style="width: 100%;">
-                                                    <option selected disabled>-Pilih Kelas Perwalian-</option>
+                                                    <option selected disabled>-pilih tingkat kelas-</option>
                                                     @foreach ($data_kelas as $k)
                                                         <option value={{ $k->id }}>{{ $k->nama_kelas }}</option>
                                                     @endforeach
