@@ -29,7 +29,7 @@ use App\Http\Controllers\Controller;
 //export excel
 use App\Exports\SiswaExport;
 use Maatwebsite\Excel\Facades\Excel;
-// use App\Imports\SiswaImport;
+use App\Imports\SiswaImport;
 
 class SiswaController extends Controller
 {
@@ -208,15 +208,11 @@ class SiswaController extends Controller
             }
         }
         
-
         if ($siswa) {
             return response()->json(['success' => 'Data berhasil disimpan!']);
         } else {
             return response()->json(['error' => 'Data gagal disimpan!']);
         }
-
-        // return response()->json($request->all());
-
     }
 
     public function show(Siswa $dataSiswa)
@@ -489,7 +485,7 @@ class SiswaController extends Controller
         $nama_file = 'Data Siswa ' . $kelas . ' ' . $nama_sub_kelas . ' Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
 
         $kode = "FileDataSiswa";
-        $file_identifier = encrypt($kode);
+        $file_identifier = $kode;
 
         $informasi = [
             'judul' => 'REKAP DATA SISWA SDIT IRSYADUL \'IBAD 2',
@@ -502,5 +498,23 @@ class SiswaController extends Controller
         ];
 
         return Excel::download(new SiswaExport($sub_kelas_id, $informasi), $nama_file);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
+        $kode = "FileDataSiswa";
+        $import = new SiswaImport($kode);
+        Excel::import($import, $file);
+
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
+        
     }
 }

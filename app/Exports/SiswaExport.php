@@ -84,24 +84,24 @@ class SiswaExport implements FromView, WithStyles
     public function styles(Worksheet $sheet)
     {
         // $sheet->getStyle('B8')->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A10:C10')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A10:C10')->getAlignment()->setVertical('center');
-        // $sheet->getStyle('A10:C10')->getAlignment()->setShrinkToFit(true);
-        $sheet->getStyle('A10:C10')->getFont()->setBold(true);
+        $sheet->getStyle('A10:D10')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A10:D10')->getAlignment()->setVertical('center');
+        // $sheet->getStyle('A10:D10')->getAlignment()->setShrinkToFit(true);
+        $sheet->getStyle('A10:D10')->getFont()->setBold(true);
         // Add border to range
-        $sheet->getStyle('A10:' . $this->getColumnIndex(3) . $this->row_lenght + 9)->getBorders()->getAllBorders()->setBorderStyle('thin');
+        $sheet->getStyle('A10:' . $this->getColumnIndex(4) . $this->row_lenght + 9)->getBorders()->getAllBorders()->setBorderStyle('thin');
         
         // Enable worksheet protection
         $sheet->getParent()->getActiveSheet()->getProtection()->setSheet(true);
         //Unprotect nilai cell
-        $sheet->getStyle('A11:' . $this->getColumnIndex(3) . $this->row_lenght + 10)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
+        $sheet->getStyle('B11:' . $this->getColumnIndex(4) . $this->row_lenght + 10)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
 
         //Set D11 to getColumnIndex($this->column_length + 3) . ($this->row_lenght + 10) as dropdown list
         
 
         //validation rule for nilai cell as integer between 0-100 and not empty only
         $startCell = 'A11'; // Starting cell for validation
-        $endCell = $this->getColumnIndex(3) . ($this->row_lenght + 10); // Ending cell for validation
+        $endCell = $this->getColumnIndex(4) . ($this->row_lenght + 10); // Ending cell for validation
         $validationRange = $startCell . ':' . $endCell;
         $validation = $sheet->getCell($startCell)->getDataValidation();
         $validation->setType(DataValidation::TYPE_LIST);

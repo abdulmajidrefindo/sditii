@@ -19,6 +19,11 @@ use Illuminate\Queue\Events\Looping;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 
+//export excel
+use App\Exports\UserExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UserImport;
+
 class UserController extends Controller
 {
     /**
@@ -267,5 +272,20 @@ class UserController extends Controller
             ->rawColumns(['action'])
             ->make(true);
         }
+    }
+
+    public function export_excel(Request $request)
+    {
+        $nama_file = 'Data User.xlsx';
+
+        $kode = "FileDataUser";
+        $file_identifier = encrypt($kode);
+
+        $informasi = [
+            'judul' => 'REKAP DATA USER E-RAPOR SDIT IRSYADUL \'IBAD',
+            'file_identifier' => $file_identifier,
+        ];
+
+        return Excel::download(new UserExport($informasi), $nama_file);
     }
 }
