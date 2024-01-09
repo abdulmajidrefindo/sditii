@@ -38,7 +38,7 @@
                         href="#content-tab-kelas-table" role="tab" aria-controls="content-tab-kelas-table"
                         aria-selected="true">
                         <i class="fas fa-xs fa-table fa-fw"></i>
-                        Daftar Guru</a>
+                        Daftar Kelas</a>
                 </li>
                 @if (Auth::user()->role->contains('role', 'Administrator'))
                     <li class="nav-item">
