@@ -111,11 +111,11 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="nama_sub_kelas" class="form-label">Nama Sub Kelas</label>
+                                                <label for="nama_sub_kelas" class="form-label">Nama Kelas</label>
                                                 <input type="text"
                                                     class="form-control @error('nama_sub_kelas') is-invalid @enderror"
                                                     id="nama_sub_kelas" name="nama_sub_kelas"
-                                                    placeholder="Masukkan nama sub kelas"
+                                                    placeholder="Masukkan nama kelas"
                                                     value="{{ old('nama_sub_kelas') }}" required>
                                                 @error('nama_sub_kelas')
                                                     <div class="invalid-feedback">
