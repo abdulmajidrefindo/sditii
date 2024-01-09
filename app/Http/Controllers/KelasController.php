@@ -13,6 +13,12 @@ use App\Http\Requests\UpdateKelasRequest;
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Utilities\Request;
 use Illuminate\Validation\Rule;
+
+// excel
+use App\Exports\KelasExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\KelasImport;
+
 class KelasController extends Controller
 {
     /**
@@ -243,5 +249,20 @@ class KelasController extends Controller
             ->rawColumns(['action', 'guru.nama_guru'])
             ->make(true);
         }
+    }
+    
+    public function export_excel(Request $request)
+    {
+        $nama_file = 'Data Kelas.xlsx';
+
+        $kode = "FileDataKelas";
+        $file_identifier = encrypt($kode);
+
+        $informasi = [
+            'judul' => 'REKAP DATA Kelas SDIT IRSYADUL \'IBAD 2',
+            'file_identifier' => $file_identifier,
+        ];
+
+        return Excel::download(new KelasExport($informasi), $nama_file);
     }
 }

@@ -39,7 +39,7 @@ class GuruExport implements FromView, WithStyles
         $guru_d = Guru::all();
         
         $nilai_id = [];
-        $modified_user_d = $guru_d->groupBy(['id'])->map(function ($item) use (&$nilai_id) {
+        $modified_guru_d = $guru_d->groupBy(['id'])->map(function ($item) use (&$nilai_id) {
             $result = [];
             $result['id'] = $item[0]->id;
             $result['nama_guru'] = $item[0]->nama_guru;
@@ -48,10 +48,10 @@ class GuruExport implements FromView, WithStyles
             return $result;
         });
         
-        $this->row_lenght = count($modified_user_d) + 51;
+        $this->row_lenght = count($modified_guru_d) + 51;
         
         return view('dataGuru.export_excel', [
-            'guru_d' => $modified_user_d,
+            'guru_d' => $modified_guru_d,
             'judul' => $this->judul,
             'file_identifier' => $this->file_identifier,
         ]);
@@ -78,8 +78,6 @@ class GuruExport implements FromView, WithStyles
         
         
         //validation rule for nilai cell as integer between 0-100 and not empty only
-        $user = User::all()->value('name');
-
         $startCell = 'D4'; // Starting cell for validation
         $endCell = $this->getColumnIndex(4) . ($this->row_lenght + 3); // Ending cell for validation
         $validationRange = $startCell . ':' . $endCell;
