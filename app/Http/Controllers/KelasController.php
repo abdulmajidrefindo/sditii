@@ -259,7 +259,7 @@ class KelasController extends Controller
         $file_identifier = encrypt($kode);
 
         $informasi = [
-            'judul' => 'REKAP DATA Kelas SDIT IRSYADUL \'IBAD 2',
+            'judul' => 'REKAP DATA KELAS SDIT IRSYADUL \'IBAD 2',
             'file_identifier' => $file_identifier,
         ];
 
