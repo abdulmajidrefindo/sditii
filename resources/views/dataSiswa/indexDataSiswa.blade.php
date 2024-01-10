@@ -208,11 +208,11 @@
                                         <select class="custom-select" name="sub_kelas_id"
                                         id="sub_kelas_id">
                                         <option selected disabled>-Kelas-</option>
-                                        {{-- @foreach ($data_sub_kelas as $k) --}}
+                                        @foreach ($kelas as $k)
                                         <option value={{ $k->id }}>
                                             {{ $k->nama_kelas }}
                                         </option>
-                                        {{-- @endforeach --}}
+                                        @endforeach
                                     </select>
                                     <div class="input-group-append">
                                         <x-adminlte-button type="submit"
@@ -255,7 +255,6 @@
         </div>
     </div>
     {{-- End Import Data Hadist --}}
-    @endif
 </div>
 </div>
 <div class=" d-flex justify-content-center">
@@ -268,6 +267,7 @@
         </div>
     </div>
 </div>
+@endif
 @stop
 @section('head_js')
 <!-- jQuery -->
