@@ -137,42 +137,50 @@ class SiswaImport implements ToCollection
     }
     
     public function saveData($rows){
+        $lastRow = $this->getLastRowIndex($rows);
+        $row_old_data = 0;
+        foreach ($rows as $key => $value) {
+            if ($value[0] !== null) {
+                $row_old_data = $key;
+            }
+        }
         $sub_kelas_id = $this->getKelas($rows);
-        $periode_id = SubKelas::where('id',$sub_kelas_id)->value('periode_id');
         $data = $this->getData($rows);
+        $old_data = [];
+        $new_data = [];
         
-        foreach ($data as $key => $value) {
-            $id_siswa =  $value[0];
-            $nama_siswa =  $value[1];
-            $nisn =  $value[2];
-            $orangtua_wali =  $value[3];
-            $this->updateOrCreate([
-                'id' => $id_siswa,
-                'periode_id' => $periode_id,
-            ],[
-                'periode_id' => $periode_id,
-                'nisn' => $nisn,
-                'nama_siswa' => $nama_siswa,
-                'orangtua_wali' => $orangtua_wali,
-                'rapor_siswa_id' => 1,
-                'sub_kelas_id' => $sub_kelas_id
-            ]);
+        foreach ($data as $key => $item) {
+            if ($key = 11 && $key <= $row_old_data) {
+                $old_data[] = $item;
+            }
+            else {
+                $new_data[] = $item;
+            }
+        }
+        // dd($old_data, $new_data, $row_old_data, $data);
+        
+        $this->update($old_data);
+
+        if ($row_old_data != $lastRow ){
+            $this->create($new_data, $sub_kelas_id);
         }
     }
     
-    public function updateOrCreate(array $condition, array $data)
+    public function create(array $new_data, $sub_kelas_id)
     {
-        $model = Siswa::where($condition)->first();
-        // if (!$model) {
-        //     new SiswaImport($data);
-        // }
-        $nisn = $data['nisn'];
-        $nama_siswa = $data['nama_siswa'];
-        $orangtua_wali = $data['orangtua_wali'];
-        $model->nisn = "$nisn";
-        $model->nama_siswa = $nama_siswa;
-        $model->orangtua_wali = $orangtua_wali;
-        // dd($condition,$model);
+        $objek = new SiswaController();
+        $objek->storeViaExcel($new_data, $sub_kelas_id);
+    }
+    
+    public function update(array $old_data)
+    {
+        foreach ($old_data as $key => $value) {
+            $model = Siswa::where('id',$value[0])->first();
+            $model->nisn = "$value[2]";
+            $model->nama_siswa = $value[1];
+            $model->orangtua_wali = $value[3];
+        }
+        // dd($model);
         $model->save();
         return $model;
     }
