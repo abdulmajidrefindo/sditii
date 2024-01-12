@@ -13,12 +13,6 @@ use Maatwebsite\Excel\Concerns\WithMappedCells;
 
 class SiswaIbadahHarianImport implements ToCollection
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
-
     private $kode_file, $errorFlag = false, $message = '';
 
     public function __construct($kode_file)
@@ -119,7 +113,6 @@ class SiswaIbadahHarianImport implements ToCollection
     {
         $firstRow = $this->getFirstRowIndex($rows);
         $lastRow = $this->getLastRowIndex($rows);
-        $lastColumn = $this->getLastColumnIndex($rows);
 
         $data = [];
         for ($i=$firstRow; $i <= $lastRow; $i++) { 

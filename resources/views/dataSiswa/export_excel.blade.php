@@ -6,27 +6,32 @@
         <td></td>
     </tr>
     <tr>
-        <td style="width: 100px;">Kelas</td>
-        <td colspan="3" style="text-align: left;">: {{ $nama_kelas }}</td>
+        <td style="width: 100px;">Tingkat Kelas :</td>
+        <td colspan="3" style="text-align: left;">{{ $tingkat_kelas }}</td>
     </tr>
     <tr>
-        <td>Wali kelas</td>
-        <td colspan="3" style="text-align: left;">: {{ $wali_kelas }}</td>
+        <td style="width: 100px;">Nama Kelas :</td>
+        <td colspan="3" style="text-align: left;">{{ $nama_sub_kelas }}</td>
     </tr>
     <tr>
-        <td>Semester</td>
-        <td colspan="3" style="text-align: left;">: {{ $semester }}</td>
+        <td>Wali kelas :</td>
+        <td colspan="3" style="text-align: left;">{{ $wali_kelas }}</td>
     </tr>
     <tr>
-        <td>Tahun Ajaran</td>
-        <td colspan="3" style="text-align: left;">: {{ $tahun_ajaran }}</td>
+        <td>Semester :</td>
+        <td colspan="3" style="text-align: left;">{{ $semester }}</td>
     </tr>
     <tr>
-        <td>Tanggal</td>
-        <td colspan="3" style="text-align: left;">: {{ $tanggal}}</td>
+        <td>Tahun Ajaran :</td>
+        <td colspan="3" style="text-align: left;">{{ $tahun_ajaran }}</td>
     </tr>
     <tr>
-        <td></td>
+        <td>Tanggal :</td>
+        <td colspan="3" style="text-align: left;">{{ $tanggal}}</td>
+    </tr>
+    <tr>
+        <td>Kode file :</td>
+        <td colspan="1" style="text-align: left;">{{ $file_identifier }}</td>
     </tr>
     <tr>
         <td></td>
@@ -60,9 +65,5 @@
             <td></td>
         </tr>
         @endfor
-        <tr>
-            <td>Kode file</td>
-            <td colspan="1" style="text-align: left;">{{ $file_identifier }}</td>
-        </tr>
     </tbody>
 </table>

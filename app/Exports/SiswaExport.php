@@ -27,7 +27,8 @@ class SiswaExport implements FromView, WithStyles
     private $row_lenght, $column_length;
     private $sub_kelas_id;
     private $judul;
-    private $nama_kelas;
+    private $tingkat_kelas;
+    private $nama_sub_kelas;
     private $wali_kelas;
     private $tahun_ajaran;
     private $semester;
@@ -39,7 +40,8 @@ class SiswaExport implements FromView, WithStyles
     {
         $this->sub_kelas_id = $sub_kelas_id;
         $this->judul = $informasi['judul'];
-        $this->nama_kelas = $informasi['nama_kelas'];
+        $this->tingkat_kelas = $informasi['tingkat_kelas'];
+        $this->nama_sub_kelas = $informasi['nama_sub_kelas'];
         $this->wali_kelas = $informasi['wali_kelas'];
         $this->tahun_ajaran = $informasi['tahun_ajaran'];
         $this->semester = $informasi['semester'];
@@ -69,7 +71,8 @@ class SiswaExport implements FromView, WithStyles
             'siswa_d' => $siswa_d,
             'siswa_modified' => $modified_siswa_d,
             'judul' => $this->judul,
-            'nama_kelas' => $this->nama_kelas,
+            'tingkat_kelas' => $this->tingkat_kelas,
+            'nama_sub_kelas' => $this->nama_sub_kelas,
             'wali_kelas' => $this->wali_kelas,
             'tahun_ajaran' => $this->tahun_ajaran,
             'semester' => $this->semester,
@@ -83,25 +86,22 @@ class SiswaExport implements FromView, WithStyles
     //style overflow column
     public function styles(Worksheet $sheet)
     {
-        // $sheet->getStyle('B8')->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A10:D10')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A10:D10')->getAlignment()->setVertical('center');
-        // $sheet->getStyle('A10:D10')->getAlignment()->setShrinkToFit(true);
-        $sheet->getStyle('A10:D10')->getFont()->setBold(true);
+        // $sheet->getStyle('B1')->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A11:D11')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A11:D11')->getAlignment()->setVertical('center');
+        // $sheet->getStyle('A11:D11')->getAlignment()->setShrinkToFit(true);
+        $sheet->getStyle('A11:D11')->getFont()->setBold(true);
         // Add border to range
-        $sheet->getStyle('A10:' . $this->getColumnIndex(4) . $this->row_lenght + 9)->getBorders()->getAllBorders()->setBorderStyle('thin');
+        $sheet->getStyle('A11:' . $this->getColumnIndex(4) . $this->row_lenght + 10)->getBorders()->getAllBorders()->setBorderStyle('thin');
         
         // Enable worksheet protection
         $sheet->getParent()->getActiveSheet()->getProtection()->setSheet(true);
         //Unprotect nilai cell
-        $sheet->getStyle('B11:' . $this->getColumnIndex(4) . $this->row_lenght + 10)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
-
-        //Set D11 to getColumnIndex($this->column_length + 3) . ($this->row_lenght + 10) as dropdown list
-        
+        $sheet->getStyle('B12:' . $this->getColumnIndex(4) . $this->row_lenght + 11)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
 
         //validation rule for nilai cell as integer between 0-100 and not empty only
-        $startCell = 'A11'; // Starting cell for validation
-        $endCell = $this->getColumnIndex(4) . ($this->row_lenght + 10); // Ending cell for validation
+        $startCell = 'A12'; // Starting cell for validation
+        $endCell = $this->getColumnIndex(4) . ($this->row_lenght + 11); // Ending cell for validation
         $validationRange = $startCell . ':' . $endCell;
         $validation = $sheet->getCell($startCell)->getDataValidation();
         $validation->setType(DataValidation::TYPE_LIST);

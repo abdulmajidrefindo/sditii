@@ -34,10 +34,10 @@ use App\Imports\SiswaImport;
 class SiswaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function index(Request $request)
     {
         $periode = Periode::where('status','aktif')->first();
@@ -46,7 +46,7 @@ class SiswaController extends Controller
         foreach ($kelas as $key => $value) {
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
         }
-
+        
         $kelas_id = $request->kelas_id;
         if ($kelas_id == null) {
             $siswa = Siswa::where('periode_id',$periode->id)->get();
@@ -60,26 +60,26 @@ class SiswaController extends Controller
             'siswa'=>$siswa,
             'kelas'=>$kelas,
             // 'data'=>$data
-        ]
+            ]
         );
     }
-
+    
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function create()
     {
         return view('siswa.create');
     }
-
+    
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreSiswaRequest  $request
-     * @return \Illuminate\Http\Response
-     */
+    * Store a newly created resource in storage.
+    *
+    * @param  \App\Http\Requests\StoreSiswaRequest  $request
+    * @return \Illuminate\Http\Response
+    */
     public function store(Request $request)
     {
         $periode = Periode::where('status','aktif')->first();
@@ -104,9 +104,9 @@ class SiswaController extends Controller
             'rapor_siswa_id' => 1,
             'periode_id' => $periode->id,
         ]);
-
+        
         $kelas_id = SubKelas::find($request->get('kelas'))->kelas_id;
-
+        
         //Add siswa to SiswaTahfidz
         $tahfidz = Tahfidz1::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($tahfidz != null) {
@@ -121,7 +121,7 @@ class SiswaController extends Controller
                 ]);
             }
         }
-
+        
         //Add siswa to SiswaDoa
         $doa = Doa1::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($doa != null) {
@@ -136,7 +136,7 @@ class SiswaController extends Controller
                 ]);
             }
         }
-
+        
         //Add siswa to SiswaHadist
         $hadist = Hadist1::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($hadist != null) {
@@ -151,7 +151,7 @@ class SiswaController extends Controller
                 ]);
             }
         }
-
+        
         //Add siswa to SiswaIbadahHarian
         $ibadah_harian = IbadahHarian1::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($ibadah_harian != null) {
@@ -166,7 +166,7 @@ class SiswaController extends Controller
                 ]);
             }
         }
-
+        
         //Add siswa to SiswaIlmanWaaRuuhan
         $ilman_waa_ruuhan = IlmanWaaRuuhan::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($ilman_waa_ruuhan != null) {
@@ -184,7 +184,7 @@ class SiswaController extends Controller
                 ]);
             }
         }
-
+        
         //Add siswa to SiswaBidangStudi
         $mapel = Mapel::where('kelas_id', $kelas_id)->where('periode_id',$periode->id)->get();
         if ($mapel != null) {
@@ -214,7 +214,7 @@ class SiswaController extends Controller
             return response()->json(['error' => 'Data gagal disimpan!']);
         }
     }
-
+    
     public function show(Siswa $dataSiswa)
     {
         $siswa = Siswa::find($dataSiswa->id);
@@ -229,21 +229,21 @@ class SiswaController extends Controller
             'kelas'=>$kelas
         ]);
     }
-
+    
     public function edit(Siswa $siswa)
     {
         $id = $siswa->id;
         $siswa = Siswa::find($id);
         return response()->json($siswa);
     }
-
+    
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateSiswaRequest  $request
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
+    * Update the specified resource in storage.
+    *
+    * @param  \App\Http\Requests\UpdateSiswaRequest  $request
+    * @param  \App\Models\Siswa  $siswa
+    * @return \Illuminate\Http\Response
+    */
     public function update(Siswa $dataSiswa, Request $request)
     {
         $periode = Periode::where('status','aktif')->first();
@@ -259,10 +259,10 @@ class SiswaController extends Controller
             'orangtua_wali.required'=>'Nama orangtua/wali tidak boleh kosong!',
             'kelas.required'=>'Kelas tidak boleh kosong!'
         ]);
-
+        
         $sub_kelas = SubKelas::find($request->get('kelas'));
         $siswa = Siswa::with('sub_kelas')->find($dataSiswa->id);
-
+        
         if($sub_kelas->kelas_id != $siswa->sub_kelas->kelas_id){
             //Remove siswa from old SiswaTahfidz
             $tahfidz = Tahfidz1::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
@@ -285,7 +285,7 @@ class SiswaController extends Controller
                     ]);
                 }
             }
-
+            
             //Remove siswa from old SiswaDoa
             $doa = Doa1::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
             if ($doa != null) {
@@ -307,7 +307,7 @@ class SiswaController extends Controller
                     ]);
                 }
             }
-
+            
             //Remove siswa from old SiswaHadist
             $hadist = Hadist1::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
             if ($hadist != null) {
@@ -329,7 +329,7 @@ class SiswaController extends Controller
                     ]);
                 }
             }
-
+            
             //Remove siswa from old SiswaIbadahHarian
             $ibadah_harian = IbadahHarian1::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
             if ($ibadah_harian != null) {
@@ -351,7 +351,7 @@ class SiswaController extends Controller
                     ]);
                 }
             }
-
+            
             //Remove siswa from old SiswaIlmanWaaRuuhan
             $ilman_waa_ruuhan = IlmanWaaRuuhan::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
             if ($ilman_waa_ruuhan != null) {
@@ -376,7 +376,7 @@ class SiswaController extends Controller
                     ]);
                 }
             }
-
+            
             //Remove siswa from old SiswaBidangStudi
             $mapel = Mapel::where('kelas_id', $siswa->sub_kelas->kelas_id)->get();
             if ($mapel != null) {
@@ -407,27 +407,24 @@ class SiswaController extends Controller
                 }
             }
         }
-
-
+        
         $siswa->update([
             'nisn' => $request->get('nisn'),
             'nama_siswa' => $request->get('nama_siswa'),
             'orangtua_wali' => $request->get('orangtua_wali'),
             'sub_kelas_id' => $request->get('kelas')
         ]);
-
-
-
+        
         if ($siswa) {
             return response()->json(['success' => 'Data berhasil diupdate!']);
         } else {
             return response()->json(['error' => 'Data gagal diupdate!']);
         }
     }
-
+    
     public function destroy(Siswa $dataSiswa)
     {
-
+        
         if ($dataSiswa->delete()) {
             return response()->json(['success' => 'Data berhasil dihapus!']);
         } else {
@@ -469,7 +466,7 @@ class SiswaController extends Controller
             ->make(true);
         }
     }
-
+    
     public function export_excel(Request $request)
     {
         $sub_kelas_id = $request->sub_kelas_id;
@@ -483,23 +480,24 @@ class SiswaController extends Controller
         //clean tahun ajaran remove '/'
         $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
         $nama_file = 'Data Siswa ' . $kelas . ' ' . $nama_sub_kelas . ' Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
-
+        
         $kode = "FileDataSiswa";
-        $file_identifier = $kode;
-
+        $file_identifier = encrypt($kode);
+        
         $informasi = [
             'judul' => 'REKAP DATA SISWA SDIT IRSYADUL \'IBAD 2',
-            'nama_kelas' => $kelas . ' ' . $nama_sub_kelas,
+            'tingkat_kelas' => $kelas,
+            'nama_sub_kelas' => $nama_sub_kelas,
             'wali_kelas' => $wali_kelas,
             'tahun_ajaran' => $tahun_ajaran,
             'semester' => $semester,
             'tanggal' => date('d-m-Y'),
             'file_identifier' => $file_identifier,
         ];
-
+        
         return Excel::download(new SiswaExport($sub_kelas_id, $informasi), $nama_file);
     }
-
+    
     public function import_excel(Request $request)
     {
         $file = $request->file('file_nilai_excel');
@@ -507,7 +505,7 @@ class SiswaController extends Controller
         $kode = "FileDataSiswa";
         $import = new SiswaImport($kode);
         Excel::import($import, $file);
-
+        
         if ($import->hasError()) {
             $errors = $import->getMessages();
             return redirect()->back()->with('upload_error', $errors);

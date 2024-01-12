@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getTableSiswa', [SiswaController::class, 'getTable'])->name('siswa.getTable');
     Route::get('/siswa/export_excel/{sub_kelas_id}', [SiswaController::class, 'export_excel'])->name('siswa.export_excel');
     Route::post('/siswa/export_excel', [SiswaController::class, 'export_excel'])->name('siswa.export_excel');
-    Route::post('/siswa/import_excel', [SiswaIbadahHarianController::class, 'import_excel'])->name('siswa.import_excel');
+    Route::post('/siswa/import_excel', [SiswaController::class, 'import_excel'])->name('siswa.import_excel');
     
     Route::get('/profilSekolah', [ProfilSekolahController::class, 'index'])->middleware('role:Administrator');
     Route::get('/pengumuman', [PengumumanController::class, 'index']);
