@@ -63,7 +63,7 @@ return [
     |
     */
     
-    'logo' => '<b>E-Rapor MDTA</b>',
+    'logo' => '<br><h1><b>E-RAPOR MDTA</b></h1><h5>SDIT IRSYADUL \'IBAD 2 PANDEGLANG</h5>',
     'logo_img' => 'vendor/adminlte/dist/img/sditii2.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -89,8 +89,8 @@ return [
             'path' => 'vendor/adminlte/dist/img/sditii2.png',
             'alt' => 'Logo',
             'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'width' => 200,
+            'height' => 200,
         ],
     ],
     
