@@ -2,10 +2,11 @@
 
 namespace App\Imports;
 
+use App\Http\Controllers\KelasController;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\Siswa;
+use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\SubKelas;
 use App\Http\Controllers\SiswaController;
@@ -15,7 +16,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithMappedCells;
 
-class SiswaImport implements ToCollection
+class KelasImport implements ToCollection
 {
     private $kode_file, $errorFlag = false, $message = '';
     
@@ -26,6 +27,7 @@ class SiswaImport implements ToCollection
     
     public function collection(Collection $rows)
     {
+        $this->saveData($rows);
         $file_identifier = '';
         try {
             $file_identifier = $this->getKodeFile($rows);
@@ -75,7 +77,6 @@ class SiswaImport implements ToCollection
                 $lastRow = $key;
             }
         }
-        // dd($lastRow,$tes);
         return $lastRow;
     }
     
@@ -88,7 +89,6 @@ class SiswaImport implements ToCollection
                 break;
             }
         }
-        // dd($firstRow);
         return $firstRow; 
     }
     
@@ -114,26 +114,15 @@ class SiswaImport implements ToCollection
         for ($i=$firstRow; $i <= $lastRow; $i++) { 
             $data[$i] = $rows[$i]->toArray();
         }
-        // dd($data);
         return $data;
     }
     
     public function getKodeFile($row)
     {
-        $kode_file = $row[8][1];
+        $kode_file = $row[5][1];
         // dd(decrypt($kode_file));
         // $tes = $this->getData($row);
         return decrypt($kode_file);
-    }
-    
-    public function getKelas($rows)
-    {
-        $tingkat_kelas = $rows[2][1];
-        $kelas_id = Kelas::where('nama_kelas',$tingkat_kelas)->value('id');
-        $nama_sub_kelas = $rows[3][1];
-        $sub_kelas_id = SubKelas::where('kelas_id',$kelas_id)->where('nama_sub_kelas',$nama_sub_kelas)->value('id');
-        // dd($sub_kelas_id);
-        return  $sub_kelas_id;
     }
     
     public function saveData($rows){
@@ -144,7 +133,6 @@ class SiswaImport implements ToCollection
                 $row_old_data = $key;
             }
         }
-        $sub_kelas_id = $this->getKelas($rows);
         $data = $this->getData($rows);
         $old_data = [];
         $new_data = [];
@@ -157,31 +145,36 @@ class SiswaImport implements ToCollection
                 $new_data[] = $item;
             }
         }
-        // dd($old_data, $new_data, $row_old_data, $data);
+        // dd($old_data, $new_data, $data);
         
-        $this->update($old_data);
-
+        
         if ($row_old_data != $lastRow ){
-            $this->create($new_data, $sub_kelas_id);
+            $this->create($new_data);
         }
+        $this->update($old_data);
     }
     
-    public function create(array $new_data, $sub_kelas_id)
+    public function create(array $new_data)
     {
-        $objek = new SiswaController();
-        $objek->storeViaExcel($new_data, $sub_kelas_id);
+        $objek = new KelasController();
+        $objek->storeViaExcel($new_data);
     }
     
     public function update(array $old_data)
     {
         foreach ($old_data as $key => $value) {
-            $model = Siswa::where('id',$value[0])->first();
-            $model->nisn = "$value[2]";
-            $model->nama_siswa = $value[1];
-            $model->orangtua_wali = $value[3];
+            $model = SubKelas::where('id',$value[0])->first();
+
+            $kelas_id = kelas::where('nama_kelas',"$value[1]")->value('id');
+            $guru_id = Guru::where('nama_guru',"$value[3]")->value('id');
+            
+            $model->kelas_id = $kelas_id;
+            $model->nama_sub_kelas = "$value[2]";
+            $model->guru_id = $guru_id;
+            // dump($model);
             $model->save();
         }
-        // dd($model);
+        // dd('selesai');
         return $model;
     }
 }

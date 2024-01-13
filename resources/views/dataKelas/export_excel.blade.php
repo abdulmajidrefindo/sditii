@@ -5,6 +5,25 @@
     <tr>
         <td></td>
     </tr>
+    <tr>
+        <td>Semester :</td>
+        <td colspan="3" style="text-align: left;">{{ $semester }}</td>
+    </tr>
+    <tr>
+        <td>Tahun Ajaran :</td>
+        <td colspan="3" style="text-align: left;">{{ $tahun_ajaran }}</td>
+    </tr>
+    <tr>
+        <td>Tanggal :</td>
+        <td colspan="3" style="text-align: left;">{{ $tanggal}}</td>
+    </tr>
+    <tr>
+        <td>Kode file :</td>
+        <td colspan="1" style="text-align: left;">{{ $file_identifier }}</td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
     <thead style="background-color: #b7d8dc; border: 2px solid black;">
         <tr>
             <th style="width: 50px; text-align: center; vertical-align: middle;">ID</th>
@@ -38,15 +57,5 @@
             <td></td>
         </tr>
         @endfor
-        <tr>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Kode file</td>
-            <td colspan="1" style="text-align: left;">{{ $file_identifier }}</td>
-        </tr>
     </tbody>
 </table>

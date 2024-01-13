@@ -53,12 +53,41 @@ class KelasController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreKelasRequest  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function storeViaExcel(array $data)
+    {
+        // dd($data);
+        foreach ($data as $key => $value) {
+            $kelas_id = kelas::where('nama_kelas',"$value[1]")->value('id');
+            $guru_id = Guru::where('nama_guru',"$value[3]")->value('id');
+            $nama_sub_kelas = "$value[2]";
+
+            $periode_id = Periode::where('status','aktif')->value('id');
+
+            $kelas = new SubKelas();
+            $kelas->nama_sub_kelas = $nama_sub_kelas;
+            $kelas->kelas_id = $kelas_id;
+            $kelas->periode_id = $periode_id;
+            $kelas->guru_id = $guru_id == null ? 7 : $guru_id;
+            dump($kelas);
+
+            if ($guru_id != null) {
+                $user_id_guru = Guru::where('id', $guru_id)->first()->user_id;
+                $role = UserRoles::where('user_id', $user_id_guru)->first();
+                $role->role_id = 2; //wali kelas
+                $role->save();
+            }
+    
+            $kelas->save();        
+    
+            if ($kelas) {
+                return response()->json(['success' => 'Data berhasil disimpan!']);
+            } else {
+                return response()->json(['error' => 'Data gagal disimpan!']);
+            }
+        }
+        dd('selesai');
+    }
+
     public function store(StoreKelasRequest $request)
     {
         $periode = Periode::where('status','aktif')->first();
@@ -68,14 +97,14 @@ class KelasController extends Controller
                 return $query->where('kelas_id', $request->kelas)
                              ->where('periode_id', $periode->id);
             })],
-            'wali_kelas' => 'required',
+            // 'wali_kelas' => 'required',
         ],
         [
             'kelas.required' => 'Kelas harus diisi',
             'nama_sub_kelas.required' => 'Nama Sub Kelas harus diisi',
             'nama_sub_kelas.max' => 'Nama Sub Kelas maksimal 255 karakter',
             'nama_sub_kelas.unique' => 'Nama Sub Kelas sudah ada',
-            'wali_kelas.required' => 'Wali Kelas harus diisi',
+            // 'wali_kelas.required' => 'Wali Kelas harus diisi',
         ]);
 
 
@@ -91,7 +120,7 @@ class KelasController extends Controller
             $role->save();
         }
 
-        $kelas->guru_id = $request->wali_kelas == 0 ? null : $request->wali_kelas;
+        $kelas->guru_id = $request->wali_kelas == 7 ? null : $request->wali_kelas;
 
         
 
@@ -207,10 +236,13 @@ class KelasController extends Controller
     {
         //return fail if Integrity constraint violation
         try {
-            $user_id_guru = Guru::where('id', $kelas->guru_id)->first()->user_id;
-            $role = UserRoles::where('user_id', $user_id_guru)->first();
-            $role->role_id = 3; //guru
-            $role->save();
+            if ($kelas->guru_id != null)
+            {
+                $user_id_guru = Guru::where('id', $kelas->guru_id)->first()->user_id;
+                $role = UserRoles::where('user_id', $user_id_guru)->first();
+                $role->role_id = 3; //guru
+                $role->save();
+            }
             $kelas->delete();
             return response()->json(['success' => 'Data berhasil dihapus!']);
         } catch (\Throwable $th) {
@@ -254,15 +286,38 @@ class KelasController extends Controller
     public function export_excel(Request $request)
     {
         $nama_file = 'Data Kelas.xlsx';
-
         $kode = "FileDataKelas";
+        $periode = Periode::where('status','aktif')->first();
+        $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
+        $tahun_ajaran = $periode->tahun_ajaran;
         $file_identifier = encrypt($kode);
 
         $informasi = [
             'judul' => 'REKAP DATA KELAS SDIT IRSYADUL \'IBAD 2',
+            'tahun_ajaran' => $tahun_ajaran,
+            'semester' => $semester,
+            'tanggal' => date('d-m-Y'),
             'file_identifier' => $file_identifier,
         ];
 
         return Excel::download(new KelasExport($informasi), $nama_file);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
+        $kode = "FileDataKelas";
+        $import = new KelasImport($kode);
+        Excel::import($import, $file);
+        
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
+        
     }
 }

@@ -28,12 +28,18 @@ class KelasExport implements FromView, WithStyles
     
     private $row_lenght, $column_length;
     private $judul;
+    private $tahun_ajaran;
+    private $semester;
+    private $tanggal;
     private $file_identifier;
     
     
     public function __construct($informasi)
     {
         $this->judul = $informasi['judul'];
+        $this->tahun_ajaran = $informasi['tahun_ajaran'];
+        $this->semester = $informasi['semester'];
+        $this->tanggal = $informasi['tanggal'];
         $this->file_identifier = $informasi['file_identifier'];
     }
     
@@ -57,6 +63,9 @@ class KelasExport implements FromView, WithStyles
         return view('dataKelas.export_excel', [
             'kelas_d' => $modified_kelas_d,
             'judul' => $this->judul,
+            'tahun_ajaran' => $this->tahun_ajaran,
+            'semester' => $this->semester,
+            'tanggal' => $this->tanggal,
             'file_identifier' => $this->file_identifier,
         ]);
     }
@@ -66,21 +75,21 @@ class KelasExport implements FromView, WithStyles
     {
         $sheet->getColumnDimension('A')->setAutoSize(true);
         $sheet->getColumnDimension('C')->setAutoSize(true);
-        $sheet->getStyle('A3:D3')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A3:D3')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A8:D8')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A8:D8')->getAlignment()->setVertical('center');
         // $sheet->getStyle('E4:'. $this->getColumnIndex(5) . $this->row_lenght + 3)->getAlignment()->setShrinkToFit(true);
-        $sheet->getStyle('A3:D3')->getFont()->setBold(true);
+        $sheet->getStyle('A8:D8')->getFont()->setBold(true);
         // Add border to range
-        $sheet->getStyle('A3:' . $this->getColumnIndex(4) . $this->row_lenght + 3)->getBorders()->getAllBorders()->setBorderStyle('thin');
+        $sheet->getStyle('A8:' . $this->getColumnIndex(4) . $this->row_lenght + 8)->getBorders()->getAllBorders()->setBorderStyle('thin');
         
         // Enable worksheet protection
         $sheet->getParent()->getActiveSheet()->getProtection()->setSheet(true);
         //Unprotect nilai cell
-        $sheet->getStyle('B4:' . $this->getColumnIndex(4) . $this->row_lenght + 3)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
+        $sheet->getStyle('B9:' . $this->getColumnIndex(4) . $this->row_lenght + 8)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
         
         // prompt id column
-        $startCellA = 'A4'; // Starting cell for validation
-        $endCellA = $this->getColumnIndex(1) . ($this->row_lenght + 3); // Ending cell for validation
+        $startCellA = 'A9'; // Starting cell for validation
+        $endCellA = $this->getColumnIndex(1) . ($this->row_lenght + 8); // Ending cell for validation
         $validationRangeA = $startCellA . ':' . $endCellA;
         $validationA = $sheet->getCell($startCellA)->getDataValidation();
         $validationA->setType(DataValidation::TYPE_WHOLE);
@@ -90,8 +99,8 @@ class KelasExport implements FromView, WithStyles
         $sheet->setDataValidation($validationRangeA, $validationA);
         
         // Validation rule for column B
-        $startCellB = 'B4'; // Starting cell for validation
-        $endCellB = $this->getColumnIndex(2) . ($this->row_lenght + 3); // Ending cell for validation
+        $startCellB = 'B9'; // Starting cell for validation
+        $endCellB = $this->getColumnIndex(2) . ($this->row_lenght + 8); // Ending cell for validation
         $validationRangeB = $startCellB . ':' . $endCellB;
         $validationB = $sheet->getCell($startCellB)->getDataValidation();
         $validationB->setType(DataValidation::TYPE_LIST);
@@ -106,8 +115,8 @@ class KelasExport implements FromView, WithStyles
         $sheet->setDataValidation($validationRangeB, $validationB);
         
         // Validation rule for column D
-        $startCellD = 'D4'; // Starting cell for validation
-        $endCellD = $this->getColumnIndex(4) . ($this->row_lenght + 3); // Ending cell for validation
+        $startCellD = 'D9'; // Starting cell for validation
+        $endCellD = $this->getColumnIndex(4) . ($this->row_lenght + 8); // Ending cell for validation
         $validationRangeD = $startCellD . ':' . $endCellD;
         $validationD = $sheet->getCell($startCellD)->getDataValidation();
         $validationD->setType(DataValidation::TYPE_LIST);
