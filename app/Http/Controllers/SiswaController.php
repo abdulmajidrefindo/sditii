@@ -71,7 +71,7 @@ class SiswaController extends Controller
         // $orangtua_wali = null;
         
         foreach ($data as $key => $value) {
-            $periode_id = SubKelas::where('id',$sub_kelas_id)->value('id');
+            $periode_id = SubKelas::where('id',$sub_kelas_id)->value('periode_id');
             $nisn = "$value[2]";
             $nama_siswa = $value[1];
             $orangtua_wali = $value[3];
