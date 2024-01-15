@@ -27,26 +27,26 @@ use App\Imports\UserImport;
 class UserController extends Controller
 {
     /**
-     * Note:
-     * Mengenai peran, ada 3 peran yang ada di sistem ini, yaitu:
-     * 1. Admin
-     * 2. Wali Kelas
-     * 3. Guru
-     * 
-     * Admin punya akses penuh terhadap sistem, termasuk mengubah peran pengguna lain.
-     * Wali kelas dapat menjadi admin, guru juga dapat menjadi admin. Begitu juga sebaliknya.
-     * Wali kelas tidak dapat menjadi guru, begitu juga sebaliknya. Hal ini untuk menghindari konflik data. 
-     * Jika ingin menjadi guru, maka harus udah data kelas terlebih dahulu. Begitu juga untuk menjadi wali kelas.
-     * 
-     * Admin dapat kembali menjadi wali kelas ataupun guru. Begitu juga sebaliknya.
-     * Admin dapat mengubah peran pengguna lain, kecuali akun master. Hal ini untuk menghindari sistem terkunci.
-     * Admin tidak dapat mengubah perannya sendiri. Hal ini untuk menghindari user terkunci dari sistem.
-     * 
-     * Jika user merupakan guru ataupun walikelas, maka user tersebut tidak dapat dihapus. Hal ini untuk menghindari konflik data.
-     * Jika ingin menghapus user tersebut, maka harus menghapus data guru terlebih dahulu. 
-     * 
-     * Setiap user hanya dapat memiliki satu peran saja. Hal ini untuk menghindari programmer menjadi pusing.
-     */
+    * Note:
+    * Mengenai peran, ada 3 peran yang ada di sistem ini, yaitu:
+    * 1. Admin
+    * 2. Wali Kelas
+    * 3. Guru
+    * 
+    * Admin punya akses penuh terhadap sistem, termasuk mengubah peran pengguna lain.
+    * Wali kelas dapat menjadi admin, guru juga dapat menjadi admin. Begitu juga sebaliknya.
+    * Wali kelas tidak dapat menjadi guru, begitu juga sebaliknya. Hal ini untuk menghindari konflik data. 
+    * Jika ingin menjadi guru, maka harus udah data kelas terlebih dahulu. Begitu juga untuk menjadi wali kelas.
+    * 
+    * Admin dapat kembali menjadi wali kelas ataupun guru. Begitu juga sebaliknya.
+    * Admin dapat mengubah peran pengguna lain, kecuali akun master. Hal ini untuk menghindari sistem terkunci.
+    * Admin tidak dapat mengubah perannya sendiri. Hal ini untuk menghindari user terkunci dari sistem.
+    * 
+    * Jika user merupakan guru ataupun walikelas, maka user tersebut tidak dapat dihapus. Hal ini untuk menghindari konflik data.
+    * Jika ingin menghapus user tersebut, maka harus menghapus data guru terlebih dahulu. 
+    * 
+    * Setiap user hanya dapat memiliki satu peran saja. Hal ini untuk menghindari programmer menjadi pusing.
+    */
     public function index()
     {
         $data = UserRoles::all();
@@ -71,21 +71,62 @@ class UserController extends Controller
         $role = Roles::where('id', '!=', 2)->get(); // tidak menampilkan role wali kelas, wali kelas diatur di halaman kelas.
         $user = User::with('role')->where('id', $id)->first();
         $userRole = UserRoles::all()->where('user_id', $id);
-
+        
         $guru = Guru::where('user_id', $dataUser->id)->first();
         if ($guru != null){
             $sub_kelas = SubKelas::where('guru_id', $guru->id)->first();
             if ($sub_kelas != null){
                 $role = Roles::all()->where('id', '!=', 3); // tidak menampilkan role guru, walikelas dapat menjadi admin. Admin dapat menjadi walikelas kembali. Namun tak dapat kembali menjadi guru. Jiak ingin menjadi guru, maka harus udah data kelas terlebih dahulu.
-             }
+            }
         }
-
+        
         return view('dataUser/showUser',
         [
             'user'=>$user,
             'role'=>$role,
             'userRole'=>$userRole
         ]);
+    }
+    
+    public function storeViaExcel(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $name = $value[1];
+            $email = $value[2];
+            $user_name = $value[3];
+            $securep = bcrypt($value[4]);
+
+            User::create([
+                'name'=>$name,
+                'email'=>$email,
+                'user_name'=>$user_name,
+                'password'=>$securep,
+                'created_at'=>now()
+            ]);
+            
+            $new_user_id = User::where('email', $email)->value('id');
+            $role_id = Roles::where('role',$value[5])->value('id');
+            $userRole=UserRoles::create([
+                'user_id'=>$new_user_id,
+                'role_id'=>$role_id,
+                'created_at'=>now()
+            ]);
+
+            if ($role_id == 3){
+                Guru::create([
+                    'nip'=>null,
+                    'nama_guru'=>$name,
+                    'created_at'=>now(),
+                    'user_id'=>$new_user_id
+                ]);
+            }
+        }
+            if ($userRole){
+                return response()->json(['success' => 'Data berhasil disimpan!']);
+            }
+            else {
+                return response()->json(['error' => 'Data gagal disimpan!']);
+            }
     }
     
     public function store(StoreUserRequest $request)
@@ -162,27 +203,27 @@ class UserController extends Controller
             // 'user_name.unique'=>'Username sudah digunakan',
             //'role.required'=>'Peran harus diisi'
         ]);
-
-    
-
-
+        
+        
+        
+        
         $role = UserRoles::where('user_id', $dataUser->id)->first();
-
+        
         // If the user is the master account, then the role cannot be changed. This is to prevent to lock the master account out of the system.
         if($dataUser->id == 1){
             if ($request->get('role') != $role->role_id){
                 return response()->json(['error' => 'Gagal mengubah data! Akun master tidak dapat mengubah perannya sendiri!']);
             }
         }
-
+        
         //if the user id the same as the active user, then the role cannot be changed. This is to prevent to lock the active user out of the system.
         if($dataUser->id == auth()->user()->id){
             if ($request->get('role') != $role->role_id){
                 return response()->json(['error' => 'Gagal mengubah data! Anda tidak dapat mengubah peran anda sendiri!']);
             }
         }
-
-         //jika role berubah, sekaligus ignore jika role kosong.
+        
+        //jika role berubah, sekaligus ignore jika role kosong.
         if ($request->get('role') != $role->role_id && $request->get('role') != null){
             if ($role->role_id == 2){ //wali kelas
                 if ($request->get('role') == 3){ //guru
@@ -207,10 +248,10 @@ class UserController extends Controller
                 return response()->json(['error' => 'Gagal mengubah data!']);
             }
         }
-
+        
         $dataUser->name = $request->get('name');
         $dataUser->email = $request->get('email');
-
+        
         try {
             $dataUser->save();
             return response()->json(['success' => 'Data berhasil diubah!']);
@@ -219,27 +260,27 @@ class UserController extends Controller
         }
         
     }
-
+    
     public function destroy(User $dataUser)
     {
         $id = $dataUser->id;
         $active_user = auth()->user()->id;
-
+        
         // If the user is the master account, then the role cannot be changed. This is to prevent to lock the master account out of the system.
         if($id == 1){
             return response()->json(['error' => 'Gagal menghapus data! Akun master tidak dapat dihapus!']);
         }
-
+        
         //if the user id the same as the active user, then the role cannot be changed. This is to prevent to lock the active user out of the system.
         if($id == $active_user){
             return response()->json(['error' => 'Gagal menghapus data! Anda tidak dapat menghapus akun anda sendiri!']);
         }
-
+        
         $guru = Guru::where('user_id', $id)->first();
         if ($guru != null){
             return response()->json(['error' => 'Gagal menghapus data! Akun ini merupakan akun guru! Silahkan hapus data guru terlebih dahulu']);
         }
-
+        
         try {
             $dataUser->delete();
             return response()->json(['success' => 'Data berhasil dihapus!']);
@@ -247,7 +288,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Gagal menghapus data!']);
         }
     }
-
+    
     public function getTable(Request $request){
         if ($request->ajax()) {
             // $userRole = UserRoles::all();
@@ -273,20 +314,37 @@ class UserController extends Controller
             ->make(true);
         }
     }
-
+    
     public function export_excel(Request $request)
     {
         $nama_file = 'Data User.xlsx';
-
+        
         $kode = "FileDataUser";
         $file_identifier = encrypt($kode);
-
+        
         $informasi = [
             'judul' => 'REKAP DATA USER E-RAPOR SDIT IRSYADUL \'IBAD',
             'tanggal' => date('d-m-Y'),
             'file_identifier' => $file_identifier,
         ];
-
+        
         return Excel::download(new UserExport($informasi), $nama_file);
+    }
+    
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
+        $kode = "FileDataUser";
+        $import = new UserImport($kode);
+        Excel::import($import, $file);
+        
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
     }
 }
