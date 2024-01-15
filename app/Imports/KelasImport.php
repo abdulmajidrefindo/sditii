@@ -26,7 +26,6 @@ class KelasImport implements ToCollection
     
     public function collection(Collection $rows)
     {
-        $this->saveData($rows);
         $file_identifier = '';
         try {
             $file_identifier = $this->getKodeFile($rows);
