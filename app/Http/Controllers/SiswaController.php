@@ -625,6 +625,5 @@ class SiswaController extends Controller
             $message = $import->getMessages();
             return redirect()->back()->with('upload_success', $message);
         }
-        
     }
 }

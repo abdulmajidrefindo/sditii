@@ -227,9 +227,27 @@ class GuruController extends Controller
 
         $informasi = [
             'judul' => 'REKAP DATA GURU E-RAPOR SDIT IRSYADUL \'IBAD 2',
+            'tanggal' => date('d-m-Y'),
             'file_identifier' => $file_identifier,
         ];
 
         return Excel::download(new GuruExport($informasi), $nama_file);
+    }
+
+    public function import_excel(Request $request)
+    {
+        $file = $request->file('file_nilai_excel');
+        $file_name = $file->getClientOriginalName();
+        $kode = "FileDataGuru";
+        $import = new GuruImport($kode);
+        Excel::import($import, $file);
+        
+        if ($import->hasError()) {
+            $errors = $import->getMessages();
+            return redirect()->back()->with('upload_error', $errors);
+        } else {
+            $message = $import->getMessages();
+            return redirect()->back()->with('upload_success', $message);
+        }
     }
 }

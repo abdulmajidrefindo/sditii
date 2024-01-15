@@ -413,5 +413,58 @@ aria-labelledby="controller-tab-guru-export-import">
                 });
             });
         </script>
+        
+        {{-- Logika Berkaitan Dengan Import --}}
+        
+        <script>
+            $(document).ready(function() {
+                // Listen for changes in the file input, and update the text
+                // inside the span next to it accordingly
+                $('#file_nilai_excel').on('change', function() {
+                    // Get the name of the file
+                    var fileName = $(this).val().split('\\').pop();
+                    
+                    //get the file extension
+                    var fileExtension = ['xls', 'xlsx'];
+                    if ($.inArray(fileName.split('.').pop().toLowerCase(), fileExtension) ==
+                    -1) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: 'File harus berupa excel!',
+                        });
+                        $('#file_nilai_excel').val('');
+                        $('#file_nilai_excel').next().text('Pilih File');
+                    } else {
+                        //replace the "Choose a file" label
+                        $(this).next().text(fileName);
+                    }
+                });
+                
+            });
+        </script>
+        
+        <script>
+            //if theres upload_error, show sweet alert
+            $(document).ready(function() {
+                var upload_error = {!! json_encode(session('upload_error')) !!};
+                if (upload_error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: upload_error,
+                    });
+                }
+                
+                var upload_success = {!! json_encode(session('upload_success')) !!};
+                if (upload_success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: upload_success,
+                    });
+                }
+            });
+        </script>
         @stop
         

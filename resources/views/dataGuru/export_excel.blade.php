@@ -1,6 +1,17 @@
 <table>
     <tr>
-        <td colspan="4" style="text-align: center; font-size: 18px; font-weight: bold;">{{ $judul }}</td>
+        <td colspan="5" style="text-align: center; font-size: 18px; font-weight: bold;">{{ $judul }}</td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Tanggal :</td>
+        <td colspan="3" style="text-align: left;">{{ $tanggal}}</td>
+    </tr>
+    <tr>
+        <td>Kode file :</td>
+        <td colspan="1" style="text-align: left;">{{ $file_identifier }}</td>
     </tr>
     <tr>
         <td></td>
@@ -38,15 +49,5 @@
             <td></td>
         </tr>
         @endfor
-        <tr>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Kode file</td>
-            <td colspan="1" style="text-align: left;">{{ $file_identifier }}</td>
-        </tr>
     </tbody>
 </table>
