@@ -79,17 +79,14 @@ class SiswaExport implements FromView, WithStyles
             'tanggal' => $this->tanggal,
             'file_identifier' => $this->file_identifier,
             'nilai_id' => $nilai_id,
-            // 'column_length' => $this->column_length,
         ]);
     }
 
     //style overflow column
     public function styles(Worksheet $sheet)
     {
-        // $sheet->getStyle('B1')->getAlignment()->setWrapText(true);
         $sheet->getStyle('A11:D11')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A11:D11')->getAlignment()->setVertical('center');
-        // $sheet->getStyle('A11:D11')->getAlignment()->setShrinkToFit(true);
         $sheet->getStyle('A11:D11')->getFont()->setBold(true);
         // Add border to range
         $sheet->getStyle('A11:' . $this->getColumnIndex(4) . $this->row_lenght + 10)->getBorders()->getAllBorders()->setBorderStyle('thin');
@@ -99,21 +96,16 @@ class SiswaExport implements FromView, WithStyles
         //Unprotect nilai cell
         $sheet->getStyle('B12:' . $this->getColumnIndex(4) . $this->row_lenght + 11)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
 
-        //validation rule for nilai cell as integer between 0-100 and not empty only
-        $startCell = 'A12'; // Starting cell for validation
-        $endCell = $this->getColumnIndex(4) . ($this->row_lenght + 11); // Ending cell for validation
-        $validationRange = $startCell . ':' . $endCell;
-        $validation = $sheet->getCell($startCell)->getDataValidation();
-        $validation->setType(DataValidation::TYPE_LIST);
-        $validation->setAllowBlank(true);
-        $validation->setShowInputMessage(true);
-        $validation->setShowErrorMessage(true);
-        $validation->setShowDropDown(false);
-        $validation->setErrorTitle('Data tidak valid');
-        $validation->setError('Masukkan Data dengan benar');
-        $sheet->setDataValidation($validationRange, $validation);
-
-        
+        // prompt id column
+        $startCellA = 'A12'; // Starting cell for validation
+        $endCellA = $this->getColumnIndex(1) . ($this->row_lenght + 8); // Ending cell for validation
+        $validationRangeA = $startCellA . ':' . $endCellA;
+        $validationA = $sheet->getCell($startCellA)->getDataValidation();
+        $validationA->setType(DataValidation::TYPE_WHOLE);
+        $validationA->setShowInputMessage(true);
+        $validationA->setPromptTitle('ID Jangan Diubah');
+        $validationA->setPrompt('ID akan dibuat otomatis oleh sistem');
+        $sheet->setDataValidation($validationRangeA, $validationA);
 
         //A2-A6 Auto width cell
         $sheet->getColumnDimension('A')->setAutoSize(true);

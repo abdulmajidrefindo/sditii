@@ -283,6 +283,7 @@ class UserController extends Controller
 
         $informasi = [
             'judul' => 'REKAP DATA USER E-RAPOR SDIT IRSYADUL \'IBAD',
+            'tanggal' => date('d-m-Y'),
             'file_identifier' => $file_identifier,
         ];
 
