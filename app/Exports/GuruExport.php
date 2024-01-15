@@ -40,9 +40,8 @@ class GuruExport implements FromView, WithStyles
         $modified_guru_d = $guru_d->groupBy(['id'])->map(function ($item) use (&$nilai_id) {
             $result = [];
             $result['id'] = $item[0]->id;
-            $result['nama_guru'] = $item[0]->nama_guru;
-            $result['nip'] = $item[0]->nip;
             $result['user'] = User::where('id', $item[0]->id)->value('name');
+            $result['nip'] = $item[0]->nip;
             return $result;
         });
         
@@ -61,16 +60,16 @@ class GuruExport implements FromView, WithStyles
     {
         $sheet->getColumnDimension('A')->setAutoSize(true);
         $sheet->getColumnDimension('C')->setAutoSize(true);
-        $sheet->getStyle('A6:D6')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A6:D6')->getAlignment()->setVertical('center');
-        $sheet->getStyle('A6:D6')->getFont()->setBold(true);
+        $sheet->getStyle('A6:C6')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A6:C6')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A6:C6')->getFont()->setBold(true);
         // Add border to range
-        $sheet->getStyle('A6:' . $this->getColumnIndex(4) . $this->row_lenght + 6)->getBorders()->getAllBorders()->setBorderStyle('thin');
+        $sheet->getStyle('A6:' . $this->getColumnIndex(3) . $this->row_lenght + 6)->getBorders()->getAllBorders()->setBorderStyle('thin');
         
         // Enable worksheet protection
         $sheet->getParent()->getActiveSheet()->getProtection()->setSheet(true);
         //Unprotect nilai cell
-        $sheet->getStyle('B7:' . $this->getColumnIndex(4) . $this->row_lenght + 6)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
+        $sheet->getStyle('B7:' . $this->getColumnIndex(3) . $this->row_lenght + 6)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
         
         // prompt id column
         $startCellA = 'A7'; // Starting cell for validation
@@ -84,8 +83,8 @@ class GuruExport implements FromView, WithStyles
         $sheet->setDataValidation($validationRangeA, $validationA);
         
         //validation rule for nilai cell as integer between 0-100 and not empty only
-        $startCell = 'D7'; // Starting cell for validation
-        $endCell = $this->getColumnIndex(4) . ($this->row_lenght + 6); // Ending cell for validation
+        $startCell = 'B7'; // Starting cell for validation
+        $endCell = $this->getColumnIndex(2) . ($this->row_lenght + 6); // Ending cell for validation
         $validationRange = $startCell . ':' . $endCell;
         $validation = $sheet->getCell($startCell)->getDataValidation();
         $validation->setType(DataValidation::TYPE_LIST);
@@ -93,10 +92,10 @@ class GuruExport implements FromView, WithStyles
         $validation->setShowInputMessage(true);
         $validation->setShowErrorMessage(true);
         $validation->setShowDropDown(true);
-        $validation->setErrorTitle('Akun user tidak valid');
-        $validation->setError('Akun user harus dipilih dari yang sudah ada. Jika belum ada, silakan buat terlebih dahulu di menu Data User!');
-        // $validation->setPromptTitle('Pilih akun user');
-        $validation->setPrompt('Pilih akun user');
+        $validation->setErrorTitle('Nama guru tidak valid');
+        $validation->setError('Guru harus dipilih dari User yang sudah ada. Jika belum ada, silakan buat User terlebih dahulu di menu Data User!');
+        $validation->setPromptTitle('Nama Guru');
+        $validation->setPrompt('Pilih dari User yang ada');
         $names = User::pluck('name')->toArray();
         $validation->setFormula1('"' . implode(',', $names) . '"');
         $sheet->setDataValidation($validationRange, $validation);

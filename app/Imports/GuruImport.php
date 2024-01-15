@@ -2,20 +2,18 @@
 
 namespace App\Imports;
 
-use App\Http\Controllers\KelasController;
+use App\Http\Controllers\GuruController;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Guru;
-use App\Models\Kelas;
-use App\Models\SubKelas;
-use App\Models\Periode;
+use App\Models\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithMappedCells;
 
-class KelasImport implements ToCollection
+class GuruImport implements ToCollection
 {
     private $kode_file, $errorFlag = false, $message = '';
     
@@ -71,7 +69,7 @@ class KelasImport implements ToCollection
     {
         $lastRow = 0;
         foreach ($row as $key => $value) {
-            if ($value[2] !== null) {
+            if ($value[1] !== null || $value[2] !== null) {
                 $lastRow = $key;
             }
         }
@@ -99,7 +97,6 @@ class KelasImport implements ToCollection
                 $lastColumn = $key;
             }
         }
-        // dd($row_start,$lastColumn);
         return $lastColumn;
     }
     
@@ -117,9 +114,7 @@ class KelasImport implements ToCollection
     
     public function getKodeFile($row)
     {
-        $kode_file = $row[5][1];
-        // dd(decrypt($kode_file));
-        // $tes = $this->getData($row);
+        $kode_file = $row[3][1];
         return decrypt($kode_file);
     }
     
@@ -135,7 +130,6 @@ class KelasImport implements ToCollection
         $data = $this->getData($rows);
         $old_data = [];
         $new_data = [];
-        
         foreach ($data as $key => $item) {
             if ($key = $firstRow && $key <= $row_old_data) {
                 $old_data[] = $item;
@@ -144,7 +138,6 @@ class KelasImport implements ToCollection
                 $new_data[] = $item;
             }
         }
-        // dd($old_data, $new_data, $data);
         
         $this->update($old_data);
         
@@ -155,23 +148,23 @@ class KelasImport implements ToCollection
     
     public function create(array $new_data)
     {
-        $objek = new KelasController();
+        $objek = new GuruController();
         $objek->storeViaExcel($new_data);
     }
     
     public function update(array $old_data)
     {
         foreach ($old_data as $key => $value) {
-            $model = SubKelas::where('id',$value[0])->first();
-
-            $kelas_id = kelas::where('nama_kelas',"$value[1]")->value('id');
-            $guru_id = Guru::where('nama_guru',"$value[3]")->value('id');
+            $model = Guru::where('id',$value[0])->first();
             
-            $model->kelas_id = $kelas_id;
-            $model->nama_sub_kelas = "$value[2]";
-            $model->guru_id = $guru_id;
-            // dump($model);
+            $name = $value[1];
+            $user_id = User::where('name',$name)->value('id');
+            
+            $model->nama_guru = $name;
+            $model->nip = $value[2];
+            $model->user_id = $user_id;
             $model->save();
+            // dump($model);
         }
         // dd('selesai');
         return $model;

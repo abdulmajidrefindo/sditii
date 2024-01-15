@@ -126,7 +126,8 @@ class KelasExport implements FromView, WithStyles
         $validationD->setShowDropDown(true);
         $validationD->setErrorTitle('Wali Kelas tidak valid');
         $validationD->setError('Wali Kelas harus dipilih dari guru yang sudah ada. Jika belum ada, silakan buat terlebih dahulu di menu Data Guru!');
-        $validationD->setPrompt('Pilih wali kelas dari guru-guru berikut');
+        $validation->setPromptTitle('Wali Kelas');
+        $validationD->setPrompt('Pilih dari guru-guru yang ada');
         $list_guru = Guru::pluck('nama_guru')->toArray();
         $validationD->setFormula1('"' . implode(',', $list_guru) . '"');
         $sheet->setDataValidation($validationRangeD, $validationD);

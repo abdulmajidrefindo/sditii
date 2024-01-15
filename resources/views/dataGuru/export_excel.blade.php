@@ -1,6 +1,6 @@
 <table>
     <tr>
-        <td colspan="5" style="text-align: center; font-size: 18px; font-weight: bold;">{{ $judul }}</td>
+        <td colspan="6" style="text-align: center; font-size: 18px; font-weight: bold;">{{ $judul }}</td>
     </tr>
     <tr>
         <td></td>
@@ -21,7 +21,6 @@
             <th style="width: 50px; text-align: center; vertical-align: middle;">ID</th>
             <th style="width: 150px; text-align: center; vertical-align: middle;">Nama Guru</th>
             <th style="width: 150px; text-align: center; vertical-align: middle;">NIP</th>
-            <th style="width: 150px; text-align: center; vertical-align: middle;">Akun User</th>
         </tr>
     </thead>
     <tbody style="border: 2px solid black;">
@@ -29,21 +28,19 @@
         @if ($guru !== null)
         <tr>
             <td style="text-align: center;"> {{ $guru['id'] }}</td>
-            <td>{{ $guru['nama_guru'] }}</td>
-            <td>{{ $guru['nip'] }}</td>
             @foreach ($guru as $key => $value)
-                @if ($key == 'user')
-                    <td>   
-                        {{ $value }}
-                    </td>
-                @endif
+            @if ($key == 'user')
+            <td>   
+                {{ $value }}
+            </td>
+            @endif
             @endforeach
+            <td>{{ $guru['nip'] }}</td>
         </tr>
         @endif
         @endforeach
         @for($i = 1; $i <= 50; $i++)
         <tr>
-            <td></td>
             <td></td>
             <td></td>
             <td></td>

@@ -40,7 +40,7 @@ class GuruController extends Controller
             'user'=>$user
         ]);
     }
-
+    
     public function create()
     {
         return view('dataGuru/indexDataGuru');
@@ -74,6 +74,28 @@ class GuruController extends Controller
         ]);
     }
     
+    public function storeViaExcel(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $selected_name = "$value[1]";
+            $selected_user_id = User::where('name',$selected_name)->value('id');
+            $guru=Guru::create([
+                'nama_guru' => $selected_name,
+                'nip' => $value[2],
+                'created_at' => now(),
+                'user_id' => $selected_user_id
+            ]);
+            // dump($guru);
+        }
+        // dd('selesai');
+        if ($guru){
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        }
+        else {
+            return response()->json(['error' => 'Data gagal disimpan!']);
+        }
+    }
+    
     public function store(StoreGuruRequest $request)
     {
         $validator=$request->validate([
@@ -89,16 +111,13 @@ class GuruController extends Controller
         
         $selected_user_id = $request->user;
         $selected_user = User::all()->where('id',$selected_user_id)->first();
-        $selected_user_name = $selected_user->name;
+        $selected_name = $selected_user->name;
         $guru=Guru::create([
-            'nama_guru'=>$selected_user_name,
+            'nama_guru'=>$selected_name,
             'nip'=>$request->get('nip'),
             'created_at'=>now(),
             'user_id'=>$selected_user_id
         ]);
-
-        $new_guru_id = $guru->id;
-        $selected_kelas = $request->kelas;
         
         if ($guru){
             return response()->json(['success' => 'Data berhasil disimpan!']);
@@ -120,12 +139,12 @@ class GuruController extends Controller
             'nip.required'=>'NIP harus diisi',
             //'kelas.required'=>'Kelas harus diisi'
         ]);
-
+        
         $dataGuru->nama_guru = $request->get('nama_guru');
         $dataGuru->nip = $request->get('nip');
         $dataGuru->updated_at = now();
         $dataGuru->save();
-
+        
         if ($dataGuru){
             return response()->json(['success' => 'Data berhasil disimpan!']);
         }
@@ -133,7 +152,7 @@ class GuruController extends Controller
             return response()->json(['error' => 'Data gagal disimpan!']);
         }
     }
-
+    
     public function destroy(Guru $dataGuru)
     {
         // if guru is wali kelas and others course have guru id, then fail 
@@ -175,7 +194,7 @@ class GuruController extends Controller
             return response()->json(['success' => 'Data berhasil dihapus!']);
         }
     }
-
+    
     public function getTable(Request $request){
         if ($request->ajax()) {
             $guru = Guru::with('sub_kelas')->get();
@@ -217,23 +236,23 @@ class GuruController extends Controller
             ->make(true);
         }
     }
-
+    
     public function export_excel(Request $request)
     {
         $nama_file = 'Data Guru.xlsx';
-
+        
         $kode = "FileDataGuru";
         $file_identifier = encrypt($kode);
-
+        
         $informasi = [
             'judul' => 'REKAP DATA GURU E-RAPOR SDIT IRSYADUL \'IBAD 2',
             'tanggal' => date('d-m-Y'),
             'file_identifier' => $file_identifier,
         ];
-
+        
         return Excel::download(new GuruExport($informasi), $nama_file);
     }
-
+    
     public function import_excel(Request $request)
     {
         $file = $request->file('file_nilai_excel');
