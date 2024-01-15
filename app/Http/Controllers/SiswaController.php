@@ -66,10 +66,6 @@ class SiswaController extends Controller
     
     public function storeViaExcel(array $data, $sub_kelas_id)
     {
-        // $nisn = null;
-        // $nama_siswa = null;
-        // $orangtua_wali = null;
-        
         foreach ($data as $key => $value) {
             $periode_id = SubKelas::where('id',$sub_kelas_id)->value('periode_id');
             $nisn = "$value[2]";

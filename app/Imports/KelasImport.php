@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\SubKelas;
-use App\Http\Controllers\SiswaController;
 use App\Models\Periode;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -147,11 +146,11 @@ class KelasImport implements ToCollection
         }
         // dd($old_data, $new_data, $data);
         
+        $this->update($old_data);
         
         if ($row_old_data != $lastRow ){
             $this->create($new_data);
         }
-        $this->update($old_data);
     }
     
     public function create(array $new_data)
