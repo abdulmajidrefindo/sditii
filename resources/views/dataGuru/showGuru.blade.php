@@ -69,7 +69,7 @@
                         
                         <div class="form-group col-md-12">
                             <label for="nip" class="text-lightdark">
-                                NIP
+                                NIY
                             </label>
                             <div class="input-group">
                                 <input id="nip" name="nip" value="{{ $guru->nip }}"

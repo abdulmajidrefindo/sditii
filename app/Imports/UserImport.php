@@ -145,8 +145,10 @@ class UserImport implements ToCollection
             }
         }
         // dd($old_data, $new_data, $data);
-        
-        $this->update($old_data);
+        if($row_old_data-$this->getFirstRowIndex($rows) > 0)
+        {
+            $this->update($old_data);
+        }
         
         if ($row_old_data != $lastRow ){
             $this->create($new_data);
@@ -166,7 +168,14 @@ class UserImport implements ToCollection
             $model->name = $value[1];
             $model->user_name = "$value[3]";
             $model->email = "$value[2]";
-            $model->password = bcrypt($value[4]);
+            
+            $password = "$value[4]";
+            $panjang_password = strlen($password);
+            if($panjang_password <= 30)
+            {
+                $securep = bcrypt($password);
+                $model->password = "$securep";    
+            }
             $model->save();
             
             $roleModel=UserRoles::where('user_id',$value[0])->first();

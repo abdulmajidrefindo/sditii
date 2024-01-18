@@ -22,7 +22,7 @@
             <th style="width: 150px; text-align: center; vertical-align: middle;">Name</th>
             <th style="width: 150px; text-align: center; vertical-align: middle;">Email</th>
             <th style="width: 150px; text-align: center; vertical-align: middle;">Username</th>
-            <th style="width: 150px; text-align: center; vertical-align: middle;">Password</th>
+            <th style="width: 250px; text-align: center; vertical-align: middle;">Password</th>
             <th style="width: 150px; text-align: center; vertical-align: middle;">Peran</th>
         </tr>
     </thead>
@@ -34,7 +34,7 @@
             <td>{{ $user['name'] }}</td>
             <td>{{ $user['email'] }}</td>
             <td>{{ $user['user_name'] }}</td>
-            <td>{{ $user['password'] }}</td>
+            <td>--password disembunyikan oleh sistem--</td>
             @foreach ($user as $key => $value)
                 @if ($key == 'role')
                     <td>   

@@ -19,23 +19,23 @@ class PeriodeSeeder extends Seeder
     {
         DB::table('periodes')->insert([
             'semester' => '1',
-            'tahun_ajaran' => '2021/2022',
+            'tahun_ajaran' => '2023/2024',
             'status' => 'tidak aktif'
         ]);
         DB::table('periodes')->insert([
             'semester' => '2',
-            'tahun_ajaran' => '2021/2022',
-            'status' => 'tidak aktif'
+            'tahun_ajaran' => '2023/2024',
+            'status' => 'aktif'
         ]);
         DB::table('periodes')->insert([
             'semester' => '1',
-            'tahun_ajaran' => '2022/2023',
+            'tahun_ajaran' => '2024/2025',
             'status' => 'tidak aktif'
         ]);
         DB::table('periodes')->insert([
             'semester' => '2',
-            'tahun_ajaran' => '2022/2023',
-            'status' => 'aktif'
+            'tahun_ajaran' => '2024/2025',
+            'status' => 'tidak aktif'
         ]);
     }
 }

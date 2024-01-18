@@ -20,7 +20,7 @@
         <tr>
             <th style="width: 50px; text-align: center; vertical-align: middle;">ID</th>
             <th style="width: 150px; text-align: center; vertical-align: middle;">Nama Guru</th>
-            <th style="width: 150px; text-align: center; vertical-align: middle;">NIP</th>
+            <th style="width: 250px; text-align: center; vertical-align: middle;">NIY</th>
         </tr>
     </thead>
     <tbody style="border: 2px solid black;">

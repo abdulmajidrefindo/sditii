@@ -48,7 +48,7 @@ class UserExport implements FromView, WithStyles
             $result['name'] = $item[0]->name;
             $result['user_name'] = $item[0]->user_name; 
             $result['email'] = $item[0]->email;
-            $result['password'] = $item[0]->password;
+            // $result['password'] = $item[0]->password;
             $result['role'] = UserRoles::where('user_id', $item[0]->id)->value('role_id');
             return $result;
         });
@@ -67,10 +67,10 @@ class UserExport implements FromView, WithStyles
     public function styles(Worksheet $sheet)
     {
         $sheet->getColumnDimension('A')->setAutoSize(true);
-        $sheet->getStyle('E7:'. $this->getColumnIndex(5) . $this->row_lenght + 6)->getAlignment()->setHorizontal('fill');
+        // $sheet->getStyle('E7:'. $this->getColumnIndex(5) . $this->row_lenght + 6)->getAlignment()->setHorizontal('fill');
         $sheet->getStyle('A6:F6')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A6:F6')->getAlignment()->setVertical('center');
-        // $sheet->getStyle('E6:'. $this->getColumnIndex(7) . $this->row_lenght + 6)->getAlignment()->setShrinkToFit(true);
+        $sheet->getStyle('E7:'. $this->getColumnIndex(5) . $this->row_lenght + 6)->getAlignment()->setShrinkToFit(false);
         $sheet->getStyle('A6:F6')->getFont()->setBold(true);
         // Add border to range
         $sheet->getStyle('A6:' . $this->getColumnIndex(6) . $this->row_lenght + 6)->getBorders()->getAllBorders()->setBorderStyle('thin');

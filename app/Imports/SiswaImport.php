@@ -71,7 +71,7 @@ class SiswaImport implements ToCollection
     {
         $lastRow = 0;
         foreach ($row as $key => $value) {
-            if ($value[2] !== null) {
+            if ($value[1] !== null || $value[0] !== null) {
                 $lastRow = $key;
             }
         }
@@ -147,6 +147,8 @@ class SiswaImport implements ToCollection
         $sub_kelas_id = $this->getKelas($rows);
         $data = $this->getData($rows);
         $old_data = [];
+        $delete_data = [];
+        $update_data = [];
         $new_data = [];
         
         foreach ($data as $key => $item) {
@@ -157,11 +159,25 @@ class SiswaImport implements ToCollection
                 $new_data[] = $item;
             }
         }
-        // dd($old_data, $new_data, $row_old_data, $data);
-        
-        $this->update($old_data);
 
-        if ($row_old_data != $lastRow ){
+        foreach ($old_data as $key => $item) {
+            if ($item[1] == null && $item[2] == null && $item[3] == null) {
+                $delete_data[] = $item;
+            }
+            else {
+                $update_data[] = $item;
+            }
+        }
+        if($delete_data != null)
+        {
+            $this->delete($delete_data);
+            
+        }
+        if($update_data != null)
+        {
+            $this->update($update_data);
+        }
+        if ($new_data != null){
             $this->create($new_data, $sub_kelas_id);
         }
     }
@@ -172,9 +188,9 @@ class SiswaImport implements ToCollection
         $objek->storeViaExcel($new_data, $sub_kelas_id);
     }
     
-    public function update(array $old_data)
+    public function update(array $update_data)
     {
-        foreach ($old_data as $key => $value) {
+        foreach ($update_data as $key => $value) {
             $model = Siswa::where('id',$value[0])->first();
             $model->nisn = "$value[2]";
             $model->nama_siswa = $value[1];
@@ -183,5 +199,14 @@ class SiswaImport implements ToCollection
         }
         // dd($model);
         return $model;
+    }
+
+    public function delete(array $delete_data)
+    {
+        foreach ($delete_data as $key => $value) {
+            $id = $value[0];
+            // dd($id);
+            Siswa::destroy($id);
+        }
     }
 }

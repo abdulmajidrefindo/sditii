@@ -123,7 +123,7 @@ class GuruImport implements ToCollection
         $lastRow = $this->getLastRowIndex($rows);
         $row_old_data = 0;
         foreach ($rows as $key => $value) {
-            if ($value[0] !== null) {
+            if ($value[0] != null) {
                 $row_old_data = $key;
             }
         }
@@ -138,8 +138,10 @@ class GuruImport implements ToCollection
                 $new_data[] = $item;
             }
         }
-        
-        $this->update($old_data);
+        if($row_old_data-$this->getFirstRowIndex($rows) > 0)
+        {
+            $this->update($old_data);
+        }
         
         if ($row_old_data != $lastRow ){
             $this->create($new_data);
@@ -161,7 +163,7 @@ class GuruImport implements ToCollection
             $user_id = User::where('name',$name)->value('id');
             
             $model->nama_guru = $name;
-            $model->nip = $value[2];
+            $model->nip = $value[2] == null ? null : "$value[2]";
             $model->user_id = $user_id;
             $model->save();
             // dump($model);

@@ -100,7 +100,7 @@ class UserController extends Controller
                 'name'=>$name,
                 'email'=>$email,
                 'user_name'=>$user_name,
-                'password'=>$securep,
+                'password'=>"$securep",
                 'created_at'=>now()
             ]);
             
@@ -153,7 +153,7 @@ class UserController extends Controller
             'name'=>$request->get('name'),
             'email'=>$request->get('email'),
             'user_name'=>$request->get('user_name'),
-            'password'=>$securep,
+            'password'=>"$securep",
             'created_at'=>now()
         ]);
         $new_username = $request->get('user_name');
@@ -317,7 +317,7 @@ class UserController extends Controller
     
     public function export_excel(Request $request)
     {
-        $nama_file = 'Data User.xlsx';
+        $nama_file = 'Data User ' . date('d-m-y') . '.xlsx';
         
         $kode = "FileDataUser";
         $file_identifier = encrypt($kode);

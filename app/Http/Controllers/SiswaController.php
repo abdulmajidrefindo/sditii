@@ -196,16 +196,16 @@ class SiswaController extends Controller
     {
         $periode = Periode::where('status','aktif')->first();
         $validator=$request->validate([
-            'nisn'=>'required|unique:siswas,nisn',
+            // 'nisn'=>'required|unique:siswas,nisn',
             'nama_siswa'=>'required',
-            'orangtua_wali'=>'required',
+            // 'orangtua_wali'=>'required',
             'kelas'=>'required'
         ],
         [
-            'nisn.required'=>'NISN tidak boleh kosong!',
-            'nisn.unique'=>'NISN sudah terdaftar!',
+            // 'nisn.required'=>'NISN tidak boleh kosong!',
+            // 'nisn.unique'=>'NISN sudah terdaftar!',
             'nama_siswa.required'=>'Nama siswa tidak boleh kosong!',
-            'orangtua_wali.required'=>'Nama orangtua/wali tidak boleh kosong!',
+            // 'orangtua_wali.required'=>'Nama orangtua/wali tidak boleh kosong!',
             'kelas.required'=>'Kelas tidak boleh kosong!'
         ]);
         $siswa = Siswa::create([
@@ -360,15 +360,15 @@ class SiswaController extends Controller
     {
         $periode = Periode::where('status','aktif')->first();
         $validator=$request->validate([
-            'nisn'=>'required',
+            // 'nisn'=>'required',
             'nama_siswa'=>'required',
-            'orangtua_wali'=>'required',
+            // 'orangtua_wali'=>'required',
             'kelas'=>'required'
         ],
         [
-            'nisn.required'=>'NISN tidak boleh kosong!',
+            // 'nisn.required'=>'NISN tidak boleh kosong!',
             'nama_siswa.required'=>'Nama siswa tidak boleh kosong!',
-            'orangtua_wali.required'=>'Nama orangtua/wali tidak boleh kosong!',
+            // 'orangtua_wali.required'=>'Nama orangtua/wali tidak boleh kosong!',
             'kelas.required'=>'Kelas tidak boleh kosong!'
         ]);
         
@@ -536,7 +536,6 @@ class SiswaController extends Controller
     
     public function destroy(Siswa $dataSiswa)
     {
-        
         if ($dataSiswa->delete()) {
             return response()->json(['success' => 'Data berhasil dihapus!']);
         } else {

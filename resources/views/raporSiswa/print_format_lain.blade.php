@@ -337,7 +337,7 @@
                 <br />
                 <p></p>
                 <p><strong><u>{{ $data_siswa->sub_kelas->guru->nama_guru }}</u></strong></p>
-                <p>NIP. {{ $data_siswa->sub_kelas->guru->nip }}</p>
+                {{-- <p>NIY. {{ $data_siswa->sub_kelas->guru->nip }}</p> --}}
             </div>
 
             <div align="left" class="signature" style="position: relative; left: 50%; transform: translateX(-275%);">

@@ -6,6 +6,7 @@ use App\Http\Controllers\KelasController;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\User;
 use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\SubKelas;
@@ -145,8 +146,10 @@ class KelasImport implements ToCollection
             }
         }
         // dd($old_data, $new_data, $data);
-        
-        $this->update($old_data);
+        if($row_old_data-$this->getFirstRowIndex($rows) > 0)
+        {
+            $this->update($old_data);
+        }
         
         if ($row_old_data != $lastRow ){
             $this->create($new_data);
@@ -165,7 +168,8 @@ class KelasImport implements ToCollection
             $model = SubKelas::where('id',$value[0])->first();
 
             $kelas_id = kelas::where('nama_kelas',"$value[1]")->value('id');
-            $guru_id = Guru::where('nama_guru',"$value[3]")->value('id');
+            $user_id = User::where('user_name',"$value[3]")->value('id');
+            $guru_id = Guru::where('user_id',$user_id)->value('id');
             
             $model->kelas_id = $kelas_id;
             $model->nama_sub_kelas = "$value[2]";

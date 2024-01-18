@@ -60,7 +60,8 @@ class KelasController extends Controller
             
             foreach ($data as $key => $value) {
                 $kelas_id = kelas::where('nama_kelas',"$value[1]")->value('id');
-                $guru_id = Guru::where('nama_guru',"$value[3]")->value('id');
+                $user_id = User::where('user_name',"$value[3]")->value('id');
+                $guru_id = Guru::where('user_id',$user_id)->value('id');
                 $nama_sub_kelas = "$value[2]";
                 
                 $kelas = new SubKelas();
@@ -280,12 +281,14 @@ class KelasController extends Controller
         
         public function export_excel(Request $request)
         {
-            $nama_file = 'Data Kelas.xlsx';
             $kode = "FileDataKelas";
+            $file_identifier = encrypt($kode);
+            
             $periode = Periode::where('status','aktif')->first();
             $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
             $tahun_ajaran = $periode->tahun_ajaran;
-            $file_identifier = encrypt($kode);
+            $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
+            $nama_file = 'Data Kelas Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
             
             $informasi = [
                 'judul' => 'REKAP DATA KELAS SDIT IRSYADUL \'IBAD 2',

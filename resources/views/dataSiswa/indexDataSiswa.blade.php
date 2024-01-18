@@ -261,9 +261,9 @@
     <div class="alert alert-info alert-dismissible">
         <div>
             <h5><i class="icon fas fa-info"></i>
-                Cara impor data siswa dari file excel:
+                Cara impor data dari file excel:
             </h5>
-            1. Ekspor data siswa terlebih dahulu<br>2. Modifikasi file excel yang diekspor tersebut<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
+            1. Ekspor file excel terbaru terlebih dahulu<br>2. Modifikasi file excel yang sudah diekspor tersebut (hanya modifikasi cell yang tidak dikunci)<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
         </div>
     </div>
 </div>

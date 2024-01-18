@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Guru;
 use App\Models\SubKelas;
 use App\Models\User;
+use App\Models\Periode;
 use App\Http\Requests\StoreGuruRequest;
 use App\Http\Requests\UpdateGuruRequest;
 use Yajra\DataTables\DataTables;
@@ -81,7 +82,7 @@ class GuruController extends Controller
             $selected_user_id = User::where('name',$selected_name)->value('id');
             $guru=Guru::create([
                 'nama_guru' => $selected_name,
-                'nip' => $value[2],
+                'nip' => "$value[2]",
                 'created_at' => now(),
                 'user_id' => $selected_user_id
             ]);
@@ -100,21 +101,23 @@ class GuruController extends Controller
     {
         $validator=$request->validate([
             'user'=>'required',
-            'nip'=>'required|unique:gurus,nip',
+            // 'nip'=>'unique:gurus,nip',
             //'kelas'=>'required'
         ],
         [
             'user.required'=>'User harus dipilih',
-            'nip.required'=>'NIP harus diisi',
+            // 'nisn.unique'=>'NIP sudah terdaftar!',
+            // 'nip.required'=>'NIP harus diisi',
             //'kelas.required'=>'Kelas harus diisi'
         ]);
         
         $selected_user_id = $request->user;
         $selected_user = User::all()->where('id',$selected_user_id)->first();
         $selected_name = $selected_user->name;
+        $nip_string = $request->get('nip');
         $guru=Guru::create([
             'nama_guru'=>$selected_name,
-            'nip'=>$request->get('nip'),
+            'nip'=>"$nip_string",
             'created_at'=>now(),
             'user_id'=>$selected_user_id
         ]);
@@ -131,17 +134,17 @@ class GuruController extends Controller
     {
         $validator=$request->validate([
             'nama_guru'=>'required',
-            'nip'=>'required|unique:gurus,nip,'.$dataGuru->id,
+            // 'nip'=>'unique:gurus,nip,'.$dataGuru->id,
             //'kelas'=>'required'
         ],
         [
             'nama_guru.required'=>'Nama Guru harus diisi',
-            'nip.required'=>'NIP harus diisi',
+            // 'nip.unique'=>'NIP sudah terdaftar!',
             //'kelas.required'=>'Kelas harus diisi'
         ]);
-        
+        $nip_string = $request->get('nip');
         $dataGuru->nama_guru = $request->get('nama_guru');
-        $dataGuru->nip = $request->get('nip');
+        $dataGuru->nip = $nip_string;
         $dataGuru->updated_at = now();
         $dataGuru->save();
         
@@ -221,7 +224,7 @@ class GuruController extends Controller
                     foreach ($row->sub_kelas as $k => $v) {
                         $v->nama_kelas = $v->kelas->nama_kelas . " " . $v->nama_sub_kelas;
                         $kelas .= $v->nama_kelas . ", ";
-                    }
+                                            }
                     if ($kelas == "") {
                         return '<span class="badge badge-danger">Bukan Wali Kelas</span>';
                     }
@@ -239,7 +242,7 @@ class GuruController extends Controller
     
     public function export_excel(Request $request)
     {
-        $nama_file = 'Data Guru.xlsx';
+        $nama_file = 'Data Guru ' . date('d-m-y') . '.xlsx';
         
         $kode = "FileDataGuru";
         $file_identifier = encrypt($kode);

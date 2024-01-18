@@ -40,7 +40,7 @@ class GuruExport implements FromView, WithStyles
         $modified_guru_d = $guru_d->groupBy(['id'])->map(function ($item) use (&$nilai_id) {
             $result = [];
             $result['id'] = $item[0]->id;
-            $result['user'] = User::where('id', $item[0]->id)->value('name');
+            $result['user'] = Guru::where('id', $item[0]->id)->value('nama_guru');
             $result['nip'] = $item[0]->nip;
             return $result;
         });
@@ -59,12 +59,16 @@ class GuruExport implements FromView, WithStyles
     public function styles(Worksheet $sheet)
     {
         $sheet->getColumnDimension('A')->setAutoSize(true);
-        $sheet->getColumnDimension('C')->setAutoSize(true);
+        // $sheet->getColumnDimension('C')->setAutoSize(true);
         $sheet->getStyle('A6:C6')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A6:C6')->getAlignment()->setVertical('center');
         $sheet->getStyle('A6:C6')->getFont()->setBold(true);
         // Add border to range
         $sheet->getStyle('A6:' . $this->getColumnIndex(3) . $this->row_lenght + 6)->getBorders()->getAllBorders()->setBorderStyle('thin');
+        
+        // format nip
+        $sheet->getStyle('C')->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+        // $sheet->getStyle('C')->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER);
         
         // Enable worksheet protection
         $sheet->getParent()->getActiveSheet()->getProtection()->setSheet(true);

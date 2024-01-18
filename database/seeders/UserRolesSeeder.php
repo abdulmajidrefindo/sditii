@@ -17,7 +17,7 @@ class UserRolesSeeder extends Seeder
      */
     public function run()
     {
-        for ($h = 1; $h <= 2; $h++) { 
+        for ($h = 1; $h <= 3; $h++) { 
             DB::table('user_roles')->insert([
                 'user_id' => $h,
                 'role_id' => '1'

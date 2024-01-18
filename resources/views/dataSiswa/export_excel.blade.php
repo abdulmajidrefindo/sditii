@@ -6,11 +6,11 @@
         <td></td>
     </tr>
     <tr>
-        <td style="width: 100px;">Tingkat Kelas :</td>
+        <td>Tingkat Kelas :</td>
         <td colspan="3" style="text-align: left;">{{ $tingkat_kelas }}</td>
     </tr>
     <tr>
-        <td style="width: 100px;">Nama Kelas :</td>
+        <td>Nama Kelas :</td>
         <td colspan="3" style="text-align: left;">{{ $nama_sub_kelas }}</td>
     </tr>
     <tr>
@@ -48,8 +48,7 @@
         @foreach ($siswa_d as $siswa)
         @if ($siswa !== null)
         <tr>
-            {{-- <td style="text-align: center;"> {{ $siswa['siswa_id'] }}</td> --}}
-            <td>{{ $siswa['id'] }}</td>
+            <td  style="text-align: center;">{{ $siswa['id'] }}</td>
             <td>{{ $siswa['nama_siswa'] }}</td>
             <td>{{ $siswa['nisn'] }}</td>
             <td>{{ $siswa['orangtua_wali'] }}</td>

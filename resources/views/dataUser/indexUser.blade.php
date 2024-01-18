@@ -198,6 +198,16 @@
   </div>
   {{-- End Import Data --}}
 </div>
+<div class=" d-flex justify-content-center">
+  <div class="alert alert-info alert-dismissible">
+      <div>
+          <h5><i class="icon fas fa-info"></i>
+              Cara impor data dari file excel:
+          </h5>
+          1. Ekspor file excel terbaru terlebih dahulu<br>2. Modifikasi file excel yang sudah diekspor tersebut (hanya modifikasi cell yang tidak dikunci)<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
+      </div>
+  </div>
+</div>
 <div class="modal fade" id="modal_update_user" tabindex="-1" role="dialog" aria-labelledby="updateModal"
 aria-hidden="true">
 <div class="modal-dialog modal-md" role="document">

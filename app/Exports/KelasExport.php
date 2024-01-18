@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\Kelas;
 use App\Models\SubKelas;
 use App\Models\User;
+use App\Models\UserRoles;
 use App\Models\Guru;
 use App\Models\Periode;
 
@@ -54,9 +55,11 @@ class KelasExport implements FromView, WithStyles
             $result['id'] = $item[0]->id;
             $result['nama_sub_kelas'] = $item[0]->nama_sub_kelas;
             $result['tingkat_kelas'] = Kelas::where('id', $item[0]->kelas_id)->value('nama_kelas');
-            $result['guru'] = Guru::where('id', $item[0]->guru_id)->value('nama_guru');
+            $user_id = Guru::where('id', $item[0]->guru_id)->value('user_id');
+            $result['guru'] = User::where('id', $user_id)->value('user_name');
             return $result;
         });
+        // dd($modified_kelas_d);
         
         $this->row_lenght = count($modified_kelas_d) + 51;
         
@@ -128,8 +131,16 @@ class KelasExport implements FromView, WithStyles
         $validationD->setError('Wali Kelas harus dipilih dari guru yang sudah ada. Jika belum ada, silakan buat terlebih dahulu di menu Data Guru!');
         $validationD->setPromptTitle('Wali Kelas');
         $validationD->setPrompt('Pilih dari guru-guru yang ada');
-        $list_guru = Guru::pluck('nama_guru')->toArray();
-        $validationD->setFormula1('"' . implode(',', $list_guru) . '"');
+        $user_id_guru = Guru::pluck('user_id');
+        $panjangArray = count($user_id_guru);
+        // dd($panjangArray, $user_id_guru);
+        $array_guru = [];
+        for ($i = 0; $i < $panjangArray; $i++) {
+            $list_guru = User::where('id',$user_id_guru[$i])->pluck('user_name')->toArray();
+            $array_guru = array_merge($array_guru,$list_guru);
+        }
+        // dd($array_guru);
+        $validationD->setFormula1('"' . implode(',', $array_guru) . '"');
         $sheet->setDataValidation($validationRangeD, $validationD);
         
         //A2-A6 Auto width cell

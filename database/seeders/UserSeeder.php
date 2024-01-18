@@ -17,21 +17,33 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $pm=bcrypt(123456);
         DB::table('user')->insert([
-            'name' => 'Abdul Majid Refindo',
-            'user_name' => 'abdulmajidrefindo',
-            'email' => 'abdulmajirefindo@gmail.com',
-            'password' => bcrypt('12345'),
-            'email_verified_at' => now(),
+            'name' => 'Master',
+            'user_name' => 'master',
+            'email' => 'master@gmail.com',
+            'password' => "$pm",
+            // 'email_verified_at' => now(),
             'remember_token' => Str::random(10),
             'created_at'=>now()
         ]);
+        $p1=bcrypt(111111);
         DB::table('user')->insert([
-            'name' => 'My Admin',
-            'user_name' => 'myadmin',
-            'email' => 'myadmin@gmail.com',
-            'password' => bcrypt('12345'),
-            'email_verified_at' => now(),
+            'name' => 'Admin 1',
+            'user_name' => 'admin1',
+            'email' => 'admin1@gmail.com',
+            'password' => "$p1",
+            // 'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+            'created_at'=>now()
+        ]);
+        $p2=bcrypt(222222);
+        DB::table('user')->insert([
+            'name' => 'Admin 2',
+            'user_name' => 'admin2',
+            'email' => 'admin2@gmail.com',
+            'password' => "$p2",
+            // 'email_verified_at' => now(),
             'remember_token' => Str::random(10),
             'created_at'=>now()
         ]);

@@ -85,6 +85,7 @@ class SiswaExport implements FromView, WithStyles
     //style overflow column
     public function styles(Worksheet $sheet)
     {
+        $sheet->getColumnDimension('A')->setAutoSize(true);
         $sheet->getStyle('A11:D11')->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A11:D11')->getAlignment()->setVertical('center');
         $sheet->getStyle('A11:D11')->getFont()->setBold(true);
@@ -96,6 +97,9 @@ class SiswaExport implements FromView, WithStyles
         //Unprotect nilai cell
         $sheet->getStyle('B12:' . $this->getColumnIndex(4) . $this->row_lenght + 11)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
 
+        // format nisn
+        $sheet->getStyle('C')->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+
         // prompt id column
         $startCellA = 'A12'; // Starting cell for validation
         $endCellA = $this->getColumnIndex(1) . ($this->row_lenght + 8); // Ending cell for validation
@@ -106,9 +110,26 @@ class SiswaExport implements FromView, WithStyles
         $validationA->setPromptTitle('ID Jangan Diubah');
         $validationA->setPrompt('ID akan dibuat otomatis oleh sistem');
         $sheet->setDataValidation($validationRangeA, $validationA);
-
-        //A2-A6 Auto width cell
-        $sheet->getColumnDimension('A')->setAutoSize(true);
+        // // prompt nama
+        // $startCellB = 'B12'; // Starting cell for validation
+        // $endCellC = $this->getColumnIndex(2) . ($this->row_lenght + 8); // Ending cell for validation
+        // $validationRangeB = $startCellB . ':' . $endCellB;
+        // $validationB = $sheet->getCell($startCellB)->getDataValidation();
+        // $validationB->setType(DataValidation::TYPE_WHOLE);
+        // $validationB->setShowInputMessage(true);
+        // $validationB->setPromptTitle('Masukkan Nama Siswa');
+        // $validationB->setPrompt('Nama siswa tidak boleh kosong');
+        // $sheet->setDataValidation($validationRangeB, $validationB); 
+        // // prompt nisn
+        // $startCellC = 'C12'; // Starting cell for validation
+        // $endCellC = $this->getColumnIndex(3) . ($this->row_lenght + 8); // Ending cell for validation
+        // $validationRangeC = $startCellC . ':' . $endCellC;
+        // $validationC = $sheet->getCell($startCellC)->getDataValidation();
+        // $validationC->setType(DataValidation::TYPE_WHOLE);
+        // $validationC->setShowInputMessage(true);
+        // $validationC->setPromptTitle('Masukkan NISN');
+        // $validationC->setPrompt('NISN harus unik dan tidak boleh kosong');
+        // $sheet->setDataValidation($validationRangeC, $validationC); 
 
     }
 
