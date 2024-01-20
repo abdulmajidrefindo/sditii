@@ -374,6 +374,8 @@
                 <br />
                 <br />
                 <br />
+                <br />
+                <br />
                 <p></p>
                 <p><strong><u>{{ $data_siswa->sub_kelas->guru->nama_guru }}</u></strong></p>
                 {{-- <p>NIY. {{ $data_siswa->sub_kelas->guru->nip }}</p> --}}
@@ -384,6 +386,8 @@
                 <p>
                     Orang Tua/Wali<br />
                 </p>
+                <br />
+                <br />
                 <br />
                 <br />
                 <br />

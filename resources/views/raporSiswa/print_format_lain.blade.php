@@ -79,6 +79,11 @@
             <table class="header-khs" width="100%" border="0">
                 <tr>
                     <td align="center" width="100">
+                        <h3>SEKOLAH DASAR ISLAM TERPADU (SDIT)</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" width="100">
                         <h1>{{$profil_sekolah->nama_sekolah}}</h1>
                     </td>
                 </tr>
@@ -335,6 +340,8 @@
                 <br />
                 <br />
                 <br />
+                <br />
+                <br />
                 <p></p>
                 <p><strong><u>{{ $data_siswa->sub_kelas->guru->nama_guru }}</u></strong></p>
                 {{-- <p>NIY. {{ $data_siswa->sub_kelas->guru->nip }}</p> --}}
@@ -345,6 +352,8 @@
                 <p>
                     Orang Tua/Wali<br />
                 </p>
+                <br />
+                <br />
                 <br />
                 <br />
                 <br />
