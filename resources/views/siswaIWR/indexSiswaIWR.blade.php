@@ -16,200 +16,208 @@
 <link rel="stylesheet" href="vendor/adminlte/dist/css/adminlte.min.css">
 {{-- <link rel="stylesheet" href="dist/css/styleIndex.css"> --}}
 
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1 class="m-0">Nilai Ilman Waa Ruuhan</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                {{ Breadcrumbs::render('siswaIlmanWaaRuuhan') }}
-            </ol>
-        </div>
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <h1 class="m-0">Nilai Ilman Waa Ruuhan</h1>
     </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            {{ Breadcrumbs::render('siswaIlmanWaaRuuhan') }}
+        </ol>
+    </div>
+</div>
 @stop
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-secondary card-tabs">
-                    <div class="card-header p-0 pt-0 bg-gradient-green">
-                        <ul class="nav nav-tabs" id="ibadahHarianTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="controller-tab-iwr-table" data-toggle="tab"
-                                href="#content-tab-iwr-table" role="tab" aria-controls="content-tab-iwr-table"
-                                aria-selected="true">Nilai Siswa</a>
-                            </li>
-                            
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="controller-tab-iwr-export-import" data-toggle="tab"
-                                href="#content-tab-iwr-export-import" role="tab"
-                                aria-controls="content-tab-iwr-export-import" aria-selected="false">Ekspor/Impor Nilai</a>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content" id="ibadahHarianTabContent">
-                            <div class="tab-pane active show" id="content-tab-iwr-table" role="tabpanel"
-                            aria-labelledby="controller-tab-iwr-table">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <form action="{{ url('/') }}/iwr" method="post">
-                                            @csrf
-                                            <label for="kelas">Pilih Kelas</label>
-                                            <div class="input-group">
-                                                <select class="custom-select" name="kelas_id" id="kelas_id">
-                                                    <option selected disabled>-Kelas-</option>
-                                                    @foreach ($data_sub_kelas as $k)
-                                                    <option value={{ $k->id }}
-                                                        @if ($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
-                                                        {{ $k->nama_kelas }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <div class="input-group-append">
-                                                        <x-adminlte-button type="submit"
-                                                        class="btn bg-gradient-green d-inline"
-                                                        icon="fas fa fa-fw fa-save" label="Pilih" />
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Nama Siswa</th>
-                                            <th>NISN</th>
-                                            <th>Kelas</th>
-                                            <th>Pencapaian</th>
-                                            <th>Jilid</th>
-                                            <th>Halaman</th>
-                                            <th>Nilai</th>
-                                            <th>Pengajar</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    @foreach ($siswa_i as $s)
-                                    <tr>
-                                        <td>{{ $s->siswa->nama_siswa }}</td>
-                                        <td>{{ $s->siswa->nisn }}</td>
-                                        <td>{{ $s->siswa->sub_kelas->kelas->nama_kelas . ' ' . $s->siswa->sub_kelas->nama_sub_kelas }}
-                                        </td>
-                                        <td>{{ $s->ilman_waa_ruuhan->pencapaian }}</td>
-                                        <td>{{ $s->jilid }}</td>
-                                        <td>{{ $s->halaman }}</td>
-                                        <td>
-                                            @if ($s->penilaian_huruf_angka->nilai_angka !== null)
-                                            {{ $s->penilaian_huruf_angka->nilai_angka }} /
-                                            {{ $s->penilaian_huruf_angka->nilai_huruf }}
-                                            @else
-                                            <span class="badge badge-danger">Kosong</span>
-                                            @endif
-                                        </td>
-                                        <td>{{ $s->ilman_waa_ruuhan->guru->nama_guru }}</td>
-                                        <td>
-                                            <a href="{{ route('siswaIlmanWaaRuuhan.show', $s->id) }}"
-                                                class="btn btn-sm btn-success mx-1 shadow detail"><i
-                                                class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
-                                                <a href="javascript:void(0)" data-toggle="tooltip"
-                                                data-id="{{ $s->id }}" data-original-title="Delete"
-                                                class="btn btn-sm btn-danger mx-1 shadow delete"><i
-                                                class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </table>
-                                </div>
-                                
-                                {{-- Tab export-import content --}}
-                                <div class="tab-pane fade" id="content-tab-iwr-export-import" role="tabpanel"
-                                aria-labelledby="controller-tab-iwr-export-import">
-                                <div class="card-body">
-                                    <div class="row">
-                                        {{-- Export Siswa IWR --}}
-                                        <div class="col-md-6">
-                                            <div class="card">
-                                                <div class="card-header bg-gradient-green">
-                                                    <h3 class="card-title">Ekspor Data Ilman Waa Ruuhan</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <form action="{{ url('/') }}/iwr/export_excel" method="post">
-                                                        @csrf
-                                                        <div class="form-group">
-                                                            <label for="kelas">Pilih Kelas</label>
-                                                            <div class="input-group">
-                                                                <select class="custom-select" name="sub_kelas_id"
-                                                                id="sub_kelas_id">
-                                                                <option selected disabled>-Kelas-</option>
-                                                                @foreach ($data_sub_kelas as $k)
-                                                                <option value={{ $k->id }}>
-                                                                    {{ $k->nama_kelas }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                <div class="input-group-append">
-                                                                    <x-adminlte-button type="submit"
-                                                                    class="btn bg-gradient-green d-inline"
-                                                                    icon="fas fa fa-fw fa-save" label="Ekspor" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-secondary card-tabs">
+                <div class="card-header p-0 pt-0 bg-gradient-green">
+                    <ul class="nav nav-tabs" id="ibadahHarianTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="controller-tab-iwr-table" data-toggle="tab"
+                            href="#content-tab-iwr-table" role="tab" aria-controls="content-tab-iwr-table"
+                            aria-selected="true">Nilai Siswa</a>
+                        </li>
+                        
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="controller-tab-iwr-export-import" data-toggle="tab"
+                            href="#content-tab-iwr-export-import" role="tab"
+                            aria-controls="content-tab-iwr-export-import" aria-selected="false">Ekspor/Impor Nilai</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="ibadahHarianTabContent">
+                        <div class="tab-pane active show" id="content-tab-iwr-table" role="tabpanel"
+                        aria-labelledby="controller-tab-iwr-table">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <form action="{{ url('/') }}/iwr" method="post">
+                                        @csrf
+                                        <label for="kelas">Pilih Kelas</label>
+                                        <div class="input-group">
+                                            <select class="custom-select" name="kelas_id" id="kelas_id">
+                                                <option selected disabled>-Kelas-</option>
+                                                @foreach ($data_sub_kelas as $k)
+                                                <option value={{ $k->id }}
+                                                    @if ($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
+                                                    {{ $k->nama_kelas }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <x-adminlte-button type="submit"
+                                                    class="btn bg-gradient-green d-inline"
+                                                    icon="fas fa fa-fw fa-save" label="Pilih" />
                                                 </div>
                                             </div>
-                                        </div>
-                                        {{-- Export Siswa IWR end --}}
-                                        
-                                        {{-- Import Siswa IWR --}}
-                                        <div class="col-md-6">
-                                            <div class="card">
-                                                <div class="card-header bg-gradient-green">
-                                                    <h3 class="card-title">Impor Data Ilman Waa Ruuhan</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <form action="{{ url('/') }}/iwr/import_excel"
-                                                    method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                    
-                                                    <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
-                                                    placeholder="Pilih file..." label="Pilih File Excel"
-                                                    fgroup-class="col-md-12">
-                                                    <x-slot name="appendSlot">
-                                                        <x-adminlte-button label="Impor" type="submit"
-                                                        class="btn bg-gradient-green" />
-                                                    </x-slot>
-                                                    <x-slot name="prependSlot">
-                                                        <div class="input-group-text bg-gradient-green">
-                                                            <i class="fas fa-upload"></i>
-                                                        </div>
-                                                    </x-slot>
-                                                </x-adminlte-input-file>
-                                            </form>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
-                                {{-- Import Siswa IWR --}}
                             </div>
-                        </div>
-                        <div class=" d-flex justify-content-center">
-                            <div class="alert alert-info alert-dismissible">
-                                <div>
-                                    <h5><i class="icon fas fa-info"></i>
-                                        Cara impor data nilai dari file excel:
-                                    </h5>
-                                    1. Ekspor data nilai terbaru terlebih dahulu<br>2. Modifikasi file excel yang diekspor tersebut (hanya modifikasi nilai)<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Siswa</th>
+                                        <th>NISN</th>
+                                        <th>Kelas</th>
+                                        <th>Pencapaian</th>
+                                        <th>Jilid</th>
+                                        <th>Halaman</th>
+                                        <th>Nilai</th>
+                                        <th>Pengajar</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                @foreach ($siswa_i as $s)
+                                <tr>
+                                    <td>{{ $s->siswa->nama_siswa }}</td>
+                                    <td>{{ $s->siswa->nisn }}</td>
+                                    <td>{{ $s->siswa->sub_kelas->kelas->nama_kelas . ' ' . $s->siswa->sub_kelas->nama_sub_kelas }}
+                                    </td>
+                                    <td>{{ $s->ilman_waa_ruuhan->pencapaian }}</td>
+                                    @if ($s->jilid == 101)
+                                        <td>0</td>
+                                    @else
+                                        <td>{{ $s->jilid }}</td>
+                                    @endif
+                                    @if ($s->halaman == 101)
+                                        <td>0</td>
+                                    @else
+                                        <td>{{ $s->halaman }}</td>
+                                    @endif
+                                    <td>
+                                        @if ($s->penilaian_huruf_angka->nilai_angka !== null)
+                                        {{ $s->penilaian_huruf_angka->nilai_angka }} /
+                                        {{ $s->penilaian_huruf_angka->nilai_huruf }}
+                                        @else
+                                        <span class="badge badge-danger">Kosong</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $s->ilman_waa_ruuhan->guru->nama_guru }}</td>
+                                    <td>
+                                        <a href="{{ route('siswaIlmanWaaRuuhan.show', $s->id) }}"
+                                            class="btn btn-sm btn-success mx-1 shadow detail"><i
+                                            class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                                            <a href="javascript:void(0)" data-toggle="tooltip"
+                                            data-id="{{ $s->id }}" data-original-title="Delete"
+                                            class="btn btn-sm btn-danger mx-1 shadow delete"><i
+                                            class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                            
+                            {{-- Tab export-import content --}}
+                            <div class="tab-pane fade" id="content-tab-iwr-export-import" role="tabpanel"
+                            aria-labelledby="controller-tab-iwr-export-import">
+                            <div class="card-body">
+                                <div class="row">
+                                    {{-- Export Siswa IWR --}}
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header bg-gradient-green">
+                                                <h3 class="card-title">Ekspor Data Ilman Waa Ruuhan</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="{{ url('/') }}/iwr/export_excel" method="post">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label for="kelas">Pilih Kelas</label>
+                                                        <div class="input-group">
+                                                            <select class="custom-select" name="sub_kelas_id"
+                                                            id="sub_kelas_id">
+                                                            <option selected disabled>-Kelas-</option>
+                                                            @foreach ($data_sub_kelas as $k)
+                                                            <option value={{ $k->id }}>
+                                                                {{ $k->nama_kelas }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <div class="input-group-append">
+                                                                <x-adminlte-button type="submit"
+                                                                class="btn bg-gradient-green d-inline"
+                                                                icon="fas fa fa-fw fa-save" label="Ekspor" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- Export Siswa IWR end --}}
+                                    
+                                    {{-- Import Siswa IWR --}}
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header bg-gradient-green">
+                                                <h3 class="card-title">Impor Data Ilman Waa Ruuhan</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <form action="{{ url('/') }}/iwr/import_excel"
+                                                method="post" enctype="multipart/form-data">
+                                                @csrf
+                                                
+                                                <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
+                                                placeholder="Pilih file..." label="Pilih File Excel"
+                                                fgroup-class="col-md-12">
+                                                <x-slot name="appendSlot">
+                                                    <x-adminlte-button label="Impor" type="submit"
+                                                    class="btn bg-gradient-green" />
+                                                </x-slot>
+                                                <x-slot name="prependSlot">
+                                                    <div class="input-group-text bg-gradient-green">
+                                                        <i class="fas fa-upload"></i>
+                                                    </div>
+                                                </x-slot>
+                                            </x-adminlte-input-file>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                            {{-- Import Siswa IWR --}}
                         </div>
-                        {{-- Tab export-import content end --}}
-                        
                     </div>
+                    <div class=" d-flex justify-content-center">
+                        <div class="alert alert-info alert-dismissible">
+                            <div>
+                                <h5><i class="icon fas fa-info"></i>
+                                    Cara impor data nilai dari file excel:
+                                </h5>
+                                1. Ekspor data nilai terbaru terlebih dahulu<br>2. Modifikasi file excel yang diekspor tersebut (hanya modifikasi nilai)<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Tab export-import content end --}}
+                    
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 @stop
 @section('head_js')

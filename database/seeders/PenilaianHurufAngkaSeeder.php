@@ -165,7 +165,7 @@ class PenilaianHurufAngkaSeeder extends Seeder
         DB::table('penilaian_huruf_angkas')->insert([
             'nilai_angka' => 0,
             'nilai_huruf' => 'E',
-            'keterangan_angka' =>  'Nihil'
+            'keterangan_angka' =>  'Kosong'
         ]);
 
         

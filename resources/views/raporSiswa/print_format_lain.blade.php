@@ -142,8 +142,16 @@
                     @foreach ($data_iwr as $n)
                         <tr>
                             <td>{{ $n->ilman_waa_ruuhan->pencapaian }}</td>
+                            @if ($n->jilid == 101)
+                            <td>0</td>
+                            @else
                             <td>{{ $n->jilid }}</td>
+                            @endif
+                            @if ($n->halaman == 101)
+                            <td>0</td>
+                            @else
                             <td>{{ $n->halaman }}</td>
+                            @endif
                             <td>{{ $n->penilaian_huruf_angka->nilai_angka }} ({{ $n->penilaian_huruf_angka->nilai_huruf }})</td>
                             </td>
                         </tr>
