@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Rapor {{ $data_siswa->nama_siswa }} {{ $data_siswa->sub_kelas->kelas->nama_kelas . ' ' . $data_siswa->sub_kelas->nama_sub_kelas }}</title>
+    <title>Rapor {{ $array_print['data_siswa']['0']['sub_kelas']['kelas']['nama_kelas'] . ' ' . $array_print['data_siswa']['0']['sub_kelas']['nama_sub_kelas']}}</title>
     {{-- asset from resources/css/print.css --}}
     <link href="{{ asset('/css/print.css') }}" rel="stylesheet">
     {{-- Bootstrap grid --}}
@@ -15,13 +15,13 @@
             size: auto;   /* auto is the initial value */
             margin: 0;  /* this affects the margin in the printer settings */
         }
-            </style>
+        #common {
+            page-break-before: always;
+        }
+    </style>
     
 </head>
 @php
-
-
-
 function formatDate($date) {
     $hari = date('l', strtotime($date));
     $tgl = date('d', strtotime($date));
@@ -71,25 +71,25 @@ function formatDate($date) {
     }
     return $nama_hari . ', ' . $tgl . ' ' . $bulan . ' ' . $tahun;
 }
-
 @endphp
 <body>
-    <div id="common">
+    @foreach ($array_print['data_siswa'] as $data)
+    <div id="common" style="margin-top: 7%">
         <div id="page-khs">
             <table class="header-khs" width="100%" border="0">
                 <tr>
                     <td align="center" width="100">
-                        <h3>SEKOLAH DASAR ISLAM TERPADU (SDIT)</h3>
+                        <h3>MADRASAH DINIYAH TAKMILIYAH AWALIYAH (MDTA)</h3>
                     </td>
                 </tr>
                 <tr>
                     <td align="center" width="100">
-                        <h1>{{$profil_sekolah->nama_sekolah}}</h1>
+                        <h1>{{$data['0']['profil_sekolah']['nama_sekolah']}}</h1>
                     </td>
                 </tr>
                 <tr>
                     <td align="center">
-                        <h3 align="center"><span style="font-weight: normal;">{{$profil_sekolah->alamat_sekolah}}</span></h3>
+                        <h3 align="center"><span style="font-weight: normal;">{{$data['0']['profil_sekolah']['alamat_sekolah']}}</span></h3>
                     </td>
                 </table>
                 <hr style="border-width: 2px; border-color: black; font-weight: bold;" />
@@ -99,16 +99,16 @@ function formatDate($date) {
                     <tr>
                         <td width="150">Nama Siswa</td>
                         <td>:</td>
-                        <td width="200">{{ $data_siswa->nama_siswa }}</td>
+                        <td width="200">{{ $data['nama_siswa'] }}</td>
                         <td width="50"></td>
                         <td width="150"> Tahun Ajaran</td>
                         <td>:</td>
-                        <td>{{ $periode->tahun_ajaran }}</td>
+                        <td>{{ $data['0']['periode']['tahun_ajaran'] }}</td>
                     </tr>
                     <tr>
                         <td>Kelas</td>
                         <td>:</td>
-                        <td>{{ $data_siswa->sub_kelas->kelas->nama_kelas . ' ' . $data_siswa->sub_kelas->nama_sub_kelas }}</td>
+                        <td>{{ $data['sub_kelas']['kelas']['nama_kelas'] . ' ' . $data['sub_kelas']['nama_sub_kelas'] }}</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -117,11 +117,11 @@ function formatDate($date) {
                     <tr>
                         <td>Semester</td>
                         <td>:</td>
-                        <td>{{ $periode->semester }} ({{ $periode->semester == 1 ? 'Ganjil' : 'Genap' }})</td>
+                        <td>{{ $data['0']['periode']['semester'] }} ({{ $data['0']['periode']['semester'] == 1 ? 'Ganjil' : 'Genap' }})</td>
                         <td></td>
                         <td>NISN</td>
                         <td>:</td>
-                        <td>{{ $data_siswa->nisn }}</td>
+                        <td>{{ $data['nisn'] }}</td>
                     </tr>
                 </table>
                 
@@ -139,7 +139,7 @@ function formatDate($date) {
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data_iwr as $n)
+                        @foreach ($data['0']['data_iwr'] as $n)
                         <tr>
                             <td>{{ $n->ilman_waa_ruuhan->pencapaian }}</td>
                             @if ($n->jilid == 101)
@@ -156,6 +156,45 @@ function formatDate($date) {
                         </td>
                     </tr>
                     @endforeach
+                </tbody>
+            </table>
+            
+            <br />
+            
+            <table width="100%" class="table-khs">
+                <thead>
+                    <tr>
+                        <tr colspan="9" style="text-align: left; border-top: none;"> <b>B. BIDANG STUDI</b></tr>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">No</th>
+                        <th rowspan="2">Mata Pelajaran</th>
+                        <th colspan="2">Nilai Prestasi</th>
+                    </tr>
+                    <tr>
+                        <th>Angka</th>
+                        <th>Huruf</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data['0']['data_mapel'] as $n)
+                    <tr>
+                        <td class="text-center pr-4">{{ $loop->iteration }}</td>
+                        <td>{{ $n['mapel']['nama_mapel'] }}</td>
+                        <td class="text-center">{{ $n['akhir']['nilai_angka'] }}</td>
+                        <td class="text-center">{{ $n['akhir']['keterangan_angka'] }}</td>
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <th colspan="2">Jumlah</th>
+                        <th class="text-center">{{ $data['0']['jumlah'] }}</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Rata-rata</th>
+                        <th class="text-center">{{ $data['0']['rata_rata'] }}</th>
+                        <th class="text-center"></th>
+                    </tr>
                 </tbody>
             </table>
             
@@ -182,7 +221,7 @@ function formatDate($date) {
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data_t as $n)
+                                @foreach ($data['0']['data_t'] as $n)
                                 <tr>
                                     <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                     <td>{{ $n->tahfidz_1->nama_nilai }}</td>
@@ -210,7 +249,7 @@ function formatDate($date) {
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data_ih as $n)
+                                @foreach ($data['0']['data_ih'] as $n)
                                 <tr>
                                     <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                     <td>{{ $n->ibadah_harian_1->nama_kriteria }}</td>
@@ -239,7 +278,7 @@ function formatDate($date) {
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data_h as $n)
+                            @foreach ($data['0']['data_h'] as $n)
                             <tr>
                                 <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                 <td>{{ $n->hadist_1->nama_nilai }}</td>
@@ -268,7 +307,7 @@ function formatDate($date) {
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data_d as $n)
+                            @foreach ($data['0']['data_d'] as $n)
                             <tr>
                                 <td class="text-center pr-4">{{ $loop->iteration }}</td>
                                 <td>{{ $n->doa_1->nama_nilai }}</td>
@@ -328,11 +367,11 @@ function formatDate($date) {
                     <table class="table-keterangan" width="100%">
                         <tr>
                             <td width="30%" style="vertical-align: top;">Diberikan di</td>
-                            <td width="70%">: {{$data_siswa->rapor_siswa->tempat}}</td>
+                            <td width="70%">: {{$data['rapor_siswa']['tempat']}}</td>
                         </tr>
                         <tr>
                             <td>Tanggal</td>
-                            <td>: {{formatDate($data_siswa->rapor_siswa->tanggal)}}</td>
+                            <td>: {{formatDate($data['rapor_siswa']['tanggal'])}}</td>
                             {{-- <td>: {{formatDate(now('Asia/Jakarta'))}}</td> --}}
                         </tr>
                     </table>
@@ -349,9 +388,8 @@ function formatDate($date) {
         <br />
         <br />
         <br />
-        <br />
         <p></p>
-        <p><strong><u>{{ $data_siswa->sub_kelas->guru->nama_guru }}</u></strong></p>
+        <p><strong><u>{{ $data['0']['data_guru']['0']['nama_guru'] }}</u></strong></p>
         {{-- <p>NIY. {{ $data_siswa->sub_kelas->guru->nip }}</p> --}}
     </div>
     
@@ -364,7 +402,6 @@ function formatDate($date) {
         <br />
         <br />
         <br />
-        <br />
         <p></p>
         <p>----------------------------</p>
         <p> </p>
@@ -373,6 +410,7 @@ function formatDate($date) {
     
 </div>
 </div>
+@endforeach
 </body>
 
 <script>

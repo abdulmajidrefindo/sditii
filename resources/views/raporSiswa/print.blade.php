@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Cetak Kartu Hasil Studi - Portal Akademik</title>
+    <title>Rapor {{ $data_siswa->nama_siswa }} {{ $data_siswa->sub_kelas->kelas->nama_kelas . ' ' . $data_siswa->sub_kelas->nama_sub_kelas }}</title>
     {{-- asset from resources/css/print.css --}}
     <link href="{{ asset('/css/print.css') }}" rel="stylesheet">
     {{-- Bootstrap grid --}}

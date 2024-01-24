@@ -122,6 +122,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/raporSiswa/{id}', [RaporSiswaController::class, 'update'])->middleware('role:Wali Kelas,Administrator')->name('raporSiswa.update');
     //Route::resource('/raporSiswa', RaporSiswaController::class)->middleware('role:Wali Kelas,Administrator');
     Route::get('/raporSiswa/{id}/print', [RaporSiswaController::class, 'print'])->middleware('role:Wali Kelas,Administrator');
+    Route::get('/raporSiswa/{kelas}/printKelas', [RaporSiswaController::class, 'printKelas'])->middleware('role:Wali Kelas,Administrator');
     Route::get('/raporSiswa/{id}/detail', [RaporSiswaController::class, 'detail'])->middleware('role:Wali Kelas,Administrator');
     // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
     

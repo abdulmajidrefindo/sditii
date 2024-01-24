@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\RaporSiswa;
 use App\Http\Requests\StoreRaporSiswaRequest;
 use App\Http\Requests\UpdateRaporSiswaRequest;
-use App\Models\Kelas;
+use App\Models\Guru;
 use App\Models\SubKelas;
 use App\Models\SiswaIbadahHarian;
 use App\Models\SiswaIlmanWaaRuuhan;
@@ -161,8 +161,8 @@ class RaporSiswaController extends Controller
                 {
                     //
                 }
-
-                                public function print($id)
+                
+                public function print($id)
                 {
                     $data_siswa = Siswa::with('sub_kelas','rapor_siswa')->find($id);
                     $data_iwr = SiswaIlmanWaaRuuhan::with('ilman_waa_ruuhan')->where('siswa_id', $id)->get();
@@ -171,7 +171,7 @@ class RaporSiswaController extends Controller
                     $data_h = SiswaHadist::with('hadist_1','penilaian_huruf_angka')->where('siswa_id', $id)->get();
                     $data_d = SiswaDoa::with('doa_1','penilaian_huruf_angka')->where('siswa_id', $id)->get();
                     $data_mapel = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas','akhir')->where('siswa_id', $id)->get();
-
+                    
                     $jumlah_nilai_akhir = 0;
                     $count = 0;
                     if($data_siswa->sub_kelas->kelas_id == 2 || $data_siswa->sub_kelas->kelas_id == 3 || $data_siswa->sub_kelas->kelas_id == 4 || $data_siswa->sub_kelas->kelas_id == 5)
@@ -182,7 +182,7 @@ class RaporSiswaController extends Controller
                         }
                         $rata_rata = round($jumlah_nilai_akhir/$count, 2);
                     }
-
+                    
                     $periode = Periode::where('status', 'aktif')->first();
                     $profil_sekolah = ProfilSekolah::first();
                     
@@ -215,6 +215,91 @@ class RaporSiswaController extends Controller
                             'rata_rata'=>$rata_rata,
                             'jumlah'=>$jumlah_nilai_akhir,
                         ]);
+                    }
+                }
+                public function printKelas($data)
+                {
+                    $array_print = [];
+                    $siswa_kelas = Siswa::with('sub_kelas','rapor_siswa')->where('sub_kelas_id',$data)->get()->toArray();
+                    $array_print['data_siswa'] = $siswa_kelas;
+                    $tingkat_kelas_id = SubKelas::where('id',$data)->value('kelas_id');
+                    // $array_siswa = [];
+                    // $array_iwr = [];
+                    // $array_ih = [];
+                    // $array_t = [];
+                    // $array_h = [];
+                    // $array_d = [];
+                    // $array_mapel = [];
+                    // $array_rata_rata = [];
+                    // $array_jumlah_nilai_akhir = [];
+                    // dd($array_print);
+                    $counter = 0;
+
+                    foreach ($siswa_kelas as $s)
+                    {
+                        
+                        $data_siswa = Siswa::with('sub_kelas','rapor_siswa')->where('sub_kelas_id',$data)->get()->toArray();
+                        $data_iwr = SiswaIlmanWaaRuuhan::with('ilman_waa_ruuhan')->where('siswa_id', $s['id'])->get();
+                        // $array_print['data_iwr'] = $data_iwr;
+                        $data_ih = SiswaIbadahHarian::with('ibadah_harian_1','penilaian_deskripsi')->where('siswa_id', $s['id'])->get();
+                        // $array_print += $data_ih;
+                        $data_t = SiswaTahfidz::with('tahfidz_1','penilaian_huruf_angka')->where('siswa_id', $s['id'])->get();
+                        // array_push($array_t, $data_t);
+                        $data_h = SiswaHadist::with('hadist_1','penilaian_huruf_angka')->where('siswa_id', $s['id'])->get();
+                        // array_push($array_h, $data_h);
+                        $data_d = SiswaDoa::with('doa_1','penilaian_huruf_angka')->where('siswa_id', $s['id'])->get();
+                        // array_push($array_d, $data_d);
+                        $data_mapel = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas','akhir')->where('siswa_id', $s['id'])->get();
+                        // array_push($array_mapel, $data_mapel);
+                        $guru_id = SubKelas::with('guru')->where('id',$s['sub_kelas_id'])->value('guru_id');
+                        $data_guru = Guru::where('id',$guru_id)->get()->toArray();
+                        
+                        $rata_rata = 0;
+                        $jumlah_nilai_akhir = 0;
+                        $count = 0;
+                        if($s['sub_kelas']['kelas_id'] == 2 || $s['sub_kelas']['kelas_id'] == 3 || $s['sub_kelas']['kelas_id'] == 4 || $s['sub_kelas']['kelas_id'] == 5)
+                        {
+                            foreach($data_mapel as $mapel){
+                                $jumlah_nilai_akhir += $mapel->akhir->nilai_angka;
+                                $count++;
+                            }
+                            // array_push($array_jumlah_nilai_akhir, $jumlah_nilai_akhir);
+                            $rata_rata = round($jumlah_nilai_akhir/$count, 2);
+                            // array_push($array_rata_rata, $rata_rata);
+                        }
+                        
+                        $periode = Periode::where('status', 'aktif')->first()->toArray();
+                        $profil_sekolah = ProfilSekolah::first()->toArray();
+                        // dd($data_siswa['attributes']->nama_siswa);
+                        // dd($data_t);
+                        // dd($array_print);
+                        $data_print = [
+                            // 'data_siswa'=>$data_siswa,
+                            'data_guru'=>$data_guru,
+                            'data_iwr'=>$data_iwr,
+                            'data_ih'=>$data_ih,
+                            'data_t'=>$data_t,
+                            'data_h'=>$data_h,
+                            'data_d'=>$data_d,
+                            'data_mapel'=>$data_mapel,
+                            'rata_rata'=>$rata_rata,
+                            'jumlah'=>$jumlah_nilai_akhir,
+                            'periode'=>$periode,
+                            'profil_sekolah'=>$profil_sekolah,
+                        ];
+                        // @php
+                        // $currentIndex = {{ $loop->index }};
+                        // @endphp
+                        array_push($array_print['data_siswa'][$counter], $data_print);
+                        $counter++;
+                    }
+                    // dd($array_print);
+                    // $collection_print = collect($array_print);
+                    // dd($array_print[0]['data_siswa'][0]['nama_siswa']);
+                    if($tingkat_kelas_id == 1 or $tingkat_kelas_id == 6){
+                        return view('/raporSiswa/print_format_lain_kelas', compact('array_print'));
+                    }else {
+                        return view('/raporSiswa/print_kelas', compact('array_print'));
                     }
                 }
                 
