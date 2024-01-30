@@ -70,7 +70,7 @@ function formatDate($date) {
 }
 @endphp
 <body>
-    <div id="common">
+    <div id="common" style="margin-top: 7%">
         <div id="page-khs">
             <table class="header-khs" width="100%" border="0">
                 <tr>

@@ -89,7 +89,7 @@ function formatDate($date) {
                 </tr>
                 <tr>
                     <td align="center">
-                        <h3 align="center"><span style="font-weight: normal;">{{$data['0']['profil_sekolah']['alamat_sekolah']}}</span></h3>
+                        <span align="center"><span style="font-weight: normal;">{{$data['0']['profil_sekolah']['alamat_sekolah']}}</span>
                     </td>
                 </table>
                 <hr style="border-width: 2px; border-color: black; font-weight: bold;" />
@@ -204,43 +204,10 @@ function formatDate($date) {
                 <tr>
                     {{-- Ibadah Harian, tahfidz Left Half --}}
                     <td width="50%" style="vertical-align: top;">
-                        
-                        <table class="table-khs" style="border: none;" width="100%">
-                            <thead>
-                                <tr>
-                                    <tr colspan="4" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">C. TAHFIDZ</span></tr>
-                                </tr>
-                                <tr>
-                                    <th rowspan="2">No</th>
-                                    <th rowspan="2">Surat</th>
-                                    <th colspan="2">Nilai</th>
-                                </tr>
-                                <tr>
-                                    <th>Angka</th>
-                                    <th>Huruf</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data['0']['data_t'] as $n)
-                                <tr>
-                                    <td class="text-center pr-4">{{ $loop->iteration }}</td>
-                                    <td>{{ $n->tahfidz_1->nama_nilai }}</td>
-                                    <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_angka }}</td>
-                                    <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_huruf }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        
-                        <br />
-                    </td>
-                    {{-- Ibadah Hadist, Doa Right Half --}}
-                    <td width="50%" style="vertical-align: top;">
-                        
                         <table class="table-khs" width="100%" style="border: none;">
                             <thead>
                                 <tr>
-                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">B. IBADAH HARIAN</span></tr>
+                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">C. IBADAH HARIAN</span></tr>
                                 </tr>
                                 <tr>
                                     <th>No</th>
@@ -264,7 +231,38 @@ function formatDate($date) {
                         <table class="table-khs" style="border: none;" width="100%">
                             <thead>
                                 <tr>
-                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">D. HADIST</span></tr>
+                                    <tr colspan="4" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">D. TAHFIDZ</span></tr>
+                                </tr>
+                                <tr>
+                                    <th rowspan="2">No</th>
+                                    <th rowspan="2">Surat</th>
+                                    <th colspan="2">Nilai</th>
+                                </tr>
+                                <tr>
+                                    <th>Angka</th>
+                                    <th>Huruf</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data['0']['data_t'] as $n)
+                                <tr>
+                                    <td class="text-center pr-4">{{ $loop->iteration }}</td>
+                                    <td>{{ $n->tahfidz_1->nama_nilai }}</td>
+                                    <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_angka }}</td>
+                                    <td class="text-center">{{ $n->penilaian_huruf_angka->nilai_huruf }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        
+                        
+                    </td>
+                    {{-- Ibadah Hadist, Doa Right Half --}}
+                    <td width="50%" style="vertical-align: top;">
+                        <table class="table-khs" style="border: none;" width="100%">
+                            <thead>
+                                <tr>
+                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">E. HADIST</span></tr>
                                 </th>
                             </tr>
                             <tr>
@@ -294,7 +292,7 @@ function formatDate($date) {
                     <table class="table-khs" style="border: none;" width="100%">
                         <thead>
                             <tr>
-                                <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">E. DOA</span></tr>
+                                <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">F. DOA</span></tr>
                             </tr>
                             <tr>
                                 <th rowspan="2">No</th>
