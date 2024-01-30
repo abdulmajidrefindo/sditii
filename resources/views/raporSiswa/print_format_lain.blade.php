@@ -169,7 +169,7 @@ function formatDate($date) {
                         <table class="table-khs" width="100%" style="border: none;">
                             <thead>
                                 <tr>
-                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">C. IBADAH HARIAN</span></tr>
+                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">B. IBADAH HARIAN</span></tr>
                                 </tr>
                                 <tr>
                                     <th>No</th>
@@ -193,7 +193,7 @@ function formatDate($date) {
                         <table class="table-khs" style="border: none;" width="100%">
                             <thead>
                                 <tr>
-                                    <tr colspan="4" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">D. TAHFIDZ</span></tr>
+                                    <tr colspan="4" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">C. TAHFIDZ</span></tr>
                                 </tr>
                                 <tr>
                                     <th rowspan="2">No</th>
@@ -225,7 +225,7 @@ function formatDate($date) {
                         <table class="table-khs" style="border: none;" width="100%">
                             <thead>
                                 <tr>
-                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">E. HADIST</span></tr>
+                                    <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">D. HADIST</span></tr>
                                 </th>
                             </tr>
                             <tr>
@@ -255,7 +255,7 @@ function formatDate($date) {
                     <table class="table-khs" style="border: none;" width="100%">
                         <thead>
                             <tr>
-                                <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">F. DOA</span></tr>
+                                <tr colspan="3" style="text-align: left; border-top: none;"> <span style="font-size: 11px; font-weight: bold;">E. DOA</span></tr>
                             </tr>
                             <tr>
                                 <th rowspan="2">No</th>
