@@ -325,18 +325,18 @@ return [
                         //     //'label'       => 4,
                         //     'label_color' => 'success',
                         // ],
-                        ['header' => 'DATA MASTER'],
-                        // [
-                        //     'text' => 'profile',
-                        //     'url'  => 'admin/settings',
-                        //     'icon' => 'fas fa-fw fa-user',
-                        // ],
-                        // [
-                        //     'text' => 'change_password',
-                        //     'url'  => 'admin/settings',
-                        //     'icon' => 'fas fa-fw fa-lock',
-                        // ],
-                        // [
+                        ['header' => 'DATA SEKOLAH'],
+                            // [
+                            //     'text' => 'profile',
+                            //     'url'  => 'admin/settings',
+                            //     'icon' => 'fas fa-fw fa-user',
+                            // ],
+                            // [
+                            //     'text' => 'change_password',
+                            //     'url'  => 'admin/settings',
+                            //     'icon' => 'fas fa-fw fa-lock',
+                            // ],
+                            // [
                             //     'text' => 'Profil Sekolah',
                             //     'url'  => '/profilSekolah',
                             //     'icon' => 'fas fa-fw fa-briefcase',

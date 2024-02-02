@@ -16,430 +16,433 @@
 <link rel="stylesheet" href="vendor/adminlte/dist/css/adminlte.min.css">
 {{-- <link rel="stylesheet" href="dist/css/styleIndex.css"> --}}
 
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1 class="m-0">Nilai Bidang Studi</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                {{ Breadcrumbs::render('siswaBidangStudi') }}
-            </ol>
-        </div>
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <h1 class="m-0">Nilai Bidang Studi</h1>
     </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            {{ Breadcrumbs::render('siswaBidangStudi') }}
+        </ol>
+    </div>
+</div>
 @stop
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-secondary card-tabs">
-                    <div class="card-header p-0 pt-0 bg-gradient-green">
-                        <ul class="nav nav-tabs" id="bidangStudiTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="controller-tab-bidang-studi-table" data-toggle="tab"
-                                    href="#content-tab-bidang-studi-table" role="tab"
-                                    aria-controls="content-tab-bidang-studi-table" aria-selected="true">Nilai Siswa</a>
-                                </li>
-                                @if (Auth::user()->role->contains('role', 'Administrator'))
-                                                                
-                                <li class="nav-item" role="presentation" hidden>
-                                    <a class="nav-link" id="controller-tambah-bidang-studi-add" data-toggle="tab"
-                                    href="#content-tambah-bidang-studi-add" role="tab"
-                                    aria-controls="content-tambah-bidang-studi-add" aria-selected="false">Tambah Bidang Studi</a>
-                                </li>
-                                <li class="nav-item" role="presentation" hidden>
-                                    <a class="nav-link" id="controller-tab-bidang-studi-add" data-toggle="tab"
-                                    href="#content-tab-bidang-studi-add" role="tab"
-                                    aria-controls="content-tab-bidang-studi-add" aria-selected="false">Ubah Bidang Studi</a>
-                                </li>
-
-                                @endif
-                                
-                                <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="controller-tab-bidang-studi-export-import" data-toggle="tab"
-                                    href="#content-tab-bidang-studi-export-import" role="tab"
-                                    aria-controls="content-tab-bidang-studi-export-import"
-                                    aria-selected="false">Ekspor/Impor Nilai</a>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <div class="tab-content" id="bidangStudiTabContent">
-                                <div class="tab-pane active show" id="content-tab-bidang-studi-table" role="tabpanel"
-                                aria-labelledby="controller-tab-bidang-studi-table">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <form action="{{ url('/') }}/bidangStudi" method="post">
-                                                @csrf
-                                                <label for="kelas">Pilih Kelas</label>
-                                                <select class="custom-select" name="kelas_id" id="kelas_id">
-                                                    <option selected disabled>-Kelas-</option>
-                                                    @foreach ($data_sub_kelas as $k)
-                                                    <option value={{ $k->id }}
-                                                        @if ($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
-                                                        {{ $k->nama_kelas }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    
-                                                    <label for="mapel">Pilih Bidang Studi</label>
-                                                    <div class="input-group">
-                                                        <select class="custom-select" name="mapel_id" id="mapel_id">
-                                                            
-                                                            @if ($kelas_aktif !== null)
-                                                            @foreach ($data_mapel as $m)
-                                                            <option value={{ $m->id }}
-                                                                @if ($siswa_bs[0]->mapel->id == $m->id) selected @endif>
-                                                                {{ $m->nama_mapel }}</option>
-                                                                @endforeach
-                                                                @else
-                                                                <option selected disabled>-Pilih Kelas Terlebih Dulu-</option>
-                                                                @endif
-                                                                
-                                                            </select>
-                                                            <div class="input-group-append">
-                                                                <x-adminlte-button type="submit"
-                                                                class="btn bg-gradient-green d-inline"
-                                                                icon="fas fa fa-fw fa-save" label="Pilih" />
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <table id="example1" class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nama</th>
-                                                        <th>NISN</th>
-                                                        <th>Bidang</th>
-                                                        <th>Ulangan Harian 1</th>
-                                                        <th>Ulangan Harian 2</th>
-                                                        <th>Ulangan Harian 3</th>
-                                                        <th>Ulangan Harian 4</th>
-                                                        <th>Tugas 1</th>
-                                                        <th>Tugas 2</th>
-                                                        <th>UTS</th>
-                                                        <th>PAS</th>
-                                                        {{-- <th>Nilai Akhir</th> --}}
-                                                        <th>Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                @foreach ($siswa_bs as $n)
-                                                <tr>
-                                                    <td>{{ $n->siswa->nama_siswa }}</td>
-                                                    <td>{{ $n->siswa->nisn }}</td>
-                                                    <td>{{ $n->mapel->nama_mapel }}</td>
-                                                    <td>
-                                                        @if ($n->uh_1->nilai_angka == null)
-                                                        <span class="badge badge-danger">Kosong</span>
-                                                        @else
-                                                        {{ $n->uh_1->nilai_angka }}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($n->uh_2->nilai_angka == null)
-                                                        <span class="badge badge-danger">Kosong</span>
-                                                        @else
-                                                        {{ $n->uh_2->nilai_angka }}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($n->uh_3->nilai_angka == null)
-                                                        <span class="badge badge-danger">Kosong</span>
-                                                        @else
-                                                        {{ $n->uh_3->nilai_angka }}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($n->uh_4->nilai_angka == null)
-                                                        <span class="badge badge-danger">Kosong</span>
-                                                        @else
-                                                        {{ $n->uh_4->nilai_angka }}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($n->tugas_1->nilai_angka == null)
-                                                        <span class="badge badge-danger">Kosong</span>
-                                                        @else
-                                                        {{ $n->tugas_1->nilai_angka }}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($n->tugas_2->nilai_angka == null)
-                                                        <span class="badge badge-danger">Kosong</span>
-                                                        @else
-                                                        {{ $n->tugas_2->nilai_angka }}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($n->uts->nilai_angka == null)
-                                                        <span class="badge badge-danger">Kosong</span>
-                                                        @else
-                                                        {{ $n->uts->nilai_angka }}
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if ($n->pas->nilai_angka == null)
-                                                        <span class="badge badge-danger">Kosong</span>
-                                                        @else
-                                                        {{ $n->pas->nilai_angka }}
-                                                        @endif
-                                                    </td>
-                                                    {{-- <td>{{ optional($n->nilai_akhir) }}</td> --}}
-                                                    
-                                                    <td>
-                                                        <a href="{{ route('siswaBidangStudi.show', $n->id) }}"
-                                                            class="btn btn-sm btn-success mx-1 shadow detail"><i
-                                                            class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
-                                                            <a href="javascript:void(0)" data-toggle="tooltip"
-                                                            data-id="{{ $n->id }}" data-original-title="Delete"
-                                                            class="btn btn-sm btn-danger mx-1 shadow delete"><i
-                                                            class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                </table>
-                                            </div>
-                                        </div>
-                                        
-                                        @if (Auth::user()->role->contains('role', 'Administrator'))
-                                        {{-- Tab add content --}}
-                                        <div class="tab-pane fade" id="content-tab-bidang-studi-add" role="tabpanel"
-                                        aria-labelledby="controller-tab-bidang-studi-add">
-                                        <div class="card-body">
-                                            <form id="form_daftar_bidang_studi">
-                                                @csrf
-                                                <div class="row">
-                                                    
-                                                    <div class="col-md-6">
-                                                        
-                                                        <div class="bs-stepper-content">
-                                                            {{-- Input Kelas --}}
-                                                            <div class="form-group">
-                                                                <label for="kelas">Pilih Kelas</label>
-                                                                <select class="custom-select" name="kelas_bidang_studi"
-                                                                id="kelas_bidang_studi">
-                                                                <option selected>-Kelas-</option>
-                                                                @foreach ($data_kelas as $k)
-                                                                <option value={{ $k->id }}>{{ $k->nama_kelas }}
-                                                                </option>
-                                                                @endforeach
-                                                            </select>
-                                                            @error('kelas_bidang_studi')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
-                                                            @enderror
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-6">
-                                                    <div class="bs-stepper-content">
-                                                        {{-- Input Nilai --}}
-                                                        <label for="kelas">Daftar Bidang Studi</label>
-                                                        <div id="daftar_bidang_studi">
-                                                            {{-- Akan ditambahkan melalui ajax --}}
-                                                        </div>
-                                                        
-                                                        <div id="tambah_bidang_studi_button">
-                                                            {{-- <x-adminlte-button type="button" id="tambah_bidang_studi" class="btn-outline-secondary col-12 tambah_bidang_studi" icon="fas fa fa-fw fa-plus" label="Tambah Doa"/> --}}
-                                                            <x-adminlte-button type="submit"
-                                                            class="btn bg-gradient-green col-12 simpan"
-                                                            icon="fas fa fa-fw fa-save" label="Simpan Data" />
-                                                            <br>
-                                                        </div>
-                                                        {{-- Simpan --}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    
-                                </div>
-                                {{-- Tab add content end --}}
-                                @endif
-                                
-                                @if (Auth::user()->role->contains('role', 'Administrator'))
-                                {{-- Tab add content --}}
-                                <div class="tab-pane fade" id="content-tambah-bidang-studi-add" role="tabpanel"
-                                aria-labelledby="controller-tambah-bidang-studi-add">
-                                <div class="card-body">
-                                    <form id="form_tambah_bidang_studi">
-                                        @csrf
-                                        <div class="row">
-                                            
-                                            <div class="col-md-6">
-                                                
-                                                <div class="bs-stepper-content">
-                                                    {{-- Input Kelas --}}
-                                                    <div class="form-group">
-                                                        <label for="kelas">Pilih Kelas</label>
-                                                        <select class="custom-select" name="kelas_bidang_studi_tambah"
-                                                        id="kelas_bidang_studi_tambah">
-                                                        <option selected disabled>-Kelas-</option>
-                                                        @foreach ($data_kelas as $k)
-                                                        <option value={{ $k->id }}>{{ $k->nama_kelas }}
-                                                        </option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('kelas_bidang_studi_tambah')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-6">
-                                            <div class="bs-stepper-content">
-                                                {{-- Input Nilai --}}
-                                                <div id="form_tambah_bidang_studi_1">
-                                                    <div class="form-group">
-                                                        <label for="tambah_bidang_studi_guru_1">Pilih Guru</label>
-                                                        <select class="custom-select"
-                                                        name="tambah_bidang_studi_guru_1"
-                                                        id="tambah_bidang_studi_guru_1">
-                                                        <option selected disabled>-Guru-</option>
-                                                        @foreach ($data_guru as $g)
-                                                        <option value={{ $g->id }}>
-                                                            {{ $g->nama_guru }}
-                                                        </option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('tambah_bidang_studi_guru_1')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                                
-                                                <div class="form-group">
-                                                    <label for="tambah_bidang_studi_1">Tambah Bidang Studi</label>
-                                                        <input type="text" class="form-control"
-                                                        name="tambah_bidang_studi_1"
-                                                        id="tambah_bidang_studi_1"
-                                                        placeholder="Masukkan Bidang Studi">
-                                                        @error('tambah_bidang_studi_1')
-                                                        <div class="invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                        @enderror
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div id="tambah_bidang_studi_tambah">
-                                                    {{-- Akan ditambahkan melalui ajax --}}
-                                                </div>
-                                                <div id="tambah_bidang_studi_button">
-                                                    <x-adminlte-button type="button" id="kurang_bidang_studi"
-                                                    class="btn bg-red col-12 kurang_bidang_studi"
-                                                    icon="fas fa fa-fw fa-minus" label="Hapus Bidang Studi" />
-                                                    <x-adminlte-button type="button" id="tambah_bidang_studi"
-                                                    class="btn-outline-secondary col-12 tambah_bidang_studi"
-                                                    icon="fas fa fa-fw fa-plus" label="Tambah Bidang Studi" />
-                                                </div>
-                                                {{-- Simpan --}}
-                                            </div>
-                                            <hr>
-                                            <x-adminlte-button type="submit"
-                                            class="btn bg-gradient-green col-12 simpan"
-                                            icon="fas fa fa-fw fa-save" label="Simpan Data" />
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            
-                        </div>
-                        {{-- Tab add content end --}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-secondary card-tabs">
+                <div class="card-header p-0 pt-0 bg-gradient-green">
+                    <ul class="nav nav-tabs" id="bidangStudiTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="controller-tab-bidang-studi-table" data-toggle="tab"
+                            href="#content-tab-bidang-studi-table" role="tab"
+                            aria-controls="content-tab-bidang-studi-table" aria-selected="true">Nilai Siswa</a>
+                        </li>
+                        @if (Auth::user()->role->contains('role', 'Administrator'))
+                        
+                        <li class="nav-item" role="presentation" hidden>
+                            <a class="nav-link" id="controller-tambah-bidang-studi-add" data-toggle="tab"
+                            href="#content-tambah-bidang-studi-add" role="tab"
+                            aria-controls="content-tambah-bidang-studi-add" aria-selected="false">Tambah Bidang Studi</a>
+                        </li>
+                        <li class="nav-item" role="presentation" hidden>
+                            <a class="nav-link" id="controller-tab-bidang-studi-add" data-toggle="tab"
+                            href="#content-tab-bidang-studi-add" role="tab"
+                            aria-controls="content-tab-bidang-studi-add" aria-selected="false">Ubah Bidang Studi</a>
+                        </li>
+                        
                         @endif
                         
-                        {{-- Tab export-import content --}}
-                        <div class="tab-pane fade" id="content-tab-bidang-studi-export-import" role="tabpanel"
-                        aria-labelledby="controller-tab-bidang-studi-export-import">
-                        <div class="card-body">
-                            <div class="row">
-                                {{-- Export Data Bidang Studi --}}
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="card-header bg-gradient-green">
-                                            <h3 class="card-title">Ekspor Data Bidang Studi</h3>
-                                        </div>
-                                        <div class="card-body">
-                                            <form action="{{ url('/') }}/bidangStudi/export_excel"
-                                            method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="kelas">Pilih Kelas</label>
-                                                <div class="input-group">
-                                                    <select class="custom-select" name="sub_kelas_id"
-                                                    id="sub_kelas_id">
-                                                    <option selected disabled>-Kelas-</option>
-                                                    @foreach ($data_sub_kelas as $k)
-                                                    <option value={{ $k->id }}>
-                                                        {{ $k->nama_kelas }}</option>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="controller-tab-bidang-studi-export-import" data-toggle="tab"
+                            href="#content-tab-bidang-studi-export-import" role="tab"
+                            aria-controls="content-tab-bidang-studi-export-import"
+                            aria-selected="false">Ekspor/Impor Nilai</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="bidangStudiTabContent">
+                        <div class="tab-pane active show" id="content-tab-bidang-studi-table" role="tabpanel"
+                        aria-labelledby="controller-tab-bidang-studi-table">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <form action="{{ url('/') }}/bidangStudi" method="post">
+                                        @csrf
+                                        <label for="kelas">Pilih Kelas</label>
+                                        <select class="custom-select" name="kelas_id" id="kelas_id">
+                                            <option selected disabled>-Kelas-</option>
+                                            @foreach ($data_sub_kelas as $k)
+                                            <option value={{ $k->id }}
+                                                @if ($kelas_aktif !== null && $k->id == $kelas_aktif->id) selected @endif>
+                                                {{ $k->nama_kelas }}</option>
+                                                @endforeach
+                                            </select>
+                                            
+                                            <label for="mapel">Pilih Bidang Studi</label>
+                                            <div class="input-group">
+                                                <select class="custom-select" name="mapel_id" id="mapel_id">
+                                                    
+                                                    @if ($kelas_aktif !== null)
+                                                    @foreach ($data_mapel as $m)
+                                                    <option value={{ $m->id }}
+                                                        @if ($siswa_bs[0]->mapel->id == $m->id) selected @endif>
+                                                        {{ $m->nama_mapel }}</option>
                                                         @endforeach
+                                                        @else
+                                                        <option selected disabled>-Pilih Kelas Terlebih Dulu-</option>
+                                                        @endif
+                                                        
                                                     </select>
                                                     <div class="input-group-append">
                                                         <x-adminlte-button type="submit"
                                                         class="btn bg-gradient-green d-inline"
-                                                        icon="fas fa fa-fw fa-save" label="Ekspor" />
+                                                        icon="fas fa fa-fw fa-save" label="Pilih" />
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            {{-- Export Data Bidang Studi --}}
-                            {{-- Import Data Bidang Studi --}}
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-header bg-gradient-green">
-                                        <h3 class="card-title">Impor Data Bidang Studi</h3>
+                        </div>
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>NISN</th>
+                                    <th>Bidang</th>
+                                    <th>Ulangan Harian 1</th>
+                                    <th>Ulangan Harian 2</th>
+                                    <th>Ulangan Harian 3</th>
+                                    <th>Ulangan Harian 4</th>
+                                    <th>Tugas 1</th>
+                                    <th>Tugas 2</th>
+                                    <th>UTS</th>
+                                    <th>PAS</th>
+                                    {{-- <th>Nilai Akhir</th> --}}
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            @foreach ($siswa_bs as $n)
+                            <tr>
+                                <td>{{ $n->siswa->nama_siswa }}</td>
+                                <td>{{ $n->siswa->nisn }}</td>
+                                <td>{{ $n->mapel->nama_mapel }}</td>
+                                <td>
+                                    @if ($n->uh_1->nilai_angka == null)
+                                    <span class="badge badge-danger">Kosong</span>
+                                    @else
+                                    {{ $n->uh_1->nilai_angka }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($n->uh_2->nilai_angka == null)
+                                    <span class="badge badge-danger">Kosong</span>
+                                    @else
+                                    {{ $n->uh_2->nilai_angka }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($n->uh_3->nilai_angka == null)
+                                    <span class="badge badge-danger">Kosong</span>
+                                    @else
+                                    {{ $n->uh_3->nilai_angka }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($n->uh_4->nilai_angka == null)
+                                    <span class="badge badge-danger">Kosong</span>
+                                    @else
+                                    {{ $n->uh_4->nilai_angka }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($n->tugas_1->nilai_angka == null)
+                                    <span class="badge badge-danger">Kosong</span>
+                                    @else
+                                    {{ $n->tugas_1->nilai_angka }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($n->tugas_2->nilai_angka == null)
+                                    <span class="badge badge-danger">Kosong</span>
+                                    @else
+                                    {{ $n->tugas_2->nilai_angka }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($n->uts->nilai_angka == null)
+                                    <span class="badge badge-danger">Kosong</span>
+                                    @else
+                                    {{ $n->uts->nilai_angka }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($n->pas->nilai_angka == null)
+                                    <span class="badge badge-danger">Kosong</span>
+                                    @else
+                                    {{ $n->pas->nilai_angka }}
+                                    @endif
+                                </td>
+                                {{-- <td>{{ optional($n->nilai_akhir) }}</td> --}}
+                                
+                                <td>
+                                    <a href="{{ route('siswaBidangStudi.show', $n->id) }}"
+                                        class="btn btn-sm btn-success mx-1 shadow detail"><i
+                                        class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
+                                        <a href="javascript:void(0)" data-toggle="tooltip"
+                                        data-id="{{ $n->id }}" data-original-title="Delete"
+                                        class="btn btn-sm btn-danger mx-1 shadow delete"><i
+                                        class="fas fa-sm fa-fw fa-trash"></i> Hapus</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                    
+                    @if (Auth::user()->role->contains('role', 'Administrator'))
+                    {{-- Tab add content --}}
+                    <div class="tab-pane fade" id="content-tab-bidang-studi-add" role="tabpanel"
+                    aria-labelledby="controller-tab-bidang-studi-add">
+                    <div class="card-body">
+                        <form id="form_daftar_bidang_studi">
+                            @csrf
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    
+                                    <div class="bs-stepper-content">
+                                        {{-- Input Kelas --}}
+                                        <div class="form-group">
+                                            <label for="kelas">Pilih Kelas</label>
+                                            <select class="custom-select" name="kelas_bidang_studi"
+                                            id="kelas_bidang_studi">
+                                            <option selected>-Kelas-</option>
+                                            @foreach ($data_kelas as $k)
+                                            <option value={{ $k->id }}>{{ $k->nama_kelas }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                        @error('kelas_bidang_studi')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
-                                    <div class="card-body">
-                                        <form action="{{ url('/') }}/bidangStudi/import_excel"
-                                        method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        
-                                        <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
-                                        placeholder="Pilih file..." label="Pilih File Excel"
-                                        fgroup-class="col-md-12">
-                                        <x-slot name="appendSlot">
-                                            <x-adminlte-button label="Impor" type="submit"
-                                            class="btn bg-gradient-green" />
-                                        </x-slot>
-                                        <x-slot name="prependSlot">
-                                            <div class="input-group-text bg-gradient-green">
-                                                <i class="fas fa-upload"></i>
-                                            </div>
-                                        </x-slot>
-                                    </x-adminlte-input-file>
-                                </form>
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="bs-stepper-content">
+                                    {{-- Input Nilai --}}
+                                    <label for="kelas">Daftar Bidang Studi</label>
+                                    <div id="daftar_bidang_studi">
+                                        {{-- Akan ditambahkan melalui ajax --}}
+                                    </div>
+                                    
+                                    <div id="tambah_bidang_studi_button">
+                                        {{-- <x-adminlte-button type="button" id="tambah_bidang_studi" class="btn-outline-secondary col-12 tambah_bidang_studi" icon="fas fa fa-fw fa-plus" label="Tambah Doa"/> --}}
+                                        <x-adminlte-button type="submit"
+                                        class="btn bg-gradient-green col-12 simpan"
+                                        icon="fas fa fa-fw fa-save" label="Simpan Data" />
+                                        <br>
+                                    </div>
+                                    {{-- Simpan --}}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+            {{-- Tab add content end --}}
+            @endif
+            
+            @if (Auth::user()->role->contains('role', 'Administrator'))
+            {{-- Tab add content --}}
+            <div class="tab-pane fade" id="content-tambah-bidang-studi-add" role="tabpanel"
+            aria-labelledby="controller-tambah-bidang-studi-add">
+            <div class="card-body">
+                <form id="form_tambah_bidang_studi">
+                    @csrf
+                    <div class="row">
+                        
+                        <div class="col-md-6">
+                            
+                            <div class="bs-stepper-content">
+                                {{-- Input Kelas --}}
+                                <div class="form-group">
+                                    <label for="kelas">Pilih Kelas</label>
+                                    <select class="custom-select" name="kelas_bidang_studi_tambah"
+                                    id="kelas_bidang_studi_tambah">
+                                    <option selected disabled>-Kelas-</option>
+                                    @foreach ($data_kelas as $k)
+                                    <option value={{ $k->id }}>{{ $k->nama_kelas }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('kelas_bidang_studi_tambah')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="bs-stepper-content">
+                            {{-- Input Nilai --}}
+                            <div id="form_tambah_bidang_studi_1">
+                                <div class="form-group">
+                                    <label for="tambah_bidang_studi_guru_1">Pilih Guru</label>
+                                    <select class="custom-select"
+                                    name="tambah_bidang_studi_guru_1"
+                                    id="tambah_bidang_studi_guru_1">
+                                    <option selected disabled>-Guru-</option>
+                                    @foreach ($data_guru as $g)
+                                    <option value={{ $g->id }}>
+                                        {{ $g->nama_guru }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('tambah_bidang_studi_guru_1')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="tambah_bidang_studi_1">Tambah Bidang Studi</label>
+                                <input type="text" class="form-control"
+                                name="tambah_bidang_studi_1"
+                                id="tambah_bidang_studi_1"
+                                placeholder="Masukkan Bidang Studi">
+                                @error('tambah_bidang_studi_1')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            
+                        </div>
+                        <div id="tambah_bidang_studi_tambah">
+                            {{-- Akan ditambahkan melalui ajax --}}
+                        </div>
+                        <div id="tambah_bidang_studi_button">
+                            <x-adminlte-button type="button" id="kurang_bidang_studi"
+                            class="btn bg-red col-12 kurang_bidang_studi"
+                            icon="fas fa fa-fw fa-minus" label="Hapus Bidang Studi" />
+                            <x-adminlte-button type="button" id="tambah_bidang_studi"
+                            class="btn-outline-secondary col-12 tambah_bidang_studi"
+                            icon="fas fa fa-fw fa-plus" label="Tambah Bidang Studi" />
+                        </div>
+                        {{-- Simpan --}}
+                    </div>
+                    <hr>
+                    <x-adminlte-button type="submit"
+                    class="btn bg-gradient-green col-12 simpan"
+                    icon="fas fa fa-fw fa-save" label="Simpan Data" />
+                </div>
+            </div>
+        </form>
+    </div>
+    
+</div>
+{{-- Tab add content end --}}
+@endif
+
+{{-- Tab export-import content --}}
+<div class="tab-pane fade" id="content-tab-bidang-studi-export-import" role="tabpanel"
+aria-labelledby="controller-tab-bidang-studi-export-import">
+<div class="card-body">
+    <div class="row">
+        {{-- Export Data Bidang Studi --}}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-gradient-green">
+                    <h3 class="card-title">Ekspor Data Bidang Studi</h3>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url('/') }}/bidangStudi/export_excel"
+                    method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="kelas">Pilih Kelas</label>
+                        <div class="input-group">
+                            <select class="custom-select" name="sub_kelas_id"
+                            id="sub_kelas_id">
+                            <option selected disabled>-Kelas-</option>
+                            @foreach ($data_sub_kelas as $k)
+                            <option value={{ $k->id }}>
+                                {{ $k->nama_kelas }}</option>
+                                @endforeach
+                            </select>
+                            <div class="input-group-append">
+                                <x-adminlte-button type="submit"
+                                class="btn bg-gradient-green d-inline"
+                                icon="fas fa fa-fw fa-save" label="Ekspor" />
                             </div>
                         </div>
                     </div>
-                    {{-- End Import Data Bidang Studi --}}
-                </div>
-            </div>
-            <div class=" d-flex justify-content-center">
-                <div class="alert alert-info alert-dismissible">
-                    <div>
-                        <h5><i class="icon fas fa-info"></i>
-                            Cara impor data nilai dari file excel:
-                        </h5>
-                        1. Ekspor data nilai terbaru terlebih dahulu<br>2. Modifikasi file excel yang diekspor tersebut (hanya modifikasi nilai)<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-        {{-- Tab export-import content end --}}
     </div>
+    {{-- Export Data Bidang Studi --}}
+    {{-- Import Data Bidang Studi --}}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-gradient-green">
+                <h3 class="card-title">Impor Data Bidang Studi</h3>
+            </div>
+            <div class="card-body">
+                <form action="{{ url('/') }}/bidangStudi/import_excel"
+                method="post" enctype="multipart/form-data">
+                @csrf
+                
+                <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
+                placeholder="Pilih file..." label="Pilih File Excel"
+                fgroup-class="col-md-12">
+                <x-slot name="appendSlot">
+                    <x-adminlte-button label="Impor" type="submit"
+                    class="btn bg-gradient-green" />
+                </x-slot>
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-green">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-input-file>
+        </form>
+    </div>
+</div>
+</div>
+{{-- End Import Data Bidang Studi --}}
+</div>
+</div>
+<div class=" d-flex justify-content-center">
+    <div class="alert alert-info alert-dismissible">
+        <div>
+            <h5><i class="icon fas fa-info"></i>
+                Cara impor data nilai dari file excel:
+            </h5>
+            1. Ekspor data nilai terbaru terlebih dahulu<br>2. Modifikasi file excel yang diekspor tersebut (hanya modifikasi nilai)<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
+        </div>
+    </div>
+</div>
+</div>
+{{-- Tab export-import content end --}}
+</div>
 </div>
 </div>
 </div>
@@ -661,11 +664,14 @@
                             "responsive": true,
                             "lengthChange": true,
                             "autoWidth": false,
-                            //"buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
+                            // "buttons": ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'],
                             "paging": true,
                             "searching": true,
                             "ordering": true,
                             "info": true,
+                            // processing: true,
+                            // serverSide: true,
+                            width: '100%',
                         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
                     });
                     // $(function () {

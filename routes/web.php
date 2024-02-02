@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/dataGuru/export_excel', [GuruController::class, 'export_excel'])->name('guru.export_excel');
     Route::post('/dataGuru/import_excel', [GuruController::class, 'import_excel'])->name('guru.import_excel');
     
-    Route::resource('/dataUser', UserController::class)->middleware('role:Wali Kelas,Administrator');
+    Route::resource('/dataUser', UserController::class);
     Route::get('/dataUser/export_excel/{sub_kelas_id}', [UserController::class, 'export_excel'])->name('user.export_excel');
     Route::post('/dataUser/export_excel', [UserController::class, 'export_excel'])->name('user.export_excel');
     Route::post('/dataUser/import_excel', [UserController::class, 'import_excel'])->name('user.import_excel');
@@ -71,7 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/siswa/export_excel', [SiswaController::class, 'export_excel'])->name('siswa.export_excel');
     Route::post('/siswa/import_excel', [SiswaController::class, 'import_excel'])->name('siswa.import_excel');
     
-    Route::get('/profilSekolah', [ProfilSekolahController::class, 'index'])->middleware('role:Administrator');
+    Route::get('/profilSekolah', [ProfilSekolahController::class, 'index']);
     Route::get('/pengumuman', [PengumumanController::class, 'index']);
 
     Route::get('/ibadahHarian', [SiswaIbadahHarianController::class, 'index']);
@@ -116,14 +116,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/bidangStudi/getKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'kelas_mapel']);
     Route::get('/bidangStudi/getSubKelasMapel/{kelas_id}', [SiswaBidangStudiController::class, 'sub_kelas_mapel']);
 
-    Route::get('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator')->name('raporSiswa.index');
-    Route::get('/raporSiswa/{id}', [RaporSiswaController::class, 'show'])->middleware('role:Wali Kelas,Administrator')->name('raporSiswa.show');
-    Route::post('/raporSiswa', [RaporSiswaController::class, 'index'])->middleware('role:Wali Kelas,Administrator');
-    Route::put('/raporSiswa/{id}', [RaporSiswaController::class, 'update'])->middleware('role:Wali Kelas,Administrator')->name('raporSiswa.update');
-    //Route::resource('/raporSiswa', RaporSiswaController::class)->middleware('role:Wali Kelas,Administrator');
-    Route::get('/raporSiswa/{id}/print', [RaporSiswaController::class, 'print'])->middleware('role:Wali Kelas,Administrator');
-    Route::get('/raporSiswa/{kelas}/printKelas', [RaporSiswaController::class, 'printKelas'])->middleware('role:Wali Kelas,Administrator');
-    Route::get('/raporSiswa/{id}/detail', [RaporSiswaController::class, 'detail'])->middleware('role:Wali Kelas,Administrator');
+    Route::get('/raporSiswa', [RaporSiswaController::class, 'index'])->name('raporSiswa.index');
+    Route::get('/raporSiswa/{id}', [RaporSiswaController::class, 'show'])->name('raporSiswa.show');
+    Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
+    Route::put('/raporSiswa/{id}', [RaporSiswaController::class, 'update'])->name('raporSiswa.update');
+    //Route::resource('/raporSiswa', RaporSiswaController::class);
+    Route::get('/raporSiswa/{id}/print', [RaporSiswaController::class, 'print']);
+    Route::get('/raporSiswa/{kelas}/printKelas', [RaporSiswaController::class, 'printKelas']);
+    Route::get('/raporSiswa/{id}/detail', [RaporSiswaController::class, 'detail']);
     // Route::post('/raporSiswa', [RaporSiswaController::class, 'index']);
     
     Route::resource('/profilSekolah', ProfilSekolahController::class);

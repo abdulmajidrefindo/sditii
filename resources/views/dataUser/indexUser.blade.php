@@ -69,7 +69,7 @@
           <tr>
             <th>No</th>
             <th>Nama</th>
-            <th>Username</th>
+            <th>Email</th>
             <th>Peran</th>
             @if (Auth::user()->role->contains('role', 'Administrator'))
             <th>Aksi</th>
@@ -315,8 +315,8 @@ aria-hidden="true">
         name: 'name'
       },
       {
-        data: 'user_name',
-        name: 'user_name'
+        data: 'email',
+        name: 'email'
       },
       {
         data: 'role',

@@ -46,12 +46,12 @@
                             @endif
                         </a>
                     </li>
+                    @if (!Auth::user()->role->contains('role', 'Guru'))
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="controller-tab-print-per-kelas" data-toggle="pill"
                         href="#content-tab-print-per-kelas" role="tab"
                         aria-controls="content-tab-print-per-kelas" aria-selected="false"><i class="fas fa-book mr-1"></i>Print Per Kelas</a>
                     </li>
-                    @if (Auth::user()->role->contains('role', 'Administrator'))
                     <li class="nav-item">
                         <a class="nav-link" id="controller-tab-rapor-atur" data-toggle="pill"
                         href="#content-tab-rapor-atur" role="tab" aria-controls="content-tab-rapor-atur"
@@ -110,90 +110,90 @@
                             </td>
                             <td>{{ $s->sub_kelas->guru->nama_guru }}</td>
                             <td class="text-center">
-                                <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail"
-                                    class="btn btn-sm btn-success mx-1 shadow">Detail</a>
-                                    <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/print"
-                                        class="btn btn-sm btn-success mx-1 shadow">Print</a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </table>
-                        </div>
-                        {{-- Print Per Kelas --}}
-                        <div class="tab-pane fade" id="content-tab-print-per-kelas" role="tabpanel" aria-labelledby="controller-tab-print-per-kelas">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="bs-stepper-content">
-                                        <form action="" id="printForm">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="kelas">Pilih Kelas</label>
-                                                <div class="input-group">
-                                                    <select class="custom-select" name="sub_kelas_id" id="sub_kelas_id">
-                                                        <option selected disabled>-Kelas-</option>
-                                                        @foreach ($data_kelas as $k)
-                                                            <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <div class="input-group-append">
-                                                        <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline" icon="fas fa fa-fw fa-book" label="Print" />
-                                                    </div>
-                                                </div>
+                                <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail" class="btn btn-sm btn-success mx-1 shadow">Detail</a>
+                                @if (!Auth::user()->role->contains('role', 'Guru'))
+                                <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/print" class="btn btn-sm btn-success mx-1 shadow">Print</a>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+                {{-- Print Per Kelas --}}
+                <div class="tab-pane fade" id="content-tab-print-per-kelas" role="tabpanel" aria-labelledby="controller-tab-print-per-kelas">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="bs-stepper-content">
+                                <form action="" id="printForm">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="kelas">Pilih Kelas</label>
+                                        <div class="input-group">
+                                            <select class="custom-select" name="sub_kelas_id" id="sub_kelas_id">
+                                                <option selected disabled>-Kelas-</option>
+                                                @foreach ($data_kelas as $k)
+                                                <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group-append">
+                                                <x-adminlte-button type="submit" class="btn bg-gradient-green d-inline" icon="fas fa fa-fw fa-book" label="Print" />
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- Print Per Kelas --}}
-                        <div class="tab-pane fade" id="content-tab-rapor-atur" role="tabpanel"
-                        aria-labelledby="controller-tab-rapor-atur">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="bs-stepper-content">
-                                    <form id="form_tambah_periode" method="POST" action="{{ url('/') }}/raporSiswa/{{ $rapor_siswa->id }}">
-                                        @method('PUT')
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="tempat">Tempat</label>
-                                            <input type="text" class="form-control @error('tempat') is-invalid @enderror" id="tempat" name="tempat" placeholder="Tempat" value="{{ $rapor_siswa->tempat }}">
-                                            @error('tempat')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label for="tanggal">Tanggal</label>
-                                            <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" placeholder="Tanggal" value="{{ date('Y-m-d', strtotime($rapor_siswa->tanggal)) }}">
-                                            @error('tanggal')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        
-                                        
-                                        
-                                        
-                                        {{-- Simpan --}}
-                                        <x-adminlte-button type="submit"
-                                        class="btn bg-gradient-green col-12 simpan" icon="fas fa fa-fw fa-save"
-                                        label="Simpan Data" />
-                                    </form>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    
                 </div>
-                
-                
-                
+                {{-- Print Per Kelas --}}
+                <div class="tab-pane fade" id="content-tab-rapor-atur" role="tabpanel"
+                aria-labelledby="controller-tab-rapor-atur">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="bs-stepper-content">
+                            <form id="form_tambah_periode" method="POST" action="{{ url('/') }}/raporSiswa/{{ $rapor_siswa->id }}">
+                                @method('PUT')
+                                @csrf
+                                <div class="form-group">
+                                    <label for="tempat">Tempat</label>
+                                    <input type="text" class="form-control @error('tempat') is-invalid @enderror" id="tempat" name="tempat" placeholder="Tempat" value="{{ $rapor_siswa->tempat }}">
+                                    @error('tempat')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="tanggal">Tanggal</label>
+                                    <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" placeholder="Tanggal" value="{{ date('Y-m-d', strtotime($rapor_siswa->tanggal)) }}">
+                                    @error('tanggal')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                
+                                
+                                
+                                
+                                {{-- Simpan --}}
+                                <x-adminlte-button type="submit"
+                                class="btn bg-gradient-green col-12 simpan" icon="fas fa fa-fw fa-save"
+                                label="Simpan Data" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
         </div>
+        
+        
+        
     </div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -271,7 +271,7 @@
         $('#sub_kelas_id').change(function () {
             // Ambil nilai yang dipilih
             var selectedValue = $(this).val();
-
+            
             // Perbarui nilai atribut action pada form
             var formAction = "{{ url('/') }}/raporSiswa/" + selectedValue + "/printKelas";
             $('#printForm').attr('action', formAction);
