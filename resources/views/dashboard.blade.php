@@ -42,9 +42,9 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box">
-                    <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-user-circle"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Jumlah User</span>
+                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-user-circle"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Jumlah User</span>
                                 <span class="info-box-number">{{ $user }}</span>
                             </div>
                             
@@ -150,47 +150,37 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">Nama Sekolah :</label>
+                                                <label class="col-sm-4">Nama Sekolah :</label>
                                                 <div class="col-sm-8">
-                                                    <div class="form-control form-control-border">
-                                                        {{ $profil->nama_sekolah }}
-                                                    </div>
+                                                    {{ $profil->nama_sekolah }}
                                                 </div>
                                             </div>
                                             
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">Alamat Sekolah :</label>
+                                                <label class="col-sm-4">Alamat Sekolah :</label>
                                                 <div class="col-sm-8">
-                                                    <div class="form-control form-control-border">
-                                                        {{ $profil->alamat_sekolah }}
-                                                    </div>
+                                                    {{ $profil->alamat_sekolah }}
                                                 </div>
                                             </div>
                                             
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">Email Sekolah :</label>
+                                                <label class="col-sm-4">Email Sekolah :</label>
                                                 <div class="col-sm-8">
-                                                    <div class="form-control form-control-border">
-                                                        {{ $profil->email_sekolah }}
-                                                    </div>
+                                                    {{ $profil->email_sekolah }}
                                                 </div>
                                             </div>
                                             
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">Kontak Sekolah :</label>
+                                                <label class="col-sm-4">Kontak Sekolah :</label>
                                                 <div class="col-sm-8">
-                                                    <div class="form-control form-control-border">
-                                                        {{ $profil->kontak_sekolah }}
-                                                    </div>
+                                                    {{ $profil->kontak_sekolah }}
                                                 </div>
                                             </div>
                                             
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">Website Sekolah :</label>
+                                                <label class="col-sm-4">Website Sekolah :</label>
                                                 <div class="col-sm-8">
-                                                    <div class="form-control form-control-border">
-                                                        {{ $profil->website_sekolah }}
-                                                    </div>
+                                                    {{ $profil->website_sekolah }}
                                                 </div>
                                             </div>
                                             
