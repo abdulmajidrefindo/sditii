@@ -15,38 +15,8 @@ use App\Models\SubKelas;
 
 class SiswaBidangStudiSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        // for ($siswa_id = 1; $siswa_id <= Siswa::count(); $siswa_id++) { 
-        //     for ($mapel_id = 1; $mapel_id <= Mapel::count(); $mapel_id++)
-        //     {
-        //         DB::table('siswa_bidang_studis')->insert([
-        //             'siswa_id' => $i,
-        //             'mapel_id' => $j,
-        //             'nilai_uh' => mt_rand(1, 101),
-        //             'nilai_uh' => mt_rand(1, 101),
-        //             'nilai_uh' => mt_rand(1, 101),
-        //             'nilai_uh' => mt_rand(1, 101),
-        //             'nilai_tugas_1' => mt_rand(1, 101),
-        //             'nilai_tugas_2' => mt_rand(1, 101),
-        //             'nilai_uts' => mt_rand(1, 101),
-        //             'nilai_pas' => mt_rand(1, 101),
-        //             'profil_sekolah_id' => 1,
-        //             'periode_id' => 1,
-        //             'rapor_siswa_id' => 1
-        //         ]);
-        //     }
-        // 
-
-        // $siswaBidangStudi = Siswa::join('mapels', 'siswas.kelas_id', '=', 'mapels.kelas_id')
-        //                     ->select('siswas.id as siswa_id', 'mapels.id as mapel_id')
-        //                     ->get();
-
         $siswaBidangStudi = Siswa::join('sub_kelas', 'siswas.sub_kelas_id', '=', 'sub_kelas.id')
                             ->join('mapels', 'sub_kelas.kelas_id', '=', 'mapels.kelas_id')
                             ->select('siswas.id as siswa_id', 'mapels.id as mapel_id')

@@ -13,19 +13,8 @@ use App\Models\Guru;
 
 class IWRSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        // DB::table('ilman_waa_ruuhans')->insert([
-        //     'guru_id' => '10',
-        //     'pencapaian' => 'Ilman Waa Ruuhan',
-        //     'kelas_id' => '1',
-        // ]);
-
         $ilman = [
             'Ilman Waa Ruuhan',
         ];

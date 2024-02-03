@@ -13,11 +13,6 @@ use App\Models\Guru;
 
 class Doa1Seeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $Doa = [

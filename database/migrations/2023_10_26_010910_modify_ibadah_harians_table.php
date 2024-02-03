@@ -6,35 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('ibadah_harians_1', function (Blueprint $table) {
             $table->dropColumn('nilai');
             $table->dropForeign(['penilaian_deskripsi_id']);
             $table->dropColumn('penilaian_deskripsi_id');
-            // add kelas_id column
             $table->foreignId('kelas_id')->after('guru_id')->nullable()->references('id')->on('kelas');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('ibadah_harians_1', function (Blueprint $table) {
-            // add nilai column
             $table->integer('nilai')->nullable();
-            // add penilaian_deskripsi_id column
             $table->foreignId('penilaian_deskripsi_id')->after('id')->nullable()->references('id')->on('penilaian_huruf_angkas');
-            // drop kelas_id column
             $table->dropForeign(['kelas_id']);
             $table->dropColumn('kelas_id');
         });

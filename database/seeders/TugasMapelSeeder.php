@@ -10,11 +10,6 @@ use Illuminate\Support\Str;
 
 class TugasMapelSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         DB::table('tugas_mapels')->insert([

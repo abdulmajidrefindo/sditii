@@ -16,11 +16,6 @@ use App\Models\PenilaianHurufAngka;
 
 class SiswaIWRSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         for ($i = 1; $i <= Siswa::count(); $i++)

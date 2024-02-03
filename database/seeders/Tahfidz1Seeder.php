@@ -13,11 +13,6 @@ use App\Models\Guru;
 
 class Tahfidz1Seeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $suratJuz30 = [
@@ -38,8 +33,5 @@ class Tahfidz1Seeder extends Seeder
                 ]);
             }
         }
-
-
-        
     }
 }

@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('siswa_bidang_studis', function (Blueprint $table) {
@@ -19,21 +14,11 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        // unlink the foreign key from siswa_bidang_studi
         Schema::table('siswa_bidang_studis', function (Blueprint $table) {
-            
-            $table->dropForeign(['nilai_akhir']);
-            
+            $table->dropForeign(['nilai_akhir']);            
         });
-
-        // change the column type back to integer
         Schema::table('siswa_bidang_studis', function (Blueprint $table) {
             $table->integer('nilai_akhir')->change();
         });

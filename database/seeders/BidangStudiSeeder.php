@@ -10,11 +10,6 @@ use Illuminate\Support\Str;
 
 class BidangStudiSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         DB::table('bidang_studis')->insert([

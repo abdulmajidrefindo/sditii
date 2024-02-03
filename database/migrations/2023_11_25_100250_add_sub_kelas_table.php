@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create("sub_kelas", function (Blueprint $table) {
@@ -27,21 +22,14 @@ return new class extends Migration
         });
         
         Schema::table('siswas',function(Blueprint $table){
-            //nullable
             $table->foreignId('sub_kelas_id')->nullable()->constrained('sub_kelas')->onDelete('cascade');
             $table->dropForeign(['kelas_id']);
             $table->dropColumn(['kelas_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-
             Schema::table('siswas',function(Blueprint $table){
                 $table->foreignId('kelas_id')->nullable()->constrained('kelas')->onDelete('cascade');
                 $table->dropForeign(['sub_kelas_id']);
@@ -52,8 +40,6 @@ return new class extends Migration
                 $table->foreignId('guru_id')->nullable()->constrained('gurus')->onDelete('cascade');
             });
 
-            Schema::dropIfExists('sub_kelas');
-
-            
+            Schema::dropIfExists('sub_kelas');       
     }
 };

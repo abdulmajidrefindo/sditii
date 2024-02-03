@@ -13,11 +13,6 @@ use App\Models\Guru;
 
 class MapelSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $mapel = ['Hadist',

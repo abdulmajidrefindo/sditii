@@ -13,11 +13,6 @@ use App\Models\Kelas;
 
 class IbadahHarian1Seeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $ibadah = [
