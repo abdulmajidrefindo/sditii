@@ -446,7 +446,7 @@ return [
                             ],
                             
                             [
-                                'text'    => 'Nilai Mata Pelajaran',
+                                'text'    => 'Data Nilai Siswa',
                                 'icon'    => 'fas fa-fw fa-book',
                                 'submenu' => [
                                     [
