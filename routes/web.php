@@ -181,9 +181,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-    Route::get('/register', function () {
-        return view('register');
-    });
+    // Route::get('/register', function () {
+    //     return view('register');
+    // });
 
 });
 
