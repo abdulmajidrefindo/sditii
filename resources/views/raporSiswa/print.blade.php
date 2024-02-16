@@ -350,6 +350,13 @@ function formatDate($date) {
                             <td>: Menjadi Kebiasaan</td>
                         </tr>
                         <tr>
+                            <td>B-</td>
+                            <td>(71-75)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td>C+</td>
                             <td>(66-70)</td>
                             <td></td>
