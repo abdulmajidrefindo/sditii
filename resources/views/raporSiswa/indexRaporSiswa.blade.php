@@ -46,7 +46,7 @@
                             @endif
                         </a>
                     </li>
-                    @if (!Auth::user()->role->contains('role', 'Guru'))
+                    @if (Auth::user()->role->contains('role', 'Adiministrator'||'Wali Kelas'))
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="controller-tab-print-per-kelas" data-toggle="pill"
                         href="#content-tab-print-per-kelas" role="tab"
@@ -118,7 +118,7 @@
                             <td>{{ $s->sub_kelas->guru->nama_guru }}</td>
                             <td class="text-center">
                                 <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail" class="btn btn-sm btn-success mx-1 shadow">Detail</a>
-                                @if (!Auth::user()->role->contains('role', 'Guru'))
+                                @if (Auth::user()->role->contains('role', 'Adiministrator'||'Wali Kelas'))
                                 <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/print" class="btn btn-sm btn-success mx-1 shadow">Print</a>
                                 @endif
                             </td>
