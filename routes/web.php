@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dataKelas/export_excel/{sub_kelas_id}', [KelasController::class, 'export_excel'])->name('kelas.export_excel');
     Route::post('/dataKelas/export_excel', [KelasController::class, 'export_excel'])->name('kelas.export_excel');
     Route::post('/dataKelas/import_excel', [KelasController::class, 'import_excel'])->name('kelas.import_excel');
+    Route::post('/dataKelas/export_catatan', [KelasController::class, 'export_catatan'])->name('kelas.export_catatan');
+    Route::post('/dataKelas/import_catatan', [KelasController::class, 'import_catatan'])->name('kelas.import_catatan');
 
     Route::resource('/dataGuru', GuruController::class);
     Route::get('/dataGuru/export_excel/{sub_kelas_id}', [GuruController::class, 'export_excel'])->name('guru.export_excel');

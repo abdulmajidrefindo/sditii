@@ -56,10 +56,17 @@
                         <a class="nav-link" id="controller-tab-rapor-atur" data-toggle="pill"
                         href="#content-tab-rapor-atur" role="tab" aria-controls="content-tab-rapor-atur"
                         aria-selected="false">
-                        <i class="fas fa-xs fa-pen fa-fw"></i>
+                        <i class="fas fa-m fa-pen fa-fw"></i>
                         Atur Raport</a>
                     </li>
                     @endif
+                    <li class="nav-item">
+                        <a class="nav-link" id="controller-tab-catatan-kelas" data-toggle="pill"
+                        href="#content-tab-catatan-kelas" role="tab" aria-controls="content-tab-catatan-kelas"
+                        aria-selected="false">
+                        <i class="fas fa-m fa-clipboard fa-fw"></i>
+                        Catatan Kelas</a>
+                    </li>
                 </ul>
             </div>
             
@@ -173,10 +180,6 @@
                                     </div>
                                     @enderror
                                 </div>
-                                
-                                
-                                
-                                
                                 {{-- Simpan --}}
                                 <x-adminlte-button type="submit"
                                 class="btn bg-gradient-green col-12 simpan" icon="fas fa fa-fw fa-save"
@@ -186,12 +189,72 @@
                     </div>
                 </div>
             </div>
-            
+            {{-- Tab export-import content --}}
+            <div class="tab-pane fade" id="content-tab-catatan-kelas" role="tabpanel"
+            aria-labelledby="controller-tab-catatan-kelas">
+            <div class="card-body">
+                <div class="row">
+                    {{-- Export Data --}}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-gradient-green">
+                                <h3 class="card-title">Ekspor Catatan Kelas</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ url('/') }}/dataKelas/export_excel"
+                                method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="kelas">Ekspor File Excel</label><br>
+                                    <x-adminlte-button style="width: 100%" type="submit" class="btn bg-gradient-green d-inline" icon="fas fa fa-fw fa-save" label="Ekspor" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {{-- Export Data --}}
+                {{-- Import Data --}}
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-gradient-green">
+                            <h3 class="card-title">Impor Catatan Kelas</h3>
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ url('/') }}/dataKelas/import_excel" method="post"
+                            enctype="multipart/form-data">
+                            @csrf
+                            
+                            <x-adminlte-input-file name="file_nilai_excel" igroup-size="md"
+                            placeholder="Pilih file..." label="Pilih File Excel"
+                            fgroup-class="col-md-12">
+                            <x-slot name="appendSlot">
+                                <x-adminlte-button label="Impor" type="submit"
+                                class="btn bg-gradient-green" />
+                            </x-slot>
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-green">
+                                    <i class="fas fa-upload"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input-file>
+                    </form>
+                </div>
+            </div>
         </div>
-        
-        
-        
     </div>
+</div>
+<div class=" d-flex justify-content-center">
+    <div class="alert alert-info alert-dismissible">
+        <div>
+            <h5><i class="icon fas fa-info"></i>
+                Cara impor data dari file excel:
+            </h5>
+            1. Ekspor file excel terbaru terlebih dahulu<br>2. Modifikasi file excel yang sudah diekspor tersebut (hanya modifikasi cell yang tidak dikunci)<br>3. Pilih dan impor file excel yang sudah dimodifikasi</div>
+        </div>
+    </div>
+    
+    
+    
 </div>
 </div>
 </div>

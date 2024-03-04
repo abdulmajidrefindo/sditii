@@ -15,17 +15,14 @@ use Yajra\DataTables\Utilities\Request;
 use Illuminate\Validation\Rule;
 
 // excel
-use App\Exports\KelasExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\KelasExport;
 use App\Imports\KelasImport;
+use App\Exports\CatatanExport;
+use App\Imports\CatatanImport;
 
 class KelasController extends Controller
 {
-    /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
     public function index()
     {
         $periode = Periode::where('status','aktif')->first();
@@ -283,13 +280,11 @@ class KelasController extends Controller
         {
             $kode = "FileDataKelas";
             $file_identifier = encrypt($kode);
-            
             $periode = Periode::where('status','aktif')->first();
             $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
             $tahun_ajaran = $periode->tahun_ajaran;
             $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
             $nama_file = 'Data Kelas Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
-            
             $informasi = [
                 'judul' => 'REKAP DATA KELAS SDIT IRSYADUL \'IBAD 2',
                 'tahun_ajaran' => $tahun_ajaran,
@@ -297,7 +292,6 @@ class KelasController extends Controller
                 'tanggal' => date('d-m-Y'),
                 'file_identifier' => $file_identifier,
             ];
-            
             return Excel::download(new KelasExport($informasi), $nama_file);
         }
         
@@ -308,7 +302,6 @@ class KelasController extends Controller
             $kode = "FileDataKelas";
             $import = new KelasImport($kode);
             Excel::import($import, $file);
-            
             if ($import->hasError()) {
                 $errors = $import->getMessages();
                 return redirect()->back()->with('upload_error', $errors);
@@ -316,7 +309,41 @@ class KelasController extends Controller
                 $message = $import->getMessages();
                 return redirect()->back()->with('upload_success', $message);
             }
-            
+        }
+
+        public function export_catatan(Request $request)
+        {
+            $kode = "FileDataCatatan";
+            $file_identifier = encrypt($kode);
+            $periode = Periode::where('status','aktif')->first();
+            $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
+            $tahun_ajaran = $periode->tahun_ajaran;
+            $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
+            $nama_file = 'Data Kelas Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
+            $informasi = [
+                'judul' => 'CATATAN KELAS SDIT IRSYADUL \'IBAD 2',
+                'tahun_ajaran' => $tahun_ajaran,
+                'semester' => $semester,
+                'tanggal' => date('d-m-Y'),
+                'file_identifier' => $file_identifier,
+            ];
+            return Excel::download(new CatatanExport($informasi), $nama_file);
+        }
+        
+        public function import_catatan(Request $request)
+        {
+            $file = $request->file('file_nilai_excel');
+            $file_name = $file->getClientOriginalName();
+            $kode = "FileDataCatatan";
+            $import = new CatatanImport($kode);
+            Excel::import($import, $file);
+            if ($import->hasError()) {
+                $errors = $import->getMessages();
+                return redirect()->back()->with('upload_error', $errors);
+            } else {
+                $message = $import->getMessages();
+                return redirect()->back()->with('upload_success', $message);
+            }
         }
     }
     
