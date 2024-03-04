@@ -130,7 +130,7 @@
                     <div class="card card-default">
                         <div class="card-header bg-gradient-green">
                             <h3 class="card-title">
-                                <i class="fas fa-building"></i>
+                                <i class="fas fa-school"></i>
                                 Profil Sekolah
                             </h3>
                         </div>

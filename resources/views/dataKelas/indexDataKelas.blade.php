@@ -37,21 +37,21 @@
                 <a class="nav-link active" id="controller-tab-kelas-table" data-toggle="pill"
                 href="#content-tab-kelas-table" role="tab" aria-controls="content-tab-kelas-table"
                 aria-selected="true">
-                <i class="fas fa-xs fa-table fa-fw"></i>
+                <i class="fas fa-m fa-table fa-fw"></i>
                 Daftar Kelas</a>
             </li>
             @if (Auth::user()->role->contains('role', 'Administrator'))
             <li class="nav-item">
                 <a class="nav-link" id="controller-tab-kelas-add" data-toggle="pill" href="#content-tab-kelas-add"
                 role="tab" aria-controls="content-tab-kelas-add" aria-selected="false">
-                <i class="fas fa-xs fa-plus fa-fw"></i>
+                <i class="fas fa-m fa-plus fa-fw"></i>
                 Tambah Kelas</a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="controller-tab-kelas-export-import" data-toggle="tab"
                 href="#content-tab-kelas-export-import" role="tab"
                 aria-controls="content-tab-kelas-export-import"
-                aria-selected="false">Ekspor/Impor Data</a>
+                aria-selected="false"><i class="fas fa-m fa-folder-open fa-fw"></i>Ekspor/Impor Data</a>
             </li>
             @endif
         </ul>

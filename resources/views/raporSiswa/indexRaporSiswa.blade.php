@@ -40,7 +40,7 @@
                             <a class="nav-link active" id="controller-tab-rapor-table" data-toggle="pill"
                             href="#content-tab-rapor-table" role="tab" aria-controls="content-tab-rapor-table"
                             aria-selected="true">
-                            <i class="fas fa-xs fa-table fa-fw"></i>
+                            <i class="fas fa-m fa-file fa-fw"></i>
                             Rapor Siswa @if (isset($kelas_aktif))
                             {{ $kelas_aktif->kelas->nama_kelas . ' ' . $kelas_aktif->nama_sub_kelas }}
                             @endif

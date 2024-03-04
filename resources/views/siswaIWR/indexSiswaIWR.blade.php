@@ -38,13 +38,13 @@
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" id="controller-tab-iwr-table" data-toggle="tab"
                             href="#content-tab-iwr-table" role="tab" aria-controls="content-tab-iwr-table"
-                            aria-selected="true">Nilai Siswa</a>
+                            aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Nilai Siswa</a>
                         </li>
                         
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="controller-tab-iwr-export-import" data-toggle="tab"
                             href="#content-tab-iwr-export-import" role="tab"
-                            aria-controls="content-tab-iwr-export-import" aria-selected="false">Ekspor/Impor Nilai</a>
+                            aria-controls="content-tab-iwr-export-import" aria-selected="false"><i class="fas fa-m fa-folder-open fa-fw"></i>Ekspor/Impor Nilai</a>
                         </li>
                         
                     </ul>

@@ -48,13 +48,13 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-iwr-table" data-toggle="tab"
                                     href="#content-tab-iwr-table" role="tab" aria-controls="content-tab-iwr-table"
-                                    aria-selected="true">Tabel Ilman Waa Ruuhan</a>
+                                    aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Tabel Ilman Waa Ruuhan</a>
                             </li>
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-iwr-add" data-toggle="tab"
                                         href="#content-tambah-iwr-add" role="tab" aria-controls="content-tambah-iwr-add"
-                                        aria-selected="false">Tambah Pencapaian</a>
+                                        aria-selected="false"><i class="fas fa-m fa-plus fa-fw"></i>Tambah Pencapaian</a>
                                 </li>
                             @endif
                         </ul>

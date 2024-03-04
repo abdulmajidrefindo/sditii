@@ -48,13 +48,13 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-ibadah-harian-table" data-toggle="tab"
                                     href="#content-tab-ibadah-harian-table" role="tab" aria-controls="content-tab-ibadah-harian-table"
-                                    aria-selected="true">Tabel Ibadah Harian</a>
+                                    aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Tabel Ibadah Harian</a>
                             </li>
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-ibadah-harian-add" data-toggle="tab"
                                         href="#content-tambah-ibadah-harian-add" role="tab" aria-controls="content-tambah-ibadah-harian-add"
-                                        aria-selected="false">Tambah Kriteria</a>
+                                        aria-selected="false"><i class="fas fa-m fa-plus fa-fw"></i>Tambah Kriteria</a>
                                 </li>
                             @endif
                         </ul>

@@ -48,13 +48,13 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-doa-table" data-toggle="tab"
                                     href="#content-tab-doa-table" role="tab" aria-controls="content-tab-doa-table"
-                                    aria-selected="true">Tabel Doa</a>
+                                    aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Tabel Doa</a>
                             </li>
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-doa-add" data-toggle="tab"
                                         href="#content-tambah-doa-add" role="tab" aria-controls="content-tambah-doa-add"
-                                        aria-selected="false">Tambah Doa</a>
+                                        aria-selected="false"><i class="fas fa-m fa-plus fa-fw"></i>Tambah Doa</a>
                                 </li>
                             @endif
                         </ul>

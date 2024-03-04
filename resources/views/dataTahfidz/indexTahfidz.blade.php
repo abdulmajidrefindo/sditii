@@ -48,13 +48,13 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-tahfidz-table" data-toggle="tab"
                                     href="#content-tab-tahfidz-table" role="tab" aria-controls="content-tab-tahfidz-table"
-                                    aria-selected="true">Tabel Tahfidz</a>
+                                    aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Tabel Tahfidz</a>
                             </li>
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-tahfidz-add" data-toggle="tab"
                                         href="#content-tambah-tahfidz-add" role="tab" aria-controls="content-tambah-tahfidz-add"
-                                        aria-selected="false">Tambah Surat</a>
+                                        aria-selected="false"><i class="fas fa-m fa-plus fa-fw"></i>Tambah Surat</a>
                                 </li>
                             @endif
                         </ul>

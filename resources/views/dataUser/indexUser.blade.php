@@ -36,7 +36,7 @@
     <ul class="nav nav-tabs" id="kategori-tabs" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="controller-tab-user-table" data-toggle="pill" href="#content-tab-user-table" role="tab" aria-controls="content-tab-user-table" aria-selected="true">
-          <i class="fas fa-xs fa-table fa-fw"></i>
+          <i class="fas fa-m fa-table fa-fw"></i>
           Daftar User
         </a>
       </li>
@@ -44,7 +44,7 @@
       @if (Auth::user()->role->contains('role', 'Administrator'))
       <li class="nav-item">
         <a class="nav-link" id="controller-tab-user-add" data-toggle="pill" href="#content-tab-user-add" role="tab" aria-controls="content-tab-user-add" aria-selected="false">
-          <i class="fas fa-xs fa-plus fa-fw"></i>
+          <i class="fas fa-m fa-plus fa-fw"></i>
           Tambah User
         </a>
       </li>
@@ -52,7 +52,7 @@
         <a class="nav-link" id="controller-tab-user-export-import" data-toggle="tab"
         href="#content-tab-user-export-import" role="tab"
         aria-controls="content-tab-user-export-import"
-        aria-selected="false">Ekspor/Impor Data</a>
+        aria-selected="false"><i class="fas fa-m fa-folder-open fa-fw"></i>Ekspor/Impor Data</a>
       </li>
       @endif
     </ul>

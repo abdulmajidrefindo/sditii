@@ -38,7 +38,7 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-ibadah-harian-table" data-toggle="tab"
                                     href="#content-tab-ibadah-harian-table" role="tab"
-                                    aria-controls="content-tab-ibadah-harian-table" aria-selected="true">Nilai Siswa</a>
+                                    aria-controls="content-tab-ibadah-harian-table" aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Nilai Siswa</a>
                                 </li>
                                 @if (Auth::user()->role->contains('role', 'Administrator'))
                                 
@@ -59,7 +59,7 @@
                                     <a class="nav-link" id="controller-tab-ibadah-harian-export-import" data-toggle="tab"
                                     href="#content-tab-ibadah-harian-export-import" role="tab"
                                     aria-controls="content-tab-ibadah-harian-export-import"
-                                    aria-selected="false">Ekspor/Impor Nilai</a>
+                                    aria-selected="false"><i class="fas fa-m fa-folder-open fa-fw"></i>Ekspor/Impor Nilai</a>
                                 </li>
                                 
                             </ul>

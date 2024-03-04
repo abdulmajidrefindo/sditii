@@ -48,13 +48,13 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-bidang-studi-table" data-toggle="tab"
                                     href="#content-tab-bidang-studi-table" role="tab" aria-controls="content-tab-bidang-studi-table"
-                                    aria-selected="true">Tabel Bidang Studi</a>
+                                    aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Tabel Bidang Studi</a>
                             </li>
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tambah-bidang-studi-add" data-toggle="tab"
                                         href="#content-tambah-bidang-studi-add" role="tab" aria-controls="content-tambah-bidang-studi-add"
-                                        aria-selected="false">Tambah Bidang Studi</a>
+                                        aria-selected="false"><i class="fas fa-m fa-plus fa-fw"></i>Tambah Bidang Studi</a>
                                 </li>
                             @endif
                         </ul>

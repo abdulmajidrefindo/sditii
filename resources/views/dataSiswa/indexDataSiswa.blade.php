@@ -39,18 +39,18 @@
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" id="controller-tab-siswa-table" data-toggle="tab"
                             href="#content-tab-siswa-table" role="tab" aria-controls="content-tab-siswa-table"
-                            aria-selected="true">Data Siswa</a>
+                            aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Data Siswa</a>
                         </li>
                         @if (Auth::user()->role->contains('role', 'Administrator'))
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="controller-tab-siswa-add" data-toggle="tab"
                             href="#content-tab-siswa-add" role="tab" aria-controls="content-tab-siswa-add"
-                            aria-selected="false">Tambah Siswa</a>
+                            aria-selected="false"><i class="fas fa-m fa-plus fa-fw"></i>Tambah Siswa</a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="controller-tab-siswa-export-import" data-toggle="tab"
                             href="#content-tab-siswa-export-import" role="tab"
-                            aria-controls="content-tab-siswa-export-import" aria-selected="false">Ekspor/Impor Data</a>
+                            aria-controls="content-tab-siswa-export-import" aria-selected="false"><i class="fas fa-m fa-folder-open fa-fw"></i>Ekspor/Impor Data</a>
                         </li>
                         @endif
                     </ul>

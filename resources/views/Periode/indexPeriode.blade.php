@@ -38,13 +38,13 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-periode-table" data-toggle="tab"
                                     href="#content-tab-periode-table" role="tab"
-                                    aria-controls="content-tab-periode-table" aria-selected="true">Tabel Tahun Pelajaran</a>
+                                    aria-controls="content-tab-periode-table" aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Tabel Tahun Pelajaran</a>
                             </li>
                             @if (Auth::user()->role->contains('role', 'Administrator'))
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tab-periode-add" data-toggle="tab"
                                         href="#content-tab-periode-add" role="tab"
-                                        aria-controls="content-tab-periode-add" aria-selected="false">Tambah periode</a>
+                                        aria-controls="content-tab-periode-add" aria-selected="false"><i class="fas fa-m fa-plus fa-fw"></i>Tambah periode</a>
                                 </li>
                             @endif
                         </ul>

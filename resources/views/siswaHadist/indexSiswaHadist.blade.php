@@ -38,7 +38,7 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="controller-tab-hadist-table" data-toggle="tab"
                                     href="#content-tab-hadist-table" role="tab" aria-controls="content-tab-hadist-table"
-                                    aria-selected="true">Nilai Siswa</a>
+                                    aria-selected="true"><i class="fas fa-m fa-table fa-fw"></i>Nilai Siswa</a>
                                 </li>
                                 @if (Auth::user()->role->contains('role', 'Administrator'))
                                 
@@ -58,7 +58,7 @@
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="controller-tab-hadist-export-import" data-toggle="tab"
                                     href="#content-tab-hadist-export-import" role="tab"
-                                    aria-controls="content-tab-hadist-export-import" aria-selected="false">Ekspor/Impor Nilai</a>
+                                    aria-controls="content-tab-hadist-export-import" aria-selected="false"><i class="fas fa-m fa-folder-open fa-fw"></i>Ekspor/Impor Nilai</a>
                                 </li>
                                 
                             </ul>
