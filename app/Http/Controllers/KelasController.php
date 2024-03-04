@@ -163,10 +163,7 @@ class KelasController extends Controller
         * @param  \App\Models\Kelas  $kelas
         * @return \Illuminate\Http\Response
         */
-        public function edit(Kelas $kelas)
-        {
-            //
-        }
+        
         
         /**
         * Update the specified resource in storage.
@@ -310,7 +307,7 @@ class KelasController extends Controller
                 return redirect()->back()->with('upload_success', $message);
             }
         }
-
+        
         public function export_catatan(Request $request)
         {
             $kode = "FileDataCatatan";

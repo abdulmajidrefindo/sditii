@@ -23,14 +23,15 @@ class DashboardController extends Controller
         $guru = Guru::count();
         $siswa = Siswa::where('periode_id', $periode->id)->count();
         $kelas = SubKelas::where('periode_id', $periode->id)->count();
+        $catatan_kelas = SubKelas::where('periode_id', $periode->id)->get();
         $pengumuman = Pengumuman::all();
         $profil = ProfilSekolah::first();
-
+        
         //Group pengumuman by date sort by date
         $pengumuman = $pengumuman->groupBy(function ($item) {
             return $item->created_at->format('Y-m-d');
         })->sortKeysDesc();
-
+        
         //Separate time from date
         $pengumuman = $pengumuman->map(function ($item) {
             return $item->map(function ($item) {
@@ -39,14 +40,16 @@ class DashboardController extends Controller
             });
         });
         
-        
-
-        $periode = Periode::where('status', 'aktif')->first();
-
-        // return response()->json([
-        //     'pengumuman' => $pengumuman
-        // ]);
-
-        return view('dashboard', compact('user', 'guru', 'siswa', 'kelas', 'periode', 'pengumuman', 'profil'));
+        return view('dashboard',
+        [
+            'user'=>$user,
+            'guru'=>$guru,
+            'siswa'=>$siswa,
+            'kelas'=>$kelas,
+            'catatan_kelas'=>$catatan_kelas,
+            'periode'=>$periode,
+            'pengumuman'=>$pengumuman,
+            'profil'=>$profil,
+        ]);
     }
 }

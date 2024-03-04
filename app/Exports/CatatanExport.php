@@ -73,18 +73,28 @@ class CatatanExport implements FromView, WithStyles
     public function styles(Worksheet $sheet)
     {
         $sheet->getColumnDimension('A')->setAutoSize(true);
-        $sheet->getStyle('A8:B8')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A8:B8')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A8:C8')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A8:C8')->getAlignment()->setVertical('center');
         $sheet->getStyle('B6')->getAlignment()->setWrapText(true);
-        $sheet->getStyle('A8:B8')->getFont()->setBold(true);
+        $sheet->getStyle('A8:C8')->getFont()->setBold(true);
         // Add border to range
-        $sheet->getStyle('A8:' . $this->getColumnIndex(2) . $this->row_lenght + 8)->getBorders()->getAllBorders()->setBorderStyle('thin');
+        $sheet->getStyle('A8:' . $this->getColumnIndex(3) . $this->row_lenght + 8)->getBorders()->getAllBorders()->setBorderStyle('thin');
         
         // Enable worksheet protection
         $sheet->getParent()->getActiveSheet()->getProtection()->setSheet(true);
         //Unprotect nilai cell
-        $sheet->getStyle('B9:' . $this->getColumnIndex(2) . $this->row_lenght + 8)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
+        $sheet->getStyle('C9:' . $this->getColumnIndex(3) . $this->row_lenght + 8)->getProtection()->setLocked(Protection::PROTECTION_UNPROTECTED);
         
+        // prompt id column
+        $startCellA = 'A9'; // Starting cell for validation
+        $endCellA = $this->getColumnIndex(1) . ($this->row_lenght + 8); // Ending cell for validation
+        $validationRangeA = $startCellA . ':' . $endCellA;
+        $validationA = $sheet->getCell($startCellA)->getDataValidation();
+        $validationA->setType(DataValidation::TYPE_WHOLE);
+        $validationA->setShowInputMessage(true);
+        $validationA->setPromptTitle('ID Jangan Diubah');
+        $validationA->setPrompt('ID akan dibuat otomatis oleh sistem');
+        $sheet->setDataValidation($validationRangeA, $validationA);
     }
     
     private function getColumnIndex($index)

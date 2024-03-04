@@ -179,6 +179,39 @@
                     </div>
                 </div>
                 
+                <div class="col-md-12">
+                    <div class="card card-default">
+                        <div class="card-header bg-gradient-green">
+                            <h3 class="card-title">
+                                <i class="fas fa-clipboard"></i>
+                                Catatan Kelas
+                            </h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30%">Kelas</th>
+                                        <th >Catatan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($catatan_kelas as $k)
+                                    <tr>
+                                        <td style="width: 25%">{{ $k->kelas->nama_kelas }} {{ $k->nama_sub_kelas }}</td>
+                                        @if ($k->catatan_sub_kelas == null)
+                                        <td>-- Tidak ada catatan --</td>
+                                        @else
+                                        <td>{{ $k->catatan_sub_kelas }}</td>
+                                        @endif
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
             @stop
             
