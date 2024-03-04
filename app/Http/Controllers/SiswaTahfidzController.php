@@ -22,14 +22,8 @@ use App\Imports\SiswaTahfidzImport;
 
 class SiswaTahfidzController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
-        
         $periode = Periode::where('status','aktif')->first();
         $kelas_id = $request->kelas_id;
         $data_sub_kelas = SubKelas::with('kelas')->where('periode_id', $periode->id)->get();
@@ -79,34 +73,6 @@ class SiswaTahfidzController extends Controller
         return response()->json($data_tahfidz);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreSiswaTahfidzRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreSiswaTahfidzRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\SiswaTahfidz  $siswaTahfidz
-     * @return \Illuminate\Http\Response
-     */
     public function show($siswa_id)
     {
         $siswaTahfidz = SiswaTahfidz::where('siswa_id', $siswa_id)->get();
@@ -116,24 +82,6 @@ class SiswaTahfidzController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\SiswaTahfidz  $siswaTahfidz
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(SiswaTahfidz $siswaTahfidz)
-    {
-    
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateSiswaTahfidzRequest  $request
-     * @param  \App\Models\SiswaTahfidz  $siswaTahfidz
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $siswa_id)
     {
         $messages = [];
@@ -175,12 +123,6 @@ class SiswaTahfidzController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\SiswaTahfidz  $siswaTahfidz
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($siswa_id)
     {
         $siswaTahfidz = SiswaTahfidz::where('siswa_id', $siswa_id)->get();
@@ -188,9 +130,6 @@ class SiswaTahfidzController extends Controller
         $processed = 0;
         foreach ($siswaTahfidz as $item) {
             $processed++;
-            // if ($item->delete()) {
-            //     $berhasil++;
-            // }
 
             $item->penilaian_huruf_angka_id = 101; // 101 = 0
             if ($item->save()) {
@@ -215,7 +154,6 @@ class SiswaTahfidzController extends Controller
         $periode = Periode::where('status','aktif')->first();
         $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
         $tahun_ajaran = $periode->tahun_ajaran;
-        //clean tahun ajaran remove '/'
         $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
         $nama_file = 'Nilai Tahfidz ' . $kelas . ' ' . $nama_sub_kelas . ' Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
 
@@ -250,6 +188,5 @@ class SiswaTahfidzController extends Controller
             $message = $import->getMessages();
             return redirect()->back()->with('upload_success', $message);
         }
-        
     }
 }

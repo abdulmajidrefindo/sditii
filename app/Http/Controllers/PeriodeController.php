@@ -15,39 +15,22 @@ use Illuminate\Validation\Rule;
 
 class PeriodeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $periode = Periode::all();
         return view('/periode/indexPeriode', compact('periode'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('periode.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorePeriodeRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StorePeriodeRequest $request)
     {
-
-        //validate
         $validator = $request->validate([
-            'tahun_ajaran' => [ // Tahun ajaran harus unique berdasarkan semester
+            'tahun_ajaran' => 
+            [
                 'required',
                 'regex:/^\d{4}\/\d{4}$/',
                 Rule::unique('periodes')->where(function ($query) use ($request) {
@@ -76,36 +59,11 @@ class PeriodeController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Periode  $periode
-     * @return \Illuminate\Http\Response
-     */
     public function show(Periode $dataPeriode)
     {
         return view('/periode/showPeriode', compact('dataPeriode'));
-        //return response()->json($dataPeriode);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Periode  $periode
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Periode $periode)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePeriodeRequest  $request
-     * @param  \App\Models\Periode  $periode
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdatePeriodeRequest $request, Periode $dataPeriode)
     {
         $validator = $request->validate([
@@ -117,7 +75,6 @@ class PeriodeController extends Controller
                 })->ignore($dataPeriode->id)
             ],
             'semester' => ['required', 'numeric', 'between:1,2'],
-            //status must aktif or tidak aktif
             'status' => ['required', 'string', 'max:255', 'in:aktif,tidak aktif']
         ],
         [
@@ -134,13 +91,10 @@ class PeriodeController extends Controller
         ]
         );
 
-        //dd($request->all());
-
         $dataPeriode->tahun_ajaran = $request->get('tahun_ajaran');
         $dataPeriode->semester = $request->get('semester');
         $dataPeriode->status = $request->get('status');
         $dataPeriode->save();
-        //set all status to tidak aktif
         if ($dataPeriode->status == 'aktif') {
             $periode = Periode::where('id', '!=', $dataPeriode->id)->update(['status' => 'tidak aktif']);
         }
@@ -153,27 +107,14 @@ class PeriodeController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Periode  $periode
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Periode $periode)
-    {
-        //
-    }
-
     public function getTable(Request $request){
         if ($request->ajax()) {
             $data = Periode::all();
             return DataTables::of($data)
             ->addColumn('action', function ($row) {
                 $btn = '<a href="'. route('dataPeriode.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
-                // $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 return $btn;
             })
-            //modify status column
             ->editColumn('status', function ($row) {
                 if ($row->status == 'aktif') {
                     return '<span class="badge badge-success">Aktif</span>';

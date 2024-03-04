@@ -20,11 +20,6 @@ use App\Imports\SiswaIlmanWaaRuuhanImport;
 
 class SiswaIlmanWaaRuuhanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $periode = Periode::where('status','aktif')->first();
@@ -35,9 +30,6 @@ class SiswaIlmanWaaRuuhanController extends Controller
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
         }
 
-        
-
-        
         $kelas_id = $request->kelas_id;
         if ($kelas_id == null) {
             $kelas_id = 1;
@@ -61,33 +53,6 @@ class SiswaIlmanWaaRuuhanController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreSiswaIlmanWaaRuuhanRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreSiswaIlmanWaaRuuhanRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\SiswaIlmanWaaRuuhan  $siswaIlmanWaaRuuhan
-     * @return \Illuminate\Http\Response
-     */
     public function show(SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
     {
         $siswaIlmanWaaRuuhan = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_huruf_angka')->where('id',$siswaIlmanWaaRuuhan->id)->first();
@@ -99,24 +64,6 @@ class SiswaIlmanWaaRuuhanController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\SiswaIlmanWaaRuuhan  $siswaIlmanWaaRuuhan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateSiswaIlmanWaaRuuhanRequest  $request
-     * @param  \App\Models\SiswaIlmanWaaRuuhan  $siswaIlmanWaaRuuhan
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
     {
         $messages = [];
@@ -136,8 +83,6 @@ class SiswaIlmanWaaRuuhanController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        //where jilid and halaman
-        //$ilman_waa_ruuhan = IlmanWaaRuuhan::where('jilid',$request->ilman_waa_ruuhan_jilid)->where('halaman',$request->ilman_waa_ruuhan_halaman)->first();
         $siswaIlmanWaaRuuhan->jilid = $request->ilman_waa_ruuhan_jilid;
         $siswaIlmanWaaRuuhan->halaman = $request->ilman_waa_ruuhan_halaman;
         $siswaIlmanWaaRuuhan->penilaian_huruf_angka_id = $request->ilman_waa_ruuhan_nilai;
@@ -147,16 +92,8 @@ class SiswaIlmanWaaRuuhanController extends Controller
         } else {
             return response()->json(['error' => 'Data gagal diupdate!']);
         }
-
-        //return response()->json($request->all());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\SiswaIlmanWaaRuuhan  $siswaIlmanWaaRuuhan
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
     {
 
@@ -183,7 +120,6 @@ class SiswaIlmanWaaRuuhanController extends Controller
         $periode = Periode::where('status','aktif')->first();
         $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
         $tahun_ajaran = $periode->tahun_ajaran;
-        //clean tahun ajaran remove '/'
         $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
         $nama_file = 'Nilai Ilman Waa Ruuhan ' . $kelas . ' ' . $nama_sub_kelas . ' Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
 
@@ -218,7 +154,5 @@ class SiswaIlmanWaaRuuhanController extends Controller
             $message = $import->getMessages();
             return redirect()->back()->with('upload_success', $message);
         }
-        
     }
-
 }

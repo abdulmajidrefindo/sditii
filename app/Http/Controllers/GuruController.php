@@ -86,9 +86,7 @@ class GuruController extends Controller
                 'created_at' => now(),
                 'user_id' => $selected_user_id
             ]);
-            // dump($guru);
         }
-        // dd('selesai');
         if ($guru){
             return response()->json(['success' => 'Data berhasil disimpan!']);
         }
@@ -101,14 +99,9 @@ class GuruController extends Controller
     {
         $validator=$request->validate([
             'user'=>'required',
-            // 'nip'=>'unique:gurus,nip',
-            //'kelas'=>'required'
         ],
         [
             'user.required'=>'User harus dipilih',
-            // 'nisn.unique'=>'NIP sudah terdaftar!',
-            // 'nip.required'=>'NIP harus diisi',
-            //'kelas.required'=>'Kelas harus diisi'
         ]);
         
         $selected_user_id = $request->user;
@@ -133,14 +126,10 @@ class GuruController extends Controller
     public function update(Guru $dataGuru, UpdateGuruRequest $request)
     {
         $validator=$request->validate([
-            'nama_guru'=>'required',
-            // 'nip'=>'unique:gurus,nip,'.$dataGuru->id,
-            //'kelas'=>'required'
+            'nama_guru'=>'required'
         ],
         [
-            'nama_guru.required'=>'Nama Guru harus diisi',
-            // 'nip.unique'=>'NIP sudah terdaftar!',
-            //'kelas.required'=>'Kelas harus diisi'
+            'nama_guru.required'=>'Nama Guru harus diisi'
         ]);
         $nip_string = $request->get('nip');
         $dataGuru->nama_guru = $request->get('nama_guru');
@@ -158,7 +147,6 @@ class GuruController extends Controller
     
     public function destroy(Guru $dataGuru)
     {
-        // if guru is wali kelas and others course have guru id, then fail 
         $kelas = SubKelas::all()->where('guru_id',$dataGuru->id)->first();
         $mapel = Mapel::all()->where('guru_id',$dataGuru->id)->first();
         $tahfidz = Tahfidz1::all()->where('guru_id',$dataGuru->id)->first();
@@ -204,12 +192,10 @@ class GuruController extends Controller
             return DataTables::of($guru)
             ->addColumn('action', function ($row) {
                 $btn = '<a href="'. route('dataGuru.show', $row) .'" data-toggle="tooltip"  data-id="' . $row . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
-                // $btn = '<a action="{{ url('/') }}/editGuru" method="post" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="btn btn-sm btn-primary mx-1 shadow edit"><i class="fas fa-sm fa-fw fa-edit"></i> Edit</a>';
                 $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 
                 return $btn;
             })
-            //edit nip column if null
             ->editColumn('nip', function ($row) {
                 if ($row->nip == null) {
                     return '<span class="badge badge-danger">Belum diatur, silahkan perbarui</span>';

@@ -31,11 +31,7 @@ class SiswaBidangStudiController extends Controller
             'data_kelas'=>$data_kelas
         ]);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         
@@ -72,8 +68,6 @@ class SiswaBidangStudiController extends Controller
             'siswa_bs'=>$siswa_bs,
             'data_guru'=>$data_guru,
         ]);
-
-        //return response()->json($siswa_bs);
     }
 
     public function kelas_mapel($kelas_id){
@@ -89,33 +83,6 @@ class SiswaBidangStudiController extends Controller
         return response()->json($mapel);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreSiswaBidangStudiRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreSiswaBidangStudiRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\SiswaMapel  $siswaMapel
-     * @return \Illuminate\Http\Response
-     */
     public function show(SiswaBidangStudi $siswaBidangStudi)
     {
         $siswaBidangStudi = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('id',$siswaBidangStudi->id)->first();
@@ -125,27 +92,8 @@ class SiswaBidangStudiController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\SiswaMapel  $siswaMapel
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(SiswaBidangStudi $siswaBidangStudi)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateSiswaMapelRequest  $request
-     * @param  \App\Models\SiswaMapel  $siswaMapel
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, SiswaBidangStudi $siswaBidangStudi)
     {
-
         $messages = [];
         $validator_rules = [];
         $nilai_fields = [];
@@ -181,18 +129,8 @@ class SiswaBidangStudiController extends Controller
         } else {
             return response()->json(['error' => 'Data gagal diupdate!']);
         }
-
-        //return response()->json($request->all());
-        
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\SiswaMapel  $siswaMapel
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $siswaBidangStudi = SiswaBidangStudi::find($id);
@@ -222,7 +160,6 @@ class SiswaBidangStudiController extends Controller
         $periode = Periode::where('status','aktif')->first();
         $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
         $tahun_ajaran = $periode->tahun_ajaran;
-        //clean tahun ajaran remove '/'
         $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
         $nama_file = 'Nilai Bidang Studi ' . $kelas . ' ' . $nama_sub_kelas . ' Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
 
@@ -257,7 +194,5 @@ class SiswaBidangStudiController extends Controller
             $message = $import->getMessages();
             return redirect()->back()->with('upload_success', $message);
         }
-        
     }
-
 }
