@@ -319,7 +319,7 @@ class KelasController extends Controller
             $semester = $periode->semester  == 1 ? 'Ganjil' : 'Genap';
             $tahun_ajaran = $periode->tahun_ajaran;
             $tahun_ajaran = str_replace('/', '-', $tahun_ajaran);
-            $nama_file = 'Data Kelas Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
+            $nama_file = 'Catatan Kelas Semester ' . $semester . ' ' . $tahun_ajaran . '.xlsx';
             $informasi = [
                 'judul' => 'CATATAN KELAS SDIT IRSYADUL \'IBAD 2',
                 'tahun_ajaran' => $tahun_ajaran,

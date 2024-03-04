@@ -201,7 +201,7 @@
                                 <h3 class="card-title">Ekspor Catatan Kelas</h3>
                             </div>
                             <div class="card-body">
-                                <form action="{{ url('/') }}/dataKelas/export_excel"
+                                <form action="{{ url('/') }}/dataKelas/export_catatan"
                                 method="post">
                                 @csrf
                                 <div class="form-group">
