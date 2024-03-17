@@ -117,9 +117,9 @@
                             </td>
                             <td>{{ $s->sub_kelas->guru->nama_guru }}</td>
                             <td class="text-center">
-                                <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/detail" class="btn btn-sm btn-success mx-1 shadow">Detail</a>
+                                <a href="{{ url('/') }}/raporSiswa/{{ encrypt($s->id) }}/detail" class="btn btn-sm btn-success mx-1 shadow">Detail</a>
                                 @if (Auth::user()->role->contains('role', 'Adiministrator'||'Wali Kelas'))
-                                <a href="{{ url('/') }}/raporSiswa/{{ $s->id }}/print" class="btn btn-sm btn-success mx-1 shadow">Print</a>
+                                <a href="{{ url('/') }}/raporSiswa/{{ encrypt($s->id) }}/print" class="btn btn-sm btn-success mx-1 shadow">Print</a>
                                 @endif
                             </td>
                         </tr>
@@ -139,7 +139,7 @@
                                             <select class="custom-select" name="sub_kelas_id" id="sub_kelas_id">
                                                 <option selected disabled>-Kelas-</option>
                                                 @foreach ($data_kelas as $k)
-                                                <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
+                                                <option value="{{ encrypt($k->id) }}">{{ $k->nama_kelas }}</option>
                                                 @endforeach
                                             </select>
                                             <div class="input-group-append">

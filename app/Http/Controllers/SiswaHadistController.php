@@ -71,8 +71,9 @@ class SiswaHadistController extends Controller
         return response()->json($data_hadist);
     }
     
-    public function show($siswa_id)
+    public function show($data)
     {
+        $siswa_id = decrypt($data);
         $siswaHadist = SiswaHadist::where('siswa_id', $siswa_id)->get();
         return view('/siswaHadist/showSiswaHadist', 
         [

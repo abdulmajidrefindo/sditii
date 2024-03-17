@@ -142,10 +142,10 @@ class KelasController extends Controller
         * @param  \App\Models\Kelas  $kelas
         * @return \Illuminate\Http\Response
         */
-        public function show(SubKelas $kelas)
+        public function show($data)
         {
-            
-            $sub_kelas = SubKelas::with('kelas', 'guru')->where('id', $kelas->id)->first();
+            $catch_id = decrypt($data);
+            $sub_kelas = SubKelas::with('kelas', 'guru')->where('id', $catch_id)->first();
             $data_kelas = Kelas::all()->except(7);
             $guru = Guru::all();
             
@@ -254,7 +254,8 @@ class KelasController extends Controller
                 return DataTables::of($guru)
                 // ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="'. route('dataKelas.show', $row->id) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                    $encodedId = encrypt($row->id);
+                    $btn = '<a href="'. route('dataKelas.show', $encodedId) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                     // $btn = '<a action="{{ url('/') }}/editGuru" method="post" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="btn btn-sm btn-primary mx-1 shadow edit"><i class="fas fa-sm fa-fw fa-edit"></i> Edit</a>';
                     $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                     

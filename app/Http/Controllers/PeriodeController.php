@@ -59,8 +59,11 @@ class PeriodeController extends Controller
         }
     }
 
-    public function show(Periode $dataPeriode)
+    public function show($periode)
     {
+        $catch_id = decrypt($periode);
+        $id = $catch_id;
+        $dataPeriode = Periode::where('id',$id)->first();
         return view('/periode/showPeriode', compact('dataPeriode'));
     }
 
@@ -112,7 +115,8 @@ class PeriodeController extends Controller
             $data = Periode::all();
             return DataTables::of($data)
             ->addColumn('action', function ($row) {
-                $btn = '<a href="'. route('dataPeriode.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $encodedId = encrypt($row->id);
+                $btn = '<a href="'. route('dataPeriode.show', $encodedId) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                 return $btn;
             })
             ->editColumn('status', function ($row) {

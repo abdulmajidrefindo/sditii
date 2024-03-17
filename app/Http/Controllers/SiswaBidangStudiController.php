@@ -83,9 +83,10 @@ class SiswaBidangStudiController extends Controller
         return response()->json($mapel);
     }
 
-    public function show(SiswaBidangStudi $siswaBidangStudi)
+    public function show($data)
     {
-        $siswaBidangStudi = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('id',$siswaBidangStudi->id)->first();
+        $catch_id = decrypt($data);
+        $siswaBidangStudi = SiswaBidangStudi::with('siswa','uh_1','uh_2','uh_3','uh_4','tugas_1','tugas_2','uts','pas')->where('id',$catch_id)->first();
         return view('/siswaBidangStudi/showSiswaBidangStudi', 
         [
             'siswaBidangStudi'=>$siswaBidangStudi

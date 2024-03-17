@@ -53,9 +53,10 @@ class SiswaIlmanWaaRuuhanController extends Controller
         ]);
     }
 
-    public function show(SiswaIlmanWaaRuuhan $siswaIlmanWaaRuuhan)
+    public function show($data)
     {
-        $siswaIlmanWaaRuuhan = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_huruf_angka')->where('id',$siswaIlmanWaaRuuhan->id)->first();
+        $catch_id = decrypt($data);
+        $siswaIlmanWaaRuuhan = SiswaIlmanWaaRuuhan::with('siswa','ilman_waa_ruuhan','penilaian_huruf_angka')->where('id',$catch_id)->first();
         $penilaian_deskripsi = PenilaianDeskripsi::all();
         return view('/siswaIWR/showSiswaIWR', 
         [

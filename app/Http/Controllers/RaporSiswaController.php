@@ -83,9 +83,10 @@ class RaporSiswaController extends Controller
         }
     }
     
-    public function print($id)
+    public function print($data)
     {
-        $data_siswa = Siswa::with('sub_kelas','rapor_siswa')->find($id);
+        $id = decrypt($data);
+        $data_siswa = Siswa::with('sub_kelas','rapor_siswa')->where('id',$id)->first();
         $data_iwr = SiswaIlmanWaaRuuhan::with('ilman_waa_ruuhan')->where('siswa_id', $id)->get();
         $data_ih = SiswaIbadahHarian::with('ibadah_harian_1','penilaian_deskripsi')->where('siswa_id', $id)->get();
         $data_t = SiswaTahfidz::with('tahfidz_1','penilaian_huruf_angka')->where('siswa_id', $id)->get();
@@ -139,8 +140,9 @@ class RaporSiswaController extends Controller
             ]);
         }
     }
-    public function printKelas($data)
+    public function printKelas($id)
     {
+        $data = decrypt($id);
         $array_print = [];
         $siswa_kelas = Siswa::with('sub_kelas','rapor_siswa')->where('sub_kelas_id',$data)->get()->toArray();
         $array_print['data_siswa'] = $siswa_kelas;
@@ -197,9 +199,10 @@ class RaporSiswaController extends Controller
         }
     }
     
-    public function detail($id)
+    public function detail($data)
     {
-        $data_siswa = Siswa::with('sub_kelas')->find($id);
+        $id = decrypt($data);
+        $data_siswa = Siswa::with('sub_kelas')->where('id',$id)->first();
         $data_iwr = SiswaIlmanWaaRuuhan::with('ilman_waa_ruuhan')->where('siswa_id', $id)->get();
         $data_ih = SiswaIbadahHarian::with('ibadah_harian_1','penilaian_deskripsi')->where('siswa_id', $id)->get();
         $data_t = SiswaTahfidz::with('tahfidz_1','penilaian_huruf_angka')->where('siswa_id', $id)->get();

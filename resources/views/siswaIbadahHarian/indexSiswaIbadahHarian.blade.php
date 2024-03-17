@@ -128,7 +128,7 @@
                                                 @endif
                                                 @endforeach
                                                 <td>
-                                                    <a href="{{ route('siswaIbadahHarian.show', $siswa['siswa_id']) }}"
+                                                    <a href="{{ route('siswaIbadahHarian.show', encrypt($siswa['siswa_id'])) }}"
                                                     class="btn btn-sm btn-success mx-1 shadow detail"><i
                                                     class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
                                                     <a href="javascript:void(0)" data-toggle="tooltip"

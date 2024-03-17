@@ -192,7 +192,7 @@
                                 {{-- <td>{{ optional($n->nilai_akhir) }}</td> --}}
                                 
                                 <td>
-                                    <a href="{{ route('siswaBidangStudi.show', $n->id) }}"
+                                    <a href="{{ route('siswaBidangStudi.show', encrypt($n->id)) }}"
                                         class="btn btn-sm btn-success mx-1 shadow detail"><i
                                         class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
                                         <a href="javascript:void(0)" data-toggle="tooltip"

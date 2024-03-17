@@ -47,8 +47,10 @@ class GuruController extends Controller
         return view('dataGuru/indexDataGuru');
     }
     
-    public function show(Guru $dataGuru)
+    public function show($data)
     {
+        $catch_id = decrypt($data);
+        $dataGuru = Guru::where('id',$catch_id)->first();
         $guru_id = $dataGuru->id;
         $kelas = SubKelas::all();
         foreach ($kelas as $k => $v) {
@@ -191,7 +193,8 @@ class GuruController extends Controller
             $guru = Guru::with('sub_kelas')->get();
             return DataTables::of($guru)
             ->addColumn('action', function ($row) {
-                $btn = '<a href="'. route('dataGuru.show', $row) .'" data-toggle="tooltip"  data-id="' . $row . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $encodedId = encrypt($row->id);
+                $btn = '<a href="'. route('dataGuru.show', $encodedId) .'" data-toggle="tooltip"  data-id="' . $row . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                 $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 
                 return $btn;

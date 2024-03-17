@@ -74,8 +74,9 @@ class SiswaDoaController extends Controller
         return response()->json($data_doa);
     }
     
-    public function show($siswa_id)
+    public function show($data)
     {
+        $siswa_id = decrypt($data);
         $siswaDoa = SiswaDoa::where('siswa_id', $siswa_id)->get();
         return view('/siswaDoa/showSiswaDoa', ['siswaDoa' => $siswaDoa]);
     }

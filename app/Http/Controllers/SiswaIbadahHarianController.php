@@ -76,8 +76,9 @@ class SiswaIbadahHarianController extends Controller
         return response()->json($data_ibadah_harian);
     }
 
-    public function show($siswa_id)
+    public function show($data)
     {
+        $siswa_id = decrypt($data);
         $siswaIbadahHarian = SiswaIbadahHarian::where('siswa_id', $siswa_id)->get();
         $penilaian_deskripsi = PenilaianDeskripsi::all();
         return view('/siswaIbadahHarian/showSiswaIbadahHarian', 

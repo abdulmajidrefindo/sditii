@@ -152,10 +152,11 @@ class IlmanWaaRuuhanController extends Controller
      * @param  \App\Models\IlmanWaaRuuhan  $ilmanWaaRuuhan
      * @return \Illuminate\Http\Response
      */
-    public function show(IlmanWaaRuuhan $dataIlmanWaaRuuhan)
+    public function show($data)
     {
+        $catch_id = decrypt($data);
         $data_guru = Guru::all();
-        $data_iwr = IlmanWaaRuuhan::with('kelas','guru')->where('id', $dataIlmanWaaRuuhan->id)->first();
+        $data_iwr = IlmanWaaRuuhan::with('kelas','guru')->where('id', $catch_id)->first();
         return view('dataIlmanWaaRuuhan.showIlmanWaaRuuhan', compact('data_iwr', 'data_guru'));
         //return response()->json($data_iwr);
     }
@@ -230,7 +231,8 @@ class IlmanWaaRuuhanController extends Controller
             
             return DataTables::of($data)
             ->addColumn('action', function ($row) {
-                $btn = '<a href="'. route('dataIlmanWaaRuuhan.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $encodedId = encrypt($row->id);
+                $btn = '<a href="'. route('dataIlmanWaaRuuhan.show', $encodedId) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                 $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 
                 return $btn;

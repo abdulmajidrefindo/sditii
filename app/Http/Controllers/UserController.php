@@ -44,14 +44,15 @@ class UserController extends Controller
         return view('dataUser/indexUser');
     }
     
-    public function show(User $dataUser)
+    public function show($dataUser)
     {
-        $id = $dataUser->id;
+        $catch_id = decrypt($dataUser);
+        $id = $catch_id;
         $role = Roles::where('id', '!=', 2)->get(); // tidak menampilkan role wali kelas, wali kelas diatur di halaman kelas.
         $user = User::with('role')->where('id', $id)->first();
         $userRole = UserRoles::all()->where('user_id', $id);
         
-        $guru = Guru::where('user_id', $dataUser->id)->first();
+        $guru = Guru::where('user_id', $id)->first();
         if ($guru != null){
             $sub_kelas = SubKelas::where('guru_id', $guru->id)->first();
             if ($sub_kelas != null){
@@ -253,7 +254,8 @@ class UserController extends Controller
             $user = User::all();
             return DataTables::of($user)
             ->addColumn('action', function ($row) {
-                $btn = '<a href="'. route('dataUser.show', $row) .'" data-toggle="tooltip"  data-id="' . $row . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $encodedId = encrypt($row->id);
+                $btn = '<a href="'. route('dataUser.show', $encodedId) .'" data-toggle="tooltip"  data-id="' . $row . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                 $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 
                 return $btn;

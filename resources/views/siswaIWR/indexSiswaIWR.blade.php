@@ -119,7 +119,7 @@
                                     </td>
                                     <td>{{ $s->ilman_waa_ruuhan->guru->nama_guru }}</td>
                                     <td>
-                                        <a href="{{ route('siswaIlmanWaaRuuhan.show', $s->id) }}"
+                                        <a href="{{ route('siswaIlmanWaaRuuhan.show', encrypt($s->id)) }}"
                                             class="btn btn-sm btn-success mx-1 shadow detail"><i
                                             class="fas fa-sm fa-fw fa-eye"></i> Detail</a>
                                             <a href="javascript:void(0)" data-toggle="tooltip"

@@ -73,8 +73,9 @@ class SiswaTahfidzController extends Controller
         return response()->json($data_tahfidz);
     }
 
-    public function show($siswa_id)
+    public function show($data)
     {
+        $siswa_id = decrypt($data);
         $siswaTahfidz = SiswaTahfidz::where('siswa_id', $siswa_id)->get();
         return view('/siswaTahfidz/showSiswaTahfidz', 
         [

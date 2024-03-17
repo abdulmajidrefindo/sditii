@@ -158,9 +158,10 @@ class BidangStudiController extends Controller
      * @param  \App\Models\BidangStudi  $bidangStudi
      * @return \Illuminate\Http\Response
      */
-    public function show(Mapel $dataBidangStudi)
+    public function show($data)
     {
-        $data_bidang_studi = Mapel::with('kelas','periode','guru')->where('id', $dataBidangStudi->id)->first();
+        $catch_id = decrypt($data);
+        $data_bidang_studi = Mapel::with('kelas','periode','guru')->where('id', $catch_id)->first();
         $data_kelas = Kelas::all()->except(7);
         $data_guru = Guru::all();
         $data_periode = Periode::all();
@@ -333,7 +334,8 @@ class BidangStudiController extends Controller
             
             return DataTables::of($data)
             ->addColumn('action', function ($row) {
-                $btn = '<a href="'. route('dataBidangStudi.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $encodedId = encrypt($row->id);
+                $btn = '<a href="'. route('dataBidangStudi.show', $encodedId) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                 $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 
                 return $btn;

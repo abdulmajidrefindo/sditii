@@ -305,9 +305,10 @@ class SiswaController extends Controller
         }
     }
     
-    public function show(Siswa $dataSiswa)
+    public function show($data)
     {
-        $siswa = Siswa::find($dataSiswa->id);
+        $catch_id = decrypt($data);
+        $siswa = Siswa::where('id',$catch_id)->first();
         $kelas = SubKelas::with('kelas')->get();
         foreach ($kelas as $key => $value) {
             $value->nama_kelas = $value->kelas->nama_kelas . " " . $value->nama_sub_kelas;
@@ -502,7 +503,8 @@ class SiswaController extends Controller
             }
             return DataTables::of($data)
             ->addColumn('action', function ($row) {
-                $btn = '<a href="'. route('dataSiswa.show', $row) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
+                $encodedId = encrypt($row->id);
+                $btn = '<a href="'. route('dataSiswa.show', $encodedId) .'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Detail" class="btn btn-sm btn-success mx-1 shadow detail"><i class="fas fa-sm fa-fw fa-eye"></i> Detail</a>';
                 $btn .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-sm btn-danger mx-1 shadow delete"><i class="fas fa-sm fa-fw fa-trash"></i> Delete</a>';
                 
                 return $btn;
