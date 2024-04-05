@@ -33,7 +33,6 @@
 @section('content')
 
     <style>
-        /* Style for the disabled form, disable the form when the button is clicked */
         .disabled-form {
             background-color: #e9ecef;
             pointer-events: none;
@@ -189,20 +188,16 @@
                                         
                                         <div class="col-md-6">
                                             <div class="bs-stepper-content">
-                                                {{-- Input Nilai --}}
                                                 <label for="kelas">Daftar Doa</label>
                                                 <div id="daftar_doa">
-                                                    {{-- Akan ditambahkan melalui ajax --}}
                                                 </div>
                                                 
                                                 <div id="tambah_doa_button">
-                                                    {{-- <x-adminlte-button type="button" id="tambah_doa" class="btn-outline-secondary col-12 tambah_doa" icon="fas fa fa-fw fa-plus" label="Tambah Doa"/> --}}
                                                     <x-adminlte-button type="submit"
                                                     class="btn bg-gradient-green col-12 simpan"
                                                     icon="fas fa fa-fw fa-save" label="Simpan Data" />
                                                     <br>
                                                 </div>
-                                                {{-- Simpan --}}
                                             </div>
                                         </div>
                                     </div>
@@ -210,11 +205,9 @@
                             </div>
                             
                         </div>
-                        {{-- Tab add content end --}}
                         @endif
                         
                         @if (Auth::user()->role->contains('role', 'Administrator'))
-                        {{-- Tab add content --}}
                         <div class="tab-pane fade" id="content-tambah-doa-add" role="tabpanel"
                         aria-labelledby="controller-tambah-doa-add">
                         <div class="card-body">
@@ -225,7 +218,6 @@
                                     <div class="col-md-6">
                                         
                                         <div class="bs-stepper-content">
-                                            {{-- Input Kelas --}}
                                             <div class="form-group">
                                                 <label for="kelas">Pilih Kelas</label>
                                                 <select class="custom-select" name="kelas_doa_tambah"
@@ -248,7 +240,6 @@
                                 
                                 <div class="col-md-6">
                                     <div class="bs-stepper-content">
-                                        {{-- Input Nilai --}}
                                         <div id="form_tambah_doa_1">
                                             <div class="form-group">
                                                 <label for="tambah_doa_guru_1">Pilih Guru</label>
@@ -299,7 +290,6 @@
                                         
                                         
                                     </div>
-                                    {{-- Simpan --}}
                                 </div>
                                 
                                 <hr>
@@ -317,7 +307,6 @@
                 </div>
                 
             </div>
-            {{-- Tab add content end --}}
             @endif
             
             {{-- Tab export-import content --}}

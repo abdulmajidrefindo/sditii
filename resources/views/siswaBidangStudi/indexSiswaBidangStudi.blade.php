@@ -124,7 +124,6 @@
                                     <th>Tugas 2</th>
                                     <th>UTS</th>
                                     <th>PAS</th>
-                                    {{-- <th>Nilai Akhir</th> --}}
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -189,7 +188,6 @@
                                     {{ $n->pas->nilai_angka }}
                                     @endif
                                 </td>
-                                {{-- <td>{{ optional($n->nilai_akhir) }}</td> --}}
                                 
                                 <td>
                                     <a href="{{ route('siswaBidangStudi.show', encrypt($n->id)) }}"
@@ -241,43 +239,33 @@
                             
                             <div class="col-md-6">
                                 <div class="bs-stepper-content">
-                                    {{-- Input Nilai --}}
                                     <label for="kelas">Daftar Bidang Studi</label>
                                     <div id="daftar_bidang_studi">
-                                        {{-- Akan ditambahkan melalui ajax --}}
                                     </div>
                                     
                                     <div id="tambah_bidang_studi_button">
-                                        {{-- <x-adminlte-button type="button" id="tambah_bidang_studi" class="btn-outline-secondary col-12 tambah_bidang_studi" icon="fas fa fa-fw fa-plus" label="Tambah Doa"/> --}}
                                         <x-adminlte-button type="submit"
                                         class="btn bg-gradient-green col-12 simpan"
                                         icon="fas fa fa-fw fa-save" label="Simpan Data" />
                                         <br>
                                     </div>
-                                    {{-- Simpan --}}
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-                
             </div>
-            {{-- Tab add content end --}}
             @endif
             
             @if (Auth::user()->role->contains('role', 'Administrator'))
-            {{-- Tab add content --}}
             <div class="tab-pane fade" id="content-tambah-bidang-studi-add" role="tabpanel"
             aria-labelledby="controller-tambah-bidang-studi-add">
             <div class="card-body">
                 <form id="form_tambah_bidang_studi">
                     @csrf
                     <div class="row">
-                        
                         <div class="col-md-6">
-                            
                             <div class="bs-stepper-content">
-                                {{-- Input Kelas --}}
                                 <div class="form-group">
                                     <label for="kelas">Pilih Kelas</label>
                                     <select class="custom-select" name="kelas_bidang_studi_tambah"
@@ -294,13 +282,11 @@
                                 </div>
                                 @enderror
                             </div>
-                            
                         </div>
                     </div>
                     
                     <div class="col-md-6">
                         <div class="bs-stepper-content">
-                            {{-- Input Nilai --}}
                             <div id="form_tambah_bidang_studi_1">
                                 <div class="form-group">
                                     <label for="tambah_bidang_studi_guru_1">Pilih Guru</label>
@@ -336,7 +322,6 @@
                             
                         </div>
                         <div id="tambah_bidang_studi_tambah">
-                            {{-- Akan ditambahkan melalui ajax --}}
                         </div>
                         <div id="tambah_bidang_studi_button">
                             <x-adminlte-button type="button" id="kurang_bidang_studi"
@@ -346,7 +331,6 @@
                             class="btn-outline-secondary col-12 tambah_bidang_studi"
                             icon="fas fa fa-fw fa-plus" label="Tambah Bidang Studi" />
                         </div>
-                        {{-- Simpan --}}
                     </div>
                     <hr>
                     <x-adminlte-button type="submit"
@@ -356,17 +340,13 @@
             </div>
         </form>
     </div>
-    
 </div>
-{{-- Tab add content end --}}
 @endif
 
-{{-- Tab export-import content --}}
 <div class="tab-pane fade" id="content-tab-bidang-studi-export-import" role="tabpanel"
 aria-labelledby="controller-tab-bidang-studi-export-import">
 <div class="card-body">
     <div class="row">
-        {{-- Export Data Bidang Studi --}}
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-gradient-green">
@@ -398,8 +378,6 @@ aria-labelledby="controller-tab-bidang-studi-export-import">
             </div>
         </div>
     </div>
-    {{-- Export Data Bidang Studi --}}
-    {{-- Import Data Bidang Studi --}}
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-gradient-green">
@@ -427,7 +405,6 @@ aria-labelledby="controller-tab-bidang-studi-export-import">
     </div>
 </div>
 </div>
-{{-- End Import Data Bidang Studi --}}
 </div>
 </div>
 <div class=" d-flex justify-content-center">
@@ -441,7 +418,6 @@ aria-labelledby="controller-tab-bidang-studi-export-import">
     </div>
 </div>
 </div>
-{{-- Tab export-import content end --}}
 </div>
 </div>
 </div>

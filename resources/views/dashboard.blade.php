@@ -81,137 +81,91 @@
         </div>
         
         <div class="row">
-            {{--             
-                <div class="col-md-6">
-                    <div class="card card-default">
-                        <div class="card-header bg-gradient-green">
-                            <h3 class="card-title">
-                                <i class="fas fa-bullhorn"></i>
-                                Pengumuman
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    
-                                    <div class="timeline">
-                                        
-                                        @foreach ($pengumuman as $tanggal => $items)
-                                        <div class="time-label">
-                                            <span class="bg-success">{{ $tanggal }}</span>
-                                        </div>
-                                        @foreach ($items as $item)
-                                        <div>
-                                            <i class="fas fa-envelope bg-blue"></i>
-                                            <div class="timeline-item">
-                                                <span class="time"><i class="fas fa-clock"></i> {{ $item['time'] }}</span>
-                                                <h3 class="timeline-header"><a href="#">{{ $item['judul'] }}</a></h3>
-                                                <div class="timeline-body">
-                                                    {{ $item['isi'] }}
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                        @endforeach
-                                        
-                                        <div>
-                                            <i class="fas fa-clock bg-gray"></i>
-                                        </div>
+            <div class="col-md-12">
+                <div class="card card-default">
+                    <div class="card-header bg-gradient-green">
+                        <h3 class="card-title">
+                            <i class="fas fa-school"></i>
+                            Profil Sekolah
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-4">Nama Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        {{ $profil->nama_sekolah }}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label class="col-sm-4">Alamat Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        {{ $profil->alamat_sekolah }}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label class="col-sm-4">Email Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        {{ $profil->email_sekolah }}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label class="col-sm-4">Kontak Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        {{ $profil->kontak_sekolah }}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label class="col-sm-4">Website Sekolah :</label>
+                                    <div class="col-sm-8">
+                                        {{ $profil->website_sekolah }}
                                     </div>
                                 </div>
                                 
                             </div>
-                        </div>
-                    </div>
-                </div> --}}
-                
-                <div class="col-md-12">
-                    <div class="card card-default">
-                        <div class="card-header bg-gradient-green">
-                            <h3 class="card-title">
-                                <i class="fas fa-school"></i>
-                                Profil Sekolah
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group row">
-                                        <label class="col-sm-4">Nama Sekolah :</label>
-                                        <div class="col-sm-8">
-                                            {{ $profil->nama_sekolah }}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group row">
-                                        <label class="col-sm-4">Alamat Sekolah :</label>
-                                        <div class="col-sm-8">
-                                            {{ $profil->alamat_sekolah }}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group row">
-                                        <label class="col-sm-4">Email Sekolah :</label>
-                                        <div class="col-sm-8">
-                                            {{ $profil->email_sekolah }}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group row">
-                                        <label class="col-sm-4">Kontak Sekolah :</label>
-                                        <div class="col-sm-8">
-                                            {{ $profil->kontak_sekolah }}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group row">
-                                        <label class="col-sm-4">Website Sekolah :</label>
-                                        <div class="col-sm-8">
-                                            {{ $profil->website_sekolah }}
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-md-12">
-                    <div class="card card-default">
-                        <div class="card-header bg-gradient-green">
-                            <h3 class="card-title">
-                                <i class="fas fa-clipboard"></i>
-                                Catatan Kelas
-                            </h3>
-                        </div>
-                        <div class="card-body p-0">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 30%">Kelas</th>
-                                        <th >Catatan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($catatan_kelas as $k)
-                                    <tr>
-                                        <td style="width: 25%">{{ $k->kelas->nama_kelas }} {{ $k->nama_sub_kelas }}</td>
-                                        @if ($k->catatan_sub_kelas == null)
-                                        <td>-- Tidak ada catatan --</td>
-                                        @else
-                                        <td>{{ $k->catatan_sub_kelas }}</td>
-                                        @endif
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                
             </div>
-            @stop
             
+            <div class="col-md-12">
+                <div class="card card-default">
+                    <div class="card-header bg-gradient-green">
+                        <h3 class="card-title">
+                            <i class="fas fa-clipboard"></i>
+                            Catatan Kelas
+                        </h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%">Kelas</th>
+                                    <th >Catatan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($catatan_kelas as $k)
+                                <tr>
+                                    <td style="width: 25%">{{ $k->kelas->nama_kelas }} {{ $k->nama_sub_kelas }}</td>
+                                    @if ($k->catatan_sub_kelas == null)
+                                    <td>-- Tidak ada catatan --</td>
+                                    @else
+                                    <td>{{ $k->catatan_sub_kelas }}</td>
+                                    @endif
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @stop
+        
