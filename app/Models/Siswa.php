@@ -10,7 +10,7 @@ class Siswa extends Model
 {
     use HasFactory;
     protected $table = "siswas";
-    // protected $guarded = ['id'];
+    protected $guarded = ['id'];
     public $timestamps = true;
     protected $fillable = [
         'nisn',
@@ -75,8 +75,6 @@ class Siswa extends Model
         return $this->hasMany(SiswaIlmanWaaRuuhan::class);
     }
 
-    // On Delete
-    // Note: Apabila siswa dihapus, maka data siswa yang berelasi dengan siswa akan ikut terhapus.
     public function delete()
     {
         $this->siswa_bidang_studi()->delete();

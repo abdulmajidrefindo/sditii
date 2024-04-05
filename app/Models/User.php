@@ -21,11 +21,6 @@ class User extends Authenticatable
     ];
     public $timestamps = true;
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -41,14 +36,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pengumuman::class);
     }
-    //delete all child on delete
     public static function boot() {
         parent::boot();
-        static::deleting(function($user) { // before delete() method call this
+        static::deleting(function($user)
+        {
              $user->role()->detach();
              $user->guru()->delete();
              $user->pengumuman()->delete();
-             // do the rest of the cleanup...
         });
     }
 }

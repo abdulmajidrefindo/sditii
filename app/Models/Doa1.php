@@ -38,10 +38,7 @@ class Doa1 extends Model
     {
         return $this->belongsTo(Periode::class);
     }
-
-
-
-    //on delete
+    
     public function delete()
     {
         $this->siswa_doa()->delete();

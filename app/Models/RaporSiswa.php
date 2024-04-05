@@ -11,7 +11,6 @@ class RaporSiswa extends Model
     use HasFactory;
     protected $table = "rapor_siswas";
     protected $guarded = ['id'];
-    //fillable
     protected $fillable = ['tempat','tanggal'];
     public $timestamps = true;
 

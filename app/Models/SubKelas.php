@@ -12,7 +12,6 @@ class SubKelas extends Model
     protected $table = "sub_kelas";
     protected $guarded = ['id'];
     public $timestamps = true;
-    //set primary key
     protected $primaryKey = 'id';
 
     public function kelas(){
@@ -34,8 +33,6 @@ class SubKelas extends Model
         return $this->hasMany(Siswa::class);
     }
 
-    
-    // on delete
     public static function boot() {
         parent::boot();
 

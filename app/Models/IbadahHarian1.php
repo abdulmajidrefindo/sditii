@@ -24,10 +24,7 @@ class IbadahHarian1 extends Model
     {
         return $this->hasMany(SiswaIbadahHarian::class, 'ibadah_harian_1_id', 'id');
     }
-    // public function penilaian_deskripsi()
-    // {
-    //     return $this->belongsTo(PenilaianDeskripsi::class);
-    // }
+    
     public function guru()
     {
         return $this->belongsTo(Guru::class);
