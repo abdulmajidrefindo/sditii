@@ -67,7 +67,7 @@ class SiswaImport implements ToCollection
         return $this->message;
     }
     
-    public function getLastRowIndex($row) // Mengembalikan index baris terakhir dari table data.
+    public function getLastRowIndex($row)
     {
         $lastRow = 0;
         foreach ($row as $key => $value) {
@@ -75,11 +75,10 @@ class SiswaImport implements ToCollection
                 $lastRow = $key;
             }
         }
-        // dd($lastRow,$tes);
         return $lastRow;
     }
     
-    public function getFirstRowIndex($row) // Mengembalikan index baris pertama dari table data.
+    public function getFirstRowIndex($row)
     {
         $firstRow = 0;
         foreach ($row as $key => $value) {
@@ -88,7 +87,6 @@ class SiswaImport implements ToCollection
                 break;
             }
         }
-        // dd($firstRow);
         return $firstRow; 
     }
     
@@ -101,7 +99,6 @@ class SiswaImport implements ToCollection
                 $lastColumn = $key;
             }
         }
-        // dd($row_start,$lastColumn);
         return $lastColumn;
     }
     
@@ -114,15 +111,12 @@ class SiswaImport implements ToCollection
         for ($i=$firstRow; $i <= $lastRow; $i++) { 
             $data[$i] = $rows[$i]->toArray();
         }
-        // dd($data);
         return $data;
     }
     
     public function getKodeFile($row)
     {
         $kode_file = $row[8][1];
-        // dd(decrypt($kode_file));
-        // $tes = $this->getData($row);
         return decrypt($kode_file);
     }
     
@@ -131,8 +125,8 @@ class SiswaImport implements ToCollection
         $tingkat_kelas = $rows[2][1];
         $kelas_id = Kelas::where('nama_kelas',$tingkat_kelas)->value('id');
         $nama_sub_kelas = $rows[3][1];
-        $sub_kelas_id = SubKelas::where('kelas_id',$kelas_id)->where('nama_sub_kelas',$nama_sub_kelas)->value('id');
-        // dd($sub_kelas_id);
+        $periode_aktive = Periode::where('status','aktif')->value('id');
+        $sub_kelas_id = SubKelas::where('kelas_id',$kelas_id)->where('nama_sub_kelas',$nama_sub_kelas)->where('periode_id',$periode_aktive)->value('id');
         return  $sub_kelas_id;
     }
     
@@ -197,7 +191,6 @@ class SiswaImport implements ToCollection
             $model->orangtua_wali = $value[3];
             $model->save();
         }
-        // dd($model);
         return $model;
     }
 
@@ -205,7 +198,6 @@ class SiswaImport implements ToCollection
     {
         foreach ($delete_data as $key => $value) {
             $id = $value[0];
-            // dd($id);
             Siswa::destroy($id);
         }
     }

@@ -164,8 +164,9 @@ class KelasImport implements ToCollection
     
     public function update(array $old_data)
     {
+        $periode_aktive = Periode::where('status','aktif')->value('id');
         foreach ($old_data as $key => $value) {
-            $model = SubKelas::where('id',$value[0])->first();
+            $model = SubKelas::where('periode_id',$periode_aktive)->where('id',$value[0])->first();
 
             $kelas_id = kelas::where('nama_kelas',"$value[1]")->value('id');
             $user_id = User::where('user_name',"$value[3]")->value('id');

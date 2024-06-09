@@ -121,8 +121,6 @@ class CatatanImport implements ToCollection
     public function getKodeFile($row)
     {
         $kode_file = $row[5][1];
-        // dd(decrypt($kode_file));
-        // $tes = $this->getData($row);
         return decrypt($kode_file);
     }
     
@@ -134,9 +132,9 @@ class CatatanImport implements ToCollection
     
     public function update(array $data)
     {
+        $periode_aktive = Periode::where('status','aktif')->value('id');
         foreach ($data as $key => $value) {
-            $model = SubKelas::where('id',$value[0])->first();
-            
+            $model = SubKelas::where('id',$value[0])->where('periode_id',$periode_aktive)->first();
             $model->catatan_sub_kelas = $value[2];
             // dump($model);
             $model->save();
